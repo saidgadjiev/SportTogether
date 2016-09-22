@@ -2,19 +2,52 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ru.mail.sporttogether">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!--Auth0 Lock-->
+        <activity
+            android:name="com.auth0.android.lock.LockActivity"
+            android:label="Classic Lock"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyLock.Theme">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="@string/auth0_domain"
+                    android:pathPrefix="/android/ru.mail.sporttogether/callback"
+                    android:scheme="https" />
+            </intent-filter>
+        </activity>
+        <!--Auth0 Lock End-->
+
+        <activity
+            android:name="com.auth0.android.provider.WebAuthActivity"
+            android:theme="@style/MyLock.Theme" />
+
     </application>
 
 </manifest>
