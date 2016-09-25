@@ -1,4 +1,4 @@
-package ru.mail.sporttogether;
+package ru.mail.sporttogether.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +16,8 @@ import com.auth0.android.result.Credentials;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import ru.mail.sporttogether.R;
 
 public class MainActivity extends AppCompatActivity {
 

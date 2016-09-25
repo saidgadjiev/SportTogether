@@ -1,12 +1,32 @@
 apply plugin: 'com.android.application'
 
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
 android {
     compileSdkVersion 24
-    buildToolsVersion "23.0.3"
+    buildToolsVersion "24.0.2"
+
+    ext.devMinSdkVersion = 19
+    ext.minSdkVersion = 15
 
     packagingOptions {
         exclude 'META-INF/NOTICE'
         exclude 'META-INF/LICENSE'
+    }
+
+    repositories {
+        maven { url "https://jitpack.io" }
+    }
+
+    dataBinding {
+        enabled = true
+    }
+
+    dexOptions {
+        //incremental true
+        preDexLibraries true //use false if files not exists
+        //javaMaxHeapSize "4g" // Use gig increments depending on needs
     }
 
     defaultConfig {
@@ -16,10 +36,47 @@ android {
         versionCode 1
         versionName "1.0"
     }
+
+    productFlavors {
+        // https://developer.android.com/studio/build/multidex.html
+        dev {
+            multiDexEnabled true
+            minSdkVersion 21
+            buildConfigField "boolean", "ALLOW_SELF_SINGED_SSL", "false"
+
+        }
+
+        prod {
+            minSdkVersion 15
+            multiDexEnabled true
+            buildConfigField "boolean", "ALLOW_SELF_SINGED_SSL", "false"
+        }
+    }
+
+
     buildTypes {
         release {
             minifyEnabled false
+            shrinkResources true
+            multiDexEnabled true
+            debuggable false
+
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            resValue "string", "google_maps_api_key", "your key"
+
+        }
+
+
+        debug {
+            versionNameSuffix "_dev"
+
+            debuggable true
+
+            applicationIdSuffix '.debug'
+            versionNameSuffix '-DEBUG'
+            resValue "string", "google_maps_api_key", "our key"
+            resValue "string", "google_maps_api_key", "your key"
+
         }
     }
 }
@@ -27,6 +84,19 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:24.2.1'
+
+    // sdk libs
+    compile "com.android.support:appcompat-v7:$support_version"
+
+    compile group: 'com.google.code.gson', name: 'gson', version: '2.7'
+
+    //dagger
+    compile group: 'com.google.dagger', name: 'dagger', version: '2.7'
+    kapt 'com.google.dagger:dagger-compiler:2.7'
+
+    compile 'com.android.support:multidex:1.0.1'
+
+
+    //auth0
     compile 'com.auth0.android:lock:2.0.0'
 }
