@@ -44,3 +44,5 @@ local.properties
 .Trashes
 ehthumbs.db
 Thumbs.db
+src/main/java/ru/mail/sporttogether/fragments/
+src/main/res/values/keys.xml

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="fabListener"
+            type="ru.mail.sporttogether.data.binding.FabListener" />
+    </data>
+
+    <FrameLayout
+        android:id="@+id/activity_kotlin"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.gms.maps.MapView
+            android:id="@+id/mapview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/material_padding"
+            android:onClick="@{fabListener::onFabClicked}"
+            android:src="@android:drawable/ic_menu_add"
+            android:tint="@android:color/white" />
+    </FrameLayout>
+</layout>
+
