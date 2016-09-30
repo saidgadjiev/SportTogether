@@ -44,6 +44,13 @@ class MapActivity :
     override fun onResume() {
         super.onResume()
         mapView.onResume()
+        map.setOnMapClickListener(this)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mapView.onResume()
+        map.setOnMapClickListener(null)
     }
 
     override fun onLowMemory() {
@@ -56,24 +63,24 @@ class MapActivity :
         mapView.onSaveInstanceState(outState)
     }
 
-    override fun onPause() {
-        super.onPause()
-        mapView.onResume()
-    }
-
     override fun onMapReady(map: GoogleMap) {
         this.map = map
         map.isBuildingsEnabled = true
         map.isMyLocationEnabled = true
-        map.setOnMapClickListener(this)
+        map.uiSettings.isZoomControlsEnabled = true
     }
 
     override fun onFabClicked(v: View) {
         v.isEnabled = false
+        AddEventActivity.start(this, 55.0, 38.0)
         v.isEnabled = true
     }
 
     override fun onMapClick(latlng: LatLng) {
+        addMarker(latlng)
+    }
+
+    private fun addMarker(latlng: LatLng) {
 
     }
 
