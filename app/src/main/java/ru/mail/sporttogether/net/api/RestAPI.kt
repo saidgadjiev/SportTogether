@@ -1,11 +1,9 @@
 package ru.mail.sporttogether.net.api
 
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
+import retrofit2.http.*
 import ru.mail.sporttogether.net.models.Category
 import ru.mail.sporttogether.net.models.Event
+import ru.mail.sporttogether.net.models.User
 import ru.mail.sporttogether.net.responses.Response
 import rx.Observable
 import java.util.*
@@ -14,7 +12,7 @@ import java.util.*
  * Created by bagrusss on 29.09.16.
  *
  */
-interface NetworkAPI {
+interface RestAPI {
 
     @POST("category")
     fun createCategory(@Body category: Category): Observable<Response<Category>>
@@ -25,7 +23,6 @@ interface NetworkAPI {
     @GET("category")
     fun getAllCategoryes(): Observable<Response<ArrayList<Category>>>
 
-    
 
     @POST("event")
     fun createEvent(@Body event: Event): Observable<Response<Event>>
@@ -35,5 +32,15 @@ interface NetworkAPI {
 
     @GET("event")
     fun getAllEvents(): Observable<Response<ArrayList<Event>>>
+
+
+    @POST("auth")
+    fun updateAuthorization(): Observable<Response<Any>>
+
+    @DELETE("auth")
+    fun unauthorize(): Observable<Response<Any>>
+
+    @GET("auth")
+    fun checkAuthorization(): Observable<Response<User>>
 
 }

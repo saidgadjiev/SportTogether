@@ -48,7 +48,9 @@
         <activity
             android:name="com.auth0.android.provider.WebAuthActivity"
             android:theme="@style/MyLock.Theme" />
-        <activity android:name=".activities.KotlinActivity"></activity>
+
+        <activity android:name=".activities.KotlinActivity"/>
+
     </application>
 
 </manifest>
