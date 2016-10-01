@@ -4,6 +4,6 @@
     android:id="@+id/activity_add_event"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ru.mail.sporttogether.activities.AddEventActivity">
+    tools:context=".activities.AddEventActivity">
 
 </RelativeLayout>
