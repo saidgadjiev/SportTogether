@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">SportTogether</string>
+    <string name="auth0_domain">x-devel.auth0.com</string>
+    <string name="auth0_client_id">AESC0jiQL9ExiZjoWMAscgkG5YOxft8h</string>
+    <string name="map_key">dsfdsffvfvf</string>
 </resources>

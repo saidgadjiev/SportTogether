@@ -35,7 +35,7 @@ interface RestAPI {
 
 
     @POST("auth")
-    fun updateAuthorization(): Observable<Response<Any>>
+    fun updateAuthorization(@Body user: User): Observable<Response<Any>>
 
     @DELETE("auth")
     fun unauthorize(): Observable<Response<Any>>

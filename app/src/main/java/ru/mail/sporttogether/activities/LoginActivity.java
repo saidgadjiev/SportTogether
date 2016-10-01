@@ -1,10 +1,14 @@
 package ru.mail.sporttogether.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.auth0.android.Auth0;
+import com.auth0.android.authentication.AuthenticationAPIClient;
+import com.auth0.android.authentication.AuthenticationException;
+import com.auth0.android.callback.BaseCallback;
 import com.auth0.android.lock.AuthButtonSize;
 import com.auth0.android.lock.AuthenticationCallback;
 import com.auth0.android.lock.InitialScreen;
@@ -13,15 +17,26 @@ import com.auth0.android.lock.LockCallback;
 import com.auth0.android.lock.UsernameStyle;
 import com.auth0.android.lock.utils.LockException;
 import com.auth0.android.result.Credentials;
+import com.auth0.android.result.UserProfile;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import ru.mail.sporttogether.R;
+import ru.mail.sporttogether.app.App;
+import ru.mail.sporttogether.net.api.RestAPI;
+import ru.mail.sporttogether.net.models.User;
+import ru.mail.sporttogether.net.responses.Response;
+import ru.mail.sporttogether.net.utils.RetrofitFactory;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
-public class MainActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
     private Lock lock;
+    private AuthenticationAPIClient aClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
         final Lock.Builder builder = Lock.newBuilder(getAccount(), callback);
 
+        aClient = new AuthenticationAPIClient(getAccount());
         builder.closable(true);
         builder.withAuthButtonSize(AuthButtonSize.SMALL);
         builder.withUsernameStyle(UsernameStyle.USERNAME);
@@ -58,10 +74,15 @@ public class MainActivity extends AppCompatActivity {
         return connections;
     }
 
+    private void signin(final String idToken) {
+
+    }
+
     private LockCallback callback = new AuthenticationCallback() {
         @Override
         public void onAuthentication(Credentials credentials) {
-            Log.d("Lock", "OK");
+            App.Companion.getInstance().setCredentials(credentials);
+            signin(credentials.getIdToken());
         }
 
         @Override
