@@ -1,11 +1,9 @@
 package ru.mail.sporttogether.mvp.presenters.map
 
-import android.view.View
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
-import ru.mail.sporttogether.activities.AddEventActivity
 import ru.mail.sporttogether.mvp.views.map.IMapView
 
 /**
@@ -15,7 +13,7 @@ import ru.mail.sporttogether.mvp.views.map.IMapView
 class MapPresenterImpl : IMapPresenter, GoogleMap.OnMapClickListener {
 
     private var map: GoogleMap? = null
-    private lateinit var view: IMapView
+    private var view: IMapView? = null
 
     private var lastMarker: Marker? = null
     private var lastPos: LatLng? = null
@@ -35,11 +33,8 @@ class MapPresenterImpl : IMapPresenter, GoogleMap.OnMapClickListener {
         }
     }
 
-    override fun onFabClicked(v: View) {
-        lastPos?.let {
-            //TODO нужен app context пока что так далее dependency injection
-            AddEventActivity.start(v.context, it.longitude, it.latitude)
-        }
+    override fun onDestroy() {
+        view = null
     }
 
     override fun onMapClick(latlng: LatLng) {
@@ -52,6 +47,12 @@ class MapPresenterImpl : IMapPresenter, GoogleMap.OnMapClickListener {
         map.isMyLocationEnabled = true
         map.uiSettings.isZoomControlsEnabled = true
         map.setOnMapClickListener(this)
+    }
+
+    override fun fabClicked() {
+        lastPos?.let {
+            view!!.startAddEventActivity(it.longitude, it.latitude)
+        }
     }
 
     private fun addMarker(latlng: LatLng) {

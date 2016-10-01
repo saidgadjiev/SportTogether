@@ -8,4 +8,9 @@ import android.widget.Toast
  */
 interface IView {
     fun showToast(message: String, duration: Int = Toast.LENGTH_SHORT)
+
+    fun showProgressDialog()
+
+    fun hideProgressDialog()
+
 }

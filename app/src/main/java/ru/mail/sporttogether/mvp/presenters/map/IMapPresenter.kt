@@ -8,6 +8,6 @@ import ru.mail.sporttogether.mvp.presenters.IPresenter
  * Created by bagrusss on 01.10.16.
  * this interface used for two or more implementers for unit tests
  */
-interface IMapPresenter : IPresenter, FabListener, OnMapReadyCallback {
-
+interface IMapPresenter : IPresenter, OnMapReadyCallback {
+    fun fabClicked()
 }

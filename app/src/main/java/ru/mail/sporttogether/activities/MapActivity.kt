@@ -2,15 +2,17 @@ package ru.mail.sporttogether.activities
 
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import com.google.android.gms.maps.MapView
 import ru.mail.sporttogether.R
+import ru.mail.sporttogether.data.binding.FabListener
 import ru.mail.sporttogether.databinding.ActivityMapBinding
 import ru.mail.sporttogether.mvp.presenters.map.IMapPresenter
 import ru.mail.sporttogether.mvp.presenters.map.MapPresenterImpl
 import ru.mail.sporttogether.mvp.views.map.IMapView
 
-class MapActivity : BaseActivity(), IMapView {
+class MapActivity : AbstractActivity(), IMapView, FabListener {
 
     private lateinit var mapView: MapView
     private lateinit var binding: ActivityMapBinding
@@ -39,7 +41,7 @@ class MapActivity : BaseActivity(), IMapView {
     override fun onResume() {
         super.onResume()
         mapView.onResume()
-        binding.fabListener = presenter
+        binding.fabListener = this
         presenter.onResume()
     }
 
@@ -63,10 +65,21 @@ class MapActivity : BaseActivity(), IMapView {
     override fun onDestroy() {
         super.onDestroy()
         mapView.onDestroy()
+        presenter.onDestroy()
+    }
+
+    override fun onFabClicked(v: View) {
+        v.isEnabled = false
+        presenter.fabClicked()
+        v.isEnabled = true
     }
 
     override fun showToast(message: String, duration: Int) {
         Toast.makeText(this, message, duration)
+    }
+
+    override fun startAddEventActivity(lng: Double, lat: Double) {
+        AddEventActivity.start(this, lng, lat)
     }
 
 }

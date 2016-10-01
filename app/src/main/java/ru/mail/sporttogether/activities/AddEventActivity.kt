@@ -5,7 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import ru.mail.sporttogether.R
 
-class AddEventActivity : BaseActivity() {
+class AddEventActivity : AbstractActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
