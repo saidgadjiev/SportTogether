@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.annotation.CallSuper
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
+import android.widget.Toast
 import ru.mail.sporttogether.mvp.views.IView
 
 /**
@@ -18,12 +19,16 @@ abstract class AbstractActivity : AppCompatActivity(), IView {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
+    override fun showToast(message: String, duration: Int) {
+        Toast.makeText(this, message, duration).show()
+    }
+
     override fun showProgressDialog() {
 
     }
 
     override fun hideProgressDialog() {
-        
+
     }
 
     @CallSuper

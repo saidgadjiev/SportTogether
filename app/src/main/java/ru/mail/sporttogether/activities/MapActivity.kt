@@ -3,7 +3,6 @@ package ru.mail.sporttogether.activities
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import com.google.android.gms.maps.MapView
 import ru.mail.sporttogether.R
 import ru.mail.sporttogether.data.binding.FabListener
@@ -72,10 +71,6 @@ class MapActivity : AbstractActivity(), IMapView, FabListener {
         v.isEnabled = false
         presenter.fabClicked()
         v.isEnabled = true
-    }
-
-    override fun showToast(message: String, duration: Int) {
-        Toast.makeText(this, message, duration)
     }
 
     override fun startAddEventActivity(lng: Double, lat: Double) {
