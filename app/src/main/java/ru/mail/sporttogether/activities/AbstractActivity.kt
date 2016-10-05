@@ -4,16 +4,31 @@ import android.os.Bundle
 import android.support.annotation.CallSuper
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
+import android.widget.Toast
+import ru.mail.sporttogether.mvp.views.IView
 
 /**
  * Created by bagrusss on 30.09.16.
  *
  */
-abstract class BaseActivity : AppCompatActivity() {
+abstract class AbstractActivity : AppCompatActivity(), IView {
 
+    @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    override fun showToast(message: String, duration: Int) {
+        Toast.makeText(this, message, duration).show()
+    }
+
+    override fun showProgressDialog() {
+
+    }
+
+    override fun hideProgressDialog() {
+
     }
 
     @CallSuper
