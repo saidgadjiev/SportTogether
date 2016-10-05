@@ -1,6 +1,5 @@
 package ru.mail.sporttogether.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -23,28 +22,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ru.mail.sporttogether.R;
-import ru.mail.sporttogether.app.App;
-import ru.mail.sporttogether.net.api.RestAPI;
+import ru.mail.sporttogether.mvp.presenters.LoginActivityPresenter;
 import ru.mail.sporttogether.net.models.User;
-import ru.mail.sporttogether.net.responses.Response;
-import ru.mail.sporttogether.net.utils.RetrofitFactory;
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.schedulers.Schedulers;
 
 public class LoginActivity extends AppCompatActivity {
 
     private Lock lock;
     private AuthenticationAPIClient aClient;
+    LoginActivityPresenter presenter;
+    private Auth0 auth0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        final Lock.Builder builder = Lock.newBuilder(getAccount(), callback);
+        auth0 = new Auth0(getString(R.string.auth0_client_id), getString(R.string.auth0_domain));
+        final Lock.Builder builder = Lock.newBuilder(auth0, callback);
 
-        aClient = new AuthenticationAPIClient(getAccount());
+        aClient = new AuthenticationAPIClient(auth0);
         builder.closable(true);
         builder.withAuthButtonSize(AuthButtonSize.SMALL);
         builder.withUsernameStyle(UsernameStyle.USERNAME);
@@ -56,10 +51,6 @@ public class LoginActivity extends AppCompatActivity {
         builder.setDefaultDatabaseConnection("Username-Password-Authentication");
         lock = builder.build(this);
         startActivity(lock.newIntent(this));
-    }
-
-    private Auth0 getAccount() {
-        return new Auth0(getString(R.string.auth0_client_id), getString(R.string.auth0_domain));
     }
 
     private List<String> generateConnections() {
@@ -74,15 +65,24 @@ public class LoginActivity extends AppCompatActivity {
         return connections;
     }
 
-    private void signin(final String idToken) {
+    public void signin(final String idToken) {
+        aClient.tokenInfo(idToken)
+                .start(new BaseCallback<UserProfile, AuthenticationException>() {
+                    @Override
+                    public void onSuccess(final UserProfile payload) {
+                        presenter.onSuccess(new User(idToken, payload.getId()));
+                    }
 
+                    @Override
+                    public void onFailure(AuthenticationException error) {
+                    }
+                });
     }
 
     private LockCallback callback = new AuthenticationCallback() {
         @Override
         public void onAuthentication(Credentials credentials) {
-            App.Companion.getInstance().setCredentials(credentials);
-            signin(credentials.getIdToken());
+            presenter.onAuthentification(credentials);
         }
 
         @Override
