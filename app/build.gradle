@@ -55,7 +55,7 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             shrinkResources true
             multiDexEnabled true
             debuggable false
@@ -74,8 +74,6 @@ android {
             applicationIdSuffix '.debug'
             versionNameSuffix '-DEBUG'
             resValue "string", "google_maps_api_key", "our key"
-            resValue "string", "google_maps_api_key", "your key"
-
         }
     }
 }
@@ -120,13 +118,13 @@ dependencies {
     compile 'com.auth0.android:lock:2.0.0'
 
     //rx java
-    compile group: 'io.reactivex', name: 'rxandroid', version: '1.2.1'
-    compile group: 'io.reactivex', name: 'rxjava', version: '1.2.0'
+    compile 'io.reactivex:rxandroid:1.2.1'
+    compile 'io.reactivex:rxjava:1.2.0'
 
     //net
-    compile 'com.squareup.retrofit2:retrofit:2.1.0'
-    compile 'com.squareup.retrofit2:converter-gson:2.0.0-beta4'
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     compile 'com.squareup.okhttp:okhttp:2.7.2'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
 
 
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
