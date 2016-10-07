@@ -51,6 +51,7 @@ class MapPresenterImpl : IMapPresenter, GoogleMap.OnMapClickListener {
 
     override fun fabClicked() {
         lastPos?.let {
+            view!!.showFab()
             view!!.startAddEventActivity(it.longitude, it.latitude)
         }
     }

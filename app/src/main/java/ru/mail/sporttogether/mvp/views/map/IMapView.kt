@@ -8,4 +8,6 @@ import ru.mail.sporttogether.mvp.views.IView
  */
 interface IMapView : IView {
     fun startAddEventActivity(lng: Double, lat: Double)
+
+    fun showFab()
 }

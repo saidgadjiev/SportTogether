@@ -53,6 +53,10 @@ class MapActivity : AbstractActivity(), IMapView, FabListener {
                 })
     }
 
+    override fun showFab() {
+        binding.fab.visibility = View.VISIBLE
+    }
+
     override fun onStart() {
         super.onStart()
         mapView.onStart()
