@@ -4,7 +4,7 @@ apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 24
-    buildToolsVersion "24.0.3"
+    buildToolsVersion "24.0.2"
 
     ext.devMinSdkVersion = 19
     //noinspection GradleIdeError
@@ -56,7 +56,7 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             shrinkResources true
             multiDexEnabled true
             debuggable false
@@ -75,8 +75,6 @@ android {
             applicationIdSuffix '.debug'
             versionNameSuffix '-DEBUG'
             resValue "string", "google_maps_api_key", "our key"
-            resValue "string", "google_maps_api_key", "your key"
-
         }
     }
 }

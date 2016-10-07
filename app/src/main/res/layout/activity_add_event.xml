@@ -1,9 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_add_event"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".activities.AddEventActivity">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-</RelativeLayout>
+    <data>
+
+        <variable
+            name="data"
+            type="ru.mail.sporttogether.data.binding.event.EventData" />
+
+        <variable
+            name="listener"
+            type="ru.mail.sporttogether.data.binding.event.EventListener" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/activity_add_event"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/material_padding"
+        android:paddingRight="@dimen/material_padding"
+        tools:context=".activities.AddEventActivity">
+
+        <EditText
+            android:id="@+id/event_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/name_event_hint"
+            android:maxEms="15"
+            android:maxLines="1" />
+
+        <TextView
+            android:id="@+id/lat_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{data.lat}" />
+
+        <TextView
+            android:id="@+id/lng_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{data.lng}" />
+
+        <Spinner
+            android:id="@+id/category_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dialog"
+            app:adapter="@{data.spinnerAdapter}" />
+
+        <Button
+            android:id="@+id/add_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{()->listener.onAddButtonClicked()}"
+            android:text="@string/add" />
+
+    </LinearLayout>
+</layout>
