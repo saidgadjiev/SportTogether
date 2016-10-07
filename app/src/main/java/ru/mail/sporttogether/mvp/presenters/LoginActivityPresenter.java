@@ -18,7 +18,6 @@ import rx.schedulers.Schedulers;
 
 /**
  * Created by said on 05.10.16.
- *
  */
 public class LoginActivityPresenter {
     private LoginActivity view;

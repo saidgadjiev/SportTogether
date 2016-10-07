@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import ru.mail.sporttogether.net.api.RestAPI;
 
@@ -29,6 +30,7 @@ public class RetrofitFactory {
                 .connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS);
 
         return new Retrofit.Builder()
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(GSON))
                 .client(okBuiler.build())
                 .baseUrl(BASE_URL)
