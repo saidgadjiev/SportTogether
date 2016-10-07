@@ -38,7 +38,6 @@ public class LoginActivityPresenter {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<Object>>() {
-
                     @Override
                     public void onCompleted() {
 
