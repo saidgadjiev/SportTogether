@@ -44,6 +44,6 @@ interface RestAPI {
     fun checkAuthorization(): Observable<Response<User>>
 
     @GET("hello/world")
-    fun helloWorld(): Observable<Response<String>>
+    fun helloWorld(): Observable<Response<Any>>
 
 }

@@ -51,7 +51,6 @@ class MapPresenterImpl : IMapPresenter, GoogleMap.OnMapClickListener {
 
     override fun fabClicked() {
         lastPos?.let {
-            view!!.showFab()
             view!!.startAddEventActivity(it.longitude, it.latitude)
         }
     }
@@ -60,6 +59,7 @@ class MapPresenterImpl : IMapPresenter, GoogleMap.OnMapClickListener {
         lastMarker?.let(Marker::remove)
         map?.let {
             this@MapPresenterImpl.lastPos = latlng
+            view!!.showFab()
             options.position(latlng)
             lastMarker = it.addMarker(options)
         }

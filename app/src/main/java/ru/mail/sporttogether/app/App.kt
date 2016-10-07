@@ -2,6 +2,7 @@ package ru.mail.sporttogether.app
 
 import android.support.multidex.MultiDexApplication
 import com.auth0.android.result.Credentials
+import com.facebook.stetho.Stetho
 
 /**
  * Created by said on 19.09.16.
@@ -22,6 +23,7 @@ class App : MultiDexApplication() {
     override fun onCreate() {
         super.onCreate()
         appSingleton = this
+        Stetho.initializeWithDefaults(this)
     }
 
 

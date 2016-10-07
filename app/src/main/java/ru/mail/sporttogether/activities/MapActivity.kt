@@ -37,19 +37,18 @@ class MapActivity : AbstractActivity(), IMapView, FabListener {
         api.helloWorld()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(object : Subscriber<Response<String>>() {
+                .subscribe(object : Subscriber<Response<Any>>() {
                     override fun onError(e: Throwable) {
                         Toast.makeText(this@MapActivity, "error", Toast.LENGTH_SHORT).show()
                     }
 
-                    override fun onNext(t: Response<String>) {
+                    override fun onNext(t: Response<Any>) {
                         Toast.makeText(this@MapActivity, "ok", Toast.LENGTH_SHORT).show()
                     }
 
                     override fun onCompleted() {
 
                     }
-
                 })
     }
 
