@@ -39,6 +39,7 @@ public class LoginActivity extends AppCompatActivity {
         auth0 = new Auth0(getString(R.string.auth0_client_id), getString(R.string.auth0_domain));
         final Lock.Builder builder = Lock.newBuilder(auth0, callback);
 
+        presenter = new LoginActivityPresenter(this);
         aClient = new AuthenticationAPIClient(auth0);
         builder.closable(true);
         builder.withAuthButtonSize(AuthButtonSize.SMALL);
@@ -82,7 +83,8 @@ public class LoginActivity extends AppCompatActivity {
     private LockCallback callback = new AuthenticationCallback() {
         @Override
         public void onAuthentication(Credentials credentials) {
-            presenter.onAuthentification(credentials);
+            //App.Companion.getInstance().setCredentials(credentials);
+            signin(credentials.getIdToken());
         }
 
         @Override

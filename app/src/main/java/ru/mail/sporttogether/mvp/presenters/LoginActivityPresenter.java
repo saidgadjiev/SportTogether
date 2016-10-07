@@ -1,6 +1,7 @@
 package ru.mail.sporttogether.mvp.presenters;
 
 import android.content.Intent;
+import android.util.Log;
 
 import com.auth0.android.result.Credentials;
 
@@ -12,8 +13,8 @@ import ru.mail.sporttogether.net.api.RestAPI;
 import ru.mail.sporttogether.net.models.User;
 import ru.mail.sporttogether.net.responses.Response;
 import ru.mail.sporttogether.net.utils.RetrofitFactory;
+import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -42,11 +43,22 @@ public class LoginActivityPresenter {
         api.updateAuthorization(user).
                 subscribeOn(Schedulers.newThread()).
                 observeOn(AndroidSchedulers.mainThread()).
-                subscribe(new Action1<Response<Object>>() {
+                subscribe(new Observer<Response<Object>>() {
                     @Override
-                    public void call(Response<Object> objectResponse) {
+                    public void onCompleted() {
                         view.startActivity(new Intent(view, MapActivity.class));
                     }
-    });
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d("Error", "Error");
+                    }
+
+                    @Override
+                    public void onNext(Response<Object> objectResponse) {
+                        Log.d("Error", "Error");
+                    }
+
+        });
     }
 }
