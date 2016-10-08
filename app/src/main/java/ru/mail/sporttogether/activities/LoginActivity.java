@@ -82,7 +82,7 @@ public class LoginActivity extends AppCompatActivity {
                     public void onSuccess(final UserProfile payload) {
                         Log.d("AUTH", "Authomatic login");
                         presenter.onSuccess(new User(idToken, payload.getId()));
-                        startActivity(new Intent(LoginActivity.this, MapActivity.class));
+                        startActivity(new Intent(LoginActivity.this, FragmentActivity.class));
                         finish();
                     }
 
@@ -108,7 +108,7 @@ public class LoginActivity extends AppCompatActivity {
         public void onAuthentication(Credentials credentials) {
             Log.d("AUTH", "Logged in");
             CredentialsManager.saveCredentials(getApplicationContext(), credentials);
-            startActivity(new Intent(LoginActivity.this, MapActivity.class));
+            startActivity(new Intent(LoginActivity.this, FragmentActivity.class));
             finish();
         }
 
