@@ -2,4 +2,5 @@
     <string name="app_name">SportTogether</string>
     <string name="add">add</string>
     <string name="name_event_hint">Event name</string>
+    <string name="auth0_preferences">AUTH0_SHARED_PREFERENCES_KEY</string>
 </resources>

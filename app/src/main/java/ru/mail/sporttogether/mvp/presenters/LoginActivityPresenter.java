@@ -1,13 +1,8 @@
 package ru.mail.sporttogether.mvp.presenters;
 
-import android.content.Intent;
 import android.util.Log;
 
-import com.auth0.android.result.Credentials;
-
 import ru.mail.sporttogether.activities.LoginActivity;
-import ru.mail.sporttogether.activities.MapActivity;
-import ru.mail.sporttogether.app.App;
 import ru.mail.sporttogether.net.api.RestAPI;
 import ru.mail.sporttogether.net.models.User;
 import ru.mail.sporttogether.net.responses.Response;
@@ -28,11 +23,6 @@ public class LoginActivityPresenter {
         this.view = view;
     }
 
-    public void onAuthentification(Credentials credentials) {
-        App.Companion.getInstance().setCredentials(credentials);
-        view.startActivity(new Intent(view, MapActivity.class));
-    }
-
     public void onSuccess(User user) {
         api.updateAuthorization(user)
                 .subscribeOn(Schedulers.io())
@@ -45,14 +35,13 @@ public class LoginActivityPresenter {
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e("exception", e.getMessage(), e);
+                        Log.d("exception", e.getMessage(), e);
                     }
 
                     @Override
                     public void onNext(Response<Object> objectResponse) {
-                        view.startActivity(new Intent(view, MapActivity.class));
+                        Log.d("AUTH", "Succes send token to server");
                     }
-
                 });
     }
 }
