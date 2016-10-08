@@ -12,10 +12,13 @@ import ru.mail.sporttogether.R
  */
 class EventsFragmentAdapter : FragmentStatePagerAdapter {
 
+    private lateinit var tabs: TabLayout
+
     constructor(fm: FragmentManager, tabs: TabLayout) : super(fm) {
+        this.tabs = tabs
         tabs.addTab(tabs.newTab().setText(R.string.events_map))
         tabs.addTab(tabs.newTab().setText(R.string.events_list))
-        tabs.tabGravity = TabLayout.GRAVITY_CENTER
+        tabs.tabGravity = TabLayout.GRAVITY_FILL
     }
 
     override fun getItem(position: Int): Fragment {
@@ -25,8 +28,7 @@ class EventsFragmentAdapter : FragmentStatePagerAdapter {
         }
     }
 
-    override fun getCount(): Int {
-        return 2
-    }
+    override fun getCount() = tabs.tabCount
+
 
 }
