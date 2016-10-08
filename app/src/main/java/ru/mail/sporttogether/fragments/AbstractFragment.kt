@@ -13,7 +13,7 @@ import ru.mail.sporttogether.mvp.views.IView
  * Created by bagrusss on 08.10.16.
  *
  */
-class AbstractFragment : Fragment(), IView {
+abstract class AbstractFragment : Fragment(), IView {
 
     override fun showToast(message: String, duration: Int) {
         Toast.makeText(activity, message, duration).show()

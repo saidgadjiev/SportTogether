@@ -98,7 +98,6 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        // Your own Activity code
         lock.onDestroy(this);
         lock = null;
     }

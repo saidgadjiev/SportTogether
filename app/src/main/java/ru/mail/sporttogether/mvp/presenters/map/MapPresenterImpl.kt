@@ -28,9 +28,8 @@ class MapPresenterImpl : IMapPresenter, GoogleMap.OnMapClickListener {
     }
 
     override fun onResume() {
-        map?.let {
-            it.setOnMapClickListener(this)
-        }
+        map?.setOnMapClickListener(this)
+
     }
 
     override fun onDestroy() {
