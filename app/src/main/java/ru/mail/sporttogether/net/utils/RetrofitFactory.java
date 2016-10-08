@@ -1,8 +1,6 @@
 package ru.mail.sporttogether.net.utils;
 
 import com.facebook.stetho.okhttp3.StethoInterceptor;
-
-import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
@@ -15,8 +13,10 @@ import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import ru.mail.sporttogether.managers.HeaderManager;
 import ru.mail.sporttogether.net.adapter.UserAdapter;
 import ru.mail.sporttogether.net.api.RestAPI;
+import ru.mail.sporttogether.net.interceptors.SportInterceptor;
 import ru.mail.sporttogether.net.models.User;
 
 /**
@@ -27,16 +27,13 @@ public class RetrofitFactory {
     private static final String BASE_URL = "http://p30281.lab1.stud.tech-mail.ru/";
     private static final int READ_TIMEOUT = 30;
     private static final int CONNECT_TIMEOUT = 10;
-
-    private static Gson GSON = new GsonBuilder().setLenient().create();
     public static final RestAPI API = newInstance().create(RestAPI.class);
-
 
     private static Retrofit newInstance() {
         OkHttpClient.Builder okBuiler = new OkHttpClient.Builder()
                 .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS)
                 .connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)
-                .addInterceptor(new StethoInterceptor())
+                //.addInterceptor(new SportInterceptor(HeaderManager.INSTANCE))
                 .addInterceptor(new Interceptor() {
                     @Override
                     public Response intercept(Chain chain) throws IOException {
@@ -51,6 +48,7 @@ public class RetrofitFactory {
                 });
 
         GsonBuilder builder = new GsonBuilder();
+
         builder.registerTypeAdapter(User.class, new UserAdapter());
 
         return new Retrofit.Builder()
