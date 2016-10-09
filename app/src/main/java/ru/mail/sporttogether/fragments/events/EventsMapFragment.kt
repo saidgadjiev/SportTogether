@@ -12,6 +12,8 @@ import ru.mail.sporttogether.fragments.AbstractFragment
 import ru.mail.sporttogether.mvp.presenters.map.IMapPresenter
 import ru.mail.sporttogether.mvp.presenters.map.MapPresenterImpl
 import ru.mail.sporttogether.mvp.views.map.IMapView
+import ru.mail.sporttogether.net.api.RestAPI
+import javax.inject.Inject
 
 /**
  * Created by bagrusss on 08.10.16.
@@ -23,6 +25,7 @@ class EventsMapFragment : AbstractFragment(), IMapView, FabListener {
     private lateinit var binding: ActivityMapBinding
 
     private lateinit var presenter: IMapPresenter
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = ActivityMapBinding.inflate(inflater, container, false)

@@ -7,6 +7,8 @@ import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import android.widget.Toast
 import ru.mail.sporttogether.activities.AbstractActivity
+import ru.mail.sporttogether.app.App
+import ru.mail.sporttogether.dagger.components.AppMainComponent
 import ru.mail.sporttogether.mvp.views.IView
 
 /**
@@ -14,6 +16,8 @@ import ru.mail.sporttogether.mvp.views.IView
  *
  */
 abstract class AbstractFragment : Fragment(), IView {
+
+    protected val injector = App.injector
 
     override fun showToast(message: String, duration: Int) {
         Toast.makeText(activity, message, duration).show()
