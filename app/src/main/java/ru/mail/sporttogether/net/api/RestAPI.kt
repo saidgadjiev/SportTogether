@@ -1,12 +1,9 @@
 package ru.mail.sporttogether.net.api
 
 import retrofit2.http.*
-import ru.mail.sporttogether.net.models.Category
-import ru.mail.sporttogether.net.models.Event
-import ru.mail.sporttogether.net.models.User
+import ru.mail.sporttogether.net.models.*
 import ru.mail.sporttogether.net.responses.Response
 import rx.Observable
-import java.util.*
 
 /**
  * Created by bagrusss on 29.09.16.
@@ -21,7 +18,8 @@ interface RestAPI {
     fun getCategoryById(@Path("id") id: Long): Observable<Response<Category>>
 
     @GET("category")
-    fun getAllCategoryes(): Observable<Response<ArrayList<Category>>>
+    fun getAllCategoryes(): Observable<Response<CategoriesResponse>>
+
 
 
     @POST("event")
@@ -31,7 +29,8 @@ interface RestAPI {
     fun getEventById(@Path("id") id: Long): Observable<Response<Event>>
 
     @GET("event")
-    fun getAllEvents(): Observable<Response<ArrayList<Event>>>
+    fun getAllEvents(): Observable<Response<EventsResponse>>
+    
 
 
     @POST("auth")

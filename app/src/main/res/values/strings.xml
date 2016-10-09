@@ -5,4 +5,8 @@
     <string name="events_map">Events map</string>
     <string name="events_list">Events list</string>
     <string name="auth0_preferences">AUTH0_SHARED_PREFERENCES_KEY</string>
+
+
+    <string name="cant_get_events">Can\'t get events list</string>
+
 </resources>
