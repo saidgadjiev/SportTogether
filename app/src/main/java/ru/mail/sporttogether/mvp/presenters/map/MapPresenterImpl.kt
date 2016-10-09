@@ -20,7 +20,10 @@ import javax.inject.Inject
  * Created by bagrusss on 01.10.16.
  *
  */
-class MapPresenterImpl : IMapPresenter, GoogleMap.OnMapClickListener, GoogleMap.OnMarkerClickListener {
+class MapPresenterImpl :
+        IMapPresenter,
+        GoogleMap.OnMapClickListener,
+        GoogleMap.OnMarkerClickListener {
 
     private var map: GoogleMap? = null
     private var view: IMapView? = null
@@ -33,7 +36,9 @@ class MapPresenterImpl : IMapPresenter, GoogleMap.OnMapClickListener, GoogleMap.
 
     constructor(view: IMapView) {
         this.view = view
-        App.injector.usePresenterComponent().inject(this)
+        App.injector
+                .usePresenterComponent()
+                .inject(this)
     }
 
     override fun onPause() {
@@ -95,7 +100,7 @@ class MapPresenterImpl : IMapPresenter, GoogleMap.OnMapClickListener, GoogleMap.
 
     override fun fabClicked() {
         lastPos?.let {
-            view!!.startAddEventActivity(it.longitude, it.latitude)
+            view?.startAddEventActivity(it.longitude, it.latitude)
         }
     }
 
@@ -119,6 +124,10 @@ class MapPresenterImpl : IMapPresenter, GoogleMap.OnMapClickListener, GoogleMap.
 
     private fun addEvent(marker: Marker) {
 
+    }
+
+    override fun onBackPressed() {
+        view?.finishView()
     }
 
 }

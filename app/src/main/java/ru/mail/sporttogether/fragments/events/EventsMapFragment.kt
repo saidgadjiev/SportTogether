@@ -12,8 +12,6 @@ import ru.mail.sporttogether.fragments.AbstractFragment
 import ru.mail.sporttogether.mvp.presenters.map.IMapPresenter
 import ru.mail.sporttogether.mvp.presenters.map.MapPresenterImpl
 import ru.mail.sporttogether.mvp.views.map.IMapView
-import ru.mail.sporttogether.net.api.AuthorizationAPI
-import javax.inject.Inject
 
 /**
  * Created by bagrusss on 08.10.16.
@@ -88,6 +86,10 @@ class EventsMapFragment : AbstractFragment(), IMapView, FabListener {
 
     override fun startAddEventActivity(lng: Double, lat: Double) {
         AddEventActivity.start(context, lng, lat)
+    }
+
+    override fun finishView() {
+        activity.onBackPressed()
     }
 
 }

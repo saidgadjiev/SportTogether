@@ -10,4 +10,8 @@ interface IMapView : IView {
     fun startAddEventActivity(lng: Double, lat: Double)
 
     fun showFab()
+
+    fun finishView()
+
+
 }
