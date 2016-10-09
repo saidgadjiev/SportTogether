@@ -7,13 +7,6 @@ import android.os.Bundle
 import ru.mail.sporttogether.R
 import ru.mail.sporttogether.data.binding.event.EventData
 import ru.mail.sporttogether.databinding.ActivityAddEventBinding
-import ru.mail.sporttogether.net.models.Category
-import ru.mail.sporttogether.net.responses.Response
-import ru.mail.sporttogether.net.utils.RetrofitFactory
-import rx.Subscriber
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
-import java.util.ArrayList
 
 class AddEventActivity : AbstractActivity() {
 
@@ -23,8 +16,6 @@ class AddEventActivity : AbstractActivity() {
     private lateinit var lng: String
 
     private lateinit var binding: ActivityAddEventBinding
-
-    private val api = RetrofitFactory.API
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,26 +27,6 @@ class AddEventActivity : AbstractActivity() {
         }
         bindingData.lat.set(lat)
         bindingData.lng.set(lng)
-    }
-
-    private fun updateCategories() {
-        api.getAllCategoryes()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : Subscriber<Response<ArrayList<Category>>>() {
-                    override fun onNext(t: Response<ArrayList<Category>>) {
-
-                    }
-
-                    override fun onCompleted() {
-
-                    }
-
-                    override fun onError(e: Throwable) {
-
-                    }
-
-                })
     }
 
     companion object {

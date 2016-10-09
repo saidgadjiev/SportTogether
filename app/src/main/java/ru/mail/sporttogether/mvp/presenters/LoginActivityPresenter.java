@@ -3,10 +3,8 @@ package ru.mail.sporttogether.mvp.presenters;
 import android.util.Log;
 
 import ru.mail.sporttogether.activities.LoginActivity;
-import ru.mail.sporttogether.net.api.RestAPI;
 import ru.mail.sporttogether.net.models.User;
 import ru.mail.sporttogether.net.responses.Response;
-import ru.mail.sporttogether.net.utils.RetrofitFactory;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -17,14 +15,13 @@ import rx.schedulers.Schedulers;
 public class LoginActivityPresenter {
     private LoginActivity view;
 
-    private RestAPI api = RetrofitFactory.API;
 
     public LoginActivityPresenter(LoginActivity view) {
         this.view = view;
     }
 
     public void onSuccess(User user) {
-        api.updateAuthorization(user)
+        /*api.updateAuthorization(user)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<Object>>() {
@@ -42,6 +39,6 @@ public class LoginActivityPresenter {
                     public void onNext(Response<Object> objectResponse) {
                         Log.d("AUTH", "Succes send token to server");
                     }
-                });
+                });*/
     }
 }
