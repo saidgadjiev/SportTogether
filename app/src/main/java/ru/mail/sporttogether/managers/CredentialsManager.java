@@ -23,7 +23,7 @@ public class CredentialsManager {
                 .putString(Constants.REFRESH_TOKEN, credentials.getRefreshToken())
                 .putString(Constants.ACCESS_TOKEN, credentials.getAccessToken())
                 .putString(Constants.CREDENTIAL_TYPE, credentials.getType())
-                .commit();
+                .apply();
     }
 
     public static Credentials getCredentials(Context context){
@@ -48,6 +48,6 @@ public class CredentialsManager {
                 .putString(Constants.REFRESH_TOKEN, null)
                 .putString(Constants.ACCESS_TOKEN, null)
                 .putString(Constants.CREDENTIAL_TYPE, null)
-                .commit();
+                .apply();
     }
 }

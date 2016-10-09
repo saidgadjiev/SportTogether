@@ -32,12 +32,9 @@ class MapPresenterImpl : IMapPresenter, GoogleMap.OnMapClickListener {
 
     @Inject lateinit var api: RestAPI
 
-    override fun onCreate(args: Bundle?) {
-        App.injector.inject(this)
-    }
-
     constructor(view: IMapView) {
         this.view = view
+        App.injector.inject(this)
     }
 
     override fun onPause() {
