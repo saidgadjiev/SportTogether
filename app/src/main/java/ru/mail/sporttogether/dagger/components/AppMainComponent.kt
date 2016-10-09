@@ -4,9 +4,7 @@ import dagger.Component
 import ru.mail.sporttogether.dagger.modules.ManagersModule
 import ru.mail.sporttogether.dagger.modules.RestModule
 import ru.mail.sporttogether.dagger.modules.RetrofitModule
-import ru.mail.sporttogether.fragments.events.EventsMapFragment
-import ru.mail.sporttogether.mvp.presenters.map.IMapPresenter
-import ru.mail.sporttogether.mvp.presenters.map.MapPresenterImpl
+import ru.mail.sporttogether.dagger.subcomponents.PresenterSubcomponent
 import javax.inject.Singleton
 
 /**
@@ -19,5 +17,5 @@ import javax.inject.Singleton
         RetrofitModule::class,
         RestModule::class))
 interface AppMainComponent {
-    fun inject(presenter: MapPresenterImpl)
+    fun usePresenterComponent(): PresenterSubcomponent
 }

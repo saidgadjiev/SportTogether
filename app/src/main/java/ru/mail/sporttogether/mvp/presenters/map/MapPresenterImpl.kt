@@ -1,6 +1,5 @@
 package ru.mail.sporttogether.mvp.presenters.map
 
-import android.os.Bundle
 import android.util.Log
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
@@ -34,7 +33,7 @@ class MapPresenterImpl : IMapPresenter, GoogleMap.OnMapClickListener {
 
     constructor(view: IMapView) {
         this.view = view
-        App.injector.inject(this)
+        App.injector.usePresenterComponent().inject(this)
     }
 
     override fun onPause() {
