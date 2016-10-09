@@ -7,7 +7,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 import ru.mail.sporttogether.R
 import ru.mail.sporttogether.app.App
 import ru.mail.sporttogether.mvp.views.map.IMapView
-import ru.mail.sporttogether.net.api.RestAPI
+import ru.mail.sporttogether.net.api.EventsAPI
 import ru.mail.sporttogether.net.models.Event
 import ru.mail.sporttogether.net.models.EventsResponse
 import ru.mail.sporttogether.net.responses.Response
@@ -29,7 +29,7 @@ class MapPresenterImpl : IMapPresenter, GoogleMap.OnMapClickListener, GoogleMap.
     private var lastPos: LatLng? = null
     private val options: MarkerOptions = MarkerOptions()
 
-    @Inject lateinit var api: RestAPI
+    @Inject lateinit var api: EventsAPI
 
     constructor(view: IMapView) {
         this.view = view
@@ -37,12 +37,17 @@ class MapPresenterImpl : IMapPresenter, GoogleMap.OnMapClickListener, GoogleMap.
     }
 
     override fun onPause() {
-        map?.setOnMapClickListener(null)
+        map?.let {
+            it.setOnMapClickListener(null)
+            it.setOnMarkerClickListener(null)
+        }
     }
 
     override fun onResume() {
-        map?.setOnMapClickListener(this)
-
+        map?.let {
+            it.setOnMapClickListener(this)
+            it.setOnMarkerClickListener(this)
+        }
     }
 
     override fun onDestroy() {
@@ -105,8 +110,15 @@ class MapPresenterImpl : IMapPresenter, GoogleMap.OnMapClickListener, GoogleMap.
     }
 
     override fun onMarkerClick(marker: Marker): Boolean {
+        if (lastMarker === marker)
+            return true
 
+        addEvent(marker)
         return true
+    }
+
+    private fun addEvent(marker: Marker) {
+
     }
 
 }

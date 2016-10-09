@@ -12,7 +12,7 @@ import ru.mail.sporttogether.fragments.AbstractFragment
 import ru.mail.sporttogether.mvp.presenters.map.IMapPresenter
 import ru.mail.sporttogether.mvp.presenters.map.MapPresenterImpl
 import ru.mail.sporttogether.mvp.views.map.IMapView
-import ru.mail.sporttogether.net.api.RestAPI
+import ru.mail.sporttogether.net.api.AuthorizationAPI
 import javax.inject.Inject
 
 /**
