@@ -1,5 +1,6 @@
 package ru.mail.sporttogether.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ru.mail.sporttogether.R;
+import ru.mail.sporttogether.managers.CredentialsManager;
 import ru.mail.sporttogether.mvp.presenters.LoginActivityPresenter;
 import ru.mail.sporttogether.net.models.User;
 
@@ -51,7 +53,12 @@ public class LoginActivity extends AppCompatActivity {
         builder.allowedConnections(generateConnections());
         builder.setDefaultDatabaseConnection("Username-Password-Authentication");
         lock = builder.build(this);
-        startActivity(lock.newIntent(this));
+        CredentialsManager.deleteCredentials(getApplicationContext());
+        if (CredentialsManager.getCredentials(this).getIdToken() == null) {
+            startActivity(lock.newIntent(this));
+            return;
+        }
+        trySignIn();
     }
 
     private List<String> generateConnections() {
@@ -66,25 +73,43 @@ public class LoginActivity extends AppCompatActivity {
         return connections;
     }
 
-    public void signin(final String idToken) {
+    private void trySignIn() {
+        final String idToken = CredentialsManager.getCredentials(this).getIdToken();
+
         aClient.tokenInfo(idToken)
                 .start(new BaseCallback<UserProfile, AuthenticationException>() {
                     @Override
                     public void onSuccess(final UserProfile payload) {
+                        Log.d("AUTH", "Authomatic login");
                         presenter.onSuccess(new User(idToken, payload.getId()));
+                        startActivity(new Intent(LoginActivity.this, FragmentActivity.class));
+                        finish();
                     }
 
                     @Override
                     public void onFailure(AuthenticationException error) {
+                        Log.d("AUTH", "Session expired");
+                        CredentialsManager.deleteCredentials(getApplicationContext());
+                        startActivity(lock.newIntent(LoginActivity.this));
                     }
                 });
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        lock.onDestroy(this);
+        lock = null;
+    }
+
+
     private LockCallback callback = new AuthenticationCallback() {
         @Override
         public void onAuthentication(Credentials credentials) {
-            //App.Companion.getInstance().setCredentials(credentials);
-            signin(credentials.getIdToken());
+            Log.d("AUTH", "Logged in");
+            CredentialsManager.saveCredentials(getApplicationContext(), credentials);
+            startActivity(new Intent(LoginActivity.this, FragmentActivity.class));
+            finish();
         }
 
         @Override

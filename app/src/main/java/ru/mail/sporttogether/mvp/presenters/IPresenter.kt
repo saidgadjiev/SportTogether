@@ -26,4 +26,6 @@ interface IPresenter {
 
     fun onRestoreInstanceState(savedInstanceState: Bundle?){}
 
+    fun onBackPressed(){}
+
 }

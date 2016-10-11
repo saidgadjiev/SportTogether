@@ -1,55 +1,37 @@
-package ru.mail.sporttogether.activities
+package ru.mail.sporttogether.fragments.events
 
-import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.Toast
+import android.view.ViewGroup
 import com.google.android.gms.maps.MapView
-import ru.mail.sporttogether.R
+import ru.mail.sporttogether.activities.AddEventActivity
 import ru.mail.sporttogether.data.binding.FabListener
 import ru.mail.sporttogether.databinding.ActivityMapBinding
+import ru.mail.sporttogether.fragments.AbstractFragment
 import ru.mail.sporttogether.mvp.presenters.map.IMapPresenter
 import ru.mail.sporttogether.mvp.presenters.map.MapPresenterImpl
 import ru.mail.sporttogether.mvp.views.map.IMapView
-import ru.mail.sporttogether.net.responses.Response
-import ru.mail.sporttogether.net.utils.RetrofitFactory
-import rx.Subscriber
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
 
-class MapActivity : AbstractActivity(), IMapView, FabListener {
+/**
+ * Created by bagrusss on 08.10.16.
+ * здесь будут вкладки
+ */
+class EventsMapFragment : AbstractFragment(), IMapView, FabListener {
 
     private lateinit var mapView: MapView
     private lateinit var binding: ActivityMapBinding
 
     private lateinit var presenter: IMapPresenter
 
-    private val api = RetrofitFactory.API
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_map)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        binding = ActivityMapBinding.inflate(inflater, container, false)
         mapView = binding.mapview
         mapView.onCreate(savedInstanceState)
         presenter = MapPresenterImpl(this)
         mapView.getMapAsync(presenter)
-
-        api.helloWorld()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(object : Subscriber<Response<Any>>() {
-                    override fun onError(e: Throwable) {
-                        Toast.makeText(this@MapActivity, "error", Toast.LENGTH_SHORT).show()
-                    }
-
-                    override fun onNext(t: Response<Any>) {
-                        Toast.makeText(this@MapActivity, "ok", Toast.LENGTH_SHORT).show()
-                    }
-
-                    override fun onCompleted() {
-
-                    }
-                })
+        return binding.root
     }
 
     override fun showFab() {
@@ -90,8 +72,8 @@ class MapActivity : AbstractActivity(), IMapView, FabListener {
         mapView.onSaveInstanceState(outState)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         mapView.onDestroy()
         presenter.onDestroy()
     }
@@ -103,7 +85,11 @@ class MapActivity : AbstractActivity(), IMapView, FabListener {
     }
 
     override fun startAddEventActivity(lng: Double, lat: Double) {
-        AddEventActivity.start(this, lng, lat)
+        AddEventActivity.start(context, lng, lat)
+    }
+
+    override fun finishView() {
+        activity.onBackPressed()
     }
 
 }
