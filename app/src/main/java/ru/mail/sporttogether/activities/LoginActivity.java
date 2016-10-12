@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ru.mail.sporttogether.R;
+import ru.mail.sporttogether.activities.drawer.DrawerActivity;
 import ru.mail.sporttogether.managers.CredentialsManager;
 import ru.mail.sporttogether.mvp.presenters.LoginActivityPresenter;
 import ru.mail.sporttogether.net.models.User;

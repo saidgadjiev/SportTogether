@@ -1,4 +1,4 @@
-package ru.mail.sporttogether.activities
+package ru.mail.sporttogether.activities.drawer
 
 import android.databinding.DataBindingUtil
 import android.os.Bundle
@@ -7,6 +7,7 @@ import android.util.Log
 import com.mikepenz.materialdrawer.Drawer
 import com.mikepenz.materialdrawer.DrawerBuilder
 import ru.mail.sporttogether.R
+import ru.mail.sporttogether.activities.AbstractActivity
 import ru.mail.sporttogether.databinding.ActivityDrawerBinding
 import ru.mail.sporttogether.fragments.events.EventsFragment
 
@@ -30,11 +31,13 @@ class DrawerActivity : AbstractActivity() {
                 .commit()
 
         val drawerBuilder: DrawerBuilder = DrawerBuilder()
-                .withActivity(this)
-                .withToolbar(toolbar)
-
+            .withActivity(this)
+            .withAccountHeader(DrawerManager.buildAccoundHeader(this))
+            .withToolbar(toolbar)
+        DrawerManager.setDrawerItems(drawerBuilder)
         mDrawer = drawerBuilder.build()
     }
+
 }
 
 
