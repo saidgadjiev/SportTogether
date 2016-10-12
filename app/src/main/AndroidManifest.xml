@@ -47,7 +47,8 @@
             android:name="com.auth0.android.provider.WebAuthActivity"
             android:theme="@style/MyLock.Theme" />
 
-        <activity android:name=".activities.LoginActivity">
+        <activity android:name=".activities.DrawerActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -60,7 +61,7 @@
             android:value="@string/map_key" />
 
         <activity android:name=".activities.AddEventActivity" />
-        <activity android:name=".activities.DrawerActivity"></activity>
+        <activity android:name=".activities.LoginActivity"></activity>
 
         <activity android:name=".activities.SplashActivity">
             <!--<intent-filter>
@@ -75,7 +76,6 @@
             android:theme="@style/AppTheme.NoActionBar">
 
         </activity>
->>>>>>> b868b0e5ef4a41863823f87eb5d358454ebd733a
     </application>
 
 </manifest>
