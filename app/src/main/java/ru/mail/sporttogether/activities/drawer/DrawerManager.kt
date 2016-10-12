@@ -6,6 +6,8 @@ import com.mikepenz.materialdrawer.DrawerBuilder
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem
 import ru.mail.sporttogether.R
+import ru.mail.sporttogether.fragments.events.EventsFragment
+import ru.mail.sporttogether.fragments.events.MyEventsFragment
 
 /**
  * Created by Ivan on 12.10.2016.
@@ -25,14 +27,21 @@ object DrawerManager {
 
     }
 
-    fun setDrawerItems(drawerBuilder: DrawerBuilder) {
+    fun setDrawerItems(drawerBuilder: DrawerBuilder, activity: DrawerActivity) {
+        val supportFragmentManager = activity.supportFragmentManager
         drawerBuilder.addDrawerItems(
                 //TODO add icons
                 PrimaryDrawerItem().withName("Карта").withOnDrawerItemClickListener { view, i, iDrawerItem ->
+                    supportFragmentManager.beginTransaction()
+                            .replace(R.id.drawer_container, EventsFragment.newInstance())
+                            .commit()
                     println("Clicked : " + i)
                     false
                 },
                 PrimaryDrawerItem().withName("Мои события").withOnDrawerItemClickListener { view, i, iDrawerItem ->
+                    supportFragmentManager.beginTransaction()
+                            .replace(R.id.drawer_container, MyEventsFragment.newInstance())
+                            .commit()
                     println("Clicked : " + i)
                     false
                 },
