@@ -7,19 +7,20 @@ import java.util.*
  *
  */
 
-class HeaderManager {
+class HeaderManager(locationManager: LocationManager) {
 
-    private val token: String? = null
-    private val clientId: String? = null
-    private val headers: MutableMap<String, String> = HashMap()
+    var token: String? = null //call from java headerManager.setToken(sometoken)
+    var clientId: String? = null
+    val headers = TreeMap<String, String?>()
 
-    fun addHeaders(token: String, clientId: String) {
-        headers.put(KEY_TOKEN, token)
-        headers.put(KEY_CLIENT_ID, clientId)
-    }
-
-    fun getHeaders(): Map<String, String> {
-
+    fun getHeaders(): Map<String, String?> {
+        headers.clear()
+        token?.let {
+            headers.put(KEY_TOKEN, token)
+        }
+        clientId?.let {
+            headers.put(KEY_CLIENT_ID, clientId)
+        }
         return headers
     }
 
