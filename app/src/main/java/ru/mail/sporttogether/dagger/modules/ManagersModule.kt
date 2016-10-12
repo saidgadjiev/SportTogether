@@ -18,18 +18,22 @@ class ManagersModule {
 
     @Singleton
     @Provides
-    fun provideHeaderManager() = HeaderManager()
+    fun provideHeaderManager(locationManager: LocationManager)
+            = HeaderManager(locationManager)
 
     @Singleton
     @Provides
-    fun provideLocationManager() = LocationManager()
+    fun provideLocationManager()
+            = LocationManager()
 
     @Singleton
     @Provides
-    fun provideDataManager() = DataManager()
+    fun provideDataManager()
+            = DataManager()
 
 
-    fun provideCredentialsManager() = CredentialsManager()
+    fun provideCredentialsManager()
+            = CredentialsManager()
 
 
 }
