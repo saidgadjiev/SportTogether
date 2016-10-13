@@ -3,13 +3,14 @@ package ru.mail.sporttogether.net.interceptors
 import okhttp3.Interceptor
 import okhttp3.Response
 import ru.mail.sporttogether.managers.headers.HeaderManagerImpl
+import ru.mail.sporttogether.managers.headers.IHeaderManager
 
 
 /**
  * Created by bagrusss on 30.09.16.
  *
  */
-class SportInterceptor(val headerManager: HeaderManagerImpl) : Interceptor {
+class SportInterceptor(val headerManager: IHeaderManager) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val builder = chain.request().newBuilder()
         val headers = headerManager.getHeaders()

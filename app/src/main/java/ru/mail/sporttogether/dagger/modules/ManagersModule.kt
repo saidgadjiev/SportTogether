@@ -16,13 +16,7 @@ import javax.inject.Singleton
  *
  */
 @Module
-@Singleton
 class ManagersModule {
-
-    @Singleton
-    @Provides
-    fun provideHeaderManager(locationManager: LocationManager): IHeaderManager
-            = HeaderManagerImpl(locationManager)
 
     @Singleton
     @Provides
@@ -39,5 +33,9 @@ class ManagersModule {
     fun provideCredentialsManager(): ICredentialsManager
             = CredentialsManagerImpl()
 
+    @Singleton
+    @Provides
+    fun provideHeaderManager(locationManager: LocationManager): IHeaderManager
+            = HeaderManagerImpl(locationManager)
 
 }
