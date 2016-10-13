@@ -22,13 +22,15 @@ class RetrofitModule {
 
     private val BASE_URL = "http://p30281.lab1.stud.tech-mail.ru/"
     private val READ_TIMEOUT = 30L
-    private val CONNECT_TIMEOUT = 10L
+    private val WRITE_TIMEOUT = 30L
+    private val CONNECT_TIMEOUT = 30L
 
     @Singleton
     @Provides
     fun provideRetrofit(headerManager: HeaderManager): Retrofit {
         val okBuilder = OkHttpClient.Builder()
                 .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS)
+                .writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS)
                 .connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)
                 .addInterceptor(SportInterceptor(headerManager))
                 .addInterceptor(StethoInterceptor())
