@@ -8,7 +8,7 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import ru.mail.sporttogether.managers.HeaderManager
+import ru.mail.sporttogether.managers.headers.HeaderManagerImpl
 import ru.mail.sporttogether.net.interceptors.SportInterceptor
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
@@ -27,7 +27,7 @@ class RetrofitModule {
 
     @Singleton
     @Provides
-    fun provideRetrofit(headerManager: HeaderManager): Retrofit {
+    fun provideRetrofit(headerManager: HeaderManagerImpl): Retrofit {
         val okBuilder = OkHttpClient.Builder()
                 .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS)
                 .writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS)

@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ru.mail.sporttogether.R;
-import ru.mail.sporttogether.managers.CredentialsManager;
+import ru.mail.sporttogether.managers.data.CredentialsManagerImpl;
 import ru.mail.sporttogether.mvp.presenters.LoginActivityPresenter;
 import ru.mail.sporttogether.net.models.User;
 
@@ -53,8 +53,8 @@ public class LoginActivity extends AppCompatActivity {
         builder.allowedConnections(generateConnections());
         builder.setDefaultDatabaseConnection("Username-Password-Authentication");
         lock = builder.build(this);
-        CredentialsManager.deleteCredentials(getApplicationContext());
-        if (CredentialsManager.getCredentials(this).getIdToken() == null) {
+        CredentialsManagerImpl.deleteCredentials(getApplicationContext());
+        if (CredentialsManagerImpl.getCredentials(this).getIdToken() == null) {
             startActivity(lock.newIntent(this));
             return;
         }
@@ -74,7 +74,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void trySignIn() {
-        final String idToken = CredentialsManager.getCredentials(this).getIdToken();
+        final String idToken = CredentialsManagerImpl.getCredentials(this).getIdToken();
 
         aClient.tokenInfo(idToken)
                 .start(new BaseCallback<UserProfile, AuthenticationException>() {
@@ -89,7 +89,7 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(AuthenticationException error) {
                         Log.d("AUTH", "Session expired");
-                        CredentialsManager.deleteCredentials(getApplicationContext());
+                        CredentialsManagerImpl.deleteCredentials(getApplicationContext());
                         startActivity(lock.newIntent(LoginActivity.this));
                     }
                 });
@@ -107,7 +107,7 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         public void onAuthentication(Credentials credentials) {
             Log.d("AUTH", "Logged in");
-            CredentialsManager.saveCredentials(getApplicationContext(), credentials);
+            CredentialsManagerImpl.saveCredentials(getApplicationContext(), credentials);
             startActivity(new Intent(LoginActivity.this, FragmentActivity.class));
             finish();
         }

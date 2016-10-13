@@ -1,5 +1,6 @@
-package ru.mail.sporttogether.managers
+package ru.mail.sporttogether.managers.headers
 
+import ru.mail.sporttogether.managers.LocationManager
 import java.util.*
 
 /**
@@ -7,19 +8,19 @@ import java.util.*
  *
  */
 
-class HeaderManager(locationManager: LocationManager) {
+class HeaderManagerImpl(locationManager: LocationManager) : IHeaderManager {
 
     var token: String? = null //call from java headerManager.setToken(sometoken)
     var clientId: String? = null
-    val headers = TreeMap<String, String?>()
+    val headers = TreeMap<String, String>()
 
-    fun getHeaders(): Map<String, String?> {
+    override fun getHeaders(): Map<String, String> {
         headers.clear()
         token?.let {
-            headers.put(KEY_TOKEN, token)
+            headers.put(KEY_TOKEN, it)
         }
         clientId?.let {
-            headers.put(KEY_CLIENT_ID, clientId)
+            headers.put(KEY_CLIENT_ID, it)
         }
         return headers
     }

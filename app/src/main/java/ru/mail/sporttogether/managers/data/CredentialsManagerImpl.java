@@ -1,4 +1,4 @@
-package ru.mail.sporttogether.managers;
+package ru.mail.sporttogether.managers.data;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -12,9 +12,9 @@ import ru.mail.sporttogether.net.utils.Constants;
  * Created by said on 08.10.16.
  */
 
-public class CredentialsManager {
+public class CredentialsManagerImpl implements ICredentialsManager {
 
-    public static void saveCredentials(Context context, Credentials credentials){
+    public static void saveCredentials(Context context, Credentials credentials) {
         SharedPreferences sharedPref = context.getSharedPreferences(
                 context.getString(R.string.auth0_preferences), Context.MODE_PRIVATE);
 
@@ -26,7 +26,7 @@ public class CredentialsManager {
                 .apply();
     }
 
-    public static Credentials getCredentials(Context context){
+    public static Credentials getCredentials(Context context) {
         SharedPreferences sharedPref = context.getSharedPreferences(
                 context.getString(R.string.auth0_preferences), Context.MODE_PRIVATE);
 
@@ -39,7 +39,7 @@ public class CredentialsManager {
         return credentials;
     }
 
-    public static void deleteCredentials(Context context){
+    public static void deleteCredentials(Context context) {
         SharedPreferences sharedPref = context.getSharedPreferences(
                 context.getString(R.string.auth0_preferences), Context.MODE_PRIVATE);
 
