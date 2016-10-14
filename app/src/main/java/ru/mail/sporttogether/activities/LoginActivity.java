@@ -25,6 +25,7 @@ import java.util.List;
 
 import ru.mail.sporttogether.R;
 import ru.mail.sporttogether.managers.data.CredentialsManagerImpl;
+import ru.mail.sporttogether.activities.drawer.DrawerActivity;
 import ru.mail.sporttogether.mvp.presenters.LoginActivityPresenter;
 import ru.mail.sporttogether.net.models.User;
 
@@ -82,7 +83,7 @@ public class LoginActivity extends AppCompatActivity {
                     public void onSuccess(final UserProfile payload) {
                         Log.d("AUTH", "Authomatic login");
                         presenter.onSuccess(new User(idToken, payload.getId()));
-                        startActivity(new Intent(LoginActivity.this, FragmentActivity.class));
+                        startActivity(new Intent(LoginActivity.this, DrawerActivity.class));
                         finish();
                     }
 
@@ -109,7 +110,7 @@ public class LoginActivity extends AppCompatActivity {
         public void onAuthentication(Credentials credentials) {
             Log.d("AUTH", "Logged in");
             CredentialsManagerImpl.saveCredentials(getApplicationContext(), credentials);
-            startActivity(new Intent(LoginActivity.this, FragmentActivity.class));
+            startActivity(new Intent(LoginActivity.this, DrawerActivity.class));
             finish();
         }
 

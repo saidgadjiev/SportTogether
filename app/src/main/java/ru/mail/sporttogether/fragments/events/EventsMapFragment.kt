@@ -26,6 +26,7 @@ class EventsMapFragment : AbstractFragment(), IMapView, FabListener {
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        //TODO rename Activity* on Fragment*, and in layout too
         binding = ActivityMapBinding.inflate(inflater, container, false)
         mapView = binding.mapview
         mapView.onCreate(savedInstanceState)
