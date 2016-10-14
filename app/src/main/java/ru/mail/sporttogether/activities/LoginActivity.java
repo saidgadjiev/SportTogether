@@ -15,6 +15,7 @@ import com.auth0.android.lock.InitialScreen;
 import com.auth0.android.lock.Lock;
 import com.auth0.android.lock.LockCallback;
 import com.auth0.android.lock.UsernameStyle;
+import com.auth0.android.lock.internal.configuration.Connection;
 import com.auth0.android.lock.utils.LockException;
 import com.auth0.android.result.Credentials;
 import com.auth0.android.result.UserProfile;
@@ -63,7 +64,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private List<String> generateConnections() {
         List<String> connections = new ArrayList<>();
-
         connections.add("vkontakte");
         connections.add("Username-Password-Authentication");
         if (connections.isEmpty()) {
@@ -99,6 +99,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         lock.onDestroy(this);
+        callback = null;
         lock = null;
     }
 
