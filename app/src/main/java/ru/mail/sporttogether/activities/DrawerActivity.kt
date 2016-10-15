@@ -26,7 +26,6 @@ class DrawerActivity : IDrawerView, PresenterActivity<IDrawerPresenter>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         Log.d("#MY " + this.javaClass.simpleName, "in on create")
 
         presenter = DrawerPresenterImpl(this)

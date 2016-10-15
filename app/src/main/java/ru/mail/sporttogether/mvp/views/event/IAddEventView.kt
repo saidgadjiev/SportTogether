@@ -8,4 +8,6 @@ import ru.mail.sporttogether.mvp.views.IView
  */
 interface IAddEventView : IView {
     fun onEventAdded(name: String)
+
+    fun showAddError(errorText: String)
 }

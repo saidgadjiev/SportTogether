@@ -32,4 +32,5 @@ class Auth0Module {
     @Singleton
     @Provides
     fun provideFacebookProvider(aClient: AuthenticationAPIClient) = FacebookAuthProvider(aClient)
+
 }

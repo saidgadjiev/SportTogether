@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
 import ru.mail.sporttogether.R
@@ -23,13 +24,16 @@ class AddEventActivity : PresenterActivity<AddEventPresenter>(), IAddEventView, 
     private lateinit var lng: String
 
     private val textWatcher = CategoryWatcher()
+    private val handler = Handler()
 
     inner class CategoryWatcher : TextWatcher {
-        override fun afterTextChanged(s: Editable) {
 
+        override fun afterTextChanged(s: Editable) {
+            presenter.searchCategory(s.toString())
         }
 
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
         }
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -73,11 +77,18 @@ class AddEventActivity : PresenterActivity<AddEventPresenter>(), IAddEventView, 
     override fun onAddButtonClicked() {
         val name = binding.eventName.text.toString()
         val category = binding.category.text.toString()
-        presenter.addEventClicked(name, category, lat, lng)
+        presenter.addEventClicked(name, category, lat.toDouble(), lng.toDouble())
     }
 
     override fun onEventAdded(name: String) {
         showToast("added")
+        handler.postDelayed({
+            finish()
+        }, 1000)
+    }
+
+    override fun showAddError(errorText: String) {
+
     }
 
     companion object {

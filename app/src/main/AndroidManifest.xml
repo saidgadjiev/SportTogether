@@ -64,8 +64,8 @@
         <activity android:name=".activities.AddEventActivity" />
 
         <activity
-            android:name=".activities.DrawerActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+        android:name=".activities.DrawerActivity"
+        android:theme="@style/AppTheme.NoActionBar" />
 
         <activity android:name=".activities.SplashActivity">
             <!--<intent-filter>
