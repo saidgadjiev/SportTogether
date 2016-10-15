@@ -21,6 +21,6 @@ interface AuthorizationAPI {
     fun checkAuthorization(): Observable<Response<User>>
 
     @GET("hello/world")
-    fun helloWorld(): Observable<Response<Any>>
+    fun helloWorld(): Observable<Any>
 
 }

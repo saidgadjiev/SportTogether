@@ -8,16 +8,17 @@ import android.view.MenuItem
 import android.widget.Toast
 import ru.mail.sporttogether.activities.AbstractActivity
 import ru.mail.sporttogether.app.App
-import ru.mail.sporttogether.dagger.components.AppMainComponent
+import ru.mail.sporttogether.mvp.presenters.IPresenter
 import ru.mail.sporttogether.mvp.views.IView
 
 /**
  * Created by bagrusss on 08.10.16.
  *
  */
-abstract class AbstractFragment : Fragment(), IView {
+abstract class PresenterFragment<T : IPresenter> : Fragment(), IView {
 
     protected val injector = App.injector
+    protected lateinit var presenter: T
 
     override fun showToast(message: String, duration: Int) {
         Toast.makeText(activity, message, duration).show()

@@ -6,7 +6,7 @@ android {
     compileSdkVersion 24
     buildToolsVersion "24.0.3"
 
-    ext.devMinSdkVersion = 15
+    ext.devMinSdkVersion = 19
     //noinspection GradleIdeError
     ext.minSdkVersion = 15
 
@@ -41,7 +41,7 @@ android {
         // https://developer.android.com/studio/build/multidex.html
         dev {
             multiDexEnabled true
-            minSdkVersion 15
+            minSdkVersion 21 //не трогать
             buildConfigField "boolean", "ALLOW_SELF_SINGED_SSL", "false"
         }
 
