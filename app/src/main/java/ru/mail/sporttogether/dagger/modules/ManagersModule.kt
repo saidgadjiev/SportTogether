@@ -3,6 +3,7 @@ package ru.mail.sporttogether.dagger.modules
 import dagger.Module
 import dagger.Provides
 import ru.mail.sporttogether.managers.LocationManager
+import ru.mail.sporttogether.managers.auth.AuthManager
 import ru.mail.sporttogether.managers.data.CredentialsManagerImpl
 import ru.mail.sporttogether.managers.data.DataManagerImpl
 import ru.mail.sporttogether.managers.data.ICredentialsManager
@@ -37,4 +38,10 @@ class ManagersModule {
     @Provides
     fun provideHeaderManager(locationManager: LocationManager): IHeaderManager
             = HeaderManagerImpl(locationManager)
+
+    @Singleton
+    @Provides
+    fun provideAuthManager(): AuthManager
+            = AuthManager()
+
 }

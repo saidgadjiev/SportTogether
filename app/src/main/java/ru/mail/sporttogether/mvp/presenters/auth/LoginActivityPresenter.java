@@ -30,8 +30,9 @@ import javax.inject.Inject;
 
 import ru.mail.sporttogether.activities.LoginActivity;
 import ru.mail.sporttogether.app.App;
+import ru.mail.sporttogether.managers.auth.AuthManager;
 import ru.mail.sporttogether.managers.data.ICredentialsManager;
-import ru.mail.sporttogether.managers.headers.IHeaderManager;
+import ru.mail.sporttogether.managers.headers.HeaderManagerImpl;
 import ru.mail.sporttogether.mvp.views.login.ILoginView;
 import ru.mail.sporttogether.net.api.AuthorizationAPI;
 import ru.mail.sporttogether.net.responses.Response;
@@ -55,13 +56,53 @@ public class LoginActivityPresenter implements ILoginPresenter {
     @Inject
     ICredentialsManager credentialsManager;
     @Inject
-    IHeaderManager headerManager;
+    HeaderManagerImpl headerManager;
+    @Inject
+    AuthManager authManager;
     private Lock lock;
 
     public LoginActivityPresenter(final ILoginView view) {
         App.injector.usePresenterComponent().inject(this);
         this.view = view;
+    }
 
+    private List<String> generateConnections() {
+        List<String> connections = new ArrayList<>();
+
+
+        connections.add("facebook");
+        if (connections.isEmpty()) {
+            connections.add("no-connection");
+        }
+
+        return connections;
+    }
+
+    private void trySignIn() {
+        aClient.tokenInfo(credentialsManager.getCredentials(context).getIdToken())
+                .start(new BaseCallback<UserProfile, AuthenticationException>() {
+                    @Override
+                    public void onSuccess(final UserProfile payload) {
+                        Log.d("AUTH", "Authomatic login");
+
+                        headerManager.setToken(credentialsManager.getCredentials(context).getIdToken());
+                        headerManager.setClientId(payload.getId());
+                        view.startMainActivity();
+                        authManager.auth(api, view);
+                    }
+
+                    @Override
+                    public void onFailure(AuthenticationException error) {
+                        Log.d("AUTH", "Session expired");
+
+                        credentialsManager.deleteCredentials(context);
+                        view.startLockActivity(lock);
+                    }
+                });
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle args) {
         final Lock.Builder builder = Lock.newBuilder(auth0, new AuthenticationCallback() {
             @Override
             public void onAuthentication(Credentials credentials) {
@@ -104,45 +145,6 @@ public class LoginActivityPresenter implements ILoginPresenter {
             return;
         }
         trySignIn();
-    }
-
-    private List<String> generateConnections() {
-        List<String> connections = new ArrayList<>();
-
-
-        connections.add("facebook");
-        if (connections.isEmpty()) {
-            connections.add("no-connection");
-        }
-
-        return connections;
-    }
-
-    private void trySignIn() {
-        aClient.tokenInfo(credentialsManager.getCredentials(context).getIdToken())
-                .start(new BaseCallback<UserProfile, AuthenticationException>() {
-                    @Override
-                    public void onSuccess(final UserProfile payload) {
-                        Log.d("AUTH", "Authomatic login");
-
-                        headerManager.
-                        view.startMainActivity();
-                        successAuth();
-                    }
-
-                    @Override
-                    public void onFailure(AuthenticationException error) {
-                        Log.d("AUTH", "Session expired");
-
-                        credentialsManager.deleteCredentials(context);
-                        view.startLockActivity(lock);
-                    }
-                });
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle args) {
-
     }
 
     @Override

@@ -10,7 +10,7 @@ import java.util.*
 
 class HeaderManagerImpl(locationManager: LocationManager) : IHeaderManager {
 
-    var token: String? = null //call from java headerManager.setToken(sometoken)
+    var token: String? = null
     var clientId: String? = null
     val headers = TreeMap<String, String>()
 
