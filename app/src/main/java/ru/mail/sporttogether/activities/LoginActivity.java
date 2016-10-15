@@ -9,7 +9,6 @@ import com.auth0.android.lock.Lock;
 
 import org.jetbrains.annotations.NotNull;
 
-import ru.mail.sporttogether.activities.drawer.DrawerActivity;
 import ru.mail.sporttogether.mvp.presenters.auth.ILoginPresenter;
 import ru.mail.sporttogether.mvp.presenters.auth.LoginActivityPresenter;
 import ru.mail.sporttogether.mvp.views.login.ILoginView;

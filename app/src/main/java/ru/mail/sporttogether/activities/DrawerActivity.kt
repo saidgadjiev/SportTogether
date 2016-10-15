@@ -1,5 +1,6 @@
 package ru.mail.sporttogether.activities
 
+import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.widget.Toolbar
@@ -14,10 +15,11 @@ import ru.mail.sporttogether.R
 import ru.mail.sporttogether.databinding.ActivityDrawerBinding
 import ru.mail.sporttogether.fragments.events.EventsFragment
 import ru.mail.sporttogether.fragments.events.MyEventsFragment
-import ru.mail.sporttogether.mvp.presenters.drawer.DrawerPresenter
+import ru.mail.sporttogether.mvp.presenters.drawer.DrawerPresenterImpl
+import ru.mail.sporttogether.mvp.presenters.drawer.IDrawerPresenter
+import ru.mail.sporttogether.mvp.views.drawer.IDrawerView
 
-class DrawerActivity : PresenterActivity<DrawerPresenter>() {
-
+class DrawerActivity : IDrawerView, PresenterActivity<IDrawerPresenter>() {
     private lateinit var binding: ActivityDrawerBinding
     private lateinit var toolbar: Toolbar
     private lateinit var mDrawer: Drawer
@@ -27,6 +29,7 @@ class DrawerActivity : PresenterActivity<DrawerPresenter>() {
 
         Log.d("#MY " + this.javaClass.simpleName, "in on create")
 
+        presenter = DrawerPresenterImpl(this)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_drawer)
         toolbar = binding.drawerToolbar
         setSupportActionBar(toolbar)
@@ -81,7 +84,15 @@ class DrawerActivity : PresenterActivity<DrawerPresenter>() {
                 PrimaryDrawerItem().withName("Настройки").withOnDrawerItemClickListener { view, i, iDrawerItem ->
                     println("Clicked : " + i)
                     false
+                },
+                PrimaryDrawerItem().withName("Выход").withOnDrawerItemClickListener { view, i, iDrawerItem ->
+                    presenter.clickSignOut()
+                    false
                 }
         )
+    }
+
+    override fun startLoginActivity() {
+        startActivity(Intent(this, LoginActivity::class.java))
     }
 }

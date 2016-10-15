@@ -1,6 +1,7 @@
 package ru.mail.sporttogether.dagger.modules
 
 import dagger.Module
+import dagger.Provides
 import ru.mail.sporttogether.app.App
 
 /**
@@ -9,5 +10,7 @@ import ru.mail.sporttogether.app.App
  */
 @Module
 class AndroidModule {
+
+    @Provides
     fun provideContext() = App.context
 }

@@ -35,10 +35,6 @@ import ru.mail.sporttogether.managers.data.ICredentialsManager;
 import ru.mail.sporttogether.managers.headers.HeaderManagerImpl;
 import ru.mail.sporttogether.mvp.views.login.ILoginView;
 import ru.mail.sporttogether.net.api.AuthorizationAPI;
-import ru.mail.sporttogether.net.responses.Response;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by said on 05.10.16.
@@ -59,7 +55,11 @@ public class LoginActivityPresenter implements ILoginPresenter {
     HeaderManagerImpl headerManager;
     @Inject
     AuthManager authManager;
+    @Inject
+    FacebookAuthProvider provider;
     private Lock lock;
+    private static final int RC_PERMISSIONS = 110;
+    private static final int RC_AUTHENTICATION = 111;
 
     public LoginActivityPresenter(final ILoginView view) {
         App.injector.usePresenterComponent().inject(this);
@@ -103,28 +103,10 @@ public class LoginActivityPresenter implements ILoginPresenter {
 
     @Override
     public void onCreate(@Nullable Bundle args) {
-        final Lock.Builder builder = Lock.newBuilder(auth0, new AuthenticationCallback() {
-            @Override
-            public void onAuthentication(Credentials credentials) {
-                Log.d("AUTH", "Logged in");
-
-                credentialsManager.saveCredentials(context, credentials);
-                trySignIn();
-            }
-
-            @Override
-            public void onCanceled() {
-                Log.d("Lock", "User pressed back.");
-            }
-
-            @Override
-            public void onError(LockException error) {
-                Log.d("Lock", "Error");
-            }
-        });
+        final Lock.Builder builder = Lock.newBuilder(auth0, callback);
 
         aClient = new AuthenticationAPIClient(auth0);
-        FacebookAuthProvider provider = new FacebookAuthProvider(aClient);
+        provider.rememberLastLogin(false);
         provider.setPermissions(Arrays.asList("public_profile"));
 
         FacebookAuthHandler handler = new FacebookAuthHandler(provider);
@@ -146,6 +128,26 @@ public class LoginActivityPresenter implements ILoginPresenter {
         }
         trySignIn();
     }
+
+    private AuthenticationCallback callback = new AuthenticationCallback() {
+        @Override
+        public void onAuthentication(Credentials credentials) {
+            Log.d("AUTH", "Logged in");
+
+            credentialsManager.saveCredentials(context, credentials);
+            trySignIn();
+        }
+
+        @Override
+        public void onCanceled() {
+            Log.d("Lock", "User pressed back.");
+        }
+
+        @Override
+        public void onError(LockException error) {
+            Log.d("Lock", "Error");
+        }
+    };
 
     @Override
     public void onDestroy() {
@@ -192,27 +194,5 @@ public class LoginActivityPresenter implements ILoginPresenter {
     @Override
     public void onBackPressed() {
 
-    }
-
-    private void successAuth() {
-        api.updateAuthorization()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Response<Object>>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e("exception", e.getMessage(), e);
-                    }
-
-                    @Override
-                    public void onNext(Response<Object> objectResponse) {
-                        view.startMainActivity();
-                    }
-                });
     }
 }
