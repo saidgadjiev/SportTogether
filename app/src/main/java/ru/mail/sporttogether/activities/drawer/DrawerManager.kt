@@ -11,6 +11,7 @@ import ru.mail.sporttogether.fragments.events.MyEventsFragment
 
 /**
  * Created by Ivan on 12.10.2016.
+ *
  */
 object DrawerManager {
     fun buildAccoundHeader(activity: DrawerActivity): AccountHeader {

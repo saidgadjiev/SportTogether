@@ -7,13 +7,16 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import android.widget.Toast
+import ru.mail.sporttogether.mvp.presenters.IPresenter
 import ru.mail.sporttogether.mvp.views.IView
 
 /**
  * Created by bagrusss on 30.09.16.
  *
  */
-abstract class AbstractActivity : AppCompatActivity(), IView {
+abstract class PresenterActivity<T : IPresenter> : AppCompatActivity(), IView {
+
+    protected lateinit var presenter: T
 
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {

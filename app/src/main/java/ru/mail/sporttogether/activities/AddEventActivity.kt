@@ -7,8 +7,9 @@ import android.os.Bundle
 import ru.mail.sporttogether.R
 import ru.mail.sporttogether.data.binding.event.EventData
 import ru.mail.sporttogether.databinding.ActivityAddEventBinding
+import ru.mail.sporttogether.mvp.presenters.IPresenter
 
-class AddEventActivity : AbstractActivity() {
+class AddEventActivity : PresenterActivity<IPresenter>() {
 
     private val bindingData = EventData()
 

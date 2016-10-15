@@ -7,8 +7,9 @@ import android.util.Log
 import ru.mail.sporttogether.R
 import ru.mail.sporttogether.databinding.ActivityFragmentBinding
 import ru.mail.sporttogether.fragments.events.EventsFragment
+import ru.mail.sporttogether.mvp.presenters.IPresenter
 
-class FragmentActivity : AbstractActivity() {
+class FragmentActivity : PresenterActivity<IPresenter>() {
 
     private lateinit var binding: ActivityFragmentBinding
     private lateinit var toolbar: Toolbar

@@ -35,19 +35,20 @@ android {
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
+        vectorDrawables.useSupportLibrary = true
     }
 
     productFlavors {
         // https://developer.android.com/studio/build/multidex.html
         dev {
-            multiDexEnabled true
+            multiDexEnabled false
             minSdkVersion 21 //не трогать
             buildConfigField "boolean", "ALLOW_SELF_SINGED_SSL", "false"
         }
 
         prod {
             minSdkVersion 15
-            multiDexEnabled true
+            multiDexEnabled false
             buildConfigField "boolean", "ALLOW_SELF_SINGED_SSL", "false"
         }
     }
@@ -99,7 +100,6 @@ dependencies {
 
     compile 'com.google.android.gms:play-services-gcm:9.6.1'
     compile 'com.google.android.gms:play-services-base:9.6.1'
-    compile 'com.google.maps.android:android-maps-utils:0.4+'
 
     compile('com.google.android.gms:play-services-maps:9.6.1') {
         exclude group: 'com.android.support', module: 'support-v4'

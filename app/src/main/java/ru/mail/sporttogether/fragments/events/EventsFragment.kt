@@ -7,17 +7,17 @@ import android.support.v4.view.ViewPager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import ru.mail.sporttogether.activities.AbstractActivity
+import ru.mail.sporttogether.activities.PresenterActivity
 import ru.mail.sporttogether.databinding.FragmentEventsBinding
 import ru.mail.sporttogether.fragments.PresenterFragment
-import ru.mail.sporttogether.mvp.presenters.event.EventsFragmentPresenter
-import ru.mail.sporttogether.mvp.presenters.event.EventsFragmentPresenterImpl
+import ru.mail.sporttogether.mvp.presenters.event.EventsPresenter
+import ru.mail.sporttogether.mvp.presenters.event.EventsFragmentImpl
 
 /**
  * Created by bagrusss on 08.10.16.
  *
  */
-class EventsFragment() : PresenterFragment<EventsFragmentPresenter>() {
+class EventsFragment() : PresenterFragment<EventsPresenter>() {
 
     private lateinit var adapter: FragmentStatePagerAdapter
     private lateinit var binding: FragmentEventsBinding
@@ -25,13 +25,13 @@ class EventsFragment() : PresenterFragment<EventsFragmentPresenter>() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentEventsBinding.inflate(inflater, container, false)
-        presenter = EventsFragmentPresenterImpl()
+        presenter = EventsFragmentImpl()
         pager = binding.pager
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val fragmentManager = (activity as AbstractActivity).supportFragmentManager
+        val fragmentManager = (activity as PresenterActivity<*>).supportFragmentManager
         adapter = EventsFragmentAdapter(fragmentManager, binding.tab)
         pager.adapter = adapter
         pager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(binding.tab))
