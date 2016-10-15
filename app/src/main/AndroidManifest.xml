@@ -19,7 +19,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".activities.MapActivity"
+            android:name=".activities.FragmentActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
 
@@ -43,6 +43,13 @@
             </intent-filter>
         </activity>
         <!-- Auth0 Lock End -->
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name"/>
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
 
         <activity
             android:name="com.auth0.android.provider.WebAuthActivity"
@@ -67,12 +74,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>-->
-        </activity>
-
-        <activity
-            android:name=".activities.FragmentActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-
         </activity>
     </application>
 

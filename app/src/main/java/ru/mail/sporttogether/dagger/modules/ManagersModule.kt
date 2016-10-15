@@ -28,8 +28,8 @@ class ManagersModule {
     @Provides
     fun provideDataManager() = DataManager()
 
-
+    @Singleton
+    @Provides
     fun provideCredentialsManager() = CredentialsManager()
-
 
 }

@@ -1,15 +1,37 @@
 package ru.mail.sporttogether.mvp.presenters.auth;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.auth0.android.Auth0;
+import com.auth0.android.authentication.AuthenticationAPIClient;
+import com.auth0.android.authentication.AuthenticationException;
+import com.auth0.android.callback.BaseCallback;
+import com.auth0.android.facebook.FacebookAuthHandler;
+import com.auth0.android.facebook.FacebookAuthProvider;
+import com.auth0.android.lock.AuthButtonSize;
+import com.auth0.android.lock.AuthenticationCallback;
+import com.auth0.android.lock.InitialScreen;
+import com.auth0.android.lock.Lock;
+import com.auth0.android.lock.UsernameStyle;
+import com.auth0.android.lock.utils.LockException;
+import com.auth0.android.result.Credentials;
+import com.auth0.android.result.UserProfile;
+
 import org.jetbrains.annotations.Nullable;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.inject.Inject;
 
+import ru.mail.sporttogether.activities.LoginActivity;
 import ru.mail.sporttogether.app.App;
-import ru.mail.sporttogether.mvp.presenters.IPresenter;
-import ru.mail.sporttogether.mvp.views.IView;
+import ru.mail.sporttogether.managers.CredentialsManager;
+import ru.mail.sporttogether.mvp.views.login.ILoginView;
 import ru.mail.sporttogether.net.api.AuthorizationAPI;
 import ru.mail.sporttogether.net.responses.Response;
 import rx.Subscriber;
@@ -19,34 +41,95 @@ import rx.schedulers.Schedulers;
 /**
  * Created by said on 05.10.16.
  */
-public class LoginActivityPresenter implements IPresenter {
-    private IView view;
+public class LoginActivityPresenter implements ILoginPresenter {
+    private ILoginView view;
     @Inject
     AuthorizationAPI api;
+    @Inject
+    Context context;
+    @Inject
+    Auth0 auth0;
+    @Inject
+    AuthenticationAPIClient aClient;
+    private Lock lock;
 
-    public LoginActivityPresenter(IView view) {
+    public LoginActivityPresenter(final ILoginView view) {
         App.injector.usePresenterComponent().inject(this);
         this.view = view;
+
+        final Lock.Builder builder = Lock.newBuilder(auth0, new AuthenticationCallback() {
+            @Override
+            public void onAuthentication(Credentials credentials) {
+                Log.d("AUTH", "Logged in");
+
+                CredentialsManager.saveCredentials(context, credentials);
+                view.startMainActivity();
+                successAuth();
+            }
+
+            @Override
+            public void onCanceled() {
+                Log.d("Lock", "User pressed back.");
+            }
+
+            @Override
+            public void onError(LockException error) {
+                Log.d("Lock", "Error");
+            }
+        });
+
+        aClient = new AuthenticationAPIClient(auth0);
+        FacebookAuthProvider provider = new FacebookAuthProvider(aClient);
+        provider.setPermissions(Arrays.asList("public_profile"));
+
+        FacebookAuthHandler handler = new FacebookAuthHandler(provider);
+        builder.closable(true);
+        builder.withAuthHandlers(handler);
+        builder.withAuthButtonSize(AuthButtonSize.SMALL);
+        builder.withUsernameStyle(UsernameStyle.USERNAME);
+        builder.allowLogIn(true);
+        builder.allowSignUp(true);
+        builder.allowForgotPassword(true);
+        builder.initialScreen(InitialScreen.LOG_IN);
+        builder.allowedConnections(generateConnections());
+        builder.setDefaultDatabaseConnection("Username-Password-Authentication");
+        lock = builder.build((Activity) view);
+        if (CredentialsManager.getCredentials(context).getIdToken() == null) {
+            view.startLockActivity(lock);
+
+            return;
+        }
+        trySignIn();
     }
 
-    public void onSuccess() {
-        api.updateAuthorization()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Response<Object>>() {
-                    @Override
-                    public void onCompleted() {
+    private List<String> generateConnections() {
+        List<String> connections = new ArrayList<>();
 
+
+        connections.add("facebook");
+        if (connections.isEmpty()) {
+            connections.add("no-connection");
+        }
+
+        return connections;
+    }
+
+    private void trySignIn() {
+        aClient.tokenInfo(CredentialsManager.getCredentials(context).getIdToken())
+                .start(new BaseCallback<UserProfile, AuthenticationException>() {
+                    @Override
+                    public void onSuccess(final UserProfile payload) {
+                        Log.d("AUTH", "Authomatic login");
+
+                        view.startMainActivity();
                     }
 
                     @Override
-                    public void onError(Throwable e) {
-                        Log.d("exception", e.getMessage(), e);
-                    }
+                    public void onFailure(AuthenticationException error) {
+                        Log.d("AUTH", "Session expired");
 
-                    @Override
-                    public void onNext(Response<Object> objectResponse) {
-                        Log.d("AUTH", "Succes send token to server");
+                        CredentialsManager.deleteCredentials(context);
+                        view.startLockActivity(lock);
                     }
                 });
     }
@@ -58,7 +141,9 @@ public class LoginActivityPresenter implements IPresenter {
 
     @Override
     public void onDestroy() {
-
+        lock.onDestroy((LoginActivity) view);
+        lock = null;
+        view = null;
     }
 
     @Override
@@ -99,5 +184,28 @@ public class LoginActivityPresenter implements IPresenter {
     @Override
     public void onBackPressed() {
 
+    }
+
+    private void successAuth() {
+        api.updateAuthorization()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Response<Object>>() {
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("exception", e.getMessage(), e);
+                    }
+
+                    @Override
+                    public void onNext(Response<Object> objectResponse) {
+                        view.startMainActivity();
+                    }
+                });
     }
 }

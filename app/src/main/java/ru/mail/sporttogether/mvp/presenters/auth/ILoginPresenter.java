@@ -7,5 +7,4 @@ import ru.mail.sporttogether.mvp.presenters.IPresenter;
  */
 
 public interface ILoginPresenter extends IPresenter {
-    void successAuth();
 }
