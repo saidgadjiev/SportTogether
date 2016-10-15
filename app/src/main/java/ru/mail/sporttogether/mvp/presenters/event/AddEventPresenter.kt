@@ -7,5 +7,7 @@ import ru.mail.sporttogether.mvp.presenters.IPresenter
  *
  */
 interface AddEventPresenter : IPresenter {
-    fun addEventClicked(name: String, category: String, lat: String, lng: String)
+    fun addEventClicked(name: String, category: String, lat: Double, lng: Double)
+
+    fun searchCategory(category: String)
 }

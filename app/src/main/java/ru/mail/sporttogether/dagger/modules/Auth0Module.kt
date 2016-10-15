@@ -26,5 +26,5 @@ class Auth0Module {
 
     @Singleton
     @Provides
-    fun provideAuthClient() = AuthenticationAPIClient(auth0)
+    fun provideAuthClient(auth0: Auth0) = AuthenticationAPIClient(auth0)
 }

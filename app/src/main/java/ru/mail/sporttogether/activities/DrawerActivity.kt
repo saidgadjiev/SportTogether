@@ -3,7 +3,6 @@ package ru.mail.sporttogether.activities
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.widget.Toolbar
-import android.util.Log
 import com.mikepenz.materialdrawer.AccountHeader
 import com.mikepenz.materialdrawer.AccountHeaderBuilder
 import com.mikepenz.materialdrawer.Drawer
@@ -24,8 +23,6 @@ class DrawerActivity : PresenterActivity<DrawerPresenter>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        Log.d("#MY " + this.javaClass.simpleName, "in on create")
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_drawer)
         toolbar = binding.drawerToolbar

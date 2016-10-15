@@ -24,6 +24,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -125,7 +126,7 @@ public class LoginActivityPresenter implements ILoginPresenter {
 
         aClient = new AuthenticationAPIClient(auth0);
         FacebookAuthProvider provider = new FacebookAuthProvider(aClient);
-        provider.setPermissions(Arrays.asList("public_profile"));
+        provider.setPermissions(Collections.singletonList("public_profile"));
 
         FacebookAuthHandler handler = new FacebookAuthHandler(provider);
         builder.closable(true);
