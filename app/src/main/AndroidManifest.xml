@@ -6,7 +6,6 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
@@ -54,7 +53,9 @@
         <activity
             android:name="com.auth0.android.provider.WebAuthActivity"
             android:theme="@style/MyLock.Theme" />
-        <activity android:name=".activities.LoginActivity">
+
+        <activity android:name=".activities.LoginActivity"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -67,6 +68,10 @@
             android:value="@string/map_key" />
 
         <activity android:name=".activities.AddEventActivity" />
+        <activity
+            android:name=".activities.drawer.DrawerActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
 
         <activity android:name=".activities.SplashActivity">
             <!--<intent-filter>

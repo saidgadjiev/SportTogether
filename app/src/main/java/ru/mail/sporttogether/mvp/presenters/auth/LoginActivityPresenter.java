@@ -30,7 +30,8 @@ import javax.inject.Inject;
 
 import ru.mail.sporttogether.activities.LoginActivity;
 import ru.mail.sporttogether.app.App;
-import ru.mail.sporttogether.managers.CredentialsManager;
+import ru.mail.sporttogether.managers.data.ICredentialsManager;
+import ru.mail.sporttogether.managers.headers.IHeaderManager;
 import ru.mail.sporttogether.mvp.views.login.ILoginView;
 import ru.mail.sporttogether.net.api.AuthorizationAPI;
 import ru.mail.sporttogether.net.responses.Response;
@@ -51,6 +52,10 @@ public class LoginActivityPresenter implements ILoginPresenter {
     Auth0 auth0;
     @Inject
     AuthenticationAPIClient aClient;
+    @Inject
+    ICredentialsManager credentialsManager;
+    @Inject
+    IHeaderManager headerManager;
     private Lock lock;
 
     public LoginActivityPresenter(final ILoginView view) {
@@ -62,9 +67,8 @@ public class LoginActivityPresenter implements ILoginPresenter {
             public void onAuthentication(Credentials credentials) {
                 Log.d("AUTH", "Logged in");
 
-                CredentialsManager.saveCredentials(context, credentials);
-                view.startMainActivity();
-                successAuth();
+                credentialsManager.saveCredentials(context, credentials);
+                trySignIn();
             }
 
             @Override
@@ -94,7 +98,7 @@ public class LoginActivityPresenter implements ILoginPresenter {
         builder.allowedConnections(generateConnections());
         builder.setDefaultDatabaseConnection("Username-Password-Authentication");
         lock = builder.build((Activity) view);
-        if (CredentialsManager.getCredentials(context).getIdToken() == null) {
+        if (credentialsManager.getCredentials(context).getIdToken() == null) {
             view.startLockActivity(lock);
 
             return;
@@ -115,20 +119,22 @@ public class LoginActivityPresenter implements ILoginPresenter {
     }
 
     private void trySignIn() {
-        aClient.tokenInfo(CredentialsManager.getCredentials(context).getIdToken())
+        aClient.tokenInfo(credentialsManager.getCredentials(context).getIdToken())
                 .start(new BaseCallback<UserProfile, AuthenticationException>() {
                     @Override
                     public void onSuccess(final UserProfile payload) {
                         Log.d("AUTH", "Authomatic login");
 
+                        headerManager.
                         view.startMainActivity();
+                        successAuth();
                     }
 
                     @Override
                     public void onFailure(AuthenticationException error) {
                         Log.d("AUTH", "Session expired");
 
-                        CredentialsManager.deleteCredentials(context);
+                        credentialsManager.deleteCredentials(context);
                         view.startLockActivity(lock);
                     }
                 });
@@ -191,7 +197,6 @@ public class LoginActivityPresenter implements ILoginPresenter {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<Object>>() {
-
                     @Override
                     public void onCompleted() {
 

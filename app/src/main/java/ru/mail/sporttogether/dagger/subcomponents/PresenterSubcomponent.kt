@@ -6,6 +6,7 @@ import ru.mail.sporttogether.mvp.presenters.map.MapPresenterImpl
 
 /**
  * Created by bagrusss on 09.10.16.
+ *
  */
 @Subcomponent
 interface PresenterSubcomponent {

@@ -9,6 +9,7 @@ import com.auth0.android.lock.Lock;
 
 import org.jetbrains.annotations.NotNull;
 
+import ru.mail.sporttogether.activities.drawer.DrawerActivity;
 import ru.mail.sporttogether.mvp.presenters.auth.ILoginPresenter;
 import ru.mail.sporttogether.mvp.presenters.auth.LoginActivityPresenter;
 import ru.mail.sporttogether.mvp.views.login.ILoginView;
@@ -34,7 +35,6 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
 
     @Override
     public void showToast(@NotNull String message, int duration) {
-
     }
 
     @Override
@@ -64,7 +64,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
 
     @Override
     public void startMainActivity() {
-        startActivity(new Intent(LoginActivity.this, FragmentActivity.class));
+        startActivity(new Intent(LoginActivity.this, DrawerActivity.class));
         finish();
     }
 

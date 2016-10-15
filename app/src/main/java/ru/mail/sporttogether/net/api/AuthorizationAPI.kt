@@ -1,7 +1,9 @@
 package ru.mail.sporttogether.net.api
 
-import retrofit2.http.*
-import ru.mail.sporttogether.net.models.*
+import retrofit2.http.DELETE
+import retrofit2.http.GET
+import retrofit2.http.POST
+import ru.mail.sporttogether.net.models.User
 import ru.mail.sporttogether.net.responses.Response
 import rx.Observable
 
@@ -12,7 +14,7 @@ import rx.Observable
 interface AuthorizationAPI {
 
     @POST("auth")
-    fun updateAuthorization(@Body user: User): Observable<Response<Any>>
+    fun updateAuthorization(): Observable<Response<Any>>
 
     @DELETE("auth")
     fun unauthorize(): Observable<Response<Any>>
@@ -21,6 +23,6 @@ interface AuthorizationAPI {
     fun checkAuthorization(): Observable<Response<User>>
 
     @GET("hello/world")
-    fun helloWorld(): Observable<Response<Any>>
+    fun helloWorld(): Observable<String>
 
 }

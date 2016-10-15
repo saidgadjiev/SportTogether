@@ -2,10 +2,13 @@ package ru.mail.sporttogether.dagger.modules
 
 import dagger.Module
 import dagger.Provides
-import ru.mail.sporttogether.managers.CredentialsManager
-import ru.mail.sporttogether.managers.DataManager
-import ru.mail.sporttogether.managers.HeaderManager
 import ru.mail.sporttogether.managers.LocationManager
+import ru.mail.sporttogether.managers.data.CredentialsManagerImpl
+import ru.mail.sporttogether.managers.data.DataManagerImpl
+import ru.mail.sporttogether.managers.data.ICredentialsManager
+import ru.mail.sporttogether.managers.data.IDataManager
+import ru.mail.sporttogether.managers.headers.HeaderManagerImpl
+import ru.mail.sporttogether.managers.headers.IHeaderManager
 import javax.inject.Singleton
 
 /**
@@ -13,23 +16,25 @@ import javax.inject.Singleton
  *
  */
 @Module
-@Singleton
 class ManagersModule {
 
     @Singleton
     @Provides
-    fun provideHeaderManager() = HeaderManager()
+    fun provideLocationManager()
+            = LocationManager()
 
     @Singleton
     @Provides
-    fun provideLocationManager() = LocationManager()
+    fun provideDataManager(): IDataManager
+            = DataManagerImpl()
 
     @Singleton
     @Provides
-    fun provideDataManager() = DataManager()
+    fun provideCredentialsManager(): ICredentialsManager
+            = CredentialsManagerImpl()
 
     @Singleton
     @Provides
-    fun provideCredentialsManager() = CredentialsManager()
-
+    fun provideHeaderManager(locationManager: LocationManager): IHeaderManager
+            = HeaderManagerImpl(locationManager)
 }
