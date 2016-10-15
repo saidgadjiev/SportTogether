@@ -24,8 +24,8 @@ class AddEventPresenterImpl : AddEventPresenter {
     @Inject lateinit var eventsApi: EventsAPI
     @Inject lateinit var categoriesApi: CategoriesAPI
 
-    private lateinit var eventSubscribtion: Subscription
-    private lateinit var categoriesSubscribtion: Subscription
+    private var eventSubscribtion: Subscription? = null
+    private var categoriesSubscribtion: Subscription? = null
 
     constructor(view: IAddEventView) {
         this.view = view
@@ -34,8 +34,8 @@ class AddEventPresenterImpl : AddEventPresenter {
 
     override fun onDestroy() {
         view = null
-        eventSubscribtion.unsubscribe()
-        categoriesSubscribtion.unsubscribe()
+        eventSubscribtion?.unsubscribe()
+        categoriesSubscribtion?.unsubscribe()
     }
 
     override fun searchCategory(category: String) {
@@ -43,7 +43,15 @@ class AddEventPresenterImpl : AddEventPresenter {
     }
 
     override fun addEventClicked(name: String, categoryId: Long, lat: Double, lng: Double) {
-        val event = Event(name = name, categoryId = categoryId, latitude = lat, longtitude = lng)
+        val event = Event(
+                name = name,
+                categoryId = categoryId,
+                latitude = lat,
+                longtitude = lng,
+                description = "some",
+                maxPeople = 0,
+                isEnded = false,
+                date = 0L)
         eventSubscribtion = eventsApi.createEvent(event)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

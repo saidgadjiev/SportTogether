@@ -27,7 +27,7 @@ class AddEventActivity : PresenterActivity<AddEventPresenter>(), IAddEventView, 
 
     private val handler = Handler()
     private lateinit var categoryText: AutoCompleteTextView
-    private lateinit var arrayAdapter: ArrayAdapter<String>
+    private lateinit var arrayAdapter: ArrayAdapter<Category>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
