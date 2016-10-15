@@ -7,7 +7,7 @@ import android.support.annotation.NonNull;
 import com.auth0.android.lock.Lock;
 
 import ru.mail.sporttogether.mvp.presenters.auth.ILoginPresenter;
-import ru.mail.sporttogether.mvp.presenters.auth.LoginActivityPresenter;
+import ru.mail.sporttogether.mvp.presenters.auth.LoginActivityPresenterImpl;
 import ru.mail.sporttogether.mvp.views.login.ILoginView;
 
 public class LoginActivity extends PresenterActivity<ILoginPresenter> implements ILoginView {
@@ -18,7 +18,7 @@ public class LoginActivity extends PresenterActivity<ILoginPresenter> implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        presenter = new LoginActivityPresenter(this);
+        presenter = new LoginActivityPresenterImpl(this);
         presenter.onCreate(savedInstanceState);
     }
 

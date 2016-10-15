@@ -14,8 +14,8 @@ import javax.inject.Singleton
         ManagersModule::class,
         RetrofitModule::class,
         RestModule::class,
-        ContextModule::class,
-        Auth0Module::class))
+        Auth0Module::class,
+        AndroidModule::class))
 interface AppMainComponent {
     fun usePresenterComponent(): PresenterSubcomponent
 }

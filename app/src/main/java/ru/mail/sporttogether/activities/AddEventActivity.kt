@@ -72,7 +72,7 @@ class AddEventActivity : PresenterActivity<AddEventPresenter>(), IAddEventView, 
     override fun onAddButtonClicked() {
         val name = binding.eventName.text.toString()
         val category = binding.category.text.toString()
-        presenter.addEventClicked(name, , lat.toDouble(), lng.toDouble())
+        presenter.addEventClicked(name, 10, lat.toDouble(), lng.toDouble())
     }
 
     override fun onEventAdded(name: String) {

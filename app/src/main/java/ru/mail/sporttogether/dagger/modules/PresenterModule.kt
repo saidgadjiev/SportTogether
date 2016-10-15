@@ -2,7 +2,7 @@ package ru.mail.sporttogether.dagger.modules
 
 import dagger.Module
 import dagger.Provides
-import ru.mail.sporttogether.mvp.presenters.auth.LoginActivityPresenter
+import ru.mail.sporttogether.mvp.presenters.auth.LoginActivityPresenterImpl
 import ru.mail.sporttogether.mvp.views.login.ILoginView
 
 /**
@@ -18,5 +18,5 @@ class PresenterModule {
     }
 
     @Provides
-    fun provideLoginActivity() = LoginActivityPresenter(loginView)
+    fun provideLoginActivity() = LoginActivityPresenterImpl(loginView)
 }
