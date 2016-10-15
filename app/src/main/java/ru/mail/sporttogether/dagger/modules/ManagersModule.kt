@@ -35,7 +35,7 @@ class ManagersModule {
 
     @Singleton
     @Provides
-    fun provideHeaderManager(locationManager: LocationManager): IHeaderManager
+    fun provideHeaderManager(locationManager: LocationManager)
             = HeaderManagerImpl(locationManager)
 
 }
