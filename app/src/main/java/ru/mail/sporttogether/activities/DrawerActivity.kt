@@ -1,21 +1,53 @@
-package ru.mail.sporttogether.activities.drawer
+package ru.mail.sporttogether.activities
 
+import android.databinding.DataBindingUtil
+import android.os.Bundle
+import android.support.v7.widget.Toolbar
+import android.util.Log
 import com.mikepenz.materialdrawer.AccountHeader
 import com.mikepenz.materialdrawer.AccountHeaderBuilder
+import com.mikepenz.materialdrawer.Drawer
 import com.mikepenz.materialdrawer.DrawerBuilder
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem
 import ru.mail.sporttogether.R
+import ru.mail.sporttogether.databinding.ActivityDrawerBinding
 import ru.mail.sporttogether.fragments.events.EventsFragment
 import ru.mail.sporttogether.fragments.events.MyEventsFragment
+import ru.mail.sporttogether.mvp.presenters.drawer.DrawerPresenter
 
-/**
- * Created by Ivan on 12.10.2016.
- *
- */
-object DrawerManager {
-    fun buildAccoundHeader(activity: DrawerActivity): AccountHeader {
-        return AccountHeaderBuilder ()
+class DrawerActivity : PresenterActivity<DrawerPresenter>() {
+
+    private lateinit var binding: ActivityDrawerBinding
+    private lateinit var toolbar: Toolbar
+    private lateinit var mDrawer: Drawer
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        Log.d("#MY " + this.javaClass.simpleName, "in on create")
+
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_drawer)
+        toolbar = binding.drawerToolbar
+        setSupportActionBar(toolbar)
+        setupToolbar(toolbar)
+        supportFragmentManager.beginTransaction()
+                .replace(R.id.drawer_container, EventsFragment.newInstance())
+                .commit()
+        buildDrawer()
+    }
+
+    private fun buildDrawer() {
+        val drawerBuilder: DrawerBuilder = DrawerBuilder()
+                .withActivity(this)
+                .withAccountHeader(buildAccoundHeader(this))
+                .withToolbar(toolbar)
+        setDrawerItems(drawerBuilder, this)
+        mDrawer = drawerBuilder.build()
+    }
+
+    private fun buildAccoundHeader(activity: DrawerActivity): AccountHeader {
+        return AccountHeaderBuilder()
                 .withActivity(activity)
                 .withHeaderBackground(R.drawable.drawer_background)
                 .withTextColor(activity.getColor(R.color.colorAccent))
@@ -28,7 +60,7 @@ object DrawerManager {
 
     }
 
-    fun setDrawerItems(drawerBuilder: DrawerBuilder, activity: DrawerActivity) {
+    private fun setDrawerItems(drawerBuilder: DrawerBuilder, activity: DrawerActivity) {
         val supportFragmentManager = activity.supportFragmentManager
         drawerBuilder.addDrawerItems(
                 //TODO add icons

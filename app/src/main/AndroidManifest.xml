@@ -57,7 +57,7 @@
         <activity android:name=".activities.AddEventActivity" />
 
         <activity
-            android:name=".activities.drawer.DrawerActivity"
+            android:name=".activities.DrawerActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity android:name=".activities.SplashActivity">

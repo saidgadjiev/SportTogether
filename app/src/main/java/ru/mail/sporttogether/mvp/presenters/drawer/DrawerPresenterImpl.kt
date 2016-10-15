@@ -1,4 +1,4 @@
-package ru.mail.sporttogether.mvp.presenters
+package ru.mail.sporttogether.mvp.presenters.drawer
 
 /**
  * Created by bagrusss on 15.10.16.

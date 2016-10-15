@@ -1,6 +1,7 @@
 package ru.mail.sporttogether.dagger.components
 
 import dagger.Component
+import ru.mail.sporttogether.dagger.modules.AndroidModule
 import ru.mail.sporttogether.dagger.modules.ManagersModule
 import ru.mail.sporttogether.dagger.modules.RestModule
 import ru.mail.sporttogether.dagger.modules.RetrofitModule
@@ -15,7 +16,8 @@ import javax.inject.Singleton
 @Component(modules = arrayOf(
         ManagersModule::class,
         RetrofitModule::class,
-        RestModule::class))
+        RestModule::class,
+        AndroidModule::class))
 interface AppMainComponent {
     fun usePresenterComponent(): PresenterSubcomponent
 }
