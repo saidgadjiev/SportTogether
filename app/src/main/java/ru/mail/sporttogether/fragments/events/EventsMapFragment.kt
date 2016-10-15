@@ -8,7 +8,7 @@ import com.google.android.gms.maps.MapView
 import ru.mail.sporttogether.activities.AddEventActivity
 import ru.mail.sporttogether.data.binding.FabListener
 import ru.mail.sporttogether.databinding.ActivityMapBinding
-import ru.mail.sporttogether.fragments.AbstractFragment
+import ru.mail.sporttogether.fragments.PresenterFragment
 import ru.mail.sporttogether.mvp.presenters.map.IMapPresenter
 import ru.mail.sporttogether.mvp.presenters.map.MapPresenterImpl
 import ru.mail.sporttogether.mvp.views.map.IMapView
@@ -17,12 +17,10 @@ import ru.mail.sporttogether.mvp.views.map.IMapView
  * Created by bagrusss on 08.10.16.
  * здесь будут вкладки
  */
-class EventsMapFragment : AbstractFragment(), IMapView, FabListener {
+class EventsMapFragment : PresenterFragment<IMapPresenter>(), IMapView, FabListener {
 
     private lateinit var mapView: MapView
     private lateinit var binding: ActivityMapBinding
-
-    private lateinit var presenter: IMapPresenter
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {

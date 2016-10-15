@@ -9,13 +9,15 @@ import android.view.View
 import android.view.ViewGroup
 import ru.mail.sporttogether.activities.AbstractActivity
 import ru.mail.sporttogether.databinding.FragmentEventsBinding
-import ru.mail.sporttogether.fragments.AbstractFragment
+import ru.mail.sporttogether.fragments.PresenterFragment
+import ru.mail.sporttogether.mvp.presenters.event.EventsFragmentPresenter
+import ru.mail.sporttogether.mvp.presenters.event.EventsFragmentPresenterImpl
 
 /**
  * Created by bagrusss on 08.10.16.
  *
  */
-class EventsFragment : AbstractFragment() {
+class EventsFragment() : PresenterFragment<EventsFragmentPresenter>() {
 
     private lateinit var adapter: FragmentStatePagerAdapter
     private lateinit var binding: FragmentEventsBinding
@@ -23,6 +25,7 @@ class EventsFragment : AbstractFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentEventsBinding.inflate(inflater, container, false)
+        presenter = EventsFragmentPresenterImpl()
         pager = binding.pager
         return binding.root
     }
@@ -33,6 +36,7 @@ class EventsFragment : AbstractFragment() {
         pager.adapter = adapter
         pager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(binding.tab))
         binding.tab.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            
             override fun onTabSelected(tab: TabLayout.Tab) {
                 pager.currentItem = tab.position
             }
