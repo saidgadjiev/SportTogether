@@ -9,6 +9,10 @@ data class Event(
         val categoryId: Long,
         val latitude: Double,
         val longtitude: Double,
-        val id: Long?,
-        val userId: Long
+        val id: Long? = null,
+        val userId: Long? = null,
+        val maxPeople: Int,
+        val description: String,
+        val isEnded: Boolean,
+        val date: Long
 )

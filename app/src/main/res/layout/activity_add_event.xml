@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:text="@{data.lng}" />
 
-        <EditText
+        <AutoCompleteTextView
             android:id="@+id/category"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -5,8 +5,8 @@ import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.os.Handler
-import android.text.Editable
-import android.text.TextWatcher
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import ru.mail.sporttogether.R
 import ru.mail.sporttogether.data.binding.event.EventData
 import ru.mail.sporttogether.data.binding.event.EventListener
@@ -14,6 +14,8 @@ import ru.mail.sporttogether.databinding.ActivityAddEventBinding
 import ru.mail.sporttogether.mvp.presenters.event.AddEventPresenter
 import ru.mail.sporttogether.mvp.presenters.event.AddEventPresenterImpl
 import ru.mail.sporttogether.mvp.views.event.IAddEventView
+import ru.mail.sporttogether.net.models.Category
+import java.util.*
 
 class AddEventActivity : PresenterActivity<AddEventPresenter>(), IAddEventView, EventListener {
 
@@ -23,28 +25,13 @@ class AddEventActivity : PresenterActivity<AddEventPresenter>(), IAddEventView, 
     private lateinit var lat: String
     private lateinit var lng: String
 
-    private val textWatcher = CategoryWatcher()
     private val handler = Handler()
-
-    inner class CategoryWatcher : TextWatcher {
-
-        override fun afterTextChanged(s: Editable) {
-            presenter.searchCategory(s.toString())
-        }
-
-        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
-        }
-
-        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
-        }
-
-    }
+    private lateinit var categoryText: AutoCompleteTextView
+    private lateinit var arrayAdapter: ArrayAdapter<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        presenter = AddEventPresenterImpl()
+        presenter = AddEventPresenterImpl(this)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_add_event)
         binding.data = data
         with(intent) {
@@ -52,21 +39,29 @@ class AddEventActivity : PresenterActivity<AddEventPresenter>(), IAddEventView, 
             lng = getDoubleExtra(KEY_LNG, 0.0).toString()
         }
         setupCoordinates()
+        arrayAdapter = ArrayAdapter(this, android.R.layout.simple_list_item_single_choice)
+        categoryText = binding.category
+        presenter.loadCategories()
     }
 
+    override fun onCategoriesReady(categories: ArrayList<Category>) {
+        arrayAdapter.clear()
+        arrayAdapter.addAll(categories)
+    }
 
     override fun onStart() {
         super.onStart()
-        presenter.onStart()
         binding.listener = this
-        binding.category.addTextChangedListener(textWatcher)
     }
 
     override fun onStop() {
         super.onStop()
-        presenter.onStop()
         binding.listener = null
-        binding.category.removeTextChangedListener(textWatcher)
+    }
+
+    override fun onDestroy() {
+        presenter.onDestroy()
+        super.onDestroy()
     }
 
     private fun setupCoordinates() {
@@ -77,7 +72,7 @@ class AddEventActivity : PresenterActivity<AddEventPresenter>(), IAddEventView, 
     override fun onAddButtonClicked() {
         val name = binding.eventName.text.toString()
         val category = binding.category.text.toString()
-        presenter.addEventClicked(name, category, lat.toDouble(), lng.toDouble())
+        presenter.addEventClicked(name, , lat.toDouble(), lng.toDouble())
     }
 
     override fun onEventAdded(name: String) {
@@ -88,7 +83,7 @@ class AddEventActivity : PresenterActivity<AddEventPresenter>(), IAddEventView, 
     }
 
     override fun showAddError(errorText: String) {
-
+        showToast(errorText)
     }
 
     companion object {
