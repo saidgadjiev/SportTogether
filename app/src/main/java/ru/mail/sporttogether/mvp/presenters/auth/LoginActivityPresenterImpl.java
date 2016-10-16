@@ -17,6 +17,7 @@ import com.auth0.android.lock.Lock;
 import com.auth0.android.lock.utils.LockException;
 import com.auth0.android.result.Credentials;
 import com.auth0.android.result.UserProfile;
+import com.facebook.FacebookSdk;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -77,6 +78,9 @@ public class LoginActivityPresenterImpl implements ILoginPresenter {
     }
 
     private void trySignIn() {
+        if (!FacebookSdk.isInitialized()) {
+            FacebookSdk.sdkInitialize(context);
+        }
         aClient.tokenInfo(credentialsManager.getCredentials(context).getIdToken())
                 .start(new BaseCallback<UserProfile, AuthenticationException>() {
                     @Override
