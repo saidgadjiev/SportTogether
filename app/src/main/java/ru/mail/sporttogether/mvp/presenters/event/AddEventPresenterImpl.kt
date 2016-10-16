@@ -24,6 +24,7 @@ class AddEventPresenterImpl : AddEventPresenter {
     @Inject lateinit var eventsApi: EventsAPI
     @Inject lateinit var categoriesApi: CategoriesAPI
 
+
     private var eventSubscribtion: Subscription? = null
     private var categoriesSubscribtion: Subscription? = null
 
@@ -61,7 +62,8 @@ class AddEventPresenterImpl : AddEventPresenter {
                     }
 
                     override fun onNext(response: Response<Event>) {
-                        view?.onEventAdded(response.data.name)
+                        if (response.code == 0)
+                            view?.onEventAdded(response.data.name)
                     }
 
                     override fun onError(e: Throwable) {

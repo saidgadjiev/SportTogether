@@ -5,9 +5,11 @@ import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import ru.mail.sporttogether.BuildConfig
 import ru.mail.sporttogether.managers.headers.HeaderManagerImpl
 import ru.mail.sporttogether.net.interceptors.SportInterceptor
 import java.util.concurrent.TimeUnit
@@ -28,12 +30,17 @@ class RetrofitModule {
     @Singleton
     @Provides
     fun provideRetrofit(headerManager: HeaderManagerImpl): Retrofit {
+        val logInterceptor = HttpLoggingInterceptor()
+        logInterceptor.level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
         val okBuilder = OkHttpClient.Builder()
                 .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS)
                 .writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS)
                 .connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)
-                .addInterceptor(SportInterceptor(headerManager))
+                .addInterceptor(logInterceptor)
                 .addInterceptor(StethoInterceptor())
+                .addInterceptor(SportInterceptor(headerManager))
+        okBuilder.networkInterceptors().add(StethoInterceptor())
+
         return Retrofit.Builder()
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(GsonBuilder().setLenient().create()))
