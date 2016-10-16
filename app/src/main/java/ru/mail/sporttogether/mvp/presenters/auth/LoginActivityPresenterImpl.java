@@ -11,11 +11,9 @@ import com.auth0.android.authentication.AuthenticationException;
 import com.auth0.android.callback.BaseCallback;
 import com.auth0.android.facebook.FacebookAuthHandler;
 import com.auth0.android.facebook.FacebookAuthProvider;
-import com.auth0.android.lock.AuthButtonSize;
 import com.auth0.android.lock.AuthenticationCallback;
 import com.auth0.android.lock.InitialScreen;
 import com.auth0.android.lock.Lock;
-import com.auth0.android.lock.UsernameStyle;
 import com.auth0.android.lock.utils.LockException;
 import com.auth0.android.result.Credentials;
 import com.auth0.android.result.UserProfile;
@@ -24,7 +22,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -107,17 +104,16 @@ public class LoginActivityPresenterImpl implements ILoginPresenter {
         final Lock.Builder builder = Lock.newBuilder(auth0, callback);
 
         aClient = new AuthenticationAPIClient(auth0);
-        provider.rememberLastLogin(false);
         provider.setPermissions(Arrays.asList("public_profile"));
 
         FacebookAuthHandler handler = new FacebookAuthHandler(provider);
         builder.closable(true);
         builder.withAuthHandlers(handler);
-        builder.withAuthButtonSize(AuthButtonSize.SMALL);
-        builder.withUsernameStyle(UsernameStyle.USERNAME);
-        builder.allowLogIn(true);
-        builder.allowSignUp(true);
-        builder.allowForgotPassword(true);
+        //builder.withAuthButtonSize(AuthButtonSize.SMALL);
+        //builder.withUsernameStyle(UsernameStyle.USERNAME);
+        //builder.allowLogIn(true);
+        //builder.allowSignUp(true);
+        //builder.allowForgotPassword(true);
         builder.initialScreen(InitialScreen.LOG_IN);
         builder.allowedConnections(generateConnections());
         builder.setDefaultDatabaseConnection("Username-Password-Authentication");
