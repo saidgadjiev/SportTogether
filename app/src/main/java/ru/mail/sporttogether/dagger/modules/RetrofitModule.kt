@@ -37,7 +37,6 @@ class RetrofitModule {
                 .writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS)
                 .connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)
                 .addInterceptor(logInterceptor)
-                .addInterceptor(StethoInterceptor())
                 .addInterceptor(SportInterceptor(headerManager))
         okBuilder.networkInterceptors().add(StethoInterceptor())
 
