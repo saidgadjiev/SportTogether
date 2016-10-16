@@ -82,6 +82,7 @@ class MapPresenterImpl :
                     }
 
                     override fun onCompleted() {
+
                     }
 
                 })

@@ -31,7 +31,9 @@ class RetrofitModule {
     @Provides
     fun provideRetrofit(headerManager: HeaderManagerImpl): Retrofit {
         val logInterceptor = HttpLoggingInterceptor()
-        logInterceptor.level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
+        logInterceptor.level = if (BuildConfig.DEBUG)
+                                    HttpLoggingInterceptor.Level.BODY
+                               else HttpLoggingInterceptor.Level.NONE
         val okBuilder = OkHttpClient.Builder()
                 .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS)
                 .writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS)

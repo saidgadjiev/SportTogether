@@ -42,6 +42,7 @@ class AddEventActivity : PresenterActivity<AddEventPresenter>(), IAddEventView, 
         arrayAdapter = ArrayAdapter(this, android.R.layout.simple_list_item_single_choice)
         categoryText = binding.category
         presenter.loadCategories()
+        categoryText.setAdapter(arrayAdapter)
     }
 
     override fun onCategoriesReady(categories: ArrayList<Category>) {
