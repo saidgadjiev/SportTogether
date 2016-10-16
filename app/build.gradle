@@ -108,7 +108,6 @@ dependencies {
         exclude group: 'com.google.android.gms', module: 'play-services-base'
     }
 
-
     //dagger
     compile 'com.google.dagger:dagger:2.7'
     kapt 'com.google.dagger:dagger-compiler:2.7'
@@ -126,9 +125,13 @@ dependencies {
     compile 'io.reactivex:rxjava:1.2.0'
 
     //net
+    compile('com.squareup.retrofit2:retrofit:2.1.0') {
+        exclude module: 'okhttp'
+    }
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
     compile 'com.squareup.okhttp3:logging-interceptor:3.4.1'
+    compile 'com.squareup.okhttp3:okhttp:3.4.1'
     compile 'com.facebook.stetho:stetho-okhttp3:1.4.1'
 
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
