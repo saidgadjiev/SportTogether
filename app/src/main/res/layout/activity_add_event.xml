@@ -47,7 +47,7 @@
             android:id="@+id/category"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="text"
+            android:inputType="textNoSuggestions"
             android:completionThreshold="2"
             android:maxLines="1" />
 
