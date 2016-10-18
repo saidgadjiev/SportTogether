@@ -5,8 +5,6 @@ import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.os.Handler
-import android.view.View
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import ru.mail.sporttogether.R
@@ -22,8 +20,7 @@ import java.util.*
 class AddEventActivity :
         PresenterActivity<AddEventPresenter>(),
         IAddEventView,
-        EventListener,
-        AdapterView.OnItemSelectedListener {
+        EventListener {
 
     private lateinit var binding: ActivityAddEventBinding
     private val data = EventData()
@@ -32,7 +29,7 @@ class AddEventActivity :
     private lateinit var lng: String
 
     private val handler = Handler()
-    private lateinit var categoryText: Spinner
+    private lateinit var categorySpinner: Spinner
     private lateinit var arrayAdapter: ArrayAdapter<Category>
     private var selectedCategory = -1L
 
@@ -47,25 +44,24 @@ class AddEventActivity :
         }
         setupCoordinates()
         arrayAdapter = ArrayAdapter(this, android.R.layout.select_dialog_item)
-        categoryText = binding.categorySpinner
+        categorySpinner = binding.categorySpinner
         presenter.loadCategories()
-        categoryText.adapter = arrayAdapter
+        categorySpinner.adapter = arrayAdapter
     }
 
     override fun onCategoriesReady(categories: ArrayList<Category>) {
         arrayAdapter.clear()
         arrayAdapter.addAll(categories)
+        binding.categorySpinner.setSelection(0)
     }
 
     override fun onStart() {
         super.onStart()
-        binding.categorySpinner.onItemSelectedListener = this
         binding.listener = this
     }
 
     override fun onStop() {
         super.onStop()
-        binding.categorySpinner.onItemSelectedListener = null
         binding.listener = null
     }
 
@@ -80,10 +76,12 @@ class AddEventActivity :
     }
 
     override fun onAddButtonClicked() {
-        if (selectedCategory != -1L) {
-            val name = binding.eventName.text.toString()
-            presenter.addEventClicked(name, selectedCategory, lat.toDouble(), lng.toDouble())
-        } else showToast("Please, select category")
+        val name = binding.eventName.text.toString()
+        presenter.addEventClicked(name,
+                (categorySpinner.selectedItem as Category).id ?: 0,
+                lat.toDouble(),
+                lng.toDouble(),
+                binding.description.text.toString())
     }
 
     override fun onEventAdded(name: String) {
@@ -95,14 +93,6 @@ class AddEventActivity :
 
     override fun showAddError(errorText: String) {
         showToast(errorText)
-    }
-
-    override fun onNothingSelected(parent: AdapterView<*>?) {
-
-    }
-
-    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        selectedCategory = position.toLong()
     }
 
     companion object {

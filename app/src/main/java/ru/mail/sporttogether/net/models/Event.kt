@@ -14,5 +14,6 @@ data class Event(
         val maxPeople: Int,
         val description: String,
         var isEnded: Boolean = false,
-        val date: Long
+        val date: Long,
+        var reports: Int = 0
 )
