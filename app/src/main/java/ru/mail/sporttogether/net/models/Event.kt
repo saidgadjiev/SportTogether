@@ -13,6 +13,6 @@ data class Event(
         val userId: Long? = null,
         val maxPeople: Int,
         val description: String,
-        val isEnded: Boolean,
+        var isEnded: Boolean = false,
         val date: Long
 )

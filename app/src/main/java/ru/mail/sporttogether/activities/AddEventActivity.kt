@@ -5,8 +5,10 @@ import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.os.Handler
+import android.view.View
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
+import android.widget.Spinner
 import ru.mail.sporttogether.R
 import ru.mail.sporttogether.data.binding.event.EventData
 import ru.mail.sporttogether.data.binding.event.EventListener
@@ -17,7 +19,11 @@ import ru.mail.sporttogether.mvp.views.event.IAddEventView
 import ru.mail.sporttogether.net.models.Category
 import java.util.*
 
-class AddEventActivity : PresenterActivity<AddEventPresenter>(), IAddEventView, EventListener {
+class AddEventActivity :
+        PresenterActivity<AddEventPresenter>(),
+        IAddEventView,
+        EventListener,
+        AdapterView.OnItemSelectedListener {
 
     private lateinit var binding: ActivityAddEventBinding
     private val data = EventData()
@@ -26,8 +32,9 @@ class AddEventActivity : PresenterActivity<AddEventPresenter>(), IAddEventView, 
     private lateinit var lng: String
 
     private val handler = Handler()
-    private lateinit var categoryText: AutoCompleteTextView
+    private lateinit var categoryText: Spinner
     private lateinit var arrayAdapter: ArrayAdapter<Category>
+    private var selectedCategory = -1L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,10 +46,10 @@ class AddEventActivity : PresenterActivity<AddEventPresenter>(), IAddEventView, 
             lng = getDoubleExtra(KEY_LNG, 0.0).toString()
         }
         setupCoordinates()
-        arrayAdapter = ArrayAdapter(this, android.R.layout.simple_list_item_single_choice)
-        categoryText = binding.category
+        arrayAdapter = ArrayAdapter(this, android.R.layout.select_dialog_item)
+        categoryText = binding.categorySpinner
         presenter.loadCategories()
-        categoryText.setAdapter(arrayAdapter)
+        categoryText.adapter = arrayAdapter
     }
 
     override fun onCategoriesReady(categories: ArrayList<Category>) {
@@ -52,11 +59,13 @@ class AddEventActivity : PresenterActivity<AddEventPresenter>(), IAddEventView, 
 
     override fun onStart() {
         super.onStart()
+        binding.categorySpinner.onItemSelectedListener = this
         binding.listener = this
     }
 
     override fun onStop() {
         super.onStop()
+        binding.categorySpinner.onItemSelectedListener = null
         binding.listener = null
     }
 
@@ -71,13 +80,14 @@ class AddEventActivity : PresenterActivity<AddEventPresenter>(), IAddEventView, 
     }
 
     override fun onAddButtonClicked() {
-        val name = binding.eventName.text.toString()
-        val category = binding.category.text.toString()
-        presenter.addEventClicked(name, 10, lat.toDouble(), lng.toDouble())
+        if (selectedCategory != -1L) {
+            val name = binding.eventName.text.toString()
+            presenter.addEventClicked(name, selectedCategory, lat.toDouble(), lng.toDouble())
+        } else showToast("Please, select category")
     }
 
     override fun onEventAdded(name: String) {
-        showToast("added")
+        showToast(R.string.event_added)
         handler.postDelayed({
             finish()
         }, 1000)
@@ -85,6 +95,14 @@ class AddEventActivity : PresenterActivity<AddEventPresenter>(), IAddEventView, 
 
     override fun showAddError(errorText: String) {
         showToast(errorText)
+    }
+
+    override fun onNothingSelected(parent: AdapterView<*>?) {
+
+    }
+
+    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        selectedCategory = position.toLong()
     }
 
     companion object {

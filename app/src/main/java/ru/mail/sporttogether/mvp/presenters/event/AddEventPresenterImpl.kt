@@ -43,16 +43,20 @@ class AddEventPresenterImpl : AddEventPresenter {
 
     }
 
-    override fun addEventClicked(name: String, categoryId: Long, lat: Double, lng: Double) {
+    override fun addEventClicked(name: String,
+                                 categoryId: Long,
+                                 lat: Double,
+                                 lng: Double,
+                                 description: String) {
         val event = Event(
                 name = name,
                 categoryId = categoryId,
                 latitude = lat,
                 longtitude = lng,
-                description = "some",
+                description = description,
                 maxPeople = 0,
-                isEnded = false,
-                date = 0L)
+                date = System.currentTimeMillis()) // сделаем выбор времени и даты позже
+
         eventSubscribtion = eventsApi.createEvent(event)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

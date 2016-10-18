@@ -31,7 +31,7 @@ public class LoginActivity extends PresenterActivity<ILoginPresenter> implements
 
     @Override
     public void startMainActivity() {
-        startActivity(new Intent(LoginActivity.this, DrawerActivity.class));
+        startActivity(new Intent(this, DrawerActivity.class));
         finish();
     }
 
