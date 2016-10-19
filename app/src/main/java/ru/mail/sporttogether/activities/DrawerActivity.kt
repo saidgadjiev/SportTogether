@@ -1,6 +1,5 @@
 package ru.mail.sporttogether.activities
 
-import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
@@ -21,13 +20,11 @@ import ru.mail.sporttogether.fragments.events.MyEventsFragment
 import ru.mail.sporttogether.mvp.presenters.drawer.DrawerPresenterImpl
 import ru.mail.sporttogether.mvp.presenters.drawer.IDrawerPresenter
 import ru.mail.sporttogether.mvp.views.drawer.IDrawerView
-import javax.inject.Inject
 
 class DrawerActivity : IDrawerView, PresenterActivity<IDrawerPresenter>() {
     private lateinit var binding: ActivityDrawerBinding
     private lateinit var toolbar: Toolbar
     private lateinit var mDrawer: Drawer
-    @Inject lateinit var context: Context
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,11 +55,11 @@ class DrawerActivity : IDrawerView, PresenterActivity<IDrawerPresenter>() {
         return AccountHeaderBuilder()
                 .withActivity(activity)
                 .withHeaderBackground(R.drawable.drawer_background)
-                .withTextColor(ContextCompat.getColor(context, R.color.colorAccent))
+                .withTextColor(ContextCompat.getColor(this, R.color.colorAccent))
                 .addProfiles(
-                        ProfileDrawerItem().withName("Ivan").withEmail("1@1.1").withTextColor(ContextCompat.getColor(context, R.color.colorPrimary)),
-                        ProfileDrawerItem().withName("Vlad").withEmail("2@2.2").withTextColor(ContextCompat.getColor(context, R.color.colorPrimary)),
-                        ProfileDrawerItem().withName("Said").withEmail("3@3.3").withTextColor(ContextCompat.getColor(context, R.color.colorPrimary))
+                        ProfileDrawerItem().withName("Ivan").withEmail("1@1.1").withTextColor(ContextCompat.getColor(this, R.color.colorPrimary)),
+                        ProfileDrawerItem().withName("Vlad").withEmail("2@2.2").withTextColor(ContextCompat.getColor(this, R.color.colorPrimary)),
+                        ProfileDrawerItem().withName("Said").withEmail("3@3.3").withTextColor(ContextCompat.getColor(this, R.color.colorPrimary))
                 )
                 .withCloseDrawerOnProfileListClick(false)
                 .build()
