@@ -64,6 +64,7 @@ class DrawerActivity : IDrawerView, PresenterActivity<IDrawerPresenter>() {
                         ProfileDrawerItem().withName("Vlad").withEmail("2@2.2").withTextColor(ContextCompat.getColor(context, R.color.colorPrimary)),
                         ProfileDrawerItem().withName("Said").withEmail("3@3.3").withTextColor(ContextCompat.getColor(context, R.color.colorPrimary))
                 )
+                .withCloseDrawerOnProfileListClick(false)
                 .build()
 
     }
