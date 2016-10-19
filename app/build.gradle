@@ -24,7 +24,6 @@ android {
     }
 
     dexOptions {
-        incremental true
         preDexLibraries true //use false if files not exists
         //javaMaxHeapSize "4g" // Use gig increments depending on needs
     }

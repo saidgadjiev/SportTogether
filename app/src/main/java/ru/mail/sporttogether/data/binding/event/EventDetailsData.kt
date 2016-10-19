@@ -15,6 +15,6 @@ class EventDetailsData {
     val isAngred = ObservableBoolean()
     val peopleCount = ObservableField<String>()
     val backgroudTextColor = ObservableField<ColorDrawable>()
-    val description = ObservableField<ColorDrawable>()
+    val description = ObservableField<String>()
     val isEnded = ObservableBoolean()
 }
