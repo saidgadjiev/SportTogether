@@ -4,7 +4,7 @@ apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 24
-    buildToolsVersion "24.0.3"
+    buildToolsVersion "25"
 
     ext.devMinSdkVersion = 19
     //noinspection GradleIdeError
@@ -71,7 +71,6 @@ android {
             versionNameSuffix "_dev"
 
             debuggable true
-
             applicationIdSuffix '.debug'
             versionNameSuffix '-DEBUG'
             resValue "string", "google_maps_api_key", "our key"
@@ -134,7 +133,11 @@ dependencies {
     compile 'com.squareup.okhttp3:okhttp:3.4.1'
     compile 'com.facebook.stetho:stetho-okhttp3:1.4.1'
 
+    //fcm
+    compile 'com.google.firebase:firebase-core:9.6.1'
+    compile 'com.google.firebase:firebase-messaging:9.6.1'
+
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-
-
 }
+
+apply plugin: 'com.google.gms.google-services'

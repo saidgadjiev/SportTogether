@@ -36,10 +36,10 @@ class DrawerActivity : IDrawerView, PresenterActivity<IDrawerPresenter>() {
         toolbar = binding.drawerToolbar
         setSupportActionBar(toolbar)
         setupToolbar(toolbar)
+        buildDrawer()
         supportFragmentManager.beginTransaction()
                 .replace(R.id.drawer_container, EventsFragment.newInstance())
                 .commit()
-        buildDrawer()
     }
 
     private fun buildDrawer() {
@@ -61,6 +61,7 @@ class DrawerActivity : IDrawerView, PresenterActivity<IDrawerPresenter>() {
                         ProfileDrawerItem().withName("Vlad").withEmail("2@2.2").withTextColor(ContextCompat.getColor(this, R.color.colorPrimary)),
                         ProfileDrawerItem().withName("Said").withEmail("3@3.3").withTextColor(ContextCompat.getColor(this, R.color.colorPrimary))
                 )
+                .withCloseDrawerOnProfileListClick(false)
                 .build()
 
     }
