@@ -43,13 +43,17 @@
             android:layout_height="wrap_content"
             android:text="@{data.lng}" />
 
-        <AutoCompleteTextView
-            android:id="@+id/category"
+        <android.support.v7.widget.AppCompatSpinner
+            android:id="@+id/category_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textNoSuggestions"
-            android:completionThreshold="2"
-            android:maxLines="1" />
+            android:hint="@string/description"
+            android:lines="3" />
 
         <Button
             android:id="@+id/add_button"

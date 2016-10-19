@@ -68,7 +68,6 @@ class LoginActivityPresenterImpl : ILoginPresenter {
 
                         headerManager.token = credentialsManager.getCredentials(context).idToken
                         headerManager.clientId = payload.id
-                        view?.startMainActivity()
                         authManager.auth(api, view)
                     }
 

@@ -109,7 +109,7 @@ class MapPresenterImpl :
         lastMarker?.let(Marker::remove)
         map?.let {
             this@MapPresenterImpl.lastPos = latlng
-            view!!.showFab()
+            view?.showFab()
             options.position(latlng).draggable(true)
             lastMarker = it.addMarker(options)
         }
@@ -119,11 +119,11 @@ class MapPresenterImpl :
         if (lastMarker === marker)
             return true
 
-        addEvent(marker)
+        showEventInfo(marker)
         return true
     }
 
-    private fun addEvent(marker: Marker) {
+    private fun showEventInfo(marker: Marker) {
 
     }
 
