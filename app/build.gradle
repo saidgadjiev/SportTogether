@@ -24,7 +24,7 @@ android {
     }
 
     dexOptions {
-        //incremental true
+        incremental true
         preDexLibraries true //use false if files not exists
         //javaMaxHeapSize "4g" // Use gig increments depending on needs
     }
@@ -34,7 +34,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 24
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
         vectorDrawables.useSupportLibrary = true
     }
 
