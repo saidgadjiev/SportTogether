@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "105936969380",
+    "firebase_url": "https://sporttogetherdebug.firebaseio.com",
+    "project_id": "sporttogetherdebug",
+    "storage_bucket": "sporttogetherdebug.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:105936969380:android:f9379e63c118abf0",
+        "android_client_info": {
+          "package_name": "ru.mail.sporttogether.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "105936969380-ab05vrvq9aa5a6l5lif9e004iil6ab6a.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ru.mail.sporttogether.debug",
+            "certificate_hash": "7568AE7188FBF6CE2F0E4F634A631002CBAC3E2A"
+          }
+        },
+        {
+          "client_id": "105936969380-72q2ri2gdnpouctld2goh90dafghl9ss.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJTujtyc2vJ-VdDcleWFpd1JkbvLGVUfs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "105936969380-72q2ri2gdnpouctld2goh90dafghl9ss.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

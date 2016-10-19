@@ -8,5 +8,5 @@ import ru.mail.sporttogether.mvp.views.IView
  */
 interface ILoginView: IView {
     fun startMainActivity()
-    fun startLockActivity(lock: Lock)
+    fun startLockActivity(lock: Lock?)
 }
