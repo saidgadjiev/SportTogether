@@ -12,6 +12,10 @@
             name="listener"
             type="ru.mail.sporttogether.data.binding.event.EventDetailsListener" />
 
+        <variable
+            name="isVisible"
+            type="java.lang.Boolean" />
+
         <import type="android.view.View" />
 
     </data>
@@ -20,7 +24,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/transparent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="@{isVisible? View.VISIBLE : View.GONE}">
 
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
@@ -119,6 +124,7 @@
                         android:background="@{data.isAngred? @color/gray : @color/red}"
                         android:enabled="@{!data.isEnded}"
                         android:onClick="@{() -> listener.onAngryButtonClicked()}"
+                        android:text="@string/angry"
                         android:textColor="@android:color/white"
                         android:visibility="@{data.isAngred? View.GONE : View.VISIBLE}" />
 

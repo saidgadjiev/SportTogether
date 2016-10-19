@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="eventsData"
             type="ru.mail.sporttogether.data.binding.event.EventDetailsData" />
@@ -12,6 +14,11 @@
         <variable
             name="listener"
             type="ru.mail.sporttogether.data.binding.event.EventDetailsListener" />
+
+        <variable
+            name="data"
+            type="ru.mail.sporttogether.data.binding.event.EventMapData" />
+
     </data>
 
     <LinearLayout
@@ -29,7 +36,8 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_gravity="center">
 
             <android.support.v4.view.ViewPager
                 android:id="@+id/pager"
@@ -39,8 +47,10 @@
             </android.support.v4.view.ViewPager>
 
             <include
+                android:id="@+id/include"
                 layout="@layout/event_details_layout"
                 bind:data="@{eventsData}"
+                bind:isVisible="@{data.showDetails}"
                 bind:listener="@{listener}" />
 
         </FrameLayout>
