@@ -50,30 +50,28 @@
             android:layout_below="@+id/item_event_description">
 
             <TextView
-                android:id="@+id/item_event_max_people"
-                android:textColor="@color/md_black_1000"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawablePadding="@dimen/offset_small"
-                android:drawableStart="@drawable/ic_people"
-                android:text="16"/>
-            <TextView
                 android:id="@+id/item_event_now_people"
                 android:textColor="@color/md_black_1000"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@+id/item_event_max_people"
-                android:layout_marginStart="@dimen/offset_large"
                 android:drawablePadding="@dimen/offset_small"
                 android:drawableStart="@drawable/ic_people"
                 android:text="4"/>
+            <TextView
+                android:id="@+id/item_event_max_people"
+                android:textColor="@color/md_black_1000"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/offset_large"
+                android:layout_toEndOf="@+id/item_event_now_people"
+                android:text="16"/>
             <TextView
                 android:id="@+id/item_event_reports"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:drawablePadding="@dimen/offset_small"
-                android:drawableStart="@drawable/ic_people"
+                android:drawableStart="@drawable/ic_report"
                 android:textColor="@color/md_red_900"
                 android:text="7"/>
         </RelativeLayout>
