@@ -4,7 +4,7 @@ apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 24
-    buildToolsVersion "24.0.3"
+    buildToolsVersion "25"
 
     ext.devMinSdkVersion = 19
     //noinspection GradleIdeError
@@ -24,7 +24,6 @@ android {
     }
 
     dexOptions {
-        //incremental true
         preDexLibraries true //use false if files not exists
         //javaMaxHeapSize "4g" // Use gig increments depending on needs
     }
@@ -34,7 +33,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 24
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
         vectorDrawables.useSupportLibrary = true
     }
 

@@ -6,6 +6,7 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import ru.mail.sporttogether.R
 import ru.mail.sporttogether.app.App
+import ru.mail.sporttogether.managers.events.EventsManager
 import ru.mail.sporttogether.mvp.views.map.IMapView
 import ru.mail.sporttogether.net.api.EventsAPI
 import ru.mail.sporttogether.net.models.Event
@@ -33,6 +34,7 @@ class MapPresenterImpl :
     private val options: MarkerOptions = MarkerOptions()
 
     @Inject lateinit var api: EventsAPI
+    @Inject lateinit var eventsManager: EventsManager
 
     constructor(view: IMapView) {
         this.view = view
@@ -89,11 +91,11 @@ class MapPresenterImpl :
     }
 
     private fun addMarkers(data: List<Event>) {
-        map?.let {
-            data.forEach {
-                val latlng = LatLng(it.latitude, it.longtitude)
-                val marker = options.position(latlng).draggable(false)
-                map!!.addMarker(marker)
+        data.forEach {
+            val latlng = LatLng(it.latitude, it.longtitude)
+            val marker = options.position(latlng).draggable(false)
+            map?.let {
+                it.addMarker(marker)
             }
         }
 
@@ -117,14 +119,13 @@ class MapPresenterImpl :
 
     override fun onMarkerClick(marker: Marker): Boolean {
         if (lastMarker === marker)
-            return true
+            return false
 
         showEventInfo(marker)
         return true
     }
 
     private fun showEventInfo(marker: Marker) {
-
     }
 
     override fun onBackPressed() {

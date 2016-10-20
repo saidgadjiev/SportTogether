@@ -1,6 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="eventsData"
+            type="ru.mail.sporttogether.data.binding.event.EventDetailsData" />
+
+        <variable
+            name="listener"
+            type="ru.mail.sporttogether.data.binding.event.EventDetailsListener" />
+
+        <variable
+            name="data"
+            type="ru.mail.sporttogether.data.binding.event.EventMapData" />
+
+    </data>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,12 +34,26 @@
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:elevation="6dp" />
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/pager"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_gravity="center">
 
-        </android.support.v4.view.ViewPager>
+            <android.support.v4.view.ViewPager
+                android:id="@+id/pager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </android.support.v4.view.ViewPager>
+
+            <include
+                android:id="@+id/include"
+                layout="@layout/event_details_layout"
+                bind:data="@{eventsData}"
+                bind:isVisible="@{data.showDetails}"
+                bind:listener="@{listener}" />
+
+        </FrameLayout>
 
     </LinearLayout>
 </layout>
