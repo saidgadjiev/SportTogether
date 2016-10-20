@@ -6,7 +6,7 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import ru.mail.sporttogether.R
 import ru.mail.sporttogether.app.App
-import ru.mail.sporttogether.managers.events.EventsManager
+import ru.mail.sporttogether.managers.events.IEventsManager
 import ru.mail.sporttogether.mvp.views.map.IMapView
 import ru.mail.sporttogether.net.api.EventsAPI
 import ru.mail.sporttogether.net.models.Event
@@ -34,7 +34,7 @@ class MapPresenterImpl :
     private val options: MarkerOptions = MarkerOptions()
 
     @Inject lateinit var api: EventsAPI
-    @Inject lateinit var eventsManager: EventsManager
+    @Inject lateinit var eventsManager: IEventsManager
 
     constructor(view: IMapView) {
         this.view = view

@@ -8,7 +8,7 @@ import ru.mail.sporttogether.managers.data.CredentialsManagerImpl
 import ru.mail.sporttogether.managers.data.DataManagerImpl
 import ru.mail.sporttogether.managers.data.ICredentialsManager
 import ru.mail.sporttogether.managers.data.IDataManager
-import ru.mail.sporttogether.managers.events.EventsManager
+import ru.mail.sporttogether.managers.events.IEventsManager
 import ru.mail.sporttogether.managers.events.EventsManagerImpl
 import ru.mail.sporttogether.managers.headers.HeaderManagerImpl
 import ru.mail.sporttogether.managers.headers.IHeaderManager
@@ -48,7 +48,7 @@ class ManagersModule {
 
     @Singleton
     @Provides
-    fun provideEventsManager(): EventsManager
+    fun provideEventsManager(): IEventsManager
             = EventsManagerImpl()
 
 }

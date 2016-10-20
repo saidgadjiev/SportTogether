@@ -8,7 +8,7 @@ import java.util.*
  * Created by bagrusss on 20.10.16.
  *
  */
-class EventsManagerImpl : EventsManager {
+class EventsManagerImpl : IEventsManager {
 
     override fun swapEvents(events: ArrayList<Event>) {
 

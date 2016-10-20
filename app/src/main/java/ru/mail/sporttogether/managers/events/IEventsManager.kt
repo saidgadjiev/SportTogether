@@ -8,7 +8,7 @@ import java.util.*
  * Created by bagrusss on 20.10.16.
  *
  */
-interface EventsManager {
+interface IEventsManager {
     fun swapEvents(events: ArrayList<Event>)
 
     fun updateEvent(event: Event)
