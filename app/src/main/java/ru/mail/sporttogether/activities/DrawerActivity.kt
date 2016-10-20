@@ -36,10 +36,10 @@ class DrawerActivity : IDrawerView, PresenterActivity<IDrawerPresenter>() {
         toolbar = binding.drawerToolbar
         setSupportActionBar(toolbar)
         setupToolbar(toolbar)
+        buildDrawer()
         supportFragmentManager.beginTransaction()
                 .replace(R.id.drawer_container, EventsFragment.newInstance())
                 .commit()
-        buildDrawer()
     }
 
     private fun buildDrawer() {
