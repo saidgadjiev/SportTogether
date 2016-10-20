@@ -7,5 +7,6 @@ import ru.mail.sporttogether.mvp.presenters.IPresenter
  *
  */
 interface MyEventsPresenter : IPresenter {
+    fun getMyEvents()
 
 }

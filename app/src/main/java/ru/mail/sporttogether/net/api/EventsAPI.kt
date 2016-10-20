@@ -23,4 +23,7 @@ interface EventsAPI {
 
     @GET("event")
     fun getAllEvents(): Observable<Response<EventsResponse>>
+
+    @GET("event/joined")
+    fun getMyEvents(): Observable<Response<EventsResponse>>
 }
