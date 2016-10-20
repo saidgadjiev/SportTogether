@@ -1,6 +1,7 @@
 package ru.mail.sporttogether.mvp.presenters.event
 
 import ru.mail.sporttogether.app.App
+import ru.mail.sporttogether.mvp.presenters.IPresenter
 import ru.mail.sporttogether.mvp.views.event.IListEventView
 import ru.mail.sporttogether.net.api.EventsAPI
 import ru.mail.sporttogether.net.models.EventsResponse
@@ -15,7 +16,7 @@ import javax.inject.Inject
  * Created by bagrusss on 15.10.16.
  *
  */
-class MyEventsPresenterImpl : MyEventsPresenter {
+class MyEventsPresenterImpl : MyEventsPresenter, IPresenter {
     @Inject lateinit var api: EventsAPI
 
     private val view: IListEventView
@@ -27,7 +28,7 @@ class MyEventsPresenterImpl : MyEventsPresenter {
                 .inject(this)
     }
 
-    fun getMyEvents() {
+    override fun getMyEvents() {
         api.getMyEvents()
         .observeOn(AndroidSchedulers.mainThread())
         .subscribeOn(Schedulers.io())
@@ -35,7 +36,7 @@ class MyEventsPresenterImpl : MyEventsPresenter {
             override fun onNext(response: Response<EventsResponse>) {
                 println(response.code)
                 println(response.message)
-                response.data?.forEach { e -> println(e.id) }
+                response.data.forEach { e -> println(e.id) }
                 val list = ArrayList<String>()
                 list.add("1")
                 list.add("2")
