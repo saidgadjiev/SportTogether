@@ -7,14 +7,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import ru.mail.sporttogether.databinding.ItemEventBinding
+import ru.mail.sporttogether.net.models.Event
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * Created by Ivan on 20.10.2016.
  */
 class EventsAdapter : RecyclerView.Adapter<EventsAdapter.ViewHolder> {
-    private lateinit var events: List<String>
+    private lateinit var events: List<Event>
 
-    constructor(events: List<String>) {
+    constructor(events: List<Event>) {
         this.events = events
     }
 
@@ -30,7 +33,12 @@ class EventsAdapter : RecyclerView.Adapter<EventsAdapter.ViewHolder> {
 
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
         if (holder != null) {
-            holder.mText.text = events[position]
+            holder.mName.text = events[position].name
+            holder.mDescription.text = events[position].description
+            holder.mDate.text = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date(events[position].date))
+            holder.mReports.text = events[position].reports.toString()
+            holder.mNowPeople.text = "0"
+            holder.mMaxPeople.text = events[position].maxPeople.toString()
         } else {
             Log.e("#MY " + this.javaClass.simpleName, "holder is null")
         }
@@ -38,6 +46,11 @@ class EventsAdapter : RecyclerView.Adapter<EventsAdapter.ViewHolder> {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val binding: ItemEventBinding = DataBindingUtil.bind(itemView)
-        val mText = binding.itemEventText!!
+        val mName = binding.itemEventName!!
+        val mDescription = binding.itemEventDescription!!
+        val mDate = binding.itemEventDate!!
+        val mReports = binding.itemEventReports!!
+        val mMaxPeople = binding.itemEventMaxPeople!!
+        val mNowPeople = binding.itemEventNowPeople!!
     }
 }

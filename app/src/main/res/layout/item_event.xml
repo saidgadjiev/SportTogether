@@ -2,14 +2,80 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout
+    <RelativeLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="64dp">
-
-        <TextView
-            android:id="@+id/item_event_text"
+        android:padding="@dimen/offset_medium"
+        android:layout_margin="@dimen/offset_medium"
+        android:background="@color/md_white_1000"
+        android:elevation="6dp"
+        android:layout_height="94dp">
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
+            android:layout_height="22dp"
+            android:orientation="horizontal"
+            android:id="@+id/event_item_top_layout">
+            <TextView
+                android:id="@+id/item_event_name"
+                android:textColor="@color/md_black_1000"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:textSize="@dimen/font_large"
+                android:text="Event1"/>
+            <TextView
+                android:id="@+id/item_event_date"
+                android:textColor="@color/md_black_1000"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="@dimen/font_medium"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="17.11.1995"/>
+        </LinearLayout>
+        <TextView
+            android:id="@+id/item_event_description"
+            android:textColor="@color/md_black_1000"
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:textSize="@dimen/font_medium"
+            android:layout_below="@+id/event_item_top_layout"
+            android:layout_marginTop="@dimen/offset_medium"
+            android:text="VirginisDei Genitricis Mariae, beati Michaelis Archangeli, beati Joseph ejusdem beataeVirginis Sponsi, beatorum Apostolorum"/>
+        <RelativeLayout
+            android:id="@+id/item_event_bottom_layout"
+            android:layout_width="match_parent"
+            android:layout_height="16dp"
+            android:layout_marginTop="@dimen/offset_medium"
+            android:layout_below="@+id/item_event_description">
+
+            <TextView
+                android:id="@+id/item_event_max_people"
+                android:textColor="@color/md_black_1000"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="@dimen/offset_small"
+                android:drawableStart="@drawable/ic_people"
+                android:text="16"/>
+            <TextView
+                android:id="@+id/item_event_now_people"
+                android:textColor="@color/md_black_1000"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/item_event_max_people"
+                android:layout_marginStart="@dimen/offset_large"
+                android:drawablePadding="@dimen/offset_small"
+                android:drawableStart="@drawable/ic_people"
+                android:text="4"/>
+            <TextView
+                android:id="@+id/item_event_reports"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:drawablePadding="@dimen/offset_small"
+                android:drawableStart="@drawable/ic_people"
+                android:textColor="@color/md_red_900"
+                android:text="7"/>
+        </RelativeLayout>
+    </RelativeLayout>
 </layout>

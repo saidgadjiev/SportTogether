@@ -13,6 +13,7 @@ import ru.mail.sporttogether.fragments.PresenterFragment
 import ru.mail.sporttogether.mvp.presenters.event.MyEventsPresenter
 import ru.mail.sporttogether.mvp.presenters.event.MyEventsPresenterImpl
 import ru.mail.sporttogether.mvp.views.event.IListEventView
+import ru.mail.sporttogether.net.models.Event
 
 class MyEventsFragment : PresenterFragment<MyEventsPresenter>(), IListEventView {
     private lateinit var binding: FragmentMyEventsBinding
@@ -21,16 +22,17 @@ class MyEventsFragment : PresenterFragment<MyEventsPresenter>(), IListEventView 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentMyEventsBinding.inflate(inflater, container, false)
-        Toast.makeText(activity, "wooow!", Toast.LENGTH_SHORT).show()
-        presenter = MyEventsPresenterImpl(this)
+
         mEventsListView = binding.myEventsRecyclerView
         mEventsListLayoutManager = LinearLayoutManager(activity)
         mEventsListView.layoutManager = mEventsListLayoutManager
+
+        presenter = MyEventsPresenterImpl(this)
         presenter.getMyEvents()
         return binding.root
     }
 
-    override fun loadEvents(events: List<String>) {
+    override fun loadEvents(events: List<Event>) {
         mEventsListView.adapter = EventsAdapter(events)
     }
 
