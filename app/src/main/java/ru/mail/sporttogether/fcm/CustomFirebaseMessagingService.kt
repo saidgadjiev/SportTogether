@@ -6,6 +6,7 @@ import android.support.v7.app.NotificationCompat
 import android.util.Log
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import ru.mail.sporttogether.R
 
 /**
  * Created by said on 17.10.16.
@@ -21,6 +22,7 @@ class CustomFirebaseMessagingService : FirebaseMessagingService() {
         val notification = NotificationCompat.Builder(this)
                 .setContentTitle("Событие")
                 .setContentText(remoteMessage.data.toString())
+                .setSmallIcon(R.drawable.ic_racing_flag)
                 .build()
         val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         manager.notify(10, notification)
