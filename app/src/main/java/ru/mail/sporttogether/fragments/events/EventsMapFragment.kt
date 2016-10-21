@@ -6,13 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.android.gms.maps.MapView
+import ru.mail.sporttogether.R
 import ru.mail.sporttogether.activities.AddEventActivity
+import ru.mail.sporttogether.data.binding.event.EventDetailsData
 import ru.mail.sporttogether.databinding.EventsMapBinding
 import ru.mail.sporttogether.fragments.PresenterFragment
 import ru.mail.sporttogether.mvp.presenters.map.IMapPresenter
 import ru.mail.sporttogether.mvp.presenters.map.MapPresenterImpl
 import ru.mail.sporttogether.mvp.views.map.IMapView
 import ru.mail.sporttogether.net.models.Event
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * Created by bagrusss on 08.10.16.
@@ -25,6 +29,7 @@ class EventsMapFragment :
     private lateinit var mapView: MapView
     private lateinit var binding: EventsMapBinding
     private lateinit var bottomSheet: BottomSheetBehavior<View>
+    private val data = EventDetailsData()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = EventsMapBinding.inflate(inflater, container, false)
@@ -32,6 +37,7 @@ class EventsMapFragment :
         mapView.onCreate(savedInstanceState)
         presenter = MapPresenterImpl(this)
         mapView.getMapAsync(presenter)
+        binding.data = data
         bottomSheet = BottomSheetBehavior.from(binding.bottomSheet)
         bottomSheet.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
@@ -105,7 +111,13 @@ class EventsMapFragment :
         binding.joinFab.hide()
     }
 
-    override fun showInfor(event: Event) {
+    override fun showInfo(event: Event) {
+        data.category.set(event.categoryId.toString())
+        data.name.set(event.name)
+        data.date.set(SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(Date(event.date)))
+        data.description.set(event.description)
+        val people = getString(R.string.users, event.nowPeople, event.maxPeople)
+        data.peopleCount.set(people)
         bottomSheet.isHideable = false
         bottomSheet.state = BottomSheetBehavior.STATE_COLLAPSED
         binding.joinFab.show()

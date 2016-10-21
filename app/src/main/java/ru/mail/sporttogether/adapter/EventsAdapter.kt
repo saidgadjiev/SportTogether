@@ -37,7 +37,7 @@ class EventsAdapter : RecyclerView.Adapter<EventsAdapter.ViewHolder> {
             holder.mDescription.text = events[position].description
             holder.mDate.text = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date(events[position].date))
             holder.mReports.text = events[position].reports.toString()
-            holder.mNowPeople.text = "0"
+            holder.mNowPeople.text = events[position].nowPeople.toString()
             holder.mMaxPeople.text = events[position].maxPeople.toString()
         } else {
             Log.e("#MY " + this.javaClass.simpleName, "holder is null")

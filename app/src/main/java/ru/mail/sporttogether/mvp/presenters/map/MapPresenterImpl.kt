@@ -15,16 +15,14 @@ import ru.mail.sporttogether.net.responses.Response
 import rx.Subscriber
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
+import java.util.*
 import javax.inject.Inject
 
 /**
  * Created by bagrusss on 01.10.16.
  *
  */
-class MapPresenterImpl :
-        IMapPresenter,
-        GoogleMap.OnMapClickListener,
-        GoogleMap.OnMarkerClickListener {
+class MapPresenterImpl : IMapPresenter {
 
     private var map: GoogleMap? = null
     private var view: IMapView? = null
@@ -32,6 +30,8 @@ class MapPresenterImpl :
     private var lastMarker: Marker? = null
     private var lastPos: LatLng? = null
     private val options: MarkerOptions = MarkerOptions()
+
+    private val markerIdEventMap = HashMap<String, Event>()
 
     @Inject lateinit var api: EventsAPI
     @Inject lateinit var eventsManager: IEventsManager
@@ -62,6 +62,7 @@ class MapPresenterImpl :
     }
 
     override fun onMapClick(latlng: LatLng) {
+        view?.hideInfo()
         addMarker(latlng)
     }
 
@@ -71,12 +72,17 @@ class MapPresenterImpl :
         map.isMyLocationEnabled = true
         map.uiSettings.isZoomControlsEnabled = true
         map.setOnMapClickListener(this)
+        map.setOnMarkerClickListener(this)
         api.getAllEvents()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(object : Subscriber<Response<EventsResponse>>() {
                     override fun onNext(response: Response<EventsResponse>) {
-                        addMarkers(response.data)
+                        if (response.code == 0) {
+                            markerIdEventMap.clear()
+                            eventsManager.swapEvents(response.data)
+                            addMarkers(response.data)
+                        }
                     }
 
                     override fun onError(e: Throwable) {
@@ -91,11 +97,12 @@ class MapPresenterImpl :
     }
 
     private fun addMarkers(data: List<Event>) {
-        data.forEach {
-            val latlng = LatLng(it.latitude, it.longtitude)
-            val marker = options.position(latlng).draggable(false)
+        for (event in data) {
+            val latlng = LatLng(event.latitude, event.longtitude)
+            val markerOptions = options.position(latlng).draggable(false)
             map?.let {
-                it.addMarker(marker)
+                val marker = it.addMarker(markerOptions)
+                markerIdEventMap.put(marker.id, event)
             }
         }
 
@@ -118,13 +125,15 @@ class MapPresenterImpl :
     }
 
     override fun onMarkerClick(marker: Marker): Boolean {
-
         showEventInfo(marker)
-        return false
+        return true
     }
 
     private fun showEventInfo(marker: Marker) {
-
+        val event = markerIdEventMap[marker.id]
+        event?.let {
+            view?.showInfo(it)
+        }
     }
 
     override fun onBackPressed() {

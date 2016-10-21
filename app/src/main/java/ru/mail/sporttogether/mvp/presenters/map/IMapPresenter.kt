@@ -1,5 +1,6 @@
 package ru.mail.sporttogether.mvp.presenters.map
 
+import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import ru.mail.sporttogether.data.binding.event.EventDetailsListener
 import ru.mail.sporttogether.mvp.presenters.IPresenter
@@ -11,8 +12,10 @@ import ru.mail.sporttogether.mvp.presenters.IPresenter
 interface IMapPresenter :
         IPresenter,
         OnMapReadyCallback,
-        EventDetailsListener {
+        EventDetailsListener,
+        GoogleMap.OnMapClickListener,
+        GoogleMap.OnMarkerClickListener {
 
     fun fabClicked()
-    
+
 }
