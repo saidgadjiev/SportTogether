@@ -1,5 +1,8 @@
 package ru.mail.sporttogether.fcm
 
+import android.app.NotificationManager
+import android.content.Context
+import android.support.v7.app.NotificationCompat
 import android.util.Log
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
@@ -15,5 +18,11 @@ class CustomFirebaseMessagingService : FirebaseMessagingService() {
         Log.d(TAG, "FCM Message Id: " + remoteMessage.messageId)
         Log.d(TAG, "FCM Notification Message: " + remoteMessage.notification)
         Log.d(TAG, "FCM Data Message: " + remoteMessage.data)
+        val notification = NotificationCompat.Builder(this)
+                .setContentTitle("Событие")
+                .setContentText(remoteMessage.data.toString())
+                .build()
+        val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        manager.notify(10, notification)
     }
 }

@@ -16,7 +16,7 @@ class CustomFirebaseInstanceIdService: FirebaseInstanceIdService() {
 
     override fun onTokenRefresh() {
         val token = FirebaseInstanceId.getInstance().token
-        Log.d(TAG, "FCM Token: " + token + " token")
+        Log.d(TAG, "FCM Token: $token token")
 
         FirebaseMessaging.getInstance().subscribeToTopic(FRIENDLY_ENGAGE_TOPIC)
     }
