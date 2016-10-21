@@ -7,4 +7,5 @@ import ru.mail.sporttogether.mvp.presenters.IPresenter
  *
  */
 interface EventsListPresenter : IPresenter {
+    fun loadEvents()
 }
