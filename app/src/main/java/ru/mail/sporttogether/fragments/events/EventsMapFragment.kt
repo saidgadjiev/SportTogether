@@ -71,6 +71,7 @@ class EventsMapFragment :
         super.onResume()
         mapView.onResume()
         binding.listener = presenter
+        binding.addListener = presenter
         presenter.onResume()
     }
 
@@ -78,6 +79,7 @@ class EventsMapFragment :
         super.onPause()
         mapView.onPause()
         binding.listener = null
+        binding.addListener = null
         presenter.onPause()
     }
 
@@ -118,7 +120,6 @@ class EventsMapFragment :
         data.description.set(event.description)
         val people = getString(R.string.users, event.nowPeople, event.maxPeople)
         data.peopleCount.set(people)
-        bottomSheet.isHideable = false
         bottomSheet.state = BottomSheetBehavior.STATE_COLLAPSED
         binding.joinFab.show()
     }

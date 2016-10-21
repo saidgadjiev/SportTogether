@@ -4,6 +4,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.firebase.iid.FirebaseInstanceId
 import ru.mail.sporttogether.R
 import ru.mail.sporttogether.app.App
 import ru.mail.sporttogether.managers.events.IEventsManager
@@ -108,7 +109,7 @@ class MapPresenterImpl : IMapPresenter {
 
     }
 
-    override fun fabClicked() {
+    override fun onAddButtonClicked() {
         lastPos?.let {
             view?.startAddEventActivity(it.longitude, it.latitude)
         }
@@ -118,7 +119,6 @@ class MapPresenterImpl : IMapPresenter {
         lastMarker?.let(Marker::remove)
         map?.let {
             this@MapPresenterImpl.lastPos = latlng
-            view?.showFab()
             options.position(latlng).draggable(true)
             lastMarker = it.addMarker(options)
         }
@@ -129,9 +129,12 @@ class MapPresenterImpl : IMapPresenter {
         return true
     }
 
+    var lastEventId = 0L
+
     private fun showEventInfo(marker: Marker) {
         val event = markerIdEventMap[marker.id]
         event?.let {
+            lastEventId = it.id!!
             view?.showInfo(it)
         }
     }
@@ -145,7 +148,23 @@ class MapPresenterImpl : IMapPresenter {
     }
 
     override fun onJoinButtonClicked() {
+        api.joinToEvent(lastEventId, FirebaseInstanceId.getInstance().token)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(object : Subscriber<Response<Any>>() {
+                    override fun onNext(t: Response<Any>) {
+                        view?.showToast(android.R.string.ok)
+                    }
 
+                    override fun onCompleted() {
+
+                    }
+
+                    override fun onError(e: Throwable) {
+
+                    }
+
+                })
     }
 
 }

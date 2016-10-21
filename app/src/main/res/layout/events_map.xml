@@ -9,6 +9,10 @@
             type="ru.mail.sporttogether.data.binding.event.EventDetailsListener" />
 
         <variable
+            name="addListener"
+            type="ru.mail.sporttogether.data.binding.event.EventListener" />
+
+        <variable
             name="data"
             type="ru.mail.sporttogether.data.binding.event.EventDetailsData" />
     </data>
@@ -26,6 +30,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/add_event_fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_marginBottom="120dp"
+                android:backgroundTint="@color/red"
+                android:onClick="@{() -> addListener.onAddButtonClicked()}"
+                android:src="@android:drawable/ic_menu_add"
+                android:tint="@android:color/white" />
         </FrameLayout>
 
         <FrameLayout
@@ -80,8 +94,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="5dp"
-                    android:background="@color/green"
-                    android:onClick="@{() -> listener.onAngryButtonClicked()}"
+                    android:background="@color/red"
                     android:text="@string/angry" />
             </LinearLayout>
 
@@ -92,9 +105,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:backgroundTint="@color/red"
+            android:onClick="@{() -> listener.onJoinButtonClicked()}"
             android:src="@android:drawable/ic_menu_add"
             android:tint="@android:color/white"
+            app:backgroundTint="@color/green"
             app:layout_anchor="@+id/bottom_sheet"
             app:layout_anchorGravity="top|end" />
 
