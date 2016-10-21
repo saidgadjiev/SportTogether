@@ -6,6 +6,8 @@ import android.view.View
  * Created by bagrusss on 30.09.16.
  *
  */
-interface FabListener {
+interface EventsMapListener {
     fun onFabClicked(v: View)
+
+    fun onHeaderEventClicked()
 }

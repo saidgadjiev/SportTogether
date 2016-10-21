@@ -17,4 +17,5 @@ class EventDetailsData {
     val backgroudTextColor = ObservableField<ColorDrawable>()
     val description = ObservableField<String>()
     val isEnded = ObservableBoolean()
+    val category = ObservableField<String>()
 }

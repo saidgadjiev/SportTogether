@@ -118,18 +118,25 @@ class MapPresenterImpl :
     }
 
     override fun onMarkerClick(marker: Marker): Boolean {
-        if (lastMarker === marker)
-            return false
 
         showEventInfo(marker)
-        return true
+        return false
     }
 
     private fun showEventInfo(marker: Marker) {
+
     }
 
     override fun onBackPressed() {
         view?.finishView()
+    }
+
+    override fun onAngryButtonClicked() {
+
+    }
+
+    override fun onJoinButtonClicked() {
+
     }
 
 }

@@ -15,5 +15,6 @@ data class Event(
         val description: String,
         var isEnded: Boolean = false,
         val date: Long,
-        var reports: Int = 0
+        var reports: Int = 0,
+        var nowPeople: Int = 0
 )

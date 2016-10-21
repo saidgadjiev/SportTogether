@@ -10,8 +10,10 @@ import java.util.*
  */
 class EventsManagerImpl : IEventsManager {
 
-    override fun swapEvents(events: ArrayList<Event>) {
+    private lateinit var eventsList: ArrayList<Event>
 
+    override fun swapEvents(events: ArrayList<Event>) {
+        eventsList = events
     }
 
     override fun updateEvent(event: Event) {
