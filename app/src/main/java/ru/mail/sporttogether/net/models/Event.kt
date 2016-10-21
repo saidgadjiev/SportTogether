@@ -8,10 +8,10 @@ data class Event(
         val name: String,
         val categoryId: Long,
         val latitude: Double,
-        val longtitude: Double,
+        val longtitude: Double
         val id: Long? = null,
         val userId: Long? = null,
-        val maxPeople: Int,
+        var maxPeople: Int = 0,
         val description: String,
         var isEnded: Boolean = false,
         val date: Long,
