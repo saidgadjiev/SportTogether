@@ -4,12 +4,9 @@ import dagger.Module
 import dagger.Provides
 import ru.mail.sporttogether.managers.LocationManager
 import ru.mail.sporttogether.managers.auth.AuthManager
-import ru.mail.sporttogether.managers.data.CredentialsManagerImpl
-import ru.mail.sporttogether.managers.data.DataManagerImpl
-import ru.mail.sporttogether.managers.data.ICredentialsManager
-import ru.mail.sporttogether.managers.data.IDataManager
+import ru.mail.sporttogether.managers.data.*
 import ru.mail.sporttogether.managers.headers.HeaderManagerImpl
-import ru.mail.sporttogether.managers.headers.IHeaderManager
+import ru.mail.sporttogether.managers.notification.NotificationManager
 import javax.inject.Singleton
 
 /**
@@ -44,4 +41,14 @@ class ManagersModule {
     fun provideAuthManager(): AuthManager
             = AuthManager()
 
+    @Provides
+    @Singleton
+    fun provideNotificationManager()
+            = NotificationManager()
+
+
+    @Provides
+    @Singleton
+    fun provideFCMTokenManager()
+            = FcmTokenManager()
 }

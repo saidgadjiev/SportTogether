@@ -16,14 +16,15 @@ class AuthManager {
     fun auth(api: AuthorizationAPI, view: ILoginView?) {
         api.updateAuthorization().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(object : Subscriber<Response<Any>>() {
             override fun onCompleted() {
-
+                Log.d("AUTH", "completed")
             }
 
             override fun onError(e: Throwable) {
-                Log.e("exception", e.message, e)
+                Log.d("AUTH", e.message, e)
             }
 
             override fun onNext(objectResponse: Response<Any>) {
+                Log.d("AUTH", "onNext")
                 view?.startMainActivity()
             }
         })
@@ -32,14 +33,15 @@ class AuthManager {
     fun unauth(api: AuthorizationAPI, view: IDrawerView?) {
         api.unauthorize().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(object : Subscriber<Response<Any>>() {
             override fun onCompleted() {
-
+                Log.d("AUTH", "completed")
             }
 
             override fun onError(e: Throwable) {
-                Log.e("exception", e.message, e)
+                Log.d("AUTH", e.message, e)
             }
 
             override fun onNext(objectResponse: Response<Any>) {
+                Log.d("AUTH", "onNext")
                 view?.startLoginActivity()
             }
         })

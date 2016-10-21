@@ -3,6 +3,7 @@ package ru.mail.sporttogether.dagger.components
 import dagger.Component
 import ru.mail.sporttogether.dagger.modules.*
 import ru.mail.sporttogether.dagger.subcomponents.PresenterSubcomponent
+import ru.mail.sporttogether.dagger.subcomponents.SharedSubComponent
 import ru.mail.sporttogether.dagger.subcomponents.ViewSubComponent
 import javax.inject.Singleton
 
@@ -20,4 +21,5 @@ import javax.inject.Singleton
 interface AppMainComponent {
     fun usePresenterComponent(): PresenterSubcomponent
     fun useViewComopnent(): ViewSubComponent
+    fun useSharedComponent(): SharedSubComponent
 }

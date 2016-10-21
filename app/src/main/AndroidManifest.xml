@@ -54,7 +54,7 @@
             android:value="@string/facebook_app_id" />
 
         <service
-            android:name=".fcm.CustomFirebaseMessagingService"
+            android:name=".services.CustomFirebaseMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
@@ -62,7 +62,7 @@
         </service>
 
         <service
-            android:name=".fcm.CustomFirebaseInstanceIdService"
+            android:name=".services.CustomFirebaseInstanceIdService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
