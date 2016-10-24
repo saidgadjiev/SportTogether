@@ -1,9 +1,6 @@
 package ru.mail.sporttogether.net.api
 
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
+import retrofit2.http.*
 import ru.mail.sporttogether.net.models.Event
 import ru.mail.sporttogether.net.models.EventsResponse
 import ru.mail.sporttogether.net.responses.Response
@@ -23,4 +20,10 @@ interface EventsAPI {
 
     @GET("event")
     fun getAllEvents(): Observable<Response<EventsResponse>>
+
+    @GET("event/joined")
+    fun getMyEvents(): Observable<Response<EventsResponse>>
+
+    @GET("event/{id}/join")
+    fun joinToEvent(@Path("id") id: Long, @Query("token") token: String?): Observable<Response<Any>>
 }

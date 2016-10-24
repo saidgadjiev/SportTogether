@@ -54,8 +54,8 @@ class AddEventPresenterImpl : AddEventPresenter {
                 latitude = lat,
                 longtitude = lng,
                 description = description,
-                maxPeople = 0,
-                date = System.currentTimeMillis()) // сделаем выбор времени и даты позже
+                maxPeople = 5,
+                date = (System.currentTimeMillis()) + 1000 * 60 * 63)// сделаем выбор времени и даты позже
 
         eventSubscribtion = eventsApi.createEvent(event)
                 .subscribeOn(Schedulers.io())

@@ -11,9 +11,10 @@ data class Event(
         val longtitude: Double,
         val id: Long? = null,
         val userId: Long? = null,
-        val maxPeople: Int,
+        var maxPeople: Int = 0,
         val description: String,
         var isEnded: Boolean = false,
         val date: Long,
-        var reports: Int = 0
+        var reports: Int = 0,
+        var nowPeople: Int = 0
 )

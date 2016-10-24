@@ -18,6 +18,6 @@ class RejectIntentService : IntentService {
     }
 
     override fun onHandleIntent(p0: Intent?) {
-        api.
+
     }
 }

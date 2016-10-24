@@ -10,5 +10,4 @@ import android.widget.ArrayAdapter
 class EventData {
     val lat = ObservableField<String>()
     val lng = ObservableField<String>()
-    val spinnerAdapter = ObservableField<ArrayAdapter<String>>()
 }

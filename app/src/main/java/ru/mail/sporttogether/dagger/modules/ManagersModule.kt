@@ -5,6 +5,8 @@ import dagger.Provides
 import ru.mail.sporttogether.managers.LocationManager
 import ru.mail.sporttogether.managers.auth.AuthManager
 import ru.mail.sporttogether.managers.data.*
+import ru.mail.sporttogether.managers.events.EventsManagerImpl
+import ru.mail.sporttogether.managers.events.IEventsManager
 import ru.mail.sporttogether.managers.headers.HeaderManagerImpl
 import ru.mail.sporttogether.managers.notification.NotificationManager
 import javax.inject.Singleton
@@ -33,7 +35,7 @@ class ManagersModule {
 
     @Singleton
     @Provides
-    fun provideHeaderManager(locationManager: LocationManager)
+    fun provideHeaderManager(locationManager: LocationManager): HeaderManagerImpl
             = HeaderManagerImpl(locationManager)
 
     @Singleton
@@ -51,4 +53,9 @@ class ManagersModule {
     @Singleton
     fun provideFCMTokenManager()
             = FcmTokenManager()
+
+    @Singleton
+    @Provides
+    fun provideEventsManager(): IEventsManager
+            = EventsManagerImpl()
 }

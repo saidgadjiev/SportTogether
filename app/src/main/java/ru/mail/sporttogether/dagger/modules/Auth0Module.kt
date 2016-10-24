@@ -5,6 +5,7 @@ import com.auth0.android.authentication.AuthenticationAPIClient
 import com.auth0.android.facebook.FacebookAuthProvider
 import dagger.Module
 import dagger.Provides
+import ru.mail.sporttogether.mvp.presenters.auth.auth0provider.vkprovider.VKAuthProvider
 import javax.inject.Singleton
 
 /**
@@ -32,5 +33,9 @@ class Auth0Module {
     @Singleton
     @Provides
     fun provideFacebookProvider(aClient: AuthenticationAPIClient) = FacebookAuthProvider(aClient)
+
+    @Singleton
+    @Provides
+    fun provideVkontakteProvider(aClient: AuthenticationAPIClient) = VKAuthProvider(aClient)
 
 }

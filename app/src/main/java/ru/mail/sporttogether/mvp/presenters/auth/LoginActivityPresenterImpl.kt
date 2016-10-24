@@ -9,6 +9,7 @@ import com.auth0.android.authentication.AuthenticationException
 import com.auth0.android.callback.BaseCallback
 import com.auth0.android.facebook.FacebookAuthHandler
 import com.auth0.android.facebook.FacebookAuthProvider
+import com.auth0.android.lock.AuthButtonSize
 import com.auth0.android.lock.AuthenticationCallback
 import com.auth0.android.lock.InitialScreen
 import com.auth0.android.lock.Lock
@@ -21,6 +22,8 @@ import ru.mail.sporttogether.app.App
 import ru.mail.sporttogether.managers.auth.AuthManager
 import ru.mail.sporttogether.managers.data.ICredentialsManager
 import ru.mail.sporttogether.managers.headers.HeaderManagerImpl
+import ru.mail.sporttogether.mvp.presenters.auth.auth0provider.vkprovider.VKAuthProvider
+import ru.mail.sporttogether.mvp.presenters.auth.auth0provider.vkprovider.VkAuthHandler
 import ru.mail.sporttogether.mvp.views.login.ILoginView
 import ru.mail.sporttogether.net.api.AuthorizationAPI
 import java.util.*
@@ -38,7 +41,8 @@ class LoginActivityPresenterImpl : ILoginPresenter {
     @Inject lateinit var credentialsManager: ICredentialsManager
     @Inject lateinit var headerManager: HeaderManagerImpl
     @Inject lateinit var authManager: AuthManager
-    @Inject lateinit var provider: FacebookAuthProvider
+    @Inject lateinit var facebookProvider: FacebookAuthProvider
+    @Inject lateinit var vkProvider: VKAuthProvider
     private var lock: Lock? = null
 
     constructor(view: ILoginView) {
@@ -50,6 +54,7 @@ class LoginActivityPresenterImpl : ILoginPresenter {
         val connections = ArrayList<String>()
 
         connections.add("facebook")
+        connections.add("vkontakte")
         if (connections.isEmpty()) {
             connections.add("no-connection")
         }
@@ -84,12 +89,14 @@ class LoginActivityPresenterImpl : ILoginPresenter {
         val builder = Lock.newBuilder(auth0, callback)
 
         aClient = AuthenticationAPIClient(auth0)
-        provider.setPermissions(Arrays.asList("public_profile"))
+        facebookProvider.setPermissions(Arrays.asList("public_profile"))
 
-        var handler = FacebookAuthHandler(provider)
+        var facebookHandler = FacebookAuthHandler(facebookProvider)
+        var vkHandler = VkAuthHandler(vkProvider)
+
         builder.closable(true)
-        builder.withAuthHandlers(handler)
-        //builder.withAuthButtonSize(AuthButtonSize.SMALL);
+        builder.withAuthHandlers(facebookHandler, vkHandler)
+        builder.withAuthButtonSize(AuthButtonSize.SMALL)
         //builder.withUsernameStyle(UsernameStyle.USERNAME);
         //builder.allowLogIn(true);
         //builder.allowSignUp(true);

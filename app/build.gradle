@@ -118,6 +118,8 @@ dependencies {
     //auth0
     compile 'com.auth0.android:lock:2.0.0'
     compile 'com.auth0.android:lock-facebook:3.0.1'
+    compile 'com.vk:androidsdk:1.6.5'
+    compile 'com.auth0.android:lock-google:1.0.+'
 
     //rx java
     compile 'io.reactivex:rxandroid:1.2.1'

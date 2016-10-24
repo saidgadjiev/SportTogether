@@ -5,6 +5,7 @@ import android.os.Bundle
 import com.auth0.android.lock.Lock
 import ru.mail.sporttogether.mvp.presenters.auth.ILoginPresenter
 import ru.mail.sporttogether.mvp.presenters.auth.LoginActivityPresenterImpl
+import ru.mail.sporttogether.mvp.presenters.auth.auth0.CustomLockActivity
 import ru.mail.sporttogether.mvp.views.login.ILoginView
 
 class LoginActivity: PresenterActivity<ILoginPresenter>(), ILoginView {
@@ -27,6 +28,9 @@ class LoginActivity: PresenterActivity<ILoginPresenter>(), ILoginView {
     }
 
     override fun startLockActivity(lock: Lock?) {
-        startActivity(lock?.newIntent(this))
+        val lockIntent = Intent(this, CustomLockActivity::class.java)
+        
+        lockIntent.putExtra("com.auth0.android.lock.key.Options", lock?.options)
+        startActivity(lockIntent)
     }
 }

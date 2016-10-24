@@ -17,6 +17,7 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_racing_flag"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
@@ -41,17 +42,45 @@
         </activity>
         <!-- Auth0 Lock End -->
 
-        <provider android:authorities="com.facebook.app.FacebookContentProvider134821780315936"
+
+        <!-- Auth0 Lock -->
+        <activity
+            android:name=".mvp.presenters.auth.auth0.CustomLockActivity"
+            android:label="Classic Lock"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyLock.Theme">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="@string/auth0_domain"
+                    android:pathPrefix="/android/ru.mail.sporttogether/callback"
+                    android:scheme="https" />
+            </intent-filter>
+        </activity>
+        <!-- Auth0 Lock End -->
+
+        <provider
             android:name="com.facebook.FacebookContentProvider"
-            android:exported="true"/>
+            android:authorities="com.facebook.app.FacebookContentProvider134821780315936"
+            android:exported="false" />
 
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:label="@string/app_name"/>
+            android:label="@string/app_name" />
+
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
+
+        <activity android:name="com.vk.sdk.VKServiceActivity"
+            android:label="ServiceActivity"
+            android:theme="@style/VK.Transparent" />
 
         <service
             android:name=".services.CustomFirebaseMessagingService"
@@ -89,8 +118,8 @@
         <activity android:name=".activities.AddEventActivity" />
 
         <activity
-        android:name=".activities.DrawerActivity"
-        android:theme="@style/AppTheme.NoActionBar" />
+            android:name=".activities.DrawerActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <activity android:name=".activities.SplashActivity">
             <!--<intent-filter>
