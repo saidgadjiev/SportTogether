@@ -8,7 +8,7 @@ data class Event(
         val name: String,
         val categoryId: Long,
         val latitude: Double,
-        val longtitude: Double
+        val longtitude: Double,
         val id: Long? = null,
         val userId: Long? = null,
         var maxPeople: Int = 0,
