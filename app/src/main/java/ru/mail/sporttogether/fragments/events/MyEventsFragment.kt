@@ -30,7 +30,11 @@ class MyEventsFragment : PresenterFragment<MyEventsPresenter>(), IListEventView 
     }
 
     override fun loadEvents(events: List<Event>) {
-        mEventsListView.adapter = EventsAdapter(events)
+        if (mEventsListView.adapter != null) {
+            mEventsListView.swapAdapter(EventsAdapter(events), true)
+        } else {
+            mEventsListView.adapter = EventsAdapter(events)
+        }
     }
 
     companion object {
