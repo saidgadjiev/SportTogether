@@ -6,6 +6,7 @@ import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.os.Handler
 import android.widget.ArrayAdapter
+import android.widget.EditText
 import android.widget.Spinner
 import ru.mail.sporttogether.R
 import ru.mail.sporttogether.data.binding.event.EventData
@@ -30,6 +31,7 @@ class AddEventActivity :
 
     private val handler = Handler()
     private lateinit var categorySpinner: Spinner
+    private lateinit var categoryAutocomplete: EditText
     private lateinit var arrayAdapter: ArrayAdapter<Category>
     private var selectedCategory = -1L
 
@@ -47,6 +49,11 @@ class AddEventActivity :
         categorySpinner = binding.categorySpinner
         presenter.loadCategories()
         categorySpinner.adapter = arrayAdapter
+
+//        categoryAutocomplete = binding.categoryAutocomplete
+//        RxTextView.textChangeEvents(categoryAutocomplete)
+//                .filter {e -> e.count() > 3}
+//                .subscribe { e -> Log.i("#MY " + javaClass.simpleName, e.text().toString()) }
     }
 
     override fun onCategoriesReady(categories: ArrayList<Category>) {
