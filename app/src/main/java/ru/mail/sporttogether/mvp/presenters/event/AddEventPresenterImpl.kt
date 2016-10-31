@@ -78,7 +78,7 @@ class AddEventPresenterImpl : AddEventPresenter {
     }
 
     override fun loadCategories() {
-        categoriesSubscribtion = categoriesApi.getAllCategoryes()
+        categoriesSubscribtion = categoriesApi.getAllCategoryes() //TODO опечатка
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : Subscriber<Response<CategoriesResponse>>() {
@@ -88,6 +88,28 @@ class AddEventPresenterImpl : AddEventPresenter {
 
                     override fun onNext(response: Response<CategoriesResponse>) {
                         view?.onCategoriesReady(response.data)
+                    }
+
+                    override fun onCompleted() {
+
+                    }
+
+                })
+    }
+
+    override fun loadCategoriesBySubname(subname: String) {
+        categoriesSubscribtion = categoriesApi.getCategoriesBySubname(subname) //TODO опечатка
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(object : Subscriber<Response<CategoriesResponse>>() {
+                    override fun onError(e: Throwable) {
+                        view?.showAddError("Error!")
+                        view?.invisibleCategoryProgressBar()
+                    }
+
+                    override fun onNext(response: Response<CategoriesResponse>) {
+                        view?.onCategoriesLoaded(response.data)
+                        view?.invisibleCategoryProgressBar()
                     }
 
                     override fun onCompleted() {

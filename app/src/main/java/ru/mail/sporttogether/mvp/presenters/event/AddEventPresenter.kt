@@ -18,4 +18,6 @@ interface AddEventPresenter : IPresenter {
 
     fun loadCategories()
 
+    fun loadCategoriesBySubname(subname: String)
+
 }

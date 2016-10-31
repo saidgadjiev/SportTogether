@@ -1,9 +1,6 @@
 package ru.mail.sporttogether.net.api
 
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
+import retrofit2.http.*
 import ru.mail.sporttogether.net.models.CategoriesResponse
 import ru.mail.sporttogether.net.models.Category
 import ru.mail.sporttogether.net.responses.Response
@@ -22,4 +19,7 @@ interface CategoriesAPI {
 
     @GET("category")
     fun getAllCategoryes(): Observable<Response<CategoriesResponse>>
+
+    @GET("category")
+    fun getCategoriesBySubname(@Query("subname") subname: String?): Observable<Response<CategoriesResponse>>
 }

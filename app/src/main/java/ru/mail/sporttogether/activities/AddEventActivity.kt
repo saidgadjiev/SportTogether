@@ -3,11 +3,13 @@ package ru.mail.sporttogether.activities
 import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
+import android.opengl.Visibility
 import android.os.Bundle
 import android.os.Handler
-import android.widget.ArrayAdapter
-import android.widget.EditText
-import android.widget.Spinner
+import android.util.Log
+import android.view.View
+import android.widget.*
+import com.jakewharton.rxbinding.widget.RxTextView
 import ru.mail.sporttogether.R
 import ru.mail.sporttogether.data.binding.event.EventData
 import ru.mail.sporttogether.data.binding.event.EventListener
@@ -22,19 +24,23 @@ class AddEventActivity :
         PresenterActivity<AddEventPresenter>(),
         IAddEventView,
         EventListener {
-
     private lateinit var binding: ActivityAddEventBinding
+
     private val data = EventData()
-
     private lateinit var lat: String
+
     private lateinit var lng: String
-
     private val handler = Handler()
-    private lateinit var categorySpinner: Spinner
-    private lateinit var categoryAutocomplete: EditText
-    private lateinit var arrayAdapter: ArrayAdapter<Category>
-    private var selectedCategory = -1L
 
+    private lateinit var categorySpinner: Spinner
+    private lateinit var arrayAdapter: ArrayAdapter<Category>
+
+    private lateinit var categoryAutocomplete: AutoCompleteTextView
+    private lateinit var categoriesAdapter: ArrayAdapter<Category>
+    private lateinit var loadingCategoriesProgressBar: ProgressBar
+
+
+    private var selectedCategory = -1L
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         presenter = AddEventPresenterImpl(this)
@@ -50,16 +56,47 @@ class AddEventActivity :
         presenter.loadCategories()
         categorySpinner.adapter = arrayAdapter
 
-//        categoryAutocomplete = binding.categoryAutocomplete
-//        RxTextView.textChangeEvents(categoryAutocomplete)
-//                .filter {e -> e.count() > 3}
-//                .subscribe { e -> Log.i("#MY " + javaClass.simpleName, e.text().toString()) }
+        categoriesAdapter = ArrayAdapter(this, android.R.layout.select_dialog_item)
+        categoryAutocomplete = binding.categoryAutocomplete
+        loadingCategoriesProgressBar = binding.categoryAutocompleteProgressBar
+        categoryAutocomplete.setAdapter(categoriesAdapter)
+
+        RxTextView.textChangeEvents(categoryAutocomplete)
+                .filter {e -> e.count() >= 3}
+                .subscribe { e ->
+                    visibleCategoryProgressBar()
+                    Log.d("#MY " + javaClass.simpleName, "start loading categories. subname : " + e.text().toString())
+                    presenter.loadCategoriesBySubname(e.text().toString())
+                    categoryAutocomplete.dismissDropDown()
+                }
     }
 
     override fun onCategoriesReady(categories: ArrayList<Category>) {
         arrayAdapter.clear()
         arrayAdapter.addAll(categories)
         binding.categorySpinner.setSelection(0)
+    }
+
+    override fun onCategoriesLoaded(categories: ArrayList<Category>) {
+        Log.d("#MY " + javaClass.simpleName, "in activity update adapter. Categories size : " + categories.size)
+        categories.forEach{e -> Log.d("#MY " + javaClass.simpleName, e.toString())}
+        categoriesAdapter.clear()
+        categoriesAdapter.addAll(categories)
+        categoryAutocomplete.setAdapter(categoriesAdapter)
+        categoryAutocomplete.showDropDown()
+        Log.d("#MY " + javaClass.simpleName, "size of autocomplete after adding : " + categoryAutocomplete.length())
+
+//        Handler().postDelayed({
+//            Log.d("#MY " + javaClass.simpleName, "when show dropdown categories size : " + categoriesAdapter.count)
+//            invisibleCategoryProgressBar()
+//        }, 1000)
+    }
+
+    override fun visibleCategoryProgressBar() {
+        loadingCategoriesProgressBar.visibility = View.VISIBLE
+    }
+    override fun invisibleCategoryProgressBar() {
+        loadingCategoriesProgressBar.visibility = View.GONE
     }
 
     override fun onStart() {

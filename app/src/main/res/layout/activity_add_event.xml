@@ -48,12 +48,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <EditText
-            android:id="@+id/category_autocomplete"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="autocomplete dev view not works"/>
+            android:layout_height="wrap_content">
 
+            <AutoCompleteTextView
+                android:id="@+id/category_autocomplete"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:completionHint="Если такого типа спорта нет, он будет создан"/>
+            <ProgressBar
+                android:id="@+id/category_autocomplete_progress_bar"
+                style="?android:attr/progressBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@+id/category_autocomplete"
+                android:layout_marginTop="12dp"
+                android:visibility="gone"/>
+        </RelativeLayout>
         <EditText
             android:id="@+id/description"
             android:layout_width="match_parent"
