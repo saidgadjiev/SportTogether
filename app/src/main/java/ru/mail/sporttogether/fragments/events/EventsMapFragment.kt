@@ -39,6 +39,7 @@ class EventsMapFragment :
         mapView.getMapAsync(presenter)
         binding.data = data
         bottomSheet = BottomSheetBehavior.from(binding.bottomSheet)
+        bottomSheet.isHideable = true
         bottomSheet.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
 
@@ -53,33 +54,30 @@ class EventsMapFragment :
         return binding.root
     }
 
-    override fun showFab() {
-        binding.joinFab.visibility = View.VISIBLE
-    }
-
     override fun onStart() {
         super.onStart()
         mapView.onStart()
+        binding.listener = presenter
+        binding.addListener = presenter
     }
 
     override fun onStop() {
         super.onStop()
         mapView.onStop()
+        binding.listener = null
+        binding.addListener = null
     }
 
     override fun onResume() {
         super.onResume()
         mapView.onResume()
-        binding.listener = presenter
-        binding.addListener = presenter
         presenter.onResume()
     }
 
     override fun onPause() {
         super.onPause()
         mapView.onPause()
-        binding.listener = null
-        binding.addListener = null
+
         presenter.onPause()
     }
 
@@ -108,9 +106,7 @@ class EventsMapFragment :
     }
 
     override fun hideInfo() {
-        bottomSheet.isHideable = true
         bottomSheet.state = BottomSheetBehavior.STATE_HIDDEN
-        binding.joinFab.hide()
     }
 
     override fun showInfo(event: Event) {
@@ -121,7 +117,6 @@ class EventsMapFragment :
         val people = getString(R.string.users, event.nowPeople, event.maxPeople)
         data.peopleCount.set(people)
         bottomSheet.state = BottomSheetBehavior.STATE_COLLAPSED
-        binding.joinFab.show()
     }
 
 }

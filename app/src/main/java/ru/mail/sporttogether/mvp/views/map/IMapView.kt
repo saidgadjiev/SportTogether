@@ -10,8 +10,6 @@ import ru.mail.sporttogether.net.models.Event
 interface IMapView : IView {
     fun startAddEventActivity(lng: Double, lat: Double)
 
-    fun showFab()
-
     fun finishView()
 
     fun hideInfo()

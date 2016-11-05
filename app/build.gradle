@@ -95,10 +95,15 @@ dependencies {
         transitive = true
     }
 
-    kapt 'com.android.databinding:compiler:2.2.0'
+    kapt 'com.android.databinding:compiler:2.2.2'
+
 
     compile 'com.google.android.gms:play-services-gcm:9.6.1'
     compile 'com.google.android.gms:play-services-base:9.6.1'
+    compile 'com.google.android.gms:play-services-location:9.6.1'
+
+    compile 'com.google.maps.android:android-maps-utils:0.4+'
+
 
     compile('com.google.android.gms:play-services-maps:9.6.1') {
         exclude group: 'com.android.support', module: 'support-v4'
