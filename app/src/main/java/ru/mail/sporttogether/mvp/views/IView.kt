@@ -19,4 +19,7 @@ interface IView {
     fun showProgressDialog()
     fun hideProgressDialog()
 
+    fun requestForPermissions(permissions: List<String>, requestCode: Int)
+
+
 }

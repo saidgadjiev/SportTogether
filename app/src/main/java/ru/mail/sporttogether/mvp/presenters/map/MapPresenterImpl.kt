@@ -1,5 +1,8 @@
 package ru.mail.sporttogether.mvp.presenters.map
 
+import android.Manifest
+import android.location.Location
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
@@ -7,6 +10,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.iid.FirebaseInstanceId
 import ru.mail.sporttogether.R
 import ru.mail.sporttogether.app.App
+import ru.mail.sporttogether.managers.LocationManager
 import ru.mail.sporttogether.managers.events.IEventsManager
 import ru.mail.sporttogether.mvp.views.map.IMapView
 import ru.mail.sporttogether.net.api.EventsAPI
@@ -31,11 +35,13 @@ class MapPresenterImpl : IMapPresenter {
     private var lastMarker: Marker? = null
     private var lastPos: LatLng? = null
     private val options: MarkerOptions = MarkerOptions()
+    private var lastEventId = 0L
 
     private val markerIdEventMap = HashMap<String, Event>()
 
     @Inject lateinit var api: EventsAPI
     @Inject lateinit var eventsManager: IEventsManager
+    @Inject lateinit var locationManager: LocationManager
 
     constructor(view: IMapView) {
         this.view = view
@@ -70,10 +76,21 @@ class MapPresenterImpl : IMapPresenter {
     override fun onMapReady(map: GoogleMap) {
         this.map = map
         map.isBuildingsEnabled = true
-        map.isMyLocationEnabled = true
         map.uiSettings.isZoomControlsEnabled = true
         map.setOnMapClickListener(this)
         map.setOnMarkerClickListener(this)
+        locationManager.locationUpdate.subscribe { location ->
+            onLocationUpdated(location)
+        }
+        if (!locationManager.checkForPermissions()) {
+            val permissions = Arrays.asList(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
+            view?.requestForPermissions(permissions, REQUEST_CODE)
+        } else {
+            locationManager.getLocation()?.let {
+                showMe(it)
+            }
+            locationManager.update()
+        }
         api.getAllEvents()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -93,8 +110,19 @@ class MapPresenterImpl : IMapPresenter {
                     override fun onCompleted() {
 
                     }
-
                 })
+    }
+
+    private fun onLocationUpdated(location: Location) {
+        showMe(location)
+    }
+
+    private fun showMe(location: Location) {
+        map?.let {
+            val latlng = LatLng(location.latitude, location.longitude)
+            it.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, 17f))
+        }
+
     }
 
     private fun addMarkers(data: List<Event>) {
@@ -118,7 +146,7 @@ class MapPresenterImpl : IMapPresenter {
     private fun addMarker(latlng: LatLng) {
         lastMarker?.let(Marker::remove)
         map?.let {
-            this@MapPresenterImpl.lastPos = latlng
+            lastPos = latlng
             options.position(latlng).draggable(true)
             lastMarker = it.addMarker(options)
         }
@@ -128,8 +156,6 @@ class MapPresenterImpl : IMapPresenter {
         showEventInfo(marker)
         return true
     }
-
-    var lastEventId = 0L
 
     private fun showEventInfo(marker: Marker) {
         val event = markerIdEventMap[marker.id]
@@ -180,6 +206,16 @@ class MapPresenterImpl : IMapPresenter {
                     }
 
                 })
+    }
+
+    override fun onPermissionsGranted(requestCode: Int) {
+        if (requestCode === REQUEST_CODE) {
+            locationManager.update(false)
+        }
+    }
+
+    companion object {
+        @JvmStatic private val REQUEST_CODE = 1002
     }
 
 }

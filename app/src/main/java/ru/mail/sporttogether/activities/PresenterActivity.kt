@@ -1,6 +1,8 @@
 package ru.mail.sporttogether.activities
 
+import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.support.annotation.CallSuper
 import android.support.annotation.StringRes
@@ -23,7 +25,7 @@ import ru.mail.sporttogether.mvp.views.IView
 abstract class PresenterActivity<T : IPresenter> : AppCompatActivity(), IView {
 
     protected lateinit var presenter: T
-    protected val injector = App.injector.useViewComopnent()
+    protected val injector = App.injector.useViewComponent()
 
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -89,6 +91,23 @@ abstract class PresenterActivity<T : IPresenter> : AppCompatActivity(), IView {
     fun setupToolbar(toolbar: Toolbar) {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    override fun requestForPermissions(permissions: List<String>, requestCode: Int) {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
+            requestForPermissions(permissions, requestCode)
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        var isEverythingAllowed = true
+        for (result in grantResults) {
+            isEverythingAllowed = isEverythingAllowed and (result == PackageManager.PERMISSION_GRANTED)
+        }
+
+        if (isEverythingAllowed)
+            presenter.onPermissionsGranted(requestCode)
+        else presenter.onPermissionNotGranted(requestCode)
     }
 
 }

@@ -45,7 +45,7 @@ class DrawerActivity : IDrawerView, PresenterActivity<IDrawerPresenter>() {
                 .withActivity(this)
                 .withAccountHeader(buildAccountHeader(this))
                 .withToolbar(toolbar)
-        setDrawerItems(drawerBuilder, this)
+        setDrawerItems(drawerBuilder)
         mDrawer = drawerBuilder.build()
     }
 
@@ -64,7 +64,7 @@ class DrawerActivity : IDrawerView, PresenterActivity<IDrawerPresenter>() {
 
     }
 
-    private fun setDrawerItems(drawerBuilder: DrawerBuilder, activity: DrawerActivity) {
+    private fun setDrawerItems(drawerBuilder: DrawerBuilder) {
         drawerBuilder.addDrawerItems(
                 //TODO add icons
                 PrimaryDrawerItem().withName("Карта").withOnDrawerItemClickListener { view, i, iDrawerItem ->

@@ -15,5 +15,4 @@ interface IMapView : IView {
     fun hideInfo()
 
     fun showInfo(event: Event)
-
 }
