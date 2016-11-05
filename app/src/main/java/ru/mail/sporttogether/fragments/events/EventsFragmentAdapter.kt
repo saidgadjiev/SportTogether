@@ -18,13 +18,16 @@ class EventsFragmentAdapter : FragmentStatePagerAdapter {
         this.tabs = tabs
         tabs.addTab(tabs.newTab().setText(R.string.events_map))
         tabs.addTab(tabs.newTab().setText(R.string.events_list))
+        tabs.addTab(tabs.newTab().setText(R.string.my_events))
         tabs.tabGravity = TabLayout.GRAVITY_FILL
     }
 
     override fun getItem(position: Int): Fragment {
         return when (position) {
             0 -> EventsMapFragment()
-            else -> EventsListFragment()
+            1 -> EventsListFragment()
+            2 -> MyEventsFragment()
+            else -> throw IllegalStateException("unknown position of fragment $position")
         }
     }
 

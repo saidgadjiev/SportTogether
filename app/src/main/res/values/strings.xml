@@ -6,6 +6,7 @@
     <string name="event_added">Событие добавлено</string>
     <string name="events_map">Карта событий</string>
     <string name="events_list">Список событий</string>
+    <string name="my_events">Мои события</string>
     <string name="auth0_preferences">AUTH0_SHARED_PREFERENCES_KEY</string>
 
     <string name="cant_get_events">Не удалось получить список событий</string>

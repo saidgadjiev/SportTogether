@@ -12,6 +12,7 @@ import android.widget.Toast
 import com.facebook.share.model.ShareLinkContent
 import com.facebook.share.widget.ShareDialog
 import ru.mail.sporttogether.R
+import ru.mail.sporttogether.app.App
 import ru.mail.sporttogether.mvp.presenters.IPresenter
 import ru.mail.sporttogether.mvp.views.IView
 
@@ -22,6 +23,7 @@ import ru.mail.sporttogether.mvp.views.IView
 abstract class PresenterActivity<T : IPresenter> : AppCompatActivity(), IView {
 
     protected lateinit var presenter: T
+    protected val injector = App.injector.useViewComopnent()
 
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
