@@ -11,6 +11,7 @@ import android.view.View
 import android.widget.*
 import com.jakewharton.rxbinding.widget.RxTextView
 import ru.mail.sporttogether.R
+import ru.mail.sporttogether.adapter.CategoriesAdapter
 import ru.mail.sporttogether.data.binding.event.EventData
 import ru.mail.sporttogether.data.binding.event.EventListener
 import ru.mail.sporttogether.databinding.ActivityAddEventBinding
@@ -36,6 +37,7 @@ class AddEventActivity :
     private lateinit var arrayAdapter: ArrayAdapter<Category>
 
     private lateinit var categoryAutocomplete: AutoCompleteTextView
+    private var categoriesArray: ArrayList<Category> = ArrayList()
     private lateinit var categoriesAdapter: ArrayAdapter<Category>
     private lateinit var loadingCategoriesProgressBar: ProgressBar
 
@@ -56,18 +58,32 @@ class AddEventActivity :
         presenter.loadCategories()
         categorySpinner.adapter = arrayAdapter
 
-        categoriesAdapter = ArrayAdapter(this, android.R.layout.select_dialog_item)
+
+//        categoriesArray.add(Category(1, "cat1"))
+//        categoriesArray.add(Category(2, "category"))
+//        categoriesArray.add(Category(3, "my_category"))
+//        categoriesArray.add(Category(4, "test_c"))
+//        categoriesArray.add(Category(5, "cag"))
+        categoriesAdapter = CategoriesAdapter(this, android.R.layout.select_dialog_item, categoriesArray)
         categoryAutocomplete = binding.categoryAutocomplete
-        loadingCategoriesProgressBar = binding.categoryAutocompleteProgressBar
         categoryAutocomplete.setAdapter(categoriesAdapter)
+//        categoriesAdapter = ArrayAdapter(this, android.R.layout.select_dialog_item)
+//        categoriesAdapter.setNotifyOnChange(true)
+        loadingCategoriesProgressBar = binding.categoryAutocompleteProgressBar
+//        categoryAutocomplete.setAdapter(categoriesAdapter)
 
         RxTextView.textChangeEvents(categoryAutocomplete)
-                .filter {e -> e.count() >= 3}
+                .filter {e -> e.count() == 3}
                 .subscribe { e ->
+                    Log.d("#MY " + javaClass.simpleName, "start loading categories. subname : " + e.text())
+//                    val arrayList = ArrayList<Category>()
+//                    arrayList.add(Category(5, "added_category"))
+//                    arrayList.add(Category(6, "added_category2"))
+//                    arrayList.add(Category(7, "added_category3"))
+//                    categoriesAdapter.clear()
+//                    categoriesAdapter.addAll(arrayList)
                     visibleCategoryProgressBar()
-                    Log.d("#MY " + javaClass.simpleName, "start loading categories. subname : " + e.text().toString())
                     presenter.loadCategoriesBySubname(e.text().toString())
-                    categoryAutocomplete.dismissDropDown()
                 }
     }
 
@@ -78,13 +94,12 @@ class AddEventActivity :
     }
 
     override fun onCategoriesLoaded(categories: ArrayList<Category>) {
-        Log.d("#MY " + javaClass.simpleName, "in activity update adapter. Categories size : " + categories.size)
-        categories.forEach{e -> Log.d("#MY " + javaClass.simpleName, e.toString())}
+        Log.d("#MY " + javaClass.simpleName, "in activity update adapter. Categories size : " + categoriesArray.size)
+        categories.forEach{e -> Log.d("#MY " + javaClass.simpleName, "loaded category : " + e.name)}
         categoriesAdapter.clear()
         categoriesAdapter.addAll(categories)
-        categoryAutocomplete.setAdapter(categoriesAdapter)
-        categoryAutocomplete.showDropDown()
-        Log.d("#MY " + javaClass.simpleName, "size of autocomplete after adding : " + categoryAutocomplete.length())
+//        categoriesAdapter.clear()
+//        categoriesAdapter.addAll(categories)
 
 //        Handler().postDelayed({
 //            Log.d("#MY " + javaClass.simpleName, "when show dropdown categories size : " + categoriesAdapter.count)
