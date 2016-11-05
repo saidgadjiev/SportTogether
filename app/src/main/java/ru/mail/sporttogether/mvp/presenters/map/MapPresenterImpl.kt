@@ -144,7 +144,22 @@ class MapPresenterImpl : IMapPresenter {
     }
 
     override fun onAngryButtonClicked() {
+        api.report(lastEventId)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(object : Subscriber<Response<Any>>() {
+                    override fun onCompleted() {
 
+                    }
+
+                    override fun onError(e: Throwable) {
+                        view?.showToast("Произошла ошибка")
+                    }
+
+                    override fun onNext(t: Response<Any>) {
+                        view?.showToast(android.R.string.ok)
+                    }
+                })
     }
 
     override fun onJoinButtonClicked() {

@@ -105,9 +105,10 @@
                     <Button
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_margin="16dp"
                         android:background="@color/green"
                         android:onClick="@{() -> listener.onJoinButtonClicked()}"
-                        android:padding="16dp"
+                        android:padding="8dp"
                         android:text="@string/join"
                         android:textColor="@color/md_white_1000" />
 
@@ -116,8 +117,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:layout_margin="16dp"
                         android:background="@color/red"
-                        android:padding="16dp"
+                        android:onClick="@{() -> listener.onAngryButtonClicked()}"
+                        android:padding="8dp"
                         android:text="@string/angry"
                         android:textColor="@color/md_white_1000" />
                 </LinearLayout>
