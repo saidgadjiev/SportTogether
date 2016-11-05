@@ -1,5 +1,6 @@
 package ru.mail.sporttogether.dagger.modules
 
+import android.content.Context
 import dagger.Module
 import dagger.Provides
 import ru.mail.sporttogether.managers.LocationManager
@@ -8,10 +9,9 @@ import ru.mail.sporttogether.managers.data.CredentialsManagerImpl
 import ru.mail.sporttogether.managers.data.DataManagerImpl
 import ru.mail.sporttogether.managers.data.ICredentialsManager
 import ru.mail.sporttogether.managers.data.IDataManager
-import ru.mail.sporttogether.managers.events.IEventsManager
 import ru.mail.sporttogether.managers.events.EventsManagerImpl
+import ru.mail.sporttogether.managers.events.IEventsManager
 import ru.mail.sporttogether.managers.headers.HeaderManagerImpl
-import ru.mail.sporttogether.managers.headers.IHeaderManager
 import javax.inject.Singleton
 
 /**
@@ -23,8 +23,8 @@ class ManagersModule {
 
     @Singleton
     @Provides
-    fun provideLocationManager()
-            = LocationManager()
+    fun provideLocationManager(context: Context)
+            = LocationManager(context)
 
     @Singleton
     @Provides
