@@ -23,7 +23,9 @@ import ru.mail.sporttogether.net.api.EventsAPI
 import ru.mail.sporttogether.net.models.Event
 import ru.mail.sporttogether.net.models.EventsResponse
 import ru.mail.sporttogether.net.responses.Response
+import rx.Observable
 import rx.Subscriber
+import rx.Subscription
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import java.util.*
@@ -39,7 +41,7 @@ class MapPresenterImpl : IMapPresenter {
     private var view: IMapView? = null
 
     private var lastMarker: Marker? = null
-    private var lastPos: LatLng? = null
+    private lateinit var lastPos: LatLng
     private val options: MarkerOptions = MarkerOptions()
     private var lastEventId = 0L
 
@@ -48,6 +50,8 @@ class MapPresenterImpl : IMapPresenter {
     @Inject lateinit var api: EventsAPI
     @Inject lateinit var eventsManager: IEventsManager
     @Inject lateinit var locationManager: LocationManager
+
+    private var apiSubscribtion: Subscription? = null
 
     constructor(view: IMapView) {
         this.view = view
@@ -100,7 +104,6 @@ class MapPresenterImpl : IMapPresenter {
 
     override fun onMapClick(latlng: LatLng) {
         view?.hideInfo()
-        addMarker(latlng)
     }
 
     override fun onCameraMoveStarted(p0: Int) {
@@ -108,8 +111,40 @@ class MapPresenterImpl : IMapPresenter {
     }
 
     override fun onCameraIdle(x: Int, y: Int) {
-        val latlng = map?.projection!!.fromScreenLocation(Point(x, y))
-        
+        lastPos = map?.projection!!.fromScreenLocation(Point(x, y))
+        apiSubscribtion?.unsubscribe()
+        apiSubscribtion = calculateScale(lastPos, x)
+                .subscribeOn(Schedulers.computation())
+                .switchMap { distance ->
+                    api.getEventsByDistanceAndPosition(distance, lastPos.latitude, lastPos.longitude)
+                }
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(object : Subscriber<Response<EventsResponse>>() {
+                    override fun onError(e: Throwable?) {
+                        view?.showToast(R.string.cant_get_events)
+                    }
+
+                    override fun onNext(response: Response<EventsResponse>) {
+                        markerIdEventMap.clear()
+                        eventsManager.swapEvents(response.data)
+                        addMarkers(response.data)
+                    }
+
+                    override fun onCompleted() {
+
+                    }
+
+                })
+    }
+
+    //будем брать по ширине экрана дистанцию
+    fun calculateScale(latlng: LatLng, distance: Int): Observable<Double> {
+        val res = map?.let {
+            val kmPerPixel = 156.54303392 * Math.cos(latlng.latitude * Math.PI / 180) / Math.pow(2.0, it.cameraPosition.zoom.toDouble())
+            kmPerPixel * distance
+        } ?: 20.0
+        return Observable.just(res)
     }
 
     override fun onMapReady(map: GoogleMap) {
@@ -132,7 +167,7 @@ class MapPresenterImpl : IMapPresenter {
             }
             locationManager.update(false)
         }
-        api.getAllEvents()
+        /*api.getAllEvents()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(object : Subscriber<Response<EventsResponse>>() {
@@ -151,7 +186,7 @@ class MapPresenterImpl : IMapPresenter {
                     override fun onCompleted() {
 
                     }
-                })
+                })*/
     }
 
     private fun onLocationUpdated(location: Location) {
