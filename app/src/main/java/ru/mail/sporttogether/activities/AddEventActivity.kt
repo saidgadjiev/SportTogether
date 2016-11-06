@@ -3,12 +3,14 @@ package ru.mail.sporttogether.activities
 import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
-import android.opengl.Visibility
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import android.view.View
-import android.widget.*
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
+import android.widget.ProgressBar
+import android.widget.Spinner
 import com.jakewharton.rxbinding.widget.RxTextView
 import ru.mail.sporttogether.R
 import ru.mail.sporttogether.adapter.CategoriesAdapter
@@ -73,7 +75,7 @@ class AddEventActivity :
 //        categoryAutocomplete.setAdapter(categoriesAdapter)
 
         RxTextView.textChangeEvents(categoryAutocomplete)
-                .filter {e -> e.count() == 3}
+                .filter { e -> e.count() == 3 }
                 .subscribe { e ->
                     Log.d("#MY " + javaClass.simpleName, "start loading categories. subname : " + e.text())
 //                    val arrayList = ArrayList<Category>()
@@ -95,7 +97,7 @@ class AddEventActivity :
 
     override fun onCategoriesLoaded(categories: ArrayList<Category>) {
         Log.d("#MY " + javaClass.simpleName, "in activity update adapter. Categories size : " + categoriesArray.size)
-        categories.forEach{e -> Log.d("#MY " + javaClass.simpleName, "loaded category : " + e.name)}
+        categories.forEach { e -> Log.d("#MY " + javaClass.simpleName, "loaded category : " + e.name) }
         categoriesAdapter.clear()
         categoriesAdapter.addAll(categories)
 //        categoriesAdapter.clear()
@@ -110,6 +112,7 @@ class AddEventActivity :
     override fun visibleCategoryProgressBar() {
         loadingCategoriesProgressBar.visibility = View.VISIBLE
     }
+
     override fun invisibleCategoryProgressBar() {
         loadingCategoriesProgressBar.visibility = View.GONE
     }

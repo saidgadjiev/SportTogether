@@ -10,7 +10,7 @@ import ru.mail.sporttogether.managers.data.DataManagerImpl
 import ru.mail.sporttogether.managers.data.ICredentialsManager
 import ru.mail.sporttogether.managers.data.IDataManager
 import ru.mail.sporttogether.managers.events.EventsManagerImpl
-import ru.mail.sporttogether.managers.events.IEventsManager
+import ru.mail.sporttogether.managers.events.EventsManager
 import ru.mail.sporttogether.managers.headers.HeaderManagerImpl
 import javax.inject.Singleton
 
@@ -48,7 +48,7 @@ class ManagersModule {
 
     @Singleton
     @Provides
-    fun provideEventsManager(): IEventsManager
+    fun provideEventsManager(): EventsManager
             = EventsManagerImpl()
 
 }

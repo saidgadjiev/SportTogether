@@ -17,7 +17,7 @@ import ru.mail.sporttogether.app.App
 import ru.mail.sporttogether.eventbus.PermissionGrantedMessage
 import ru.mail.sporttogether.eventbus.PermissionMessage
 import ru.mail.sporttogether.managers.LocationManager
-import ru.mail.sporttogether.managers.events.IEventsManager
+import ru.mail.sporttogether.managers.events.EventsManager
 import ru.mail.sporttogether.mvp.views.map.IMapView
 import ru.mail.sporttogether.net.api.EventsAPI
 import ru.mail.sporttogether.net.models.Event
@@ -48,10 +48,11 @@ class MapPresenterImpl : IMapPresenter {
     private val markerIdEventMap = HashMap<String, Event>()
 
     @Inject lateinit var api: EventsAPI
-    @Inject lateinit var eventsManager: IEventsManager
+    @Inject lateinit var eventsManager: EventsManager
     @Inject lateinit var locationManager: LocationManager
 
     private var apiSubscribtion: Subscription? = null
+    private lateinit var locationSubscription: Subscription
 
     constructor(view: IMapView) {
         this.view = view
@@ -90,6 +91,7 @@ class MapPresenterImpl : IMapPresenter {
     }
 
     override fun onDestroy() {
+        locationSubscription.unsubscribe()
         view = null
         map?.let {
             with(it) {
@@ -155,7 +157,7 @@ class MapPresenterImpl : IMapPresenter {
         map.setOnMarkerClickListener(this)
         map.setOnCameraIdleListener(view)
         map.setOnCameraMoveStartedListener(this)
-        locationManager.locationUpdate.subscribe { location ->
+        locationSubscription = locationManager.locationUpdate.subscribe { location ->
             onLocationUpdated(location)
         }
         if (!locationManager.checkForPermissions()) {

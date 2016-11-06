@@ -1,6 +1,7 @@
 package ru.mail.sporttogether.mvp.presenters.event
 
 import ru.mail.sporttogether.app.App
+import ru.mail.sporttogether.managers.events.EventsManager
 import ru.mail.sporttogether.mvp.views.event.IAddEventView
 import ru.mail.sporttogether.net.api.CategoriesAPI
 import ru.mail.sporttogether.net.api.EventsAPI
@@ -23,6 +24,7 @@ class AddEventPresenterImpl : AddEventPresenter {
 
     @Inject lateinit var eventsApi: EventsAPI
     @Inject lateinit var categoriesApi: CategoriesAPI
+    @Inject lateinit var eventsManager: EventsManager
 
 
     private var eventSubscribtion: Subscription? = null
@@ -55,7 +57,8 @@ class AddEventPresenterImpl : AddEventPresenter {
                 longtitude = lng,
                 description = description,
                 maxPeople = 5,
-                date = (System.currentTimeMillis()) + 1000 * 60 * 63)// сделаем выбор времени и даты позже
+                date = (System.currentTimeMillis()) + 1000 * 60 * 63,
+                id = 0)// сделаем выбор времени и даты позже
 
         eventSubscribtion = eventsApi.createEvent(event)
                 .subscribeOn(Schedulers.io())

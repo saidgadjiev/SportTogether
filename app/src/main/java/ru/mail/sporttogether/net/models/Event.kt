@@ -9,7 +9,7 @@ data class Event(
         val categoryId: Long,
         val latitude: Double,
         val longtitude: Double,
-        val id: Long? = null,
+        val id: Long,
         val userId: Long? = null,
         var maxPeople: Int = 0,
         val description: String,
