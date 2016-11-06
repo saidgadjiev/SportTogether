@@ -1,6 +1,7 @@
 package ru.mail.sporttogether.mvp.presenters.map
 
 import android.Manifest
+import android.graphics.Point
 import android.location.Location
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -86,11 +87,29 @@ class MapPresenterImpl : IMapPresenter {
 
     override fun onDestroy() {
         view = null
+        map?.let {
+            with(it) {
+                setOnCameraIdleListener(null)
+                setOnMapClickListener(null)
+                setOnMarkerClickListener(null)
+                setOnCameraMoveStartedListener(null)
+            }
+        }
+        map = null
     }
 
     override fun onMapClick(latlng: LatLng) {
         view?.hideInfo()
         addMarker(latlng)
+    }
+
+    override fun onCameraMoveStarted(p0: Int) {
+        map?.clear()
+    }
+
+    override fun onCameraIdle(x: Int, y: Int) {
+        val latlng = map?.projection!!.fromScreenLocation(Point(x, y))
+        
     }
 
     override fun onMapReady(map: GoogleMap) {
@@ -99,6 +118,8 @@ class MapPresenterImpl : IMapPresenter {
         map.uiSettings.isZoomControlsEnabled = true
         map.setOnMapClickListener(this)
         map.setOnMarkerClickListener(this)
+        map.setOnCameraIdleListener(view)
+        map.setOnCameraMoveStartedListener(this)
         locationManager.locationUpdate.subscribe { location ->
             onLocationUpdated(location)
         }
@@ -164,7 +185,6 @@ class MapPresenterImpl : IMapPresenter {
     }
 
     private fun addMarker(latlng: LatLng) {
-        lastMarker?.let(Marker::remove)
         map?.let {
             lastPos = latlng
             options.position(latlng).draggable(true)

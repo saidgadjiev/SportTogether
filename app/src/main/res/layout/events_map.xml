@@ -30,6 +30,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
+            <ImageView
+                android:id="@+id/user_point"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_add_location" />
+
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/add_event_fab"
                 android:layout_width="wrap_content"
@@ -103,16 +110,6 @@
                     android:orientation="horizontal">
 
                     <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="16dp"
-                        android:background="@color/green"
-                        android:onClick="@{() -> listener.onJoinButtonClicked()}"
-                        android:padding="8dp"
-                        android:text="@string/join"
-                        android:textColor="@color/md_white_1000" />
-
-                    <Button
                         android:id="@+id/angry_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -123,6 +120,17 @@
                         android:padding="8dp"
                         android:text="@string/angry"
                         android:textColor="@color/md_white_1000" />
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="16dp"
+                        android:background="@color/green"
+                        android:onClick="@{() -> listener.onJoinButtonClicked()}"
+                        android:padding="8dp"
+                        android:text="@string/join"
+                        android:textColor="@color/md_white_1000" />
+
                 </LinearLayout>
 
             </LinearLayout>

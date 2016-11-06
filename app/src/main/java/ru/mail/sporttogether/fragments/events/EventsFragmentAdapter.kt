@@ -24,7 +24,7 @@ class EventsFragmentAdapter : FragmentStatePagerAdapter {
 
     override fun getItem(position: Int): Fragment {
         return when (position) {
-            0 -> EventsMapFragment()
+            0 -> EventsMapFragment.newInstance(tabs.height)
             1 -> EventsListFragment()
             2 -> MyEventsFragment()
             else -> throw IllegalStateException("unknown position of fragment $position")

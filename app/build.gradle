@@ -25,9 +25,8 @@ android {
 
     dexOptions {
         preDexLibraries true //use false if files not exists
-        jumboMode true
         dexInProcess true
-        //javaMaxHeapSize "4g" // Use gig increments depending on needs
+        javaMaxHeapSize "2g" // Use gig increments depending on needs
     }
 
     defaultConfig {

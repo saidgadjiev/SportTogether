@@ -5,9 +5,11 @@ import android.support.design.widget.BottomSheetBehavior
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import com.google.android.gms.maps.MapView
 import ru.mail.sporttogether.R
 import ru.mail.sporttogether.activities.AddEventActivity
+import ru.mail.sporttogether.activities.PresenterActivity
 import ru.mail.sporttogether.data.binding.event.EventDetailsData
 import ru.mail.sporttogether.databinding.EventsMapBinding
 import ru.mail.sporttogether.fragments.PresenterFragment
@@ -31,6 +33,10 @@ class EventsMapFragment :
     private lateinit var bottomSheet: BottomSheetBehavior<View>
     private val data = EventDetailsData()
 
+    private var markerDownX = 0
+    private var markerDownY = 0
+    private var tabHeight = 0
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = EventsMapBinding.inflate(inflater, container, false)
         mapView = binding.mapview
@@ -52,6 +58,28 @@ class EventsMapFragment :
         })
         hideInfo()
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val viewTreeObserver = binding.userPoint.viewTreeObserver
+        if (viewTreeObserver.isAlive) {
+            viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+                override fun onGlobalLayout() {
+                    view.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                    initMarkerCoordinates()
+                }
+            })
+        }
+    }
+
+    fun initMarkerCoordinates() {
+        val array: IntArray = IntArray(2)
+        val view = binding.userPoint
+        view.getLocationInWindow(array)
+        tabHeight = arguments.getInt(TAB_HEIGHT_KEY)
+        markerDownX = array[0] + view.width / 2 //center X
+        val toolbarHeight = (activity as PresenterActivity<*>).supportActionBar?.height ?: 0
+        markerDownY = array[1] + view.height - statusBarHeight - toolbarHeight - tabHeight
     }
 
     override fun onStart() {
@@ -99,6 +127,10 @@ class EventsMapFragment :
         presenter.onDestroy()
     }
 
+    override fun onCameraIdle() {
+        presenter.onCameraIdle(markerDownX, markerDownY)
+    }
+
     override fun startAddEventActivity(lng: Double, lat: Double) {
         AddEventActivity.start(context, lng, lat)
     }
@@ -119,6 +151,18 @@ class EventsMapFragment :
         val people = getString(R.string.users, event.nowPeople, event.maxPeople)
         data.peopleCount.set(people)
         bottomSheet.state = BottomSheetBehavior.STATE_COLLAPSED
+    }
+
+    companion object {
+        @JvmStatic val TAB_HEIGHT_KEY = "TAB_HEIGHT"
+
+        @JvmStatic fun newInstance(tabHeight: Int): EventsMapFragment {
+            val args = Bundle()
+            args.putInt(TAB_HEIGHT_KEY, tabHeight)
+            val fragment = EventsMapFragment()
+            fragment.arguments = args
+            return fragment
+        }
     }
 
 }

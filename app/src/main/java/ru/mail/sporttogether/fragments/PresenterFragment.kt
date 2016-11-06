@@ -1,17 +1,13 @@
 package ru.mail.sporttogether.fragments
 
-import android.content.pm.PackageManager
-import android.os.Build
 import android.support.annotation.CallSuper
 import android.support.annotation.StringRes
 import android.support.v4.app.Fragment
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import android.widget.Toast
-import org.greenrobot.eventbus.EventBus
 import ru.mail.sporttogether.activities.PresenterActivity
 import ru.mail.sporttogether.app.App
-import ru.mail.sporttogether.eventbus.PermissionGrantedMessage
 import ru.mail.sporttogether.mvp.presenters.IPresenter
 import ru.mail.sporttogether.mvp.views.IView
 
@@ -64,6 +60,18 @@ abstract class PresenterFragment<T : IPresenter> : Fragment(), IView {
     override fun showSnackbar(@StringRes messageRes: Int, duration: Int) {
 
     }
+
+    protected open val statusBarHeight: Int
+        get() {
+            var result = 0
+
+            val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
+            if (resourceId > 0) {
+                result = resources.getDimensionPixelSize(resourceId)
+            }
+
+            return result
+        }
 
 
 }
