@@ -7,11 +7,15 @@ import android.support.v4.view.ViewPager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import ru.mail.sporttogether.activities.PresenterActivity
 import ru.mail.sporttogether.databinding.FragmentEventsBinding
+import ru.mail.sporttogether.eventbus.PermissionMessage
 import ru.mail.sporttogether.fragments.PresenterFragment
-import ru.mail.sporttogether.mvp.presenters.event.EventsPresenter
 import ru.mail.sporttogether.mvp.presenters.event.EventsFragmentImpl
+import ru.mail.sporttogether.mvp.presenters.event.EventsPresenter
 
 /**
  * Created by bagrusss on 08.10.16.
@@ -36,7 +40,7 @@ class EventsFragment() : PresenterFragment<EventsPresenter>() {
         pager.adapter = adapter
         pager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(binding.tab))
         binding.tab.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            
+
             override fun onTabSelected(tab: TabLayout.Tab) {
                 pager.currentItem = tab.position
             }

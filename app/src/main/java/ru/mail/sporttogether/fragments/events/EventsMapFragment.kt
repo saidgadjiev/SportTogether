@@ -56,6 +56,7 @@ class EventsMapFragment :
 
     override fun onStart() {
         super.onStart()
+        presenter.onStart()
         mapView.onStart()
         binding.listener = presenter
         binding.addListener = presenter
@@ -63,6 +64,7 @@ class EventsMapFragment :
 
     override fun onStop() {
         super.onStop()
+        presenter.onStop()
         mapView.onStop()
         binding.listener = null
         binding.addListener = null

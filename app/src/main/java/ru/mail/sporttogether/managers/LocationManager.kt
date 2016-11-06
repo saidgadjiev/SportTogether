@@ -8,13 +8,11 @@ import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.PermissionChecker
-import android.util.Log
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.location.LocationListener
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
-import ru.mail.sporttogether.BuildConfig
 import rx.subjects.BehaviorSubject
 
 /**
@@ -81,14 +79,12 @@ class LocationManager(val context: Context) : GoogleApiClient.OnConnectionFailed
     fun checkForPermissions(): Boolean {
         val applicationContext = context
 
-        val versionCode = BuildConfig.VERSION_CODE
-        Log.v("EBAT", "versionCode $versionCode")
-        //if (BuildConfig.VERSION_CODE >= Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ActivityCompat.checkSelfPermission(applicationContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
                     ActivityCompat.checkSelfPermission(applicationContext, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 return false
             }
-        //}
+        }
 
         return true
     }

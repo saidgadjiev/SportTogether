@@ -2,7 +2,6 @@ package ru.mail.sporttogether.activities
 
 import android.content.pm.PackageManager
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.support.annotation.CallSuper
 import android.support.annotation.StringRes
@@ -13,8 +12,13 @@ import android.view.MenuItem
 import android.widget.Toast
 import com.facebook.share.model.ShareLinkContent
 import com.facebook.share.widget.ShareDialog
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import ru.mail.sporttogether.R
 import ru.mail.sporttogether.app.App
+import ru.mail.sporttogether.eventbus.PermissionGrantedMessage
+import ru.mail.sporttogether.eventbus.PermissionMessage
 import ru.mail.sporttogether.mvp.presenters.IPresenter
 import ru.mail.sporttogether.mvp.views.IView
 
@@ -93,21 +97,38 @@ abstract class PresenterActivity<T : IPresenter> : AppCompatActivity(), IView {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
-    override fun requestForPermissions(permissions: List<String>, requestCode: Int) {
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
-            requestForPermissions(permissions, requestCode)
-        }
+    override fun onStart() {
+        super.onStart()
+        EventBus.getDefault().register(this)
     }
 
+    override fun onStop() {
+        super.onStop()
+        EventBus.getDefault().unregister(this)
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onEvent(msg: PermissionMessage) {
+        requestPermissions(msg.permissionsList.toTypedArray(), msg.reqCode)
+    }
+
+    // сука, ебучий гугл, у вложенныех фрагментов не вызывается onRequestPermissionsResult
+    // костыль, по пока что так
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
         var isEverythingAllowed = true
         for (result in grantResults) {
             isEverythingAllowed = isEverythingAllowed and (result == PackageManager.PERMISSION_GRANTED)
         }
 
-        if (isEverythingAllowed)
+        if (isEverythingAllowed) {
             presenter.onPermissionsGranted(requestCode)
-        else presenter.onPermissionNotGranted(requestCode)
+            EventBus.getDefault().post(PermissionGrantedMessage(requestCode))
+        } else {
+            presenter.onPermissionNotGranted(requestCode)
+        }
     }
+
 
 }

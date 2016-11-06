@@ -8,8 +8,10 @@ import android.support.v4.app.Fragment
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import android.widget.Toast
+import org.greenrobot.eventbus.EventBus
 import ru.mail.sporttogether.activities.PresenterActivity
 import ru.mail.sporttogether.app.App
+import ru.mail.sporttogether.eventbus.PermissionGrantedMessage
 import ru.mail.sporttogether.mvp.presenters.IPresenter
 import ru.mail.sporttogether.mvp.views.IView
 
@@ -61,23 +63,6 @@ abstract class PresenterFragment<T : IPresenter> : Fragment(), IView {
 
     override fun showSnackbar(@StringRes messageRes: Int, duration: Int) {
 
-    }
-
-    override fun requestForPermissions(permissions: List<String>, requestCode: Int) {
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
-            requestPermissions(permissions.toTypedArray(), requestCode)
-        }
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        var isEverythingAllowed = true
-        for (result in grantResults) {
-            isEverythingAllowed = isEverythingAllowed and (result == PackageManager.PERMISSION_GRANTED)
-        }
-
-        if (isEverythingAllowed)
-            presenter.onPermissionsGranted(requestCode)
-        else presenter.onPermissionNotGranted(requestCode)
     }
 
 

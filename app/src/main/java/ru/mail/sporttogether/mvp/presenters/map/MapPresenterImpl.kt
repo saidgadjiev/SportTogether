@@ -8,8 +8,13 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.iid.FirebaseInstanceId
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import ru.mail.sporttogether.R
 import ru.mail.sporttogether.app.App
+import ru.mail.sporttogether.eventbus.PermissionGrantedMessage
+import ru.mail.sporttogether.eventbus.PermissionMessage
 import ru.mail.sporttogether.managers.LocationManager
 import ru.mail.sporttogether.managers.events.IEventsManager
 import ru.mail.sporttogether.mvp.views.map.IMapView
@@ -50,6 +55,21 @@ class MapPresenterImpl : IMapPresenter {
                 .inject(this)
     }
 
+    override fun onStart() {
+        EventBus.getDefault().register(this)
+    }
+
+    override fun onStop() {
+        EventBus.getDefault().unregister(this)
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onEvent(msg: PermissionGrantedMessage) {
+        if (msg.reqCode === REQUEST_CODE) {
+            locationManager.update(false)
+        }
+    }
+
     override fun onPause() {
         map?.let {
             it.setOnMapClickListener(null)
@@ -84,12 +104,12 @@ class MapPresenterImpl : IMapPresenter {
         }
         if (!locationManager.checkForPermissions()) {
             val permissions = Arrays.asList(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
-            view?.requestForPermissions(permissions, REQUEST_CODE)
+            EventBus.getDefault().post(PermissionMessage(reqCode = REQUEST_CODE, permissionsList = permissions))
         } else {
             locationManager.getLocation()?.let {
                 showMe(it)
             }
-            locationManager.update()
+            locationManager.update(false)
         }
         api.getAllEvents()
                 .observeOn(AndroidSchedulers.mainThread())
@@ -120,7 +140,7 @@ class MapPresenterImpl : IMapPresenter {
     private fun showMe(location: Location) {
         map?.let {
             val latlng = LatLng(location.latitude, location.longitude)
-            it.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, 17f))
+            it.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, 15f))
         }
 
     }
