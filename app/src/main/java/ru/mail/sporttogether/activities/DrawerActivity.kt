@@ -30,7 +30,6 @@ class DrawerActivity : IDrawerView, PresenterActivity<IDrawerPresenter>() {
         super.onCreate(savedInstanceState)
         Log.d("#MY " + this.javaClass.simpleName, "in on create")
 
-        injector.inject(this)
         presenter = DrawerPresenterImpl(this)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_drawer)
         toolbar = binding.drawerToolbar
@@ -90,6 +89,6 @@ class DrawerActivity : IDrawerView, PresenterActivity<IDrawerPresenter>() {
     }
 
     override fun startLoginActivity() {
-        startActivity(Intent(this, LoginActivity::class.java))
+        startActivity(Intent(this, SplashActivity::class.java))
     }
 }
