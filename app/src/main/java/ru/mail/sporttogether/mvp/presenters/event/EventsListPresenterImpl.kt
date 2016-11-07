@@ -12,6 +12,7 @@ import javax.inject.Inject
 
 /**
  * Created by bagrusss on 15.10.16.
+ *
  */
 class EventsListPresenterImpl : EventsListPresenter {
     @Inject lateinit var api: EventsAPI
@@ -24,6 +25,7 @@ class EventsListPresenterImpl : EventsListPresenter {
         App.injector
                 .usePresenterComponent()
                 .inject(this)
+        subscribeToEventManager()
     }
 
     private var eventSubscribtion: Subscription? = null
@@ -31,6 +33,9 @@ class EventsListPresenterImpl : EventsListPresenter {
     override fun onStart() {
         super.onStart()
         loadEvents()
+    }
+
+    private fun subscribeToEventManager() {
         eventSubscribtion = eventsManager.getObservable()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : Subscriber<EventsManager.NewData<*>>() {
@@ -60,33 +65,11 @@ class EventsListPresenterImpl : EventsListPresenter {
                 })
     }
 
-    override fun onStop() {
-        super.onStop()
-    }
-
     override fun loadEvents() {
         val events = eventsManager.getEvents()
         if (events.size > 0) {
             view?.loadEvents(events)
         }
-        /*api.getAllEvents()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(object : Subscriber<Response<EventsResponse>>() {
-                    override fun onNext(response: Response<EventsResponse>) {
-                        println(response.code)
-                        println(response.message)
-                        view.loadEvents(response.data)
-                    }
-
-                    override fun onError(e: Throwable) {
-                        Log.e("#MY ", e.message)
-                    }
-
-                    override fun onCompleted() {
-
-                    }
-                })*/
     }
 
     override fun onDestroy() {

@@ -5,10 +5,7 @@ import android.support.annotation.CallSuper
 import android.support.annotation.StringRes
 import android.support.v4.app.Fragment
 import android.support.v7.widget.Toolbar
-import android.view.LayoutInflater
 import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import ru.mail.sporttogether.activities.PresenterActivity
 import ru.mail.sporttogether.mvp.presenters.IPresenter
@@ -98,6 +95,16 @@ abstract class PresenterFragment<T : IPresenter> : Fragment(), IView {
     override fun onPause() {
         super.onPause()
         presenter.onPause()
+    }
+
+    override fun onLowMemory() {
+        super.onLowMemory()
+        presenter.onLowMemory()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState)
+        presenter.onSaveInstanceState(outState)
     }
 
 }

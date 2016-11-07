@@ -16,11 +16,6 @@ class LoginActivity: PresenterActivity<ILoginPresenter>(), ILoginView {
         presenter.onCreate(savedInstanceState)
     }
 
-    override fun onDestroy() {
-        presenter.onDestroy()
-        super.onDestroy()
-    }
-
     override fun startMainActivity() {
         startActivity(Intent(this, DrawerActivity::class.java))
         finish()

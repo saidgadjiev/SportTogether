@@ -14,15 +14,12 @@ import rx.Observable
 interface AuthorizationAPI {
 
     @POST("auth")
-    fun updateAuthorization(): Observable<Response<Any>>
+    fun updateAuthorization(): Observable<Response<User>>
 
     @DELETE("auth")
     fun unauthorize(): Observable<Response<Any>>
 
     @GET("auth")
     fun checkAuthorization(): Observable<Response<User>>
-
-    @GET("hello/world")
-    fun helloWorld(): Observable<Any>
 
 }

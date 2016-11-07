@@ -100,11 +100,43 @@ abstract class PresenterActivity<T : IPresenter> : AppCompatActivity(), IView {
     override fun onStart() {
         super.onStart()
         EventBus.getDefault().register(this)
+        presenter.onStart()
     }
 
     override fun onStop() {
         super.onStop()
         EventBus.getDefault().unregister(this)
+        presenter.onStop()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        presenter.onResume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        presenter.onPause()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.onDestroy()
+    }
+
+    override fun onLowMemory() {
+        super.onLowMemory()
+        presenter.onLowMemory()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState)
+        presenter.onSaveInstanceState(outState)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+        super.onRestoreInstanceState(savedInstanceState)
+        presenter.onRestoreInstanceState(savedInstanceState)
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

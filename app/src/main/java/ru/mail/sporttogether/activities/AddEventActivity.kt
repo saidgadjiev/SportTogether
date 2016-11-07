@@ -43,7 +43,6 @@ class AddEventActivity :
     private lateinit var categoriesAdapter: ArrayAdapter<Category>
     private lateinit var loadingCategoriesProgressBar: ProgressBar
 
-
     private var selectedCategory = -1L
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,7 +74,7 @@ class AddEventActivity :
 //        categoryAutocomplete.setAdapter(categoriesAdapter)
 
         RxTextView.textChangeEvents(categoryAutocomplete)
-                .filter { e -> e.count() == 3 }
+                .filter { e -> e.count() >= 3 }
                 .subscribe { e ->
                     Log.d("#MY " + javaClass.simpleName, "start loading categories. subname : " + e.text())
 //                    val arrayList = ArrayList<Category>()
@@ -127,11 +126,6 @@ class AddEventActivity :
         binding.listener = null
     }
 
-    override fun onDestroy() {
-        presenter.onDestroy()
-        super.onDestroy()
-    }
-
     private fun setupCoordinates() {
         data.lat.set(lat)
         data.lng.set(lng)
@@ -150,7 +144,7 @@ class AddEventActivity :
         showToast(R.string.event_added)
         handler.postDelayed({
             finish()
-        }, 1000)
+        }, 300)
     }
 
     override fun showAddError(errorText: String) {
