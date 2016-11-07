@@ -62,7 +62,6 @@ class EventsListPresenterImpl : EventsListPresenter {
 
     override fun onStop() {
         super.onStop()
-        eventSubscribtion?.unsubscribe()
     }
 
     override fun loadEvents() {
@@ -92,6 +91,7 @@ class EventsListPresenterImpl : EventsListPresenter {
 
     override fun onDestroy() {
         view = null
+        eventSubscribtion?.unsubscribe()
         super.onDestroy()
     }
 }
