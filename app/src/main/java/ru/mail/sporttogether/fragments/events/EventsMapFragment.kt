@@ -84,7 +84,6 @@ class EventsMapFragment :
 
     override fun onStart() {
         super.onStart()
-        presenter.onStart()
         mapView.onStart()
         binding.listener = presenter
         binding.addListener = presenter
@@ -92,7 +91,6 @@ class EventsMapFragment :
 
     override fun onStop() {
         super.onStop()
-        presenter.onStop()
         mapView.onStop()
         binding.listener = null
         binding.addListener = null
@@ -101,14 +99,11 @@ class EventsMapFragment :
     override fun onResume() {
         super.onResume()
         mapView.onResume()
-        presenter.onResume()
     }
 
     override fun onPause() {
         super.onPause()
         mapView.onPause()
-
-        presenter.onPause()
     }
 
     override fun onLowMemory() {
@@ -124,7 +119,6 @@ class EventsMapFragment :
     override fun onDestroyView() {
         super.onDestroyView()
         mapView.onDestroy()
-        presenter.onDestroy()
     }
 
     override fun onCameraIdle() {

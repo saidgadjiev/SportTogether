@@ -118,7 +118,7 @@ class MapPresenterImpl : IMapPresenter {
         apiSubscribtion = calculateScale(lastPos, x)
                 .subscribeOn(Schedulers.computation())
                 .switchMap { distance ->
-                    api.getEventsByDistanceAndPosition(distance, lastPos.latitude, lastPos.longitude)
+                    api.getEventsByDistanceAndPosition(Math.abs(distance), lastPos.latitude, lastPos.longitude)
                 }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

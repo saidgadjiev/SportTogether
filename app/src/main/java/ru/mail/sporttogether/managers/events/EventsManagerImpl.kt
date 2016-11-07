@@ -2,7 +2,7 @@ package ru.mail.sporttogether.managers.events
 
 import android.util.LongSparseArray
 import ru.mail.sporttogether.net.models.Event
-import rx.Observable
+import rx.subjects.BehaviorSubject
 import java.util.*
 
 /**
@@ -13,8 +13,11 @@ class EventsManagerImpl : EventsManager {
 
     private val eventsMap = LongSparseArray<Event>()
 
+    val eventsUpdate: BehaviorSubject<EventsManager.NewData<*>> = BehaviorSubject.create()
+
     override fun addEvent(e: Event) {
         eventsMap.put(e.id, e)
+        eventsUpdate.onNext(EventsManager.NewData(type = EventsManager.UpdateType.ADD, data = e))
     }
 
 
@@ -23,24 +26,25 @@ class EventsManagerImpl : EventsManager {
         events.forEach {
             eventsMap.put(it.id, it)
         }
+        eventsUpdate.onNext(EventsManager.NewData(type = EventsManager.UpdateType.NEW_LIST, data = events))
     }
 
     override fun updateEvent(event: Event) {
         eventsMap[event.id]?.let {
             eventsMap.put(event.id, event)
         }
+        eventsUpdate.onNext(EventsManager.NewData(type = EventsManager.UpdateType.UPDATE, data = event))
     }
 
     override fun getEvents(): ArrayList<Event> {
-        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val size = eventsMap.size()
+        val list = ArrayList<Event>(size)
+        for (i in 0..size - 1) {
+            list.add(eventsMap.valueAt(i))
+        }
+        return list
     }
 
-    override fun getActualEvents(): ArrayList<Event> {
-        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun getObservable(): Observable<ArrayList<Event>> {
-        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun getObservable() = eventsUpdate
 
 }

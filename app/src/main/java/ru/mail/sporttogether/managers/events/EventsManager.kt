@@ -1,7 +1,7 @@
 package ru.mail.sporttogether.managers.events
 
 import ru.mail.sporttogether.net.models.Event
-import rx.Observable
+import rx.subjects.BehaviorSubject
 import java.util.*
 
 /**
@@ -9,6 +9,19 @@ import java.util.*
  *
  */
 interface EventsManager {
+
+    enum class UpdateType {
+        ADD,
+        UPDATE,
+        NEW_LIST,
+        FINISHED
+    }
+
+    data class NewData<out T>(
+            val type: UpdateType,
+            val data: T
+    )
+
     fun swapEvents(events: MutableList<Event>)
 
     fun updateEvent(event: Event)
@@ -17,8 +30,6 @@ interface EventsManager {
 
     fun addEvent(e: Event)
 
-    fun getActualEvents(): ArrayList<Event>
-
     //used for subscribe on events changes
-    fun getObservable(): Observable<ArrayList<Event>>
+    fun getObservable(): BehaviorSubject<NewData<*>>
 }

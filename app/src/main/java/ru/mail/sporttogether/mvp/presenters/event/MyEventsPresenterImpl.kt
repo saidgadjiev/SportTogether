@@ -30,20 +30,20 @@ class MyEventsPresenterImpl : MyEventsPresenter, IPresenter {
 
     override fun getMyEvents() {
         api.getMyEvents()
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribeOn(Schedulers.io())
-        .subscribe(object : Subscriber<Response<EventsResponse>>() {
-            override fun onNext(response: Response<EventsResponse>) {
-                view.loadEvents(response.data)
-            }
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(object : Subscriber<Response<EventsResponse>>() {
+                    override fun onNext(response: Response<EventsResponse>) {
+                        view.loadEvents(response.data)
+                    }
 
-            override fun onError(e: Throwable) {
-                Log.e("#MY ", e.message)
-            }
+                    override fun onError(e: Throwable) {
+                        Log.e("#MY ", e.message)
+                    }
 
-            override fun onCompleted() {
+                    override fun onCompleted() {
 
-            }
-        })
+                    }
+                })
     }
 }

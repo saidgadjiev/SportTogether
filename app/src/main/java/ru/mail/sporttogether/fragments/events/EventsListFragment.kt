@@ -3,7 +3,6 @@ package ru.mail.sporttogether.fragments.events
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,25 +19,27 @@ import ru.mail.sporttogether.net.models.Event
  *
  */
 class EventsListFragment : PresenterFragment<EventsListPresenter>(), IListEventView {
-    private lateinit var binding: FragmentEventsListBinding
-    private lateinit var mEventsListView: RecyclerView
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        Log.i("#MY " + javaClass.simpleName, "in on create view")
+    private lateinit var binding: FragmentEventsListBinding
+    private lateinit var eventsListView: RecyclerView
+    private val adapter = EventsAdapter()
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentEventsListBinding.inflate(inflater, container, false)
-        mEventsListView = binding.eventsListRecyclerView
-        mEventsListView.layoutManager = LinearLayoutManager(activity)
+        eventsListView = binding.eventsListRecyclerView
+        eventsListView.layoutManager = LinearLayoutManager(context)
 
         presenter = EventsListPresenterImpl(this)
         presenter.loadEvents()
+        eventsListView.adapter = adapter
         return binding.root
     }
 
-    override fun loadEvents(events: List<Event>) {
-        if (mEventsListView.adapter != null) {
-            mEventsListView.swapAdapter(EventsAdapter(events), true)
-        } else {
-            mEventsListView.adapter = EventsAdapter(events)
-        }
+    override fun loadEvents(events: MutableList<Event>) {
+        adapter.swap(events)
+    }
+
+    override fun addEvent(event: Event) {
+        adapter.addEvent(event)
     }
 }

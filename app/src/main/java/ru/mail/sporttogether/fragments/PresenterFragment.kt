@@ -1,13 +1,16 @@
 package ru.mail.sporttogether.fragments
 
+import android.os.Bundle
 import android.support.annotation.CallSuper
 import android.support.annotation.StringRes
 import android.support.v4.app.Fragment
 import android.support.v7.widget.Toolbar
+import android.view.LayoutInflater
 import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import ru.mail.sporttogether.activities.PresenterActivity
-import ru.mail.sporttogether.app.App
 import ru.mail.sporttogether.mvp.presenters.IPresenter
 import ru.mail.sporttogether.mvp.views.IView
 
@@ -17,7 +20,6 @@ import ru.mail.sporttogether.mvp.views.IView
  */
 abstract class PresenterFragment<T : IPresenter> : Fragment(), IView {
 
-    protected val injector = App.injector
     protected lateinit var presenter: T
 
     override fun showToast(message: String, duration: Int) {
@@ -73,5 +75,29 @@ abstract class PresenterFragment<T : IPresenter> : Fragment(), IView {
             return result
         }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        presenter.onDestroy()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        presenter.onStart()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        presenter.onStop()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        presenter.onResume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        presenter.onPause()
+    }
 
 }

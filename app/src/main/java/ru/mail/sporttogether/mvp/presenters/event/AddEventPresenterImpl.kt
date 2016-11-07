@@ -58,7 +58,7 @@ class AddEventPresenterImpl : AddEventPresenter {
                 description = description,
                 maxPeople = 5,
                 date = (System.currentTimeMillis()) + 1000 * 60 * 63,
-                id = 0)// сделаем выбор времени и даты позже
+                id = 0) // сделаем выбор времени и даты позже
 
         eventSubscribtion = eventsApi.createEvent(event)
                 .subscribeOn(Schedulers.io())
@@ -69,8 +69,10 @@ class AddEventPresenterImpl : AddEventPresenter {
                     }
 
                     override fun onNext(response: Response<Event>) {
-                        if (response.code == 0)
+                        if (response.code == 0) {
+                            eventsManager.addEvent(response.data)
                             view?.onEventAdded(response.data.name)
+                        }
                     }
 
                     override fun onError(e: Throwable) {

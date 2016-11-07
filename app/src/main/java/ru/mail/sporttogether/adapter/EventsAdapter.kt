@@ -2,10 +2,10 @@ package ru.mail.sporttogether.adapter
 
 import android.databinding.DataBindingUtil
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import ru.mail.sporttogether.databinding.ItemEventBinding
 import ru.mail.sporttogether.net.models.Event
 import java.text.SimpleDateFormat
@@ -14,15 +14,14 @@ import java.util.*
 /**
  * Created by Ivan on 20.10.2016.
  */
-class EventsAdapter : RecyclerView.Adapter<EventsAdapter.ViewHolder> {
-    private lateinit var events: List<Event>
+class EventsAdapter : RecyclerView.Adapter<EventsAdapter.ViewHolder>() {
+    private var events: MutableList<Event>? = null
 
-    constructor(events: List<Event>) {
+    override fun getItemCount() = events?.size ?: 0
+
+    fun swap(events: MutableList<Event>) {
         this.events = events
-    }
-
-    override fun getItemCount(): Int {
-        return events.size
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
@@ -31,26 +30,32 @@ class EventsAdapter : RecyclerView.Adapter<EventsAdapter.ViewHolder> {
         return ViewHolder(binding.root)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
-        if (holder != null) {
-            holder.mName.text = events[position].name
-            holder.mDescription.text = events[position].description
-            holder.mDate.text = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date(events[position].date))
-            holder.mReports.text = events[position].reports.toString()
-            holder.mNowPeople.text = events[position].nowPeople.toString()
-            holder.mMaxPeople.text = events[position].maxPeople.toString()
-        } else {
-            Log.e("#MY " + this.javaClass.simpleName, "holder is null")
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        events?.let {
+            holder.name.text = it[position].name
+            holder.description.text = it[position].description
+            holder.date.text = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date(it[position].date))
+            holder.reports.text = it[position].reports.toString()
+            holder.nowPeople.text = it[position].nowPeople.toString()
+            holder.maxPeople.text = it[position].maxPeople.toString()
         }
     }
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val binding: ItemEventBinding = DataBindingUtil.bind(itemView)
-        val mName = binding.itemEventName!!
-        val mDescription = binding.itemEventDescription!!
-        val mDate = binding.itemEventDate!!
-        val mReports = binding.itemEventReports!!
-        val mMaxPeople = binding.itemEventMaxPeople!!
-        val mNowPeople = binding.itemEventNowPeople!!
+        val name: TextView = binding.itemEventName
+        val description: TextView = binding.itemEventDescription
+        val date: TextView = binding.itemEventDate
+        val reports: TextView = binding.itemEventReports
+        val maxPeople: TextView = binding.itemEventMaxPeople
+        val nowPeople: TextView = binding.itemEventNowPeople
+    }
+
+    fun addEvent(event: Event) {
+        events?.let {
+            it.add(event)
+            notifyItemInserted(it.size - 1)
+        }
+
     }
 }
