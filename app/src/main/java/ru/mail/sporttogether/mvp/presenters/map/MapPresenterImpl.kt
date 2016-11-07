@@ -61,12 +61,23 @@ class MapPresenterImpl : IMapPresenter {
                 .inject(this)
     }
 
+    private var eventsSubscribion: Subscription? = null
+
     override fun onStart() {
         EventBus.getDefault().register(this)
+        eventsSubscribion = eventsManager.getObservable()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { newState ->
+                    if (newState.type == EventsManager.UpdateType.ADD) {
+                        val event = newState.data as Event
+                        addMarker(LatLng(event.latitude, event.longtitude))
+                    }
+                }
     }
 
     override fun onStop() {
         EventBus.getDefault().unregister(this)
+        eventsSubscribion?.unsubscribe()
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
