@@ -5,7 +5,7 @@ import ru.mail.sporttogether.app.App
 import ru.mail.sporttogether.mvp.presenters.IPresenter
 import ru.mail.sporttogether.mvp.views.event.IListEventView
 import ru.mail.sporttogether.net.api.EventsAPI
-import ru.mail.sporttogether.net.models.EventsResponse
+import ru.mail.sporttogether.net.responses.EventsResponse
 import ru.mail.sporttogether.net.responses.Response
 import rx.Subscriber
 import rx.android.schedulers.AndroidSchedulers

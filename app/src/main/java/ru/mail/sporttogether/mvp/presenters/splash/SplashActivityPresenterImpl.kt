@@ -62,12 +62,12 @@ class SplashActivityPresenterImpl : SplashActivityPresenter {
         if (!FacebookSdk.isInitialized()) {
             FacebookSdk.sdkInitialize(context)
         }
-        aClient.tokenInfo(credentialsManager.getCredentials(context).idToken)
+        aClient.tokenInfo(credentialsManager.getCredentials().idToken)
                 .start(object : BaseCallback<UserProfile, AuthenticationException> {
                     override fun onSuccess(payload: UserProfile) {
                         Log.d("AUTH", "Authomatic login")
 
-                        headerManager.token = credentialsManager.getCredentials(context).idToken
+                        headerManager.token = credentialsManager.getCredentials().idToken
                         headerManager.clientId = payload.id
                         authManager.auth(api, view)
                     }
@@ -75,7 +75,7 @@ class SplashActivityPresenterImpl : SplashActivityPresenter {
                     override fun onFailure(error: AuthenticationException) {
                         Log.d("AUTH", "Session expired")
 
-                        credentialsManager.deleteCredentials(context)
+                        credentialsManager.deleteCredentials()
                         view?.startLockActivity(lock)
                     }
                 })
@@ -99,7 +99,7 @@ class SplashActivityPresenterImpl : SplashActivityPresenter {
         builder.allowedConnections(generateConnections())
         builder.setDefaultDatabaseConnection("Username-Password-Authentication")
         lock = builder.build(view as SplashActivity)
-        if (credentialsManager.getCredentials(context).idToken == null) {
+        if (credentialsManager.getCredentials().idToken == null) {
             view?.startLockActivity(lock)
 
             return
@@ -108,10 +108,10 @@ class SplashActivityPresenterImpl : SplashActivityPresenter {
     }
 
     var callback = object : AuthenticationCallback() {
-        override fun onAuthentication(credentials: Credentials?) {
+        override fun onAuthentication(credentials: Credentials) {
             Log.d("AUTH", "Logged in")
 
-            credentialsManager.saveCredentials(context, credentials)
+            credentialsManager.saveCredentials(credentials)
             trySignIn()
         }
 

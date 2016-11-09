@@ -13,8 +13,9 @@ import rx.Observable
  */
 interface AuthorizationAPI {
 
+    // жду сервер чтобы отдавал User
     @POST("auth")
-    fun updateAuthorization(): Observable<Response<User>>
+    fun updateAuthorization(): Observable<Response<Any>>
 
     @DELETE("auth")
     fun unauthorize(): Observable<Response<Any>>

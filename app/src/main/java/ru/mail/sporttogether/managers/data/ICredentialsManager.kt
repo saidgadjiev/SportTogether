@@ -1,13 +1,15 @@
 package ru.mail.sporttogether.managers.data
 
-import android.content.Context
 import com.auth0.android.result.Credentials
+import ru.mail.sporttogether.net.models.User
 
 /**
  * Created by bagrusss on 14.10.16.
  */
 interface ICredentialsManager {
-    fun saveCredentials(context: Context, credentials: Credentials?)
-    fun getCredentials(context: Context): Credentials
-    fun deleteCredentials(context: Context)
+    fun saveCredentials(credentials: Credentials)
+    fun getCredentials(): Credentials
+    fun deleteCredentials()
+    fun saveUserData(user: User)
+    fun getUserData(): User
 }

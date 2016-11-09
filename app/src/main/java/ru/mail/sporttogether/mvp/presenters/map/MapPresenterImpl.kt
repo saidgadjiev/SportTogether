@@ -21,7 +21,7 @@ import ru.mail.sporttogether.managers.events.EventsManager
 import ru.mail.sporttogether.mvp.views.map.IMapView
 import ru.mail.sporttogether.net.api.EventsAPI
 import ru.mail.sporttogether.net.models.Event
-import ru.mail.sporttogether.net.models.EventsResponse
+import ru.mail.sporttogether.net.responses.EventsResponse
 import ru.mail.sporttogether.net.responses.Response
 import rx.Observable
 import rx.Subscriber
@@ -134,7 +134,7 @@ class MapPresenterImpl : IMapPresenter {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : Subscriber<Response<EventsResponse>>() {
-                    override fun onError(e: Throwable?) {
+                    override fun onError(e: Throwable) {
                         view?.showToast(R.string.cant_get_events)
                     }
 
@@ -227,7 +227,7 @@ class MapPresenterImpl : IMapPresenter {
     }
 
     override fun onAddButtonClicked() {
-        lastPos?.let {
+        lastPos.let {
             view?.startAddEventActivity(it.longitude, it.latitude)
         }
     }
@@ -248,7 +248,7 @@ class MapPresenterImpl : IMapPresenter {
     private fun showEventInfo(marker: Marker) {
         val event = markerIdEventMap[marker.id]
         event?.let {
-            lastEventId = it.id!!
+            lastEventId = it.id
             view?.showInfo(it)
         }
     }

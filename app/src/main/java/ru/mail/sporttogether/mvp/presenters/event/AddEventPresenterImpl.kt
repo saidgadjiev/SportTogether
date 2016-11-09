@@ -5,8 +5,8 @@ import ru.mail.sporttogether.managers.events.EventsManager
 import ru.mail.sporttogether.mvp.views.event.IAddEventView
 import ru.mail.sporttogether.net.api.CategoriesAPI
 import ru.mail.sporttogether.net.api.EventsAPI
-import ru.mail.sporttogether.net.models.CategoriesResponse
 import ru.mail.sporttogether.net.models.Event
+import ru.mail.sporttogether.net.responses.CategoriesResponse
 import ru.mail.sporttogether.net.responses.Response
 import rx.Subscriber
 import rx.Subscription

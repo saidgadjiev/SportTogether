@@ -33,7 +33,7 @@ class DrawerPresenterImpl : IDrawerPresenter {
         if (FacebookSdk.isInitialized()) {
             Log.d("Auth", "Facebook initialized")
         }
-        credentialsManager.deleteCredentials(context)
+        credentialsManager.deleteCredentials()
         provider.clearSession()
         manager.unauth(api, view)
     }

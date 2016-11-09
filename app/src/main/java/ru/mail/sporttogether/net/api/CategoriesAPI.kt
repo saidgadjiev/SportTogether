@@ -1,8 +1,8 @@
 package ru.mail.sporttogether.net.api
 
 import retrofit2.http.*
-import ru.mail.sporttogether.net.models.CategoriesResponse
 import ru.mail.sporttogether.net.models.Category
+import ru.mail.sporttogether.net.responses.CategoriesResponse
 import ru.mail.sporttogether.net.responses.Response
 import rx.Observable
 

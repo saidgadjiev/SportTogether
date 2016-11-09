@@ -2,7 +2,7 @@ package ru.mail.sporttogether.net.api
 
 import retrofit2.http.*
 import ru.mail.sporttogether.net.models.Event
-import ru.mail.sporttogether.net.models.EventsResponse
+import ru.mail.sporttogether.net.responses.EventsResponse
 import ru.mail.sporttogether.net.responses.Response
 import rx.Observable
 

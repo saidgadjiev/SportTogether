@@ -9,8 +9,8 @@ import ru.mail.sporttogether.managers.data.CredentialsManagerImpl
 import ru.mail.sporttogether.managers.data.DataManagerImpl
 import ru.mail.sporttogether.managers.data.ICredentialsManager
 import ru.mail.sporttogether.managers.data.IDataManager
-import ru.mail.sporttogether.managers.events.EventsManagerImpl
 import ru.mail.sporttogether.managers.events.EventsManager
+import ru.mail.sporttogether.managers.events.EventsManagerImpl
 import ru.mail.sporttogether.managers.headers.HeaderManagerImpl
 import javax.inject.Singleton
 
@@ -33,8 +33,8 @@ class ManagersModule {
 
     @Singleton
     @Provides
-    fun provideCredentialsManager(): ICredentialsManager
-            = CredentialsManagerImpl()
+    fun provideCredentialsManager(context: Context): ICredentialsManager
+            = CredentialsManagerImpl(context)
 
     @Singleton
     @Provides
@@ -43,8 +43,8 @@ class ManagersModule {
 
     @Singleton
     @Provides
-    fun provideAuthManager(): AuthManager
-            = AuthManager()
+    fun provideAuthManager(manager: ICredentialsManager): AuthManager
+            = AuthManager(manager)
 
     @Singleton
     @Provides
