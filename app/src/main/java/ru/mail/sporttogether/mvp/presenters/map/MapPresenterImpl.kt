@@ -118,7 +118,7 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
     }
 
     override fun onCameraMoveStarted(p0: Int) {
-        map?.clear()
+
     }
 
     override fun onCameraIdle(x: Int, y: Int) {
@@ -161,7 +161,6 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
     override fun onMapReady(map: GoogleMap) {
         this.map = map
         map.isBuildingsEnabled = true
-        map.uiSettings.isZoomControlsEnabled = true
         map.setOnMapClickListener(this)
         map.setOnMarkerClickListener(this)
         map.setOnCameraIdleListener(view)
@@ -194,10 +193,11 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
     }
 
     private fun addMarkers(data: List<Event>) {
-        for (event in data) {
-            val latlng = LatLng(event.lat, event.lng)
-            val markerOptions = options.position(latlng).draggable(false)
-            map?.let {
+        map?.let {
+            it.clear()
+            for (event in data) {
+                val latlng = LatLng(event.lat, event.lng)
+                val markerOptions = options.position(latlng)
                 val marker = it.addMarker(markerOptions)
                 markerIdEventMap.put(marker.id, event)
             }
@@ -227,6 +227,7 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
     private fun showEventInfo(marker: Marker) {
         val event = markerIdEventMap[marker.id]
         event?.let {
+            view?.hideInfo()
             lastEventId = it.id
             view?.showInfo(it)
         }

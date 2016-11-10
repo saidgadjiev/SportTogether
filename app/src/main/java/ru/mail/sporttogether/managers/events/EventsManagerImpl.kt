@@ -39,9 +39,7 @@ class EventsManagerImpl : EventsManager {
     override fun getEvents(): ArrayList<Event> {
         val size = eventsMap.size()
         val list = ArrayList<Event>(size)
-        for (i in 0..size - 1) {
-            list.add(eventsMap.valueAt(i))
-        }
+        (0..size - 1).mapTo(list) { eventsMap.valueAt(it) }
         return list
     }
 
