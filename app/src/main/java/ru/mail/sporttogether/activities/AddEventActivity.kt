@@ -10,7 +10,6 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.ProgressBar
-import android.widget.Spinner
 import com.jakewharton.rxbinding.widget.RxTextView
 import com.mikepenz.materialdrawer.util.KeyboardUtil
 import ru.mail.sporttogether.R
@@ -36,15 +35,12 @@ class AddEventActivity :
     private lateinit var lng: String
     private val handler = Handler()
 
-    private lateinit var categorySpinner: Spinner
-    private lateinit var arrayAdapter: ArrayAdapter<Category>
 
     private lateinit var categoryAutocomplete: AutoCompleteTextView
     private var categoriesArray: ArrayList<Category> = ArrayList()
     private lateinit var categoriesAdapter: ArrayAdapter<Category>
     private lateinit var loadingCategoriesProgressBar: ProgressBar
 
-    private var selectedCategory = -1L
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         presenter = AddEventPresenterImpl(this)
@@ -55,10 +51,7 @@ class AddEventActivity :
             lng = getDoubleExtra(KEY_LNG, 0.0).toString()
         }
         setupCoordinates()
-        arrayAdapter = ArrayAdapter(this, android.R.layout.select_dialog_item)
-        categorySpinner = binding.categorySpinner
         presenter.loadCategories()
-        categorySpinner.adapter = arrayAdapter
 
 
 //        categoriesArray.add(Category(1, "cat1"))
@@ -90,9 +83,7 @@ class AddEventActivity :
     }
 
     override fun onCategoriesReady(categories: ArrayList<Category>) {
-        arrayAdapter.clear()
-        arrayAdapter.addAll(categories)
-        binding.categorySpinner.setSelection(0)
+
     }
 
     override fun onCategoriesLoaded(categories: ArrayList<Category>) {
@@ -140,7 +131,7 @@ class AddEventActivity :
     override fun onAddButtonClicked() {
         val name = binding.eventName.text.toString()
         presenter.addEventClicked(name,
-                (categorySpinner.selectedItem as Category).id ?: 0,
+                1L, //TODO сделать отправку категории
                 lat.toDouble(),
                 lng.toDouble(),
                 binding.description.text.toString())

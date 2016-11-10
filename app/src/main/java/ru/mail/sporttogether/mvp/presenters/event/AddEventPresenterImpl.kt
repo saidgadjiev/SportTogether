@@ -18,9 +18,7 @@ import javax.inject.Inject
  * Created by bagrusss on 15.10.16.
  *
  */
-class AddEventPresenterImpl : AddEventPresenter {
-
-    private var view: IAddEventView? = null
+class AddEventPresenterImpl(var view: IAddEventView?) : AddEventPresenter {
 
     @Inject lateinit var eventsApi: EventsAPI
     @Inject lateinit var categoriesApi: CategoriesAPI
@@ -30,10 +28,11 @@ class AddEventPresenterImpl : AddEventPresenter {
     private var eventSubscribtion: Subscription? = null
     private var categoriesSubscribtion: Subscription? = null
 
-    constructor(view: IAddEventView) {
-        this.view = view
+
+    init {
         App.injector.usePresenterComponent().inject(this)
     }
+
 
     override fun onDestroy() {
         view = null

@@ -14,21 +14,18 @@ import javax.inject.Inject
  * Created by bagrusss on 15.10.16.
  *
  */
-class EventsListPresenterImpl : EventsListPresenter {
+class EventsListPresenterImpl(var view: IListEventView?) : EventsListPresenter {
     @Inject lateinit var api: EventsAPI
     @Inject lateinit var eventsManager: EventsManager
 
-    private var view: IListEventView? = null
+    private var eventSubscribtion: Subscription? = null
 
-    constructor(view: IListEventView) {
-        this.view = view
+    init {
         App.injector
                 .usePresenterComponent()
                 .inject(this)
         subscribeToEventManager()
     }
-
-    private var eventSubscribtion: Subscription? = null
 
     override fun onStart() {
         super.onStart()
