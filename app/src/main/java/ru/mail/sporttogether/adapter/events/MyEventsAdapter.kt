@@ -73,14 +73,6 @@ class MyEventsAdapter : RecyclerView.Adapter<AbstractEventHolder>() {
         holder.onBind(items[position])
     }
 
-    fun addEvent(event: Event) {
-        events?.let {
-            it.add(event)
-            notifyItemInserted(it.size - 1)
-        }
-
-    }
-
     companion object {
         @JvmStatic val TYPE_EVENT = 0
         @JvmStatic val TYPE_SEPARATOR = 1

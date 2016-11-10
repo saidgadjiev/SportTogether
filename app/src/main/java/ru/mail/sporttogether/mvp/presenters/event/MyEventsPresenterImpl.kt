@@ -43,10 +43,9 @@ class MyEventsPresenterImpl(private var view: IMyEventsView?) : MyEventsPresente
                     it.userId == user.id
                 }
                 .toList()
-                .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .flatMap { list ->
-                    list.add(0, Event(id = -1, name = "Организованные"))
+                    list.add(0, Event(id = 0, name = "Организованные"))
                     view?.clearEvents()
                     view?.addOrganizedEvents(list)
                     eventsApi.getMyEvents()
@@ -61,9 +60,8 @@ class MyEventsPresenterImpl(private var view: IMyEventsView?) : MyEventsPresente
                     item.isEnded == true
                 }
                 .toList()
-                .observeOn(AndroidSchedulers.mainThread())
                 .flatMap { list ->
-                    list.add(0, Event(id = -1, name = "Завершились"))
+                    list.add(0, Event(id = 0, name = "Завершились"))
                     view?.addEndedEvents(list)
                     Observable.from(myEvents)
                 }
@@ -76,7 +74,7 @@ class MyEventsPresenterImpl(private var view: IMyEventsView?) : MyEventsPresente
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : Subscriber<MutableList<Event>>() {
                     override fun onNext(myEvents: MutableList<Event>) {
-                        myEvents.add(0, Event(id = -1, name = "Подписки"))
+                        myEvents.add(0, Event(id = 0, name = "Подписки"))
                         view?.addMyEvents(myEvents)
                     }
 
