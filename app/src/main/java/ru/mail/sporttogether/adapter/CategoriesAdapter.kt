@@ -20,13 +20,11 @@ class CategoriesAdapter(mContext: Context?, resource: Int, private var fullList:
     }
 
     override fun addAll(collection: MutableCollection<out Category>?) {
-        Log.d("#MY " + javaClass.simpleName, "overrided add all")
         collection!!.forEach { el -> add(el) }
         notifyDataSetChanged()
     }
 
     override fun add(item: Category?) {
-        Log.d("#MY " + javaClass.simpleName, "overrided")
         if (item != null) {
             fullList.add(item)
             mOriginalValues.clear()
@@ -53,10 +51,6 @@ class CategoriesAdapter(mContext: Context?, resource: Int, private var fullList:
 
     inner class CategoryFilter : Filter() {
         override fun performFiltering(prefix: CharSequence?): FilterResults {
-            Log.d("#MY " + javaClass.simpleName, "in perform filtering. prefix : " + prefix)
-            fullList.forEach { el ->
-                Log.d("#MY " + javaClass.simpleName, "fulllist el : " + el.name)
-            }
             val filterResults = FilterResults()
             if (mOriginalValues.isEmpty()) {
                 mOriginalValues = ArrayList(fullList)
