@@ -51,7 +51,7 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
     @Inject lateinit var locationManager: LocationManager
 
     private var apiSubscribtion: Subscription? = null
-    private lateinit var locationSubscription: Subscription
+    private var locationSubscription: Subscription? = null
 
     private var eventsSubscribion: Subscription? = null
 
@@ -100,7 +100,7 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
     }
 
     override fun onDestroy() {
-        locationSubscription.unsubscribe()
+        locationSubscription?.unsubscribe()
         view = null
         map?.let {
             with(it) {
@@ -188,7 +188,7 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
         map?.let {
             lastPos = LatLng(location.latitude, location.longitude)
             it.moveCamera(CameraUpdateFactory.newLatLngZoom(lastPos, 15f))
-            locationSubscription.unsubscribe()
+            locationSubscription?.unsubscribe()
         }
 
     }
