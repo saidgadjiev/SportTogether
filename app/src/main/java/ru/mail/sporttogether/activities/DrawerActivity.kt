@@ -89,7 +89,6 @@ class DrawerActivity : IDrawerView, PresenterActivity<IDrawerPresenter>() {
                     false
                 },
                 PrimaryDrawerItem().withName("Выход").withOnDrawerItemClickListener { view, i, iDrawerItem ->
-                    presenter.clickSignOut()
                     false
                 }
         )

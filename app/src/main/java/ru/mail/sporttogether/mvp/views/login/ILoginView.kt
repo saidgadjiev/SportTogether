@@ -1,6 +1,5 @@
 package ru.mail.sporttogether.mvp.views.login
 
-import com.auth0.android.lock.Lock
 import ru.mail.sporttogether.mvp.views.IView
 
 /**
@@ -8,5 +7,4 @@ import ru.mail.sporttogether.mvp.views.IView
  */
 interface ILoginView: IView {
     fun startMainActivity()
-    fun startLockActivity(lock: Lock?)
 }

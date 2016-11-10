@@ -1,12 +1,10 @@
 package ru.mail.sporttogether.mvp.presenters.drawer
 
 import android.content.Context
-import android.util.Log
-import com.auth0.android.facebook.FacebookAuthProvider
-import com.facebook.FacebookSdk
 import ru.mail.sporttogether.app.App
 import ru.mail.sporttogether.managers.auth.AuthManager
 import ru.mail.sporttogether.managers.data.ICredentialsManager
+import ru.mail.sporttogether.managers.headers.HeaderManagerImpl
 import ru.mail.sporttogether.mvp.views.drawer.IDrawerView
 import ru.mail.sporttogether.net.api.AuthorizationAPI
 import javax.inject.Inject
@@ -22,7 +20,8 @@ class DrawerPresenterImpl : IDrawerPresenter {
     @Inject lateinit var api: AuthorizationAPI
     @Inject lateinit var credentialsManager: ICredentialsManager
     @Inject lateinit var context: Context
-    @Inject lateinit var provider: FacebookAuthProvider
+    @Inject lateinit var headerManager: HeaderManagerImpl
+
 
     constructor(view: IDrawerView) {
         App.injector.usePresenterComponent().inject(this)
@@ -30,12 +29,6 @@ class DrawerPresenterImpl : IDrawerPresenter {
     }
 
     override fun clickSignOut() {
-        if (FacebookSdk.isInitialized()) {
-            Log.d("Auth", "Facebook initialized")
-        }
-        credentialsManager.deleteCredentials(context)
-        provider.clearSession()
-        manager.unauth(api, view)
     }
 
     override fun onDestroy() {

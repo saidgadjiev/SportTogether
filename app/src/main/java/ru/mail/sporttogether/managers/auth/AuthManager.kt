@@ -13,8 +13,9 @@ import rx.schedulers.Schedulers
  * Created by said on 15.10.16.
  */
 class AuthManager {
+
     fun auth(api: AuthorizationAPI, view: ILoginView?) {
-        api.updateAuthorization().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(object : Subscriber<Response<Any>>() {
+        /*api.updateAuthorization().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(object : Subscriber<Response<Any>>() {
             override fun onCompleted() {
                 Log.d("AUTH", "completed")
             }
@@ -27,7 +28,7 @@ class AuthManager {
                 Log.d("AUTH", "onNext")
                 view?.startMainActivity()
             }
-        })
+        })*/
     }
 
     fun unauth(api: AuthorizationAPI, view: IDrawerView?) {
