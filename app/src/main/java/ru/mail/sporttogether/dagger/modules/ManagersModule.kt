@@ -7,7 +7,7 @@ import ru.mail.sporttogether.managers.LocationManager
 import ru.mail.sporttogether.managers.auth.AuthManager
 import ru.mail.sporttogether.managers.data.CredentialsManagerImpl
 import ru.mail.sporttogether.managers.data.DataManagerImpl
-import ru.mail.sporttogether.managers.data.ICredentialsManager
+import ru.mail.sporttogether.managers.data.CredentialsManager
 import ru.mail.sporttogether.managers.data.IDataManager
 import ru.mail.sporttogether.managers.events.EventsManager
 import ru.mail.sporttogether.managers.events.EventsManagerImpl
@@ -33,17 +33,17 @@ class ManagersModule {
 
     @Singleton
     @Provides
-    fun provideCredentialsManager(context: Context): ICredentialsManager
+    fun provideCredentialsManager(context: Context): CredentialsManager
             = CredentialsManagerImpl(context)
 
     @Singleton
     @Provides
-    fun provideHeaderManager(locationManager: LocationManager): HeaderManagerImpl
-            = HeaderManagerImpl(locationManager)
+    fun provideHeaderManager(): HeaderManagerImpl
+            = HeaderManagerImpl()
 
     @Singleton
     @Provides
-    fun provideAuthManager(manager: ICredentialsManager): AuthManager
+    fun provideAuthManager(manager: CredentialsManager): AuthManager
             = AuthManager(manager)
 
     @Singleton

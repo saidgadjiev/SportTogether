@@ -53,12 +53,11 @@ class AddEventPresenterImpl : AddEventPresenter {
         val event = Event(
                 name = name,
                 categoryId = categoryId,
-                latitude = lat,
-                longtitude = lng,
+                lat = lat,
+                lng = lng,
                 description = description,
                 maxPeople = 5,
-                date = (System.currentTimeMillis()) + 1000 * 60 * 63,
-                id = 0) // сделаем выбор времени и даты позже
+                date = (System.currentTimeMillis()) + 1000 * 60 * 63) // сделаем выбор времени и даты позже
 
         eventSubscribtion = eventsApi.createEvent(event)
                 .subscribeOn(Schedulers.io())

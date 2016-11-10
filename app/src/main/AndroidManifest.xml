@@ -50,7 +50,8 @@
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:label="@string/app_name" />
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
@@ -74,6 +75,7 @@
 
         <activity
             android:name="com.auth0.android.provider.WebAuthActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/MyLock.Theme" />
 
         <meta-data
@@ -84,14 +86,17 @@
 
         <activity
             android:name=".activities.DrawerActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
 
         <activity
             android:name=".activities.SplashActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

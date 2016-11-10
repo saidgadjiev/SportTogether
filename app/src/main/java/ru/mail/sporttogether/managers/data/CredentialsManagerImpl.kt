@@ -11,7 +11,7 @@ import ru.mail.sporttogether.net.models.User
  *
  */
 
-class CredentialsManagerImpl(val context: Context) : ICredentialsManager {
+class CredentialsManagerImpl(val context: Context) : CredentialsManager {
 
     val sharedPref: SharedPreferences
 

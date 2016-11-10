@@ -1,6 +1,5 @@
 package ru.mail.sporttogether.managers.headers
 
-import ru.mail.sporttogether.managers.LocationManager
 import java.util.*
 
 /**
@@ -8,7 +7,7 @@ import java.util.*
  *
  */
 
-class HeaderManagerImpl(locationManager: LocationManager) : IHeaderManager {
+class HeaderManagerImpl() : IHeaderManager {
 
     var token: String = ""
     var clientId: String = ""

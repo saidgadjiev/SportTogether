@@ -2,9 +2,11 @@ package ru.mail.sporttogether.mvp.presenters.event
 
 import android.util.Log
 import ru.mail.sporttogether.app.App
+import ru.mail.sporttogether.managers.data.CredentialsManager
 import ru.mail.sporttogether.mvp.presenters.IPresenter
 import ru.mail.sporttogether.mvp.views.event.IListEventView
 import ru.mail.sporttogether.net.api.EventsAPI
+import ru.mail.sporttogether.net.models.User
 import ru.mail.sporttogether.net.responses.EventsResponse
 import ru.mail.sporttogether.net.responses.Response
 import rx.Subscriber
@@ -16,20 +18,21 @@ import javax.inject.Inject
  * Created by bagrusss on 15.10.16.
  *
  */
-class MyEventsPresenterImpl : MyEventsPresenter, IPresenter {
-    @Inject lateinit var api: EventsAPI
+class MyEventsPresenterImpl(private val view: IListEventView) : MyEventsPresenter, IPresenter {
 
-    private val view: IListEventView
+    @Inject lateinit var eventsApi: EventsAPI
+    @Inject lateinit var credentialsManager: CredentialsManager
+    private val user: User
 
-    constructor(view: IListEventView) {
-        this.view = view
+    init {
         App.injector
                 .usePresenterComponent()
                 .inject(this)
+        user = credentialsManager.getUserData()
     }
 
     override fun getMyEvents() {
-        api.getMyEvents()
+        eventsApi.getMyEvents()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(object : Subscriber<Response<EventsResponse>>() {

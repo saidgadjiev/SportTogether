@@ -35,10 +35,9 @@ import javax.inject.Inject
  * Created by bagrusss on 01.10.16.
  *
  */
-class MapPresenterImpl : IMapPresenter {
+class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
 
     private var map: GoogleMap? = null
-    private var view: IMapView? = null
 
     private var lastMarker: Marker? = null
     private lateinit var lastPos: LatLng
@@ -54,14 +53,13 @@ class MapPresenterImpl : IMapPresenter {
     private var apiSubscribtion: Subscription? = null
     private lateinit var locationSubscription: Subscription
 
-    constructor(view: IMapView) {
-        this.view = view
+    private var eventsSubscribion: Subscription? = null
+
+    init {
         App.injector
                 .usePresenterComponent()
                 .inject(this)
     }
-
-    private var eventsSubscribion: Subscription? = null
 
     override fun onStart() {
         EventBus.getDefault().register(this)
@@ -70,7 +68,7 @@ class MapPresenterImpl : IMapPresenter {
                 .subscribe { newState ->
                     if (newState.type == EventsManager.UpdateType.ADD) {
                         val event = newState.data as Event
-                        addMarker(LatLng(event.latitude, event.longtitude))
+                        addMarker(LatLng(event.lat, event.lng))
                     }
                 }
     }
@@ -216,7 +214,7 @@ class MapPresenterImpl : IMapPresenter {
 
     private fun addMarkers(data: List<Event>) {
         for (event in data) {
-            val latlng = LatLng(event.latitude, event.longtitude)
+            val latlng = LatLng(event.lat, event.lng)
             val markerOptions = options.position(latlng).draggable(false)
             map?.let {
                 val marker = it.addMarker(markerOptions)
@@ -271,7 +269,9 @@ class MapPresenterImpl : IMapPresenter {
                     }
 
                     override fun onNext(t: Response<Any>) {
-                        view?.showToast(android.R.string.ok)
+                        if (t.code === 0)
+                            view?.showToast(android.R.string.ok)
+                        else view?.showToast("Вы уже жаловались на это событие")
                     }
                 })
     }
@@ -305,5 +305,6 @@ class MapPresenterImpl : IMapPresenter {
     companion object {
         @JvmStatic private val REQUEST_CODE = 1002
     }
+
 
 }

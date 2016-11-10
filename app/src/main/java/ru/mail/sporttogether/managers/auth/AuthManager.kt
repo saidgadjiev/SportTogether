@@ -1,7 +1,7 @@
 package ru.mail.sporttogether.managers.auth
 
 import android.util.Log
-import ru.mail.sporttogether.managers.data.ICredentialsManager
+import ru.mail.sporttogether.managers.data.CredentialsManager
 import ru.mail.sporttogether.mvp.views.ISplashView
 import ru.mail.sporttogether.mvp.views.drawer.IDrawerView
 import ru.mail.sporttogether.net.api.AuthorizationAPI
@@ -15,7 +15,7 @@ import rx.schedulers.Schedulers
  * Created by said on 15.10.16.
  *
  */
-class AuthManager(val credentialsManager: ICredentialsManager) {
+class AuthManager(val credentialsManager: CredentialsManager) {
     fun auth(api: AuthorizationAPI, view: ISplashView?) {
         api.updateAuthorization()
                 .subscribeOn(Schedulers.io())

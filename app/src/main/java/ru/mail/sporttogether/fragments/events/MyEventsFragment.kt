@@ -6,7 +6,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import ru.mail.sporttogether.adapter.EventsAdapter
+import ru.mail.sporttogether.adapter.events.EventsAdapter
 import ru.mail.sporttogether.databinding.FragmentMyEventsBinding
 import ru.mail.sporttogether.fragments.PresenterFragment
 import ru.mail.sporttogether.mvp.presenters.event.MyEventsPresenter

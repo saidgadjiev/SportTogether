@@ -6,7 +6,7 @@ import ru.mail.sporttogether.net.models.User
 /**
  * Created by bagrusss on 14.10.16.
  */
-interface ICredentialsManager {
+interface CredentialsManager {
     fun saveCredentials(credentials: Credentials)
     fun getCredentials(): Credentials
     fun deleteCredentials()

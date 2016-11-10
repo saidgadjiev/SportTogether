@@ -19,7 +19,7 @@ import com.facebook.FacebookSdk
 import ru.mail.sporttogether.activities.SplashActivity
 import ru.mail.sporttogether.app.App
 import ru.mail.sporttogether.managers.auth.AuthManager
-import ru.mail.sporttogether.managers.data.ICredentialsManager
+import ru.mail.sporttogether.managers.data.CredentialsManager
 import ru.mail.sporttogether.managers.headers.HeaderManagerImpl
 import ru.mail.sporttogether.mvp.views.ISplashView
 import ru.mail.sporttogether.net.api.AuthorizationAPI
@@ -31,12 +31,13 @@ import javax.inject.Inject
  *
  */
 class SplashActivityPresenterImpl : SplashActivityPresenter {
+
     private var view: ISplashView? = null
     @Inject lateinit var api: AuthorizationAPI
     @Inject lateinit var context: Context
     @Inject lateinit var auth0: Auth0
     @Inject lateinit var aClient: AuthenticationAPIClient
-    @Inject lateinit var credentialsManager: ICredentialsManager
+    @Inject lateinit var credentialsManager: CredentialsManager
     @Inject lateinit var headerManager: HeaderManagerImpl
     @Inject lateinit var authManager: AuthManager
     @Inject lateinit var provider: FacebookAuthProvider
