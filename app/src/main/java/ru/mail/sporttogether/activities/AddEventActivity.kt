@@ -7,9 +7,9 @@ import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import android.view.View
-import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.ProgressBar
+import android.widget.Toast
 import com.jakewharton.rxbinding.widget.RxTextView
 import com.mikepenz.materialdrawer.util.KeyboardUtil
 import ru.mail.sporttogether.R
@@ -38,7 +38,7 @@ class AddEventActivity :
 
     private lateinit var categoryAutocomplete: AutoCompleteTextView
     private var categoriesArray: ArrayList<Category> = ArrayList()
-    private lateinit var categoriesAdapter: ArrayAdapter<Category>
+    private lateinit var categoriesAdapter: CategoriesAdapter
     private lateinit var loadingCategoriesProgressBar: ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,15 +68,9 @@ class AddEventActivity :
 //        categoryAutocomplete.setAdapter(categoriesAdapter)
 
         RxTextView.textChangeEvents(categoryAutocomplete)
-                .filter { e -> e.count() >= 3 }
+                .filter { e -> e.count() == 3 }
                 .subscribe { e ->
                     Log.d("#MY " + javaClass.simpleName, "start loading categories. subname : " + e.text())
-//                    val arrayList = ArrayList<Category>()
-//                    arrayList.add(Category(5, "added_category"))
-//                    arrayList.add(Category(6, "added_category2"))
-//                    arrayList.add(Category(7, "added_category3"))
-//                    categoriesAdapter.clear()
-//                    categoriesAdapter.addAll(arrayList)
                     visibleCategoryProgressBar()
                     presenter.loadCategoriesBySubname(e.text().toString())
                 }
@@ -91,13 +85,6 @@ class AddEventActivity :
         categories.forEach { e -> Log.d("#MY " + javaClass.simpleName, "loaded category : " + e.name) }
         categoriesAdapter.clear()
         categoriesAdapter.addAll(categories)
-//        categoriesAdapter.clear()
-//        categoriesAdapter.addAll(categories)
-
-//        Handler().postDelayed({
-//            Log.d("#MY " + javaClass.simpleName, "when show dropdown categories size : " + categoriesAdapter.count)
-//            invisibleCategoryProgressBar()
-//        }, 1000)
     }
 
     override fun visibleCategoryProgressBar() {
@@ -130,11 +117,22 @@ class AddEventActivity :
 
     override fun onAddButtonClicked() {
         val name = binding.eventName.text.toString()
+        val nameCategory : String = binding.categoryAutocomplete.text.toString()
+        Log.d("#MY " + javaClass.simpleName, "category name : " + nameCategory)
+        categoriesAdapter.getFullList().forEach { el -> Log.d("#MY " + javaClass.simpleName, el.name) }
+        val idCategory: Long? = categoriesAdapter.getFullList().findLast { el -> el.name == nameCategory }?.id
+        Log.d("#MY " + javaClass.simpleName, "category id : " + idCategory)
+        if (idCategory == null) {
+            Toast.makeText(this, "Категория не задана", Toast.LENGTH_SHORT).show()
+        }
+        val maxPeople = Integer.parseInt(binding.eventMaxPeople.text.toString())
+        Log.d("#MY " + javaClass.simpleName, "max people : " + maxPeople)
         presenter.addEventClicked(name,
-                1L, //TODO сделать отправку категории
+                idCategory!!, //TODO сделать отправку категории
                 lat.toDouble(),
                 lng.toDouble(),
-                binding.description.text.toString())
+                binding.description.text.toString(),
+                maxPeople)
     }
 
     override fun onEventAdded(name: String) {

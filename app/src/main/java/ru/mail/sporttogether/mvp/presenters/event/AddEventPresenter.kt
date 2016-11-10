@@ -12,7 +12,8 @@ interface AddEventPresenter : IPresenter {
                         categoryId: Long,
                         lat: Double,
                         lng: Double,
-                        description: String = "")
+                        description: String = "",
+                        maxPeople: Int)
 
     fun searchCategory(category: String)
 

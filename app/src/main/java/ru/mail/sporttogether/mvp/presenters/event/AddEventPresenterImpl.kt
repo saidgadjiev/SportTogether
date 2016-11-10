@@ -48,14 +48,15 @@ class AddEventPresenterImpl(var view: IAddEventView?) : AddEventPresenter {
                                  categoryId: Long,
                                  lat: Double,
                                  lng: Double,
-                                 description: String) {
+                                 description: String,
+                                 maxPeople: Int) {
         val event = Event(
                 name = name,
                 categoryId = categoryId,
                 lat = lat,
                 lng = lng,
                 description = description,
-                maxPeople = 5,
+                maxPeople = maxPeople,
                 date = (System.currentTimeMillis()) + 1000 * 60 * 63) // сделаем выбор времени и даты позже
 
         eventSubscribtion = eventsApi.createEvent(event)

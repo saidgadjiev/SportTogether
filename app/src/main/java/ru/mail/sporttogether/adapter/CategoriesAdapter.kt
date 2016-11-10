@@ -20,7 +20,7 @@ class CategoriesAdapter(mContext: Context?, resource: Int, private var fullList:
     }
 
     override fun addAll(collection: MutableCollection<out Category>?) {
-        collection!!.forEach { el -> add(el) }
+        collection?.forEach { el -> add(el) }
         notifyDataSetChanged()
     }
 
@@ -29,6 +29,10 @@ class CategoriesAdapter(mContext: Context?, resource: Int, private var fullList:
             fullList.add(item)
             mOriginalValues.clear()
         }
+    }
+
+    fun getFullList(): List<Category> {
+        return fullList
     }
 
     private var mOriginalValues: ArrayList<Category> = ArrayList(fullList)

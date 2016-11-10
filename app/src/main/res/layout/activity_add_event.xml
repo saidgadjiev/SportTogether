@@ -31,6 +31,14 @@
             android:maxEms="15"
             android:maxLines="1" />
 
+        <EditText
+            android:id="@+id/event_max_people"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/max_people_event_hint"
+            android:text="10"
+            android:inputType="number"/>
+
         <TextView
             android:id="@+id/lat_view"
             android:layout_width="wrap_content"
