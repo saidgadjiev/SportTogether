@@ -16,7 +16,7 @@ data class Event(
         var maxPeople: Int = 5,
         var description: String = "",
         var isEnded: Boolean = false,
-        var date: Long,
+        var date: Long = 0L,
         var reports: Int = 0,
         var nowPeople: Int = 0
 ) {

@@ -1,27 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <RelativeLayout
-        android:orientation="vertical"
+    <data>
+
+        <variable
+            name="data"
+            type="ru.mail.sporttogether.data.binding.event.EventDetailsData" />
+    </data>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/offset_medium"
-        android:layout_margin="@dimen/offset_medium"
         android:background="@color/md_white_1000"
-        android:elevation="6dp">
+        android:orientation="vertical"
+        android:padding="@dimen/material_padding">
+
         <LinearLayout
+            android:id="@+id/event_item_top_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:id="@+id/event_item_top_layout">
+            android:orientation="horizontal">
+
             <TextView
-                style="@style/TitleText"
                 android:id="@+id/item_event_name"
+                style="@style/TitleText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Event1"/>
+                android:text="@{data.name}" />
+
             <TextView
                 android:id="@+id/item_event_date"
                 style="@style/BaseText"
@@ -29,37 +36,32 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="right"
-                android:text="17.11.1995"/>
+                android:text="@{data.date}" />
         </LinearLayout>
+
         <TextView
-            style="@style/BaseText"
             android:id="@+id/item_event_description"
+            style="@style/BaseText"
             android:layout_width="match_parent"
             android:layout_height="32dp"
-            android:layout_below="@+id/event_item_top_layout"
             android:layout_marginTop="@dimen/offset_medium"
-            android:text="VirginisDei Genitricis Mariae, beati Michaelis Archangeli, beati Joseph ejusdem beataeVirginis Sponsi, beatorum Apostolorum"/>
+            android:text="@{data.description}" />
+
         <RelativeLayout
             android:id="@+id/item_event_bottom_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/offset_medium"
-            android:layout_below="@+id/item_event_description">
+            android:layout_marginTop="@dimen/offset_medium">
 
             <TextView
-                android:id="@+id/item_event_now_people"
+                android:id="@+id/item_people_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawablePadding="@dimen/offset_small"
                 android:drawableStart="@drawable/ic_people"
-                android:text="4"/>
-            <TextView
-                android:id="@+id/item_event_max_people"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/offset_large"
-                android:layout_toEndOf="@+id/item_event_now_people"
-                android:text="16"/>
+                android:gravity="center_vertical"
+                android:text="@{data.peopleCount}" />
+
             <TextView
                 android:id="@+id/item_event_reports"
                 android:layout_width="wrap_content"
@@ -67,7 +69,8 @@
                 android:layout_alignParentRight="true"
                 android:drawablePadding="@dimen/offset_small"
                 android:drawableStart="@drawable/ic_report"
-                android:text="7"/>
+                android:gravity="center_vertical"
+                android:text="@{data.engryCount}" />
         </RelativeLayout>
-    </RelativeLayout>
+    </LinearLayout>
 </layout>
