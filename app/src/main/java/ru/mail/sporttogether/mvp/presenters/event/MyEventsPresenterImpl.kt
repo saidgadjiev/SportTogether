@@ -45,9 +45,11 @@ class MyEventsPresenterImpl(private var view: IMyEventsView?) : MyEventsPresente
                 .toList()
                 .subscribeOn(Schedulers.io())
                 .flatMap { list ->
-                    list.add(0, Event(id = 0, name = "Организованные"))
                     view?.clearEvents()
-                    view?.addOrganizedEvents(list)
+                    if (list.size > 0) {
+                        list.add(0, Event(id = -1, name = "Организованные"))
+                        view?.addOrganizedEvents(list)
+                    }
                     eventsApi.getMyEvents()
                 }
                 .subscribeOn(Schedulers.io())
@@ -61,21 +63,23 @@ class MyEventsPresenterImpl(private var view: IMyEventsView?) : MyEventsPresente
                 }
                 .toList()
                 .flatMap { list ->
-                    list.add(0, Event(id = 0, name = "Завершились"))
-                    view?.addEndedEvents(list)
+                    if (list.size > 0) {
+                        list.add(0, Event(id = -1, name = "Завершились"))
+                        view?.addEndedEvents(list)
+                    }
                     Observable.from(myEvents)
                 }
-                .subscribeOn(Schedulers.computation())
                 .filter { item -> //события которые не завершились
                     item.isEnded == false
                 }
                 .toList()
-                .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : Subscriber<MutableList<Event>>() {
-                    override fun onNext(myEvents: MutableList<Event>) {
-                        myEvents.add(0, Event(id = 0, name = "Подписки"))
-                        view?.addMyEvents(myEvents)
+                    override fun onNext(list: MutableList<Event>) {
+                        if (list.size > 0) {
+                            list.add(0, Event(id = -1, name = "Подписки"))
+                            view?.addMyEvents(list)
+                        }
                     }
 
                     override fun onError(e: Throwable) {

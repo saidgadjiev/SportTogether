@@ -12,7 +12,6 @@ import java.util.*
  *
  */
 class MyEventsAdapter : RecyclerView.Adapter<AbstractEventHolder>() {
-    private var events: MutableList<Event>? = null
 
     private var items = LinkedList<EventWrapper>()
 
@@ -28,13 +27,11 @@ class MyEventsAdapter : RecyclerView.Adapter<AbstractEventHolder>() {
 
     private fun convert(events: MutableList<Event>): List<EventWrapper> =
             events.map {
-                EventWrapper(
-                        type = if (it.id > 0) TYPE_EVENT else TYPE_SEPARATOR,
-                        event = it
-                )
+                val type = if (it.id > 0) TYPE_EVENT else TYPE_SEPARATOR
+                EventWrapper(type, it)
             }
 
-    // сначала идут события, которые организовал пользователь
+    // сначала идут события, которые организовал пользователь,
     // потом события, которые закончились,
     // далее события, на которые подписан пользователь
 
@@ -44,18 +41,18 @@ class MyEventsAdapter : RecyclerView.Adapter<AbstractEventHolder>() {
     }
 
     fun addEndedEvents(events: MutableList<Event>) {
-        items.addAll(organizedLastEvent, convert(events))
-        endedLastEvent = organizedLastEvent + events.size
+        items.addAll(convert(events))
+        endedLastEvent = items.size
     }
 
     fun addMyEvents(events: MutableList<Event>) {
-        items.addAll(endedLastEvent, convert(events))
-        myLastEvent = endedLastEvent + events.size
+        items.addAll(convert(events))
+        myLastEvent = items.size
         notifyDataSetChanged()
     }
 
     override fun getItemViewType(position: Int): Int {
-        return super.getItemViewType(position)
+        return items[position].type
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AbstractEventHolder {
