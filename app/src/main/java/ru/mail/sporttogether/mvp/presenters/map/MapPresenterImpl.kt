@@ -178,26 +178,6 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
             }
             locationManager.update(false)
         }
-        /*api.getAllEvents()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(object : Subscriber<Response<EventsResponse>>() {
-                    override fun onNext(response: Response<EventsResponse>) {
-                        if (response.code == 0) {
-                            markerIdEventMap.clear()
-                            eventsManager.swapEvents(response.data)
-                            addMarkers(response.data)
-                        }
-                    }
-
-                    override fun onError(e: Throwable) {
-                        view?.showToast(R.string.cant_get_events)
-                    }
-
-                    override fun onCompleted() {
-
-                    }
-                })*/
     }
 
     private fun onLocationUpdated(location: Location) {
@@ -206,8 +186,9 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
 
     private fun showMe(location: Location) {
         map?.let {
-            val latlng = LatLng(location.latitude, location.longitude)
-            it.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, 15f))
+            lastPos = LatLng(location.latitude, location.longitude)
+            it.moveCamera(CameraUpdateFactory.newLatLngZoom(lastPos, 15f))
+            locationSubscription.unsubscribe()
         }
 
     }

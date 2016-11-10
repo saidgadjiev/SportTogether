@@ -12,6 +12,7 @@ import android.widget.AutoCompleteTextView
 import android.widget.ProgressBar
 import android.widget.Spinner
 import com.jakewharton.rxbinding.widget.RxTextView
+import com.mikepenz.materialdrawer.util.KeyboardUtil
 import ru.mail.sporttogether.R
 import ru.mail.sporttogether.adapter.CategoriesAdapter
 import ru.mail.sporttogether.data.binding.event.EventData
@@ -124,6 +125,11 @@ class AddEventActivity :
     override fun onStop() {
         super.onStop()
         binding.listener = null
+    }
+
+    override fun onPause() {
+        super.onPause()
+        KeyboardUtil.hideKeyboard(this)
     }
 
     private fun setupCoordinates() {
