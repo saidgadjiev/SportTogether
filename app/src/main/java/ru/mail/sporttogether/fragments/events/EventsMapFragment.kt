@@ -145,9 +145,9 @@ class EventsMapFragment :
     }
 
     override fun showInfo(event: Event, isCanceble: Boolean) {
-        data.category.set(event.category.id.toString())
+        data.category.set(event.category.name)
         data.name.set(event.name)
-        data.date.set(SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(Date(event.date)))
+        data.date.set(SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.getDefault()).format(Date(event.date)))
         data.description.set(event.description)
         val people = getString(R.string.users, event.nowPeople, event.maxPeople)
         data.peopleCount.set(people)

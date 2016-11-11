@@ -22,8 +22,7 @@ class CustomFirebaseMessagingService : FirebaseMessagingService() {
         Log.d(TAG, "FCM Data Message: " + remoteMessage.data)
         val notification = NotificationCompat.Builder(this)
                 .setContentTitle("Событие")
-                //.setContentText(remoteMessage.data.toString())
-                .setContentText("Событие отменено")
+                .setContentText(remoteMessage.notification.body.toString())
                 .setSmallIcon(R.drawable.ic_racing_flag)
                 .build()
         val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager

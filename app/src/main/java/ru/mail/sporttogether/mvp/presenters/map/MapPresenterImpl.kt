@@ -230,8 +230,8 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
                 val marker = it.addMarker(markerOptions)
                 markerIdEventMap.put(marker.id, event)
             }
+            options.icon(null)
         }
-
     }
 
     override fun onAddButtonClicked() {

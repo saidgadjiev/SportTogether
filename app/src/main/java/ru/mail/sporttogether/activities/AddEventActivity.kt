@@ -21,6 +21,8 @@ import ru.mail.sporttogether.mvp.presenters.event.AddEventPresenter
 import ru.mail.sporttogether.mvp.presenters.event.AddEventPresenterImpl
 import ru.mail.sporttogether.mvp.views.event.IAddEventView
 import ru.mail.sporttogether.net.models.Category
+import rx.Subscription
+import rx.android.schedulers.AndroidSchedulers
 import java.util.*
 
 class AddEventActivity :
@@ -62,8 +64,6 @@ class AddEventActivity :
             lng = getDoubleExtra(KEY_LNG, 0.0).toString()
         }
         setupCoordinates()
-        presenter.loadCategories()
-
 
 //        categoriesArray.add(Category(1, "cat1"))
 //        categoriesArray.add(Category(2, "category"))
@@ -76,15 +76,15 @@ class AddEventActivity :
 //        categoriesAdapter = ArrayAdapter(this, android.R.layout.select_dialog_item)
 //        categoriesAdapter.setNotifyOnChange(true)
         loadingCategoriesProgressBar = binding.categoryAutocompleteProgressBar
-//        categoryAutocomplete.setAdapter(categoriesAdapter)
-
-        RxTextView.textChangeEvents(categoryAutocomplete)
+        subscription = RxTextView.textChangeEvents(categoryAutocomplete)
                 .filter { e -> e.count() == 3 }
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { e ->
                     Log.d("#MY " + javaClass.simpleName, "start loading categories. subname : " + e.text())
                     visibleCategoryProgressBar()
                     presenter.loadCategoriesBySubname(e.text().toString())
                 }
+//        categoryAutocomplete.setAdapter(categoriesAdapter)
     }
 
     override fun onCategoriesReady(categories: ArrayList<Category>) {
@@ -106,6 +106,8 @@ class AddEventActivity :
         loadingCategoriesProgressBar.visibility = View.GONE
     }
 
+    var subscription: Subscription? = null
+
     override fun onStart() {
         super.onStart()
         binding.listener = this
@@ -113,6 +115,7 @@ class AddEventActivity :
 
     override fun onStop() {
         super.onStop()
+        subscription?.unsubscribe()
         binding.listener = null
     }
 
