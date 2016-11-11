@@ -5,6 +5,7 @@ buildscript {
 
     ext.support_version = '25.0.0'
     ext.appVersion = "1.0"
+    ext.play_services_version = '9.8.0'
 
     ext.sdkVersion = 25
 
