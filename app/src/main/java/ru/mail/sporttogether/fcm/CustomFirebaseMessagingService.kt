@@ -10,6 +10,7 @@ import ru.mail.sporttogether.R
 
 /**
  * Created by said on 17.10.16.
+ *
  */
 class CustomFirebaseMessagingService : FirebaseMessagingService() {
     private val TAG = "FMService"
@@ -21,7 +22,8 @@ class CustomFirebaseMessagingService : FirebaseMessagingService() {
         Log.d(TAG, "FCM Data Message: " + remoteMessage.data)
         val notification = NotificationCompat.Builder(this)
                 .setContentTitle("Событие")
-                .setContentText(remoteMessage.data.toString())
+                //.setContentText(remoteMessage.data.toString())
+                .setContentText("Событие отменено")
                 .setSmallIcon(R.drawable.ic_racing_flag)
                 .build()
         val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
