@@ -82,6 +82,13 @@ class EventsMapFragment :
         markerDownY = array[1] + view.height - statusBarHeight - toolbarHeight - tabHeight
     }
 
+    override fun shareResults() {
+        val parentActivity = activity
+        if (parentActivity is PresenterActivity<*>) {
+            parentActivity.shareToSocial(data.name.get(), data.description.get())
+        }
+    }
+
     override fun onStart() {
         super.onStart()
         mapView.onStart()

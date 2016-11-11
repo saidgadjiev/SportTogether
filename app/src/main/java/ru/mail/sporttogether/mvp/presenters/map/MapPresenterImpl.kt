@@ -117,6 +117,10 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
         view?.hideInfo()
     }
 
+    override fun onShareButtonClicked() {
+        view?.shareResults()
+    }
+
     override fun onCameraMoveStarted(p0: Int) {
 
     }
