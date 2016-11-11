@@ -116,19 +116,30 @@ class AddEventActivity :
     }
 
     override fun onAddButtonClicked() {
+        val datepicker = binding.datePicker
+        val timepicker = binding.timePicker
+        val calendar = GregorianCalendar(
+                datepicker.year,
+                datepicker.month,
+                datepicker.dayOfMonth,
+                timepicker.currentHour,
+                timepicker.currentMinute)
         val name = binding.eventName.text.toString()
         val nameCategory : String = binding.categoryAutocomplete.text.toString()
         Log.d("#MY " + javaClass.simpleName, "category name : " + nameCategory)
-        categoriesAdapter.getFullList().forEach { el -> Log.d("#MY " + javaClass.simpleName, el.name) }
-        val idCategory: Long? = categoriesAdapter.getFullList().findLast { el -> el.name == nameCategory }?.id
-        Log.d("#MY " + javaClass.simpleName, "category id : " + idCategory)
-        if (idCategory == null) {
+
+        if (nameCategory == "") {
             Toast.makeText(this, "Категория не задана", Toast.LENGTH_SHORT).show()
+            return
         }
         val maxPeople = Integer.parseInt(binding.eventMaxPeople.text.toString())
         Log.d("#MY " + javaClass.simpleName, "max people : " + maxPeople)
+        Log.d("#MY " + javaClass.simpleName, "lat : " + lat)
+        Log.d("#MY " + javaClass.simpleName, "lon : " + lng)
+
         presenter.addEventClicked(name,
-                idCategory!!, //TODO сделать отправку категории
+                nameCategory,
+                calendar.time,
                 lat.toDouble(),
                 lng.toDouble(),
                 binding.description.text.toString(),

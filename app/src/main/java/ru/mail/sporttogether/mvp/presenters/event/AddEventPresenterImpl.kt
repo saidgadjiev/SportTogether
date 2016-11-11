@@ -5,6 +5,7 @@ import ru.mail.sporttogether.managers.events.EventsManager
 import ru.mail.sporttogether.mvp.views.event.IAddEventView
 import ru.mail.sporttogether.net.api.CategoriesAPI
 import ru.mail.sporttogether.net.api.EventsAPI
+import ru.mail.sporttogether.net.models.Category
 import ru.mail.sporttogether.net.models.Event
 import ru.mail.sporttogether.net.responses.CategoriesResponse
 import ru.mail.sporttogether.net.responses.Response
@@ -12,6 +13,7 @@ import rx.Subscriber
 import rx.Subscription
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
+import java.util.*
 import javax.inject.Inject
 
 /**
@@ -45,19 +47,20 @@ class AddEventPresenterImpl(var view: IAddEventView?) : AddEventPresenter {
     }
 
     override fun addEventClicked(name: String,
-                                 categoryId: Long,
+                                 categoryName: String,
+                                 date: Date,
                                  lat: Double,
                                  lng: Double,
                                  description: String,
                                  maxPeople: Int) {
         val event = Event(
                 name = name,
-                categoryId = categoryId,
+                category = Category(null, categoryName),
                 lat = lat,
                 lng = lng,
                 description = description,
                 maxPeople = maxPeople,
-                date = (System.currentTimeMillis()) + 1000 * 60 * 63) // сделаем выбор времени и даты позже
+                date = date.time) // сделаем выбор времени и даты позже
 
         eventSubscribtion = eventsApi.createEvent(event)
                 .subscribeOn(Schedulers.io())

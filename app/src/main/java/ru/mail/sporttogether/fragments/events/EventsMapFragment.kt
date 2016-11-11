@@ -138,7 +138,7 @@ class EventsMapFragment :
     }
 
     override fun showInfo(event: Event) {
-        data.category.set(event.categoryId.toString())
+        data.category.set(event.category.id.toString())
         data.name.set(event.name)
         data.date.set(SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(Date(event.date)))
         data.description.set(event.description)

@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName
  */
 data class Event(
         var name: String = "",
-        var categoryId: Long = 0L,
+        var category: Category = Category(null, "_"),
         @SerializedName("latitude") var lat: Double = 0.0,
         @SerializedName("longtitude") var lng: Double = 0.0,
         var id: Long = 0L,
