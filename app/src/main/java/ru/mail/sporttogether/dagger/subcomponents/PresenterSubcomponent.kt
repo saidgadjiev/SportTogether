@@ -5,6 +5,7 @@ import ru.mail.sporttogether.mvp.presenters.drawer.DrawerPresenterImpl
 import ru.mail.sporttogether.mvp.presenters.event.AddEventPresenterImpl
 import ru.mail.sporttogether.mvp.presenters.event.EventsListPresenterImpl
 import ru.mail.sporttogether.mvp.presenters.event.MyEventsPresenterImpl
+import ru.mail.sporttogether.mvp.presenters.event.UpdateEventPresenterImpl
 import ru.mail.sporttogether.mvp.presenters.map.MapPresenterImpl
 import ru.mail.sporttogether.mvp.presenters.splash.SplashActivityPresenterImpl
 
@@ -20,4 +21,5 @@ interface PresenterSubcomponent {
     fun inject(presenter: MyEventsPresenterImpl)
     fun inject(presenter: EventsListPresenterImpl)
     fun inject(presenter: SplashActivityPresenterImpl)
+    fun inject(presenter: UpdateEventPresenterImpl)
 }

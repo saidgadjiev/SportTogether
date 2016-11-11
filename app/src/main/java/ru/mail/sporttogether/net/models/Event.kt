@@ -15,6 +15,7 @@ data class Event(
         var userId: Long = 0L,
         var maxPeople: Int = 5,
         var description: String = "",
+        var result: String? = null,
         var isEnded: Boolean = false,
         var date: Long = 0L,
         var reports: Int = 0,
