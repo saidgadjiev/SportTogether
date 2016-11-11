@@ -1,7 +1,7 @@
 package ru.mail.sporttogether.app
 
+import android.app.Application
 import android.content.Context
-import android.support.multidex.MultiDexApplication
 import com.auth0.android.Auth0
 import com.facebook.stetho.Stetho
 import ru.mail.sporttogether.BuildConfig
@@ -15,7 +15,7 @@ import ru.mail.sporttogether.dagger.modules.Auth0Module
  * Created by said on 19.09.16.
  *
  */
-class App : MultiDexApplication() {
+class App : Application() {
 
     companion object {
         lateinit var injector: AppMainComponent

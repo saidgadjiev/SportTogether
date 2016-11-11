@@ -26,11 +26,12 @@ android {
     dexOptions {
         preDexLibraries true //use false if files not exists
         dexInProcess true
+        jumboMode true
         javaMaxHeapSize "2g" // Use gig increments depending on needs
     }
 
     defaultConfig {
-        multiDexEnabled true
+        //multiDexEnabled true
         applicationId "ru.mail.sporttogether"
         minSdkVersion 16
         targetSdkVersion 25
@@ -59,7 +60,7 @@ android {
         release {
             minifyEnabled true
             shrinkResources true
-            multiDexEnabled true
+            //multiDexEnabled true
             debuggable false
 
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -123,7 +124,7 @@ dependencies {
 
     compile 'com.google.code.gson:gson:2.7'
 
-    compile 'com.android.support:multidex:1.0.1'
+    //compile 'com.android.support:multidex:1.0.1'
 
     //auth0
     compile 'com.auth0.android:lock:2.0.0'

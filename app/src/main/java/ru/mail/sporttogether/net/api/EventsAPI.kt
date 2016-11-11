@@ -28,12 +28,13 @@ interface EventsAPI {
     @POST("event/{id}/report")
     fun report(@Path("id") id: Long): Observable<Response<Any>>
 
+    //удаляет событие и рассылает пуши
     @DELETE("/event/{id}")
     fun cancelEvent(@Path("id") id: Long): Observable<Response<Any>>
 
     @PUT("event/result")
     fun updateResult(@Body event: EventResult): Observable<Response<Any>>
-    
+
     @GET("event/{id}/join")
     fun joinToEvent(@Path("id") id: Long, @Query("token") token: String?): Observable<Response<Any>>
 
