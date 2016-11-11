@@ -16,8 +16,7 @@ interface IMapPresenter :
         EventDetailsListener,
         EventListener,
         GoogleMap.OnMapClickListener,
-        GoogleMap.OnMarkerClickListener,
-        GoogleMap.OnCameraMoveStartedListener {
+        GoogleMap.OnMarkerClickListener {
 
     fun onCameraIdle(x: Int, y: Int)
 

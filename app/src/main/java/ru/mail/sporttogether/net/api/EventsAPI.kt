@@ -27,6 +27,9 @@ interface EventsAPI {
     @POST("event/{id}/report")
     fun report(@Path("id") id: Long): Observable<Response<Any>>
 
+    @DELETE("/event/{id}")
+    fun cancelEvent(@Path("id") id: Long): Observable<Response<Any>>
+
     @GET("event/{id}/join")
     fun joinToEvent(@Path("id") id: Long, @Query("token") token: String?): Observable<Response<Any>>
 

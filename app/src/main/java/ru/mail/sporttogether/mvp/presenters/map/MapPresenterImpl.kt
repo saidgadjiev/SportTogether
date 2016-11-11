@@ -5,6 +5,7 @@ import android.graphics.Point
 import android.location.Location
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
@@ -17,6 +18,7 @@ import ru.mail.sporttogether.app.App
 import ru.mail.sporttogether.eventbus.PermissionGrantedMessage
 import ru.mail.sporttogether.eventbus.PermissionMessage
 import ru.mail.sporttogether.managers.LocationManager
+import ru.mail.sporttogether.managers.data.CredentialsManager
 import ru.mail.sporttogether.managers.events.EventsManager
 import ru.mail.sporttogether.mvp.views.map.IMapView
 import ru.mail.sporttogether.net.api.EventsAPI
@@ -49,6 +51,9 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
     @Inject lateinit var api: EventsAPI
     @Inject lateinit var eventsManager: EventsManager
     @Inject lateinit var locationManager: LocationManager
+    @Inject lateinit var creditalsManager: CredentialsManager
+
+    private val userId: Long
 
     private var apiSubscribtion: Subscription? = null
     private var locationSubscription: Subscription? = null
@@ -59,6 +64,7 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
         App.injector
                 .usePresenterComponent()
                 .inject(this)
+        userId = creditalsManager.getUserData().id
     }
 
     override fun onStart() {
@@ -121,8 +127,25 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
         view?.shareResults()
     }
 
-    override fun onCameraMoveStarted(p0: Int) {
+    override fun onCancelButtonClicked() {
+        apiSubscribtion?.unsubscribe()
+        api.cancelEvent(lastEventId)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(object : Subscriber<Response<Any>>() {
+                    override fun onCompleted() {
 
+                    }
+
+                    override fun onError(e: Throwable) {
+
+                    }
+
+                    override fun onNext(t: Response<Any>) {
+                        view?.showToast("Событие отменено")
+                    }
+
+                })
     }
 
     override fun onCameraIdle(x: Int, y: Int) {
@@ -168,7 +191,6 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
         map.setOnMapClickListener(this)
         map.setOnMarkerClickListener(this)
         map.setOnCameraIdleListener(view)
-        map.setOnCameraMoveStartedListener(this)
         locationSubscription = locationManager.locationUpdate.subscribe { location ->
             onLocationUpdated(location)
         }
@@ -202,6 +224,9 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
             for (event in data) {
                 val latlng = LatLng(event.lat, event.lng)
                 val markerOptions = options.position(latlng)
+                if (event.isEnded)
+                    options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
+                else options.icon(null)
                 val marker = it.addMarker(markerOptions)
                 markerIdEventMap.put(marker.id, event)
             }
@@ -233,7 +258,7 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
         event?.let {
             view?.hideInfo()
             lastEventId = it.id
-            view?.showInfo(it)
+            view?.showInfo(it, (userId == event.userId) and !event.isEnded)
         }
     }
 

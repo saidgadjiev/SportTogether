@@ -135,6 +135,10 @@
 
                 </LinearLayout>
 
+                <!--
+                 android:visibility="@{data.isEnded? View.VISIBLE : View.GONE}"
+                -->
+
                 <Button
                     android:id="@+id/share_button"
                     android:layout_width="wrap_content"
@@ -142,7 +146,17 @@
                     android:layout_gravity="center_horizontal"
                     android:onClick="@{() -> listener.onShareButtonClicked()}"
                     android:padding="8dp"
-                    android:visibility="@{data.isEnded? View.VISIBLE : View.GONE}" />
+                    android:text="@string/com_facebook_share_button_text" />
+
+                <Button
+                    android:id="@+id/cancel_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:onClick="@{() -> listener.onCancelButtonClicked()}"
+                    android:padding="8dp"
+                    android:text="@android:string/cancel"
+                    android:visibility="@{data.showCancelButton? View.VISIBLE : View.GONE}" />
 
             </LinearLayout>
 
