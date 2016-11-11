@@ -37,8 +37,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:scaleX="2.5"
-                android:scaleY="2.5"
                 android:src="@drawable/ic_add_location" />
 
             <android.support.design.widget.FloatingActionButton

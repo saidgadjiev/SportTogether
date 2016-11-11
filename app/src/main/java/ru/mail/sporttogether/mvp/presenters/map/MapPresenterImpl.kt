@@ -113,7 +113,6 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
                 setOnCameraIdleListener(null)
                 setOnMapClickListener(null)
                 setOnMarkerClickListener(null)
-                setOnCameraMoveStartedListener(null)
             }
         }
         map = null

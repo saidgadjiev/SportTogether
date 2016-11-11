@@ -1,11 +1,10 @@
 package ru.mail.sporttogether.fragments.events
 
+import android.content.Context
+import android.graphics.Point
 import android.os.Bundle
 import android.support.design.widget.BottomSheetBehavior
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.view.ViewTreeObserver
+import android.view.*
 import com.google.android.gms.maps.MapView
 import ru.mail.sporttogether.R
 import ru.mail.sporttogether.activities.AddEventActivity
@@ -19,6 +18,7 @@ import ru.mail.sporttogether.mvp.views.map.IMapView
 import ru.mail.sporttogether.net.models.Event
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 /**
  * Created by bagrusss on 08.10.16.
@@ -75,9 +75,16 @@ class EventsMapFragment :
     fun initMarkerCoordinates() {
         val array: IntArray = IntArray(2)
         val view = binding.userPoint
-        view.getLocationInWindow(array)
+        view.getLocationOnScreen(array)
         tabHeight = arguments.getInt(TAB_HEIGHT_KEY)
-        markerDownX = array[0] + view.width / 2 //center X
+        //markerDownX = array[0] + view.width / 2 //center X
+
+        //костыль, но ширирна определяется правильно
+        val display = (context.getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay
+        val size = Point()
+        display.getSize(size)
+        markerDownX = size.x / 2
+
         val toolbarHeight = (activity as PresenterActivity<*>).supportActionBar?.height ?: 0
         markerDownY = array[1] + view.height - statusBarHeight - toolbarHeight - tabHeight
     }
