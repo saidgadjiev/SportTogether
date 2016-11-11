@@ -5,21 +5,6 @@ package ru.mail.sporttogether.net.models
  *
  */
 data class EventResult(
-        var id: Int = 0,
+        var id: Long = 0,
         var result: String = ""
-) {
-    override fun hashCode(): Int {
-        return (id + result.hashCode())
-    }
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (other?.javaClass != javaClass) return false
-
-        other as EventResult
-
-        if (id != other.id) return false
-
-        return true
-    }
-}
+)

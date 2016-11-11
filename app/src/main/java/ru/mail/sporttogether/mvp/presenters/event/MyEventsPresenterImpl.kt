@@ -92,6 +92,11 @@ class MyEventsPresenterImpl(private var view: IMyEventsView?) : MyEventsPresente
                 })
     }
 
+    override fun onEventClicked(e: Event) {
+        if (e.userId == user.id)
+            view?.openEditActivity(e.id)
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         view = null

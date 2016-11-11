@@ -8,6 +8,6 @@ import ru.mail.sporttogether.mvp.presenters.IPresenter
  */
 interface UpdateEventPresenter : IPresenter {
 
-    fun updateResult(id: Int, result: String)
+    fun updateResult(id: Long, result: String)
 
 }

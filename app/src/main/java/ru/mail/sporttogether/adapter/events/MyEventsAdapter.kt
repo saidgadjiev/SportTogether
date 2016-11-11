@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import ru.mail.sporttogether.R
+import ru.mail.sporttogether.data.binding.event.ItemClickListener
 import ru.mail.sporttogether.net.models.Event
 import java.util.*
 
@@ -12,7 +13,7 @@ import java.util.*
  * Created by Ivan on 20.10.2016.
  *
  */
-class MyEventsAdapter : RecyclerView.Adapter<AbstractEventHolder>() {
+class MyEventsAdapter(var clickListener: ItemClickListener?) : RecyclerView.Adapter<AbstractEventHolder>() {
 
     private var items = LinkedList<EventWrapper>()
 
@@ -67,7 +68,7 @@ class MyEventsAdapter : RecyclerView.Adapter<AbstractEventHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AbstractEventHolder {
         val abstractHolder = if (viewType == 0) {
             val view = LayoutInflater.from(parent.context).inflate(R.layout.item_event, parent, false)
-            EventHolder(view)
+            EventHolder(view, clickListener)
         } else {
             val view = LayoutInflater.from(parent.context).inflate(R.layout.item_event_separetor, parent, false)
             SeparatorHolder(view)

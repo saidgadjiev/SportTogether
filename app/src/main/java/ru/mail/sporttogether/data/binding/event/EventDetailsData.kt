@@ -20,4 +20,6 @@ class EventDetailsData {
     val engryCount = ObservableField<String>()
 
     val showCancelButton = ObservableBoolean(false)
+
+    val clickable = ObservableBoolean(false)
 }

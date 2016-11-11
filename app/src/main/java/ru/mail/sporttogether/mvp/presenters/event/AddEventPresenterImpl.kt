@@ -7,6 +7,7 @@ import ru.mail.sporttogether.net.api.CategoriesAPI
 import ru.mail.sporttogether.net.api.EventsAPI
 import ru.mail.sporttogether.net.models.Category
 import ru.mail.sporttogether.net.models.Event
+import ru.mail.sporttogether.net.models.EventResult
 import ru.mail.sporttogether.net.responses.CategoriesResponse
 import ru.mail.sporttogether.net.responses.Response
 import rx.Subscriber
@@ -99,6 +100,30 @@ class AddEventPresenterImpl(var view: IAddEventView?) : AddEventPresenter {
 
                     override fun onCompleted() {
 
+                    }
+
+                })
+    }
+
+    override fun sendResult(id: Long, result: String) {
+        eventSubscribtion?.unsubscribe()
+        val update = EventResult(id, result)
+        eventSubscribtion = eventsApi.updateResult(update)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(object : Subscriber<Response<Any>>() {
+                    override fun onNext(t: Response<Any>) {
+                        if (t.code == 0) {
+                            view?.resultSended()
+                        }
+                    }
+
+                    override fun onCompleted() {
+
+                    }
+
+                    override fun onError(e: Throwable) {
+                        view?.showToast(e.message!!)
                     }
 
                 })

@@ -18,7 +18,6 @@ class UpdateEventActivity :
 
     private lateinit var binding: ActivityAddEventBinding
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         presenter = UpdateEventPresenterImpl(this)

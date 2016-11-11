@@ -4,6 +4,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="data"
             type="ru.mail.sporttogether.data.binding.event.EventData" />
@@ -11,6 +13,7 @@
         <variable
             name="listener"
             type="ru.mail.sporttogether.data.binding.event.EventListener" />
+
     </data>
 
     <LinearLayout
@@ -23,107 +26,115 @@
         android:paddingRight="@dimen/material_padding"
         tools:context=".activities.AddEventActivity">
 
-        <EditText
-            android:id="@+id/event_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/name_event_hint"
-            android:maxEms="15"
-            android:maxLines="1" />
-
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@string/max_people_event_hint"
-                android:layout_weight=".8"/>
-            <EditText
-                android:id="@+id/event_max_people"
-                android:layout_width="0dp"
-                android:textAlignment="textEnd"
-                android:layout_height="wrap_content"
-                android:hint="@string/max_people_event_hint"
-                android:text="10"
-                android:layout_weight=".2"
-                android:inputType="number"/>
-        </LinearLayout>
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="@{data.mainDataVisibility? View.VISIBLE : View.GONE}">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:id="@+id/date_picker_header"
-                android:layout_width="wrap_content"
+            <EditText
+                android:id="@+id/event_name"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="Установить дату"
-                android:layout_marginTop="10dp" />
+                android:hint="@string/name_event_hint"
+                android:maxEms="15"
+                android:maxLines="1" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/date_picker_header"
-                >
+                android:layout_height="wrap_content">
 
-                <DatePicker
-                    android:layout_marginStart="-50dp"
-                    android:datePickerMode="spinner"
-                    android:scaleX="0.5"
-                    android:scaleY="0.5"
-                    android:id="@+id/date_picker"
+                <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:calendarViewShown="false"
-                    android:layout_weight="1"
-                    android:spinnersShown="true"
-                    />
-                <TimePicker
-                    android:layout_marginStart="-100dp"
-                    android:id="@+id/time_picker"
-                    android:scaleX="0.5"
-                    android:scaleY="0.5"
-                    android:timePickerMode="spinner"
-                    android:layout_weight="1"
+                    android:layout_weight=".8"
+                    android:text="@string/max_people_event_hint" />
+
+                <EditText
+                    android:id="@+id/event_max_people"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    />
+                    android:layout_weight=".2"
+                    android:hint="@string/max_people_event_hint"
+                    android:inputType="number"
+                    android:text="10"
+                    android:textAlignment="textEnd" />
             </LinearLayout>
-        </RelativeLayout>
 
-        <TextView
-            android:id="@+id/lat_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{data.lat}" />
-
-        <TextView
-            android:id="@+id/lng_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{data.lng}" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <AutoCompleteTextView
-                android:id="@+id/category_autocomplete"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:completionHint="Если такого типа спорта нет, он будет создан" />
+                android:layout_height="wrap_content">
 
-            <ProgressBar
-                android:id="@+id/category_autocomplete_progress_bar"
-                style="?android:attr/progressBarStyleSmall"
+                <TextView
+                    android:id="@+id/date_picker_header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dp"
+                    android:text="Установить дату" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/date_picker_header">
+
+                    <DatePicker
+                        android:id="@+id/date_picker"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="-50dp"
+                        android:layout_weight="1"
+                        android:calendarViewShown="false"
+                        android:datePickerMode="spinner"
+                        android:scaleX="0.5"
+                        android:scaleY="0.5"
+                        android:spinnersShown="true" />
+
+                    <TimePicker
+                        android:id="@+id/time_picker"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="-100dp"
+                        android:layout_weight="1"
+                        android:scaleX="0.5"
+                        android:scaleY="0.5"
+                        android:timePickerMode="spinner" />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/lat_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignEnd="@+id/category_autocomplete"
-                android:layout_marginTop="12dp"
-                android:visibility="gone" />
-        </RelativeLayout>
+                android:text="@{data.lat}" />
 
+            <TextView
+                android:id="@+id/lng_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{data.lng}" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <AutoCompleteTextView
+                    android:id="@+id/category_autocomplete"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:completionHint="Если такого типа спорта нет, он будет создан" />
+
+                <ProgressBar
+                    android:id="@+id/category_autocomplete_progress_bar"
+                    style="?android:attr/progressBarStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignEnd="@+id/category_autocomplete"
+                    android:layout_marginTop="12dp"
+                    android:visibility="gone" />
+            </RelativeLayout>
+        </LinearLayout>
+        
         <EditText
             android:id="@+id/description"
             android:layout_width="match_parent"

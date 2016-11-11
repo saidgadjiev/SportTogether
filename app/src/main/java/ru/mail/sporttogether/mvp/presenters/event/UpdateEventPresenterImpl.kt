@@ -40,7 +40,7 @@ class UpdateEventPresenterImpl(var view: IUpdateEventView?) : UpdateEventPresent
     }
 
 
-    override fun updateResult(id: Int, result: String) {
+    override fun updateResult(id: Long, result: String) {
         Log.d("#MY " + javaClass.simpleName, "update result id : " + id)
         Log.d("#MY " + javaClass.simpleName, "update result str : " + result)
         val updateResultObservable: Observable<Response<Any>> = eventsApi.updateResult(EventResult(id, result))

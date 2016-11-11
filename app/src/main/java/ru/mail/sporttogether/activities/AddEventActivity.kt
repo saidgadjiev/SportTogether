@@ -27,6 +27,7 @@ class AddEventActivity :
         PresenterActivity<AddEventPresenter>(),
         IAddEventView,
         EventListener {
+
     private lateinit var binding: ActivityAddEventBinding
 
     private val data = EventData()
@@ -34,7 +35,7 @@ class AddEventActivity :
 
     private lateinit var lng: String
     private val handler = Handler()
-
+    private var eventId = 0L
 
     private lateinit var categoryAutocomplete: AutoCompleteTextView
     private var categoriesArray: ArrayList<Category> = ArrayList()
@@ -46,6 +47,16 @@ class AddEventActivity :
         presenter = AddEventPresenterImpl(this)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_add_event)
         binding.data = data
+
+        val intent = intent
+
+        eventId = intent.getLongExtra(KEY_ID, 0L)
+        if (eventId != 0L) {
+            data.resultVisibility.set(true)
+            data.mainDataVisibility.set(false)
+            return
+        }
+
         with(intent) {
             lat = getDoubleExtra(KEY_LAT, 0.0).toString()
             lng = getDoubleExtra(KEY_LNG, 0.0).toString()
@@ -116,6 +127,10 @@ class AddEventActivity :
     }
 
     override fun onAddButtonClicked() {
+        if (data.resultVisibility.get()) {
+            presenter.sendResult(eventId, binding.description.text.toString())
+            return
+        }
         val datepicker = binding.datePicker
         val timepicker = binding.timePicker
         val calendar = GregorianCalendar(
@@ -125,7 +140,7 @@ class AddEventActivity :
                 timepicker.currentHour,
                 timepicker.currentMinute)
         val name = binding.eventName.text.toString()
-        val nameCategory : String = binding.categoryAutocomplete.text.toString()
+        val nameCategory: String = binding.categoryAutocomplete.text.toString()
         Log.d("#MY " + javaClass.simpleName, "category name : " + nameCategory)
 
         if (nameCategory == "") {
@@ -157,6 +172,13 @@ class AddEventActivity :
         showToast(errorText)
     }
 
+    override fun resultSended() {
+        showToast("ok")
+        handler.postDelayed({
+            finish()
+        }, 300)
+    }
+
     companion object {
 
         @JvmStatic
@@ -167,6 +189,14 @@ class AddEventActivity :
             c.startActivity(intent)
         }
 
+        @JvmStatic
+        fun startForResultEvent(c: Context, id: Long) {
+            val intent = Intent(c, AddEventActivity::class.java)
+            intent.putExtra(KEY_ID, id)
+            c.startActivity(intent)
+        }
+
+        @JvmStatic private val KEY_ID = "ID"
         @JvmStatic private val KEY_LNG = "lng"
         @JvmStatic private val KEY_LAT = "lat"
     }
