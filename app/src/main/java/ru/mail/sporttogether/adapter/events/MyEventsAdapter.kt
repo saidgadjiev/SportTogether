@@ -1,5 +1,6 @@
 package ru.mail.sporttogether.adapter.events
 
+import android.os.Handler
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -35,14 +36,22 @@ class MyEventsAdapter : RecyclerView.Adapter<AbstractEventHolder>() {
     // потом события, которые закончились,
     // далее события, на которые подписан пользователь
 
+    val handler = Handler()
+
     fun addOrganizedEvents(events: MutableList<Event>) {
         items.addAll(convert(events))
         organizedLastEvent = items.size
+        handler.post {
+            notifyDataSetChanged()
+        }
     }
 
     fun addEndedEvents(events: MutableList<Event>) {
         items.addAll(convert(events))
         endedLastEvent = items.size
+        handler.post {
+            notifyDataSetChanged()
+        }
     }
 
     fun addMyEvents(events: MutableList<Event>) {
