@@ -30,7 +30,7 @@ android {
     }
 
     defaultConfig {
-        //multiDexEnabled true
+        multiDexEnabled true
         applicationId "ru.mail.sporttogether"
         minSdkVersion 16
         targetSdkVersion 25
@@ -123,7 +123,7 @@ dependencies {
 
     compile 'com.google.code.gson:gson:2.7'
 
-    //compile 'com.android.support:multidex:1.0.1'
+    compile 'com.android.support:multidex:1.0.1'
 
     //auth0
     compile 'com.auth0.android:lock:2.0.0'
