@@ -14,4 +14,9 @@ interface IAddEventView : IView {
     fun showAddError(errorText: String)
 
     fun onCategoriesReady(categories: ArrayList<Category>)
+
+    fun onCategoriesLoaded(categories: ArrayList<Category>)
+
+    fun visibleCategoryProgressBar()
+    fun invisibleCategoryProgressBar()
 }

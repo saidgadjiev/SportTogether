@@ -20,6 +20,6 @@ import javax.inject.Singleton
         AndroidModule::class))
 interface AppMainComponent {
     fun usePresenterComponent(): PresenterSubcomponent
-    fun useViewComopnent(): ViewSubComponent
     fun useSharedComponent(): SharedSubComponent
+    fun useViewComponent(): ViewSubComponent
 }

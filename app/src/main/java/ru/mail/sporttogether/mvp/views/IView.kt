@@ -18,5 +18,4 @@ interface IView {
 
     fun showProgressDialog()
     fun hideProgressDialog()
-
 }

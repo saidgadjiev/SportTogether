@@ -4,8 +4,8 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="material_padding">16dp</dimen>
     <dimen name="offset_small">4dp</dimen>
-    <dimen name="offset_medium">6dp</dimen>
+    <dimen name="offset_medium">8dp</dimen>
     <dimen name="offset_large">12dp</dimen>
     <dimen name="font_large">18sp</dimen>
-    <dimen name="font_medium">12sp</dimen>
+    <dimen name="font_medium">14sp</dimen>
 </resources>

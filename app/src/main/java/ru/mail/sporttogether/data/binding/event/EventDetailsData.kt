@@ -18,4 +18,5 @@ class EventDetailsData {
     val description = ObservableField<String>()
     val isEnded = ObservableBoolean()
     val category = ObservableField<String>()
+    val engryCount = ObservableField<String>()
 }

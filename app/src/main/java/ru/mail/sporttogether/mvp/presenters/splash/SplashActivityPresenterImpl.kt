@@ -1,4 +1,4 @@
-package ru.mail.sporttogether.mvp.presenters.auth
+package ru.mail.sporttogether.mvp.presenters.splash
 
 import android.content.Context
 import android.os.Bundle
@@ -17,35 +17,37 @@ import com.auth0.android.lock.utils.LockException
 import com.auth0.android.result.Credentials
 import com.auth0.android.result.UserProfile
 import com.facebook.FacebookSdk
-import ru.mail.sporttogether.activities.LoginActivity
+import ru.mail.sporttogether.activities.SplashActivity
 import ru.mail.sporttogether.app.App
 import ru.mail.sporttogether.managers.auth.AuthManager
-import ru.mail.sporttogether.managers.data.ICredentialsManager
+import ru.mail.sporttogether.managers.data.CredentialsManager
 import ru.mail.sporttogether.managers.headers.HeaderManagerImpl
 import ru.mail.sporttogether.mvp.presenters.auth.auth0provider.vkprovider.VKAuthProvider
 import ru.mail.sporttogether.mvp.presenters.auth.auth0provider.vkprovider.VkAuthHandler
-import ru.mail.sporttogether.mvp.views.login.ILoginView
+import ru.mail.sporttogether.mvp.views.ISplashView
 import ru.mail.sporttogether.net.api.AuthorizationAPI
 import java.util.*
 import javax.inject.Inject
 
 /**
- * Created by said on 05.10.16.
+ * Created by bagrusss on 07.11.16.
+ *
  */
-class LoginActivityPresenterImpl : ILoginPresenter {
-    private var view: ILoginView? = null
+class SplashActivityPresenterImpl : SplashActivityPresenter {
+
+    private var view: ISplashView? = null
     @Inject lateinit var api: AuthorizationAPI
     @Inject lateinit var context: Context
     @Inject lateinit var auth0: Auth0
     @Inject lateinit var aClient: AuthenticationAPIClient
-    @Inject lateinit var credentialsManager: ICredentialsManager
+    @Inject lateinit var credentialsManager: CredentialsManager
     @Inject lateinit var headerManager: HeaderManagerImpl
     @Inject lateinit var authManager: AuthManager
     @Inject lateinit var facebookProvider: FacebookAuthProvider
     @Inject lateinit var vkProvider: VKAuthProvider
     private var lock: Lock? = null
 
-    constructor(view: ILoginView) {
+    constructor(view: ISplashView) {
         App.injector.usePresenterComponent().inject(this)
         this.view = view
     }
@@ -60,18 +62,19 @@ class LoginActivityPresenterImpl : ILoginPresenter {
         }
 
         return connections
+
     }
 
     fun trySignIn() {
         if (!FacebookSdk.isInitialized()) {
             FacebookSdk.sdkInitialize(context)
         }
-        aClient.tokenInfo(credentialsManager.getCredentials(context).idToken)
+        aClient.tokenInfo(credentialsManager.getCredentials().idToken)
                 .start(object : BaseCallback<UserProfile, AuthenticationException> {
                     override fun onSuccess(payload: UserProfile) {
                         Log.d("AUTH", "Authomatic login")
 
-                        headerManager.token = credentialsManager.getCredentials(context).idToken
+                        headerManager.token = credentialsManager.getCredentials().idToken
                         headerManager.clientId = payload.id
                         authManager.auth(api, view)
                     }
@@ -79,7 +82,7 @@ class LoginActivityPresenterImpl : ILoginPresenter {
                     override fun onFailure(error: AuthenticationException) {
                         Log.d("AUTH", "Session expired")
 
-                        credentialsManager.deleteCredentials(context)
+                        credentialsManager.deleteCredentials()
                         view?.startLockActivity(lock)
                     }
                 })
@@ -104,8 +107,8 @@ class LoginActivityPresenterImpl : ILoginPresenter {
         builder.initialScreen(InitialScreen.LOG_IN)
         builder.allowedConnections(generateConnections())
         builder.setDefaultDatabaseConnection("Username-Password-Authentication")
-        lock = builder.build(view as LoginActivity)
-        if (credentialsManager.getCredentials(context).idToken == null) {
+        lock = builder.build(view as SplashActivity)
+        if (credentialsManager.getCredentials().idToken == null) {
             view?.startLockActivity(lock)
 
             return
@@ -114,15 +117,16 @@ class LoginActivityPresenterImpl : ILoginPresenter {
     }
 
     var callback = object : AuthenticationCallback() {
-        override fun onAuthentication(credentials: Credentials?) {
+        override fun onAuthentication(credentials: Credentials) {
             Log.d("AUTH", "Logged in")
 
-            credentialsManager.saveCredentials(context, credentials)
+            credentialsManager.saveCredentials(credentials)
             trySignIn()
         }
 
         override fun onCanceled() {
             Log.d("Lock", "User pressed back.")
+            view?.close()
         }
 
         override fun onError(error: LockException) {
@@ -131,7 +135,7 @@ class LoginActivityPresenterImpl : ILoginPresenter {
     }
 
     override fun onDestroy() {
-        lock?.onDestroy(view as LoginActivity)
+        lock?.onDestroy(view as SplashActivity)
         lock = null
         view = null
     }

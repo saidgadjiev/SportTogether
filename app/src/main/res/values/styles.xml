@@ -6,6 +6,10 @@
         <item name="colorPrimary">@android:color/holo_blue_light</item>
         <item name="colorPrimaryDark">@android:color/holo_blue_dark</item>
         <item name="colorAccent">@android:color/holo_red_light</item>
+        <item name="android:textColorPrimary">@color/app_primary_text</item>
+        <item name="android:textColorSecondary">@color/app_secondary_light</item>
+        <item name="android:textColor">@color/app_primary_text</item>
+        <item name="android:textSize">@dimen/font_medium</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -22,6 +26,16 @@
         <item name="Auth0.HeaderLogo">@android:drawable/ic_popup_reminder</item>
         <item name="Auth0.DarkPrimaryColor">@android:color/holo_blue_dark</item>
         <item name="Auth0.PrimaryColor">@android:color/holo_blue_light</item>
+    </style>
+
+    <style name="TitleText">
+        <item name="android:textColor">@color/app_primary_text</item>
+        <item name="android:textSize">@dimen/font_large</item>
+    </style>
+
+    <style name="BaseText">
+        <item name="android:textColor">@color/app_primary_text</item>
+        <item name="android:textSize">@dimen/font_medium</item>
     </style>
 
 </resources>

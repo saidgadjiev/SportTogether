@@ -13,6 +13,7 @@ import rx.Observable
  */
 interface AuthorizationAPI {
 
+    // жду сервер чтобы отдавал User
     @POST("auth")
     fun updateAuthorization(): Observable<Response<Any>>
 
@@ -21,8 +22,5 @@ interface AuthorizationAPI {
 
     @GET("auth")
     fun checkAuthorization(): Observable<Response<User>>
-
-    @GET("hello/world")
-    fun helloWorld(): Observable<Any>
 
 }

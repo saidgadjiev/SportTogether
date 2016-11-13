@@ -31,6 +31,14 @@
             android:maxEms="15"
             android:maxLines="1" />
 
+        <EditText
+            android:id="@+id/event_max_people"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/max_people_event_hint"
+            android:text="10"
+            android:inputType="number"/>
+
         <TextView
             android:id="@+id/lat_view"
             android:layout_width="wrap_content"
@@ -43,10 +51,25 @@
             android:layout_height="wrap_content"
             android:text="@{data.lng}" />
 
-        <android.support.v7.widget.AppCompatSpinner
-            android:id="@+id/category_spinner"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content">
+
+            <AutoCompleteTextView
+                android:id="@+id/category_autocomplete"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:completionHint="Если такого типа спорта нет, он будет создан" />
+
+            <ProgressBar
+                android:id="@+id/category_autocomplete_progress_bar"
+                style="?android:attr/progressBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@+id/category_autocomplete"
+                android:layout_marginTop="12dp"
+                android:visibility="gone" />
+        </RelativeLayout>
 
         <EditText
             android:id="@+id/description"

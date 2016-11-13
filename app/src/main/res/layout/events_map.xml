@@ -30,16 +30,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
+            <ImageView
+                android:id="@+id/user_point"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_add_location" />
+
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/add_event_fab"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|end"
                 android:layout_marginBottom="120dp"
-                android:backgroundTint="@color/red"
                 android:onClick="@{() -> addListener.onAddButtonClicked()}"
-                android:src="@android:drawable/ic_menu_add"
-                android:tint="@android:color/white" />
+                android:src="@drawable/ic_add_location"
+                android:tint="@android:color/white"
+                app:backgroundTint="@color/red" />
         </FrameLayout>
 
         <FrameLayout
@@ -59,10 +66,17 @@
                 android:orientation="vertical"
                 android:padding="16dp">
 
+                <View
+                    android:layout_width="25dp"
+                    android:layout_height="2dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@color/md_black_1000" />
+
                 <TextView
                     android:id="@+id/event_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_add_location"
                     android:text="@{data.name}"
                     android:textSize="20sp" />
 
@@ -88,29 +102,40 @@
                     android:layout_marginTop="5dp"
                     android:text="@{data.description}" />
 
-                <Button
-                    android:id="@+id/angry_button"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
                     android:layout_marginTop="5dp"
-                    android:background="@color/red"
-                    android:text="@string/angry" />
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/angry_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="16dp"
+                        android:background="@color/red"
+                        android:onClick="@{() -> listener.onAngryButtonClicked()}"
+                        android:padding="8dp"
+                        android:text="@string/angry"
+                        android:textColor="@color/md_white_1000" />
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="16dp"
+                        android:background="@color/green"
+                        android:onClick="@{() -> listener.onJoinButtonClicked()}"
+                        android:padding="8dp"
+                        android:text="@string/join"
+                        android:textColor="@color/md_white_1000" />
+
+                </LinearLayout>
+
             </LinearLayout>
 
         </FrameLayout>
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/join_fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:onClick="@{() -> listener.onJoinButtonClicked()}"
-            android:src="@android:drawable/ic_menu_add"
-            android:tint="@android:color/white"
-            app:backgroundTint="@color/green"
-            app:layout_anchor="@+id/bottom_sheet"
-            app:layout_anchorGravity="top|end" />
 
     </android.support.design.widget.CoordinatorLayout>
 

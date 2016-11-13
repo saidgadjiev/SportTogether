@@ -31,7 +31,6 @@ class App : Application() {
                 .builder()
                 .auth0Module(Auth0Module(Auth0(getString(R.string.auth0_client_id), getString(R.string.auth0_domain))))
                 .build()
-        //TODO подключать, если не релизная версия
         if (BuildConfig.DEBUG)
             Stetho.initializeWithDefaults(this)
     }
