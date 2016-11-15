@@ -4,18 +4,16 @@
     <TextView
         android:layout_width="240dp"
         android:layout_height="wrap_content"
-        android:hint="pick event time"
+        android:hint="Pick time"
+        android:text="2016.11.17 18:00"
         android:id="@+id/details_picked_date"
-        android:layout_marginTop="15dp"
-
-        android:textSize="@dimen/font_medium"/>
+        android:layout_marginTop="15dp" />
     <Button
-        android:text="Pick"
-        android:layout_toRightOf="@id/details_picked_date"
+        android:text="Изменить"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_toEndOf="@id/details_picked_date"
         android:id="@+id/pick_date_button"
-        android:layout_height="wrap_content"
-
         android:layout_marginTop="5dp"
-        android:layout_width="wrap_content" />
+        />
 </RelativeLayout>

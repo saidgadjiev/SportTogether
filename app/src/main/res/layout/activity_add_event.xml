@@ -64,45 +64,66 @@
                         android:textAlignment="textEnd" />
                 </LinearLayout>
 
+                <!--<RelativeLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content">-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/date_picker_header"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_gravity="center_horizontal"-->
+                        <!--android:layout_marginTop="5dp"-->
+                        <!--android:text="Установить дату" />-->
+
+                    <!--<LinearLayout-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_below="@+id/date_picker_header">-->
+
+                        <!--<DatePicker-->
+                            <!--android:id="@+id/date_picker"-->
+                            <!--android:layout_width="0dp"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_marginStart="-50dp"-->
+                            <!--android:layout_weight="1"-->
+                            <!--android:calendarViewShown="false"-->
+                            <!--android:datePickerMode="spinner"-->
+                            <!--android:scaleX="0.5"-->
+                            <!--android:scaleY="0.5"-->
+                            <!--android:spinnersShown="true" />-->
+
+                        <!--<TimePicker-->
+                            <!--android:id="@+id/time_picker"-->
+                            <!--android:layout_width="0dp"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_marginStart="-100dp"-->
+                            <!--android:layout_weight="1"-->
+                            <!--android:scaleX="0.5"-->
+                            <!--android:scaleY="0.5"-->
+                            <!--android:timePickerMode="spinner" />-->
+                    <!--</LinearLayout>-->
+                <!--</RelativeLayout>-->
                 <RelativeLayout
                     android:layout_width="match_parent"
+                    android:paddingLeft="@dimen/offset_medium"
                     android:layout_height="wrap_content">
 
                     <TextView
-                        android:id="@+id/date_picker_header"
+                        android:layout_width="240dp"
+                        android:layout_height="wrap_content"
+                        android:hint="Время события"
+                        android:layout_centerVertical="true"
+                        android:id="@+id/pick_date_text"
+                        android:layout_marginTop="15dp" />
+                    <Button
+                        android:text="Изменить"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="5dp"
-                        android:text="Установить дату" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/date_picker_header">
-
-                        <DatePicker
-                            android:id="@+id/date_picker"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="-50dp"
-                            android:layout_weight="1"
-                            android:calendarViewShown="false"
-                            android:datePickerMode="spinner"
-                            android:scaleX="0.5"
-                            android:scaleY="0.5"
-                            android:spinnersShown="true" />
-
-                        <TimePicker
-                            android:id="@+id/time_picker"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="-100dp"
-                            android:layout_weight="1"
-                            android:scaleX="0.5"
-                            android:scaleY="0.5"
-                            android:timePickerMode="spinner" />
-                    </LinearLayout>
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentEnd="true"
+                        android:id="@+id/pick_date_button"
+                        android:layout_marginTop="5dp"/>
                 </RelativeLayout>
 
                 <TextView

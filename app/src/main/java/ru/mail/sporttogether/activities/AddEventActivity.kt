@@ -5,10 +5,13 @@ import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.os.Handler
+import android.support.v7.app.AlertDialog
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.AutoCompleteTextView
 import android.widget.ProgressBar
+import android.widget.TextView
 import android.widget.Toast
 import com.jakewharton.rxbinding.widget.RxTextView
 import com.mikepenz.materialdrawer.util.KeyboardUtil
@@ -17,10 +20,12 @@ import ru.mail.sporttogether.adapter.CategoriesAdapter
 import ru.mail.sporttogether.data.binding.event.EventData
 import ru.mail.sporttogether.data.binding.event.EventListener
 import ru.mail.sporttogether.databinding.ActivityAddEventBinding
+import ru.mail.sporttogether.databinding.DateTimePickerBinding
 import ru.mail.sporttogether.mvp.presenters.event.AddEventPresenter
 import ru.mail.sporttogether.mvp.presenters.event.AddEventPresenterImpl
 import ru.mail.sporttogether.mvp.views.event.IAddEventView
 import ru.mail.sporttogether.net.models.Category
+import ru.mail.sporttogether.utils.DateUtils
 import rx.Subscription
 import rx.android.schedulers.AndroidSchedulers
 import java.util.*
@@ -38,6 +43,8 @@ class AddEventActivity :
     private lateinit var lng: String
     private val handler = Handler()
     private var eventId = 0L
+    private var settedDate: GregorianCalendar = GregorianCalendar()
+    private lateinit var pickDateText: TextView
 
     private lateinit var categoryAutocomplete: AutoCompleteTextView
     private var categoriesArray: ArrayList<Category> = ArrayList()
@@ -49,32 +56,26 @@ class AddEventActivity :
         presenter = AddEventPresenterImpl(this)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_add_event)
         binding.data = data
+        pickDateText = binding.pickDateText
 
         val intent = intent
-
         eventId = intent.getLongExtra(KEY_ID, 0L)
         if (eventId != 0L) {
             data.resultVisibility.set(true)
             data.mainDataVisibility.set(false)
             return
         }
-
         with(intent) {
             lat = getDoubleExtra(KEY_LAT, 0.0).toString()
             lng = getDoubleExtra(KEY_LNG, 0.0).toString()
         }
         setupCoordinates()
 
-//        categoriesArray.add(Category(1, "cat1"))
-//        categoriesArray.add(Category(2, "category"))
-//        categoriesArray.add(Category(3, "my_category"))
-//        categoriesArray.add(Category(4, "test_c"))
-//        categoriesArray.add(Category(5, "cag"))
+        initPickDate()
+
         categoriesAdapter = CategoriesAdapter(this, android.R.layout.select_dialog_item, categoriesArray)
         categoryAutocomplete = binding.categoryAutocomplete
         categoryAutocomplete.setAdapter(categoriesAdapter)
-//        categoriesAdapter = ArrayAdapter(this, android.R.layout.select_dialog_item)
-//        categoriesAdapter.setNotifyOnChange(true)
         loadingCategoriesProgressBar = binding.categoryAutocompleteProgressBar
         subscription = RxTextView.textChangeEvents(categoryAutocomplete)
                 .filter { e -> e.count() == 3 }
@@ -84,7 +85,35 @@ class AddEventActivity :
                     visibleCategoryProgressBar()
                     presenter.loadCategoriesBySubname(e.text().toString())
                 }
-//        categoryAutocomplete.setAdapter(categoriesAdapter)
+    }
+
+    private fun initPickDate() {
+        pickDateText.text = DateUtils.format(settedDate)
+
+        val mPickDateBtn = binding.pickDateButton
+        mPickDateBtn.setOnClickListener {
+            Log.d("#MY " + javaClass.simpleName, "on pick date btn click")
+            val alertDialog = AlertDialog.Builder(this).create()
+            val datepickerDialogViewBinding = DateTimePickerBinding.inflate(LayoutInflater.from(this), null, false)
+            val datepickerDialogView = datepickerDialogViewBinding.root
+            val datePickerSetBtn = datepickerDialogViewBinding.datePickerSetBtn
+            val pickDateText = binding.pickDateText
+            datePickerSetBtn.setOnClickListener {
+                Log.d("#MY " + javaClass.simpleName, "on set btn click")
+                val datepicker = datepickerDialogViewBinding.datePicker
+                val timepicker = datepickerDialogViewBinding.timePicker
+                settedDate = GregorianCalendar(
+                        datepicker.year,
+                        datepicker.month,
+                        datepicker.dayOfMonth,
+                        timepicker.currentHour,
+                        timepicker.currentMinute)
+                pickDateText.text = DateUtils.format(settedDate)
+                alertDialog.hide()
+            }
+            alertDialog.setView(datepickerDialogView)
+            alertDialog.show()
+        }
     }
 
     override fun onCategoriesReady(categories: ArrayList<Category>) {
@@ -134,14 +163,16 @@ class AddEventActivity :
             presenter.sendResult(eventId, binding.description.text.toString())
             return
         }
-        val datepicker = binding.datePicker
-        val timepicker = binding.timePicker
-        val calendar = GregorianCalendar(
-                datepicker.year,
-                datepicker.month,
-                datepicker.dayOfMonth,
-                timepicker.currentHour,
-                timepicker.currentMinute)
+
+
+//        val datepicker = binding.datePicker
+//        val timepicker = binding.timePicker
+//        val calendar = GregorianCalendar(
+//                datepicker.year,
+//                datepicker.month,
+//                datepicker.dayOfMonth,
+//                timepicker.currentHour,
+//                timepicker.currentMinute)
         val name = binding.eventName.text.toString()
         val nameCategory: String = binding.categoryAutocomplete.text.toString()
         Log.d("#MY " + javaClass.simpleName, "category name : " + nameCategory)
@@ -157,7 +188,7 @@ class AddEventActivity :
 
         presenter.addEventClicked(name,
                 nameCategory,
-                calendar.time,
+                settedDate.time,
                 lat.toDouble(),
                 lng.toDouble(),
                 binding.description.text.toString(),

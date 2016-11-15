@@ -18,5 +18,7 @@
     <string name="leave">Покинуть</string>
     <string name="join">Присоединиться</string>
     <string name="angry">Жалоба</string>
+    <string name="datetime_picker_btn_set">Установить</string>
+    <string name="datetime_picker_header">Установить дату</string>
 
 </resources>

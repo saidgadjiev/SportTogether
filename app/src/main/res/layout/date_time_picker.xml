@@ -1,42 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-    <TextView
-        android:id="@+id/date_picker_header"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="Установить дату"
-        android:layout_marginTop="10dp" />
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/date_picker_header"
-        >
+    <data>
 
-        <DatePicker
-            android:layout_marginStart="-50dp"
-            android:datePickerMode="spinner"
-            android:scaleX="0.5"
-            android:scaleY="0.5"
-            android:id="@+id/date_picker"
-            android:layout_width="0dp"
+        <import type="android.view.View" />
+
+        <variable
+            name="data"
+            type="ru.mail.sporttogether.data.binding.event.EventData" />
+
+        <variable
+            name="listener"
+            type="ru.mail.sporttogether.data.binding.event.EventListener" />
+
+    </data>
+
+    <RelativeLayout
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/date_picker_header"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:calendarViewShown="false"
-            android:layout_weight="1"
-            android:spinnersShown="true"
+            android:textAlignment="center"
+            android:text="@string/datetime_picker_header"
+            android:layout_marginTop="10dp" />
+
+            <DatePicker
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="-50dp"
+                android:datePickerMode="spinner"
+                android:id="@+id/date_picker"
+                android:calendarViewShown="false"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/date_picker_header"
+                android:spinnersShown="true"
+                />
+            <TimePicker
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="-100dp"
+                android:id="@+id/time_picker"
+                android:timePickerMode="spinner"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/date_picker"
+                />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/date_picker_set_btn"
+            android:layout_below="@id/time_picker"
+            android:layout_centerHorizontal="true"
+            android:text="@string/datetime_picker_btn_set"
+            android:paddingBottom="@dimen/offset_medium"
             />
-        <TimePicker
-            android:layout_marginStart="-100dp"
-            android:id="@+id/time_picker"
-            android:scaleX="0.5"
-            android:scaleY="0.5"
-            android:timePickerMode="spinner"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-           />
-    </LinearLayout>
-</RelativeLayout>
+    </RelativeLayout>
+
+</layout>
+
+
