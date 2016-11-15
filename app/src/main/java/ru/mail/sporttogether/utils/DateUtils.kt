@@ -10,7 +10,7 @@ import java.util.*
 class DateUtils {
     companion object DateUtils {
         fun format(calendar: GregorianCalendar): String {
-            val fmt = SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.getDefault())
+            val fmt = SimpleDateFormat("dd MMM yyyy HH:mm", Locale.getDefault())
             fmt.setCalendar(calendar)
             val dateFormatted = fmt.format(calendar.getTime())
             return dateFormatted
