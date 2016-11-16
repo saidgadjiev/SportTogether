@@ -23,9 +23,10 @@
         <LinearLayout
             android:id="@+id/activity_add_event"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:gravity="center_horizontal"
             android:orientation="vertical"
+            android:background="@color/md_white_1000"
             android:padding="@dimen/material_padding"
             tools:context=".activities.AddEventActivity">
 
@@ -135,14 +136,12 @@
                 android:hint="@string/description"
                 android:lines="3" />
 
-            <Button
+            <Button style="@style/FlatButton"
                 android:id="@+id/add_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/green"
                 android:onClick="@{()->listener.onAddButtonClicked()}"
-                android:text="@string/add"
-                android:textColor="@color/md_white_1000" />
+                android:text="@string/add" />
 
         </LinearLayout>
     </ScrollView>
