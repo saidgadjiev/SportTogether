@@ -17,6 +17,7 @@
     </data>
 
     <ScrollView
+        android:background="@color/md_white_1000"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -26,7 +27,6 @@
             android:layout_height="match_parent"
             android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:background="@color/md_white_1000"
             android:padding="@dimen/material_padding"
             tools:context=".activities.AddEventActivity">
 
@@ -84,7 +84,7 @@
                         android:layout_alignParentEnd="true"
                         android:id="@+id/pick_date_text"
                         android:layout_toEndOf="@id/pick_date_button"
-                        android:gravity="right"
+                        android:gravity="end"
                         android:paddingStart="@dimen/offset_medium"
                         android:layout_marginTop="15dp" />
                 </RelativeLayout>
@@ -109,6 +109,7 @@
                         android:id="@+id/category_autocomplete"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:hint="@string/category"
                         android:completionHint="Если такого типа спорта нет, он будет создан" />
 
                     <ProgressBar
@@ -121,12 +122,12 @@
                         android:visibility="gone" />
                 </RelativeLayout>
 
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Сделать"
-                    android:lines="2"
-                    android:maxLines="3" />
+                <!--<EditText-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:hint="Сделать"-->
+                    <!--android:lines="2"-->
+                    <!--android:maxLines="3" />-->
             </LinearLayout>
 
             <EditText
