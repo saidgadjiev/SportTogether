@@ -3,8 +3,8 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@android:color/holo_blue_light</item>
-        <item name="colorPrimaryDark">@android:color/holo_blue_dark</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@android:color/holo_red_light</item>
         <item name="android:textColorPrimary">@color/app_primary_text</item>
         <item name="android:textColorSecondary">@color/app_secondary_light</item>
@@ -31,6 +31,26 @@
     <style name="TitleText">
         <item name="android:textColor">@color/app_primary_text</item>
         <item name="android:textSize">@dimen/font_large</item>
+    </style>
+
+    <style name="IconButtonContainer">
+        <item name="android:layout_weight">1</item>
+        <item name="android:padding">@dimen/offset_small</item>
+    </style>
+
+    <style name="IconButton" parent="Widget.AppCompat.Button.Borderless">
+        <!--android:textSize="@dimen/font_tiny"-->
+        <!--android:padding="@dimen/offset_medium"-->
+        <!--android:fontFamily="sans-serif-light"-->
+        <!--android:textColor="@color/app_primary_text"-->
+        <item name="android:textSize">@dimen/font_tiny</item>
+        <!--<item name="android:padding">@dimen/offset_medium</item>-->
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:drawablePadding">@dimen/offset_medium</item>
+        <!--<item name="android:layout_gravity">center</item>-->
+        <item name="android:background">@drawable/raised_button_background</item>
+
     </style>
 
     <style name="BaseText">

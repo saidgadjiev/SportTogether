@@ -16,8 +16,10 @@
 
     <string name="users">%1$d&#47;%2$d</string>
     <string name="leave">Покинуть</string>
-    <string name="join">Присоединиться</string>
-    <string name="angry">Жалоба</string>
+    <string name="join">добавиться</string>
+    <string name="angry">пожаловаться</string>
+    <string name="share">поделиться</string>
+    <string name="cancel_event">отменить</string>
     <string name="datetime_picker_btn_set">Установить</string>
     <string name="datetime_picker_header">Установить дату</string>
     <string name="add_event_set_date_btn">Время события</string>
