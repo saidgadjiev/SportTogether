@@ -13,7 +13,7 @@ class EventsManagerImpl : EventsManager {
 
     private val eventsMap = LongSparseArray<Event>()
 
-    val eventsUpdate: BehaviorSubject<EventsManager.NewData<*>> = BehaviorSubject.create()
+    private val eventsUpdate: BehaviorSubject<EventsManager.NewData<*>> = BehaviorSubject.create()
 
     override fun addEvent(e: Event) {
         eventsMap.put(e.id, e)
@@ -32,8 +32,8 @@ class EventsManagerImpl : EventsManager {
     override fun updateEvent(event: Event) {
         eventsMap[event.id]?.let {
             eventsMap.put(event.id, event)
+            eventsUpdate.onNext(EventsManager.NewData(type = EventsManager.UpdateType.UPDATE, data = event))
         }
-        eventsUpdate.onNext(EventsManager.NewData(type = EventsManager.UpdateType.UPDATE, data = event))
     }
 
     override fun getEvents(): ArrayList<Event> {
