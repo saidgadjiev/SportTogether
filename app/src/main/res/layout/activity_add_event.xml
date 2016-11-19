@@ -17,13 +17,14 @@
     </data>
 
     <ScrollView
+        android:background="@color/md_white_1000"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <LinearLayout
             android:id="@+id/activity_add_event"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:gravity="center_horizontal"
             android:orientation="vertical"
             android:padding="@dimen/material_padding"
@@ -68,41 +69,24 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <TextView
-                        android:id="@+id/date_picker_header"
+                    <Button style="@style/FlatButton"
+                        android:text="@string/add_event_set_date_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="5dp"
-                        android:text="Установить дату" />
-
-                    <LinearLayout
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentStart="true"
+                        android:id="@+id/pick_date_button"
+                        android:layout_marginTop="5dp"/>
+                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/date_picker_header">
-
-                        <DatePicker
-                            android:id="@+id/date_picker"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="-50dp"
-                            android:layout_weight="1"
-                            android:calendarViewShown="false"
-                            android:datePickerMode="spinner"
-                            android:scaleX="0.5"
-                            android:scaleY="0.5"
-                            android:spinnersShown="true" />
-
-                        <TimePicker
-                            android:id="@+id/time_picker"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="-100dp"
-                            android:layout_weight="1"
-                            android:scaleX="0.5"
-                            android:scaleY="0.5"
-                            android:timePickerMode="spinner" />
-                    </LinearLayout>
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentEnd="true"
+                        android:id="@+id/pick_date_text"
+                        android:layout_toEndOf="@id/pick_date_button"
+                        android:gravity="end"
+                        android:paddingStart="@dimen/offset_medium"
+                        android:layout_marginTop="15dp" />
                 </RelativeLayout>
 
                 <TextView
@@ -125,6 +109,7 @@
                         android:id="@+id/category_autocomplete"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:hint="@string/category"
                         android:completionHint="Если такого типа спорта нет, он будет создан" />
 
                     <ProgressBar
@@ -137,12 +122,12 @@
                         android:visibility="gone" />
                 </RelativeLayout>
 
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Сделать"
-                    android:lines="2"
-                    android:maxLines="3" />
+                <!--<EditText-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:hint="Сделать"-->
+                    <!--android:lines="2"-->
+                    <!--android:maxLines="3" />-->
             </LinearLayout>
 
             <EditText
@@ -152,14 +137,12 @@
                 android:hint="@string/description"
                 android:lines="3" />
 
-            <Button
+            <Button style="@style/FlatButton"
                 android:id="@+id/add_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/green"
                 android:onClick="@{()->listener.onAddButtonClicked()}"
-                android:text="@string/add"
-                android:textColor="@color/md_white_1000" />
+                android:text="@string/add" />
 
         </LinearLayout>
     </ScrollView>

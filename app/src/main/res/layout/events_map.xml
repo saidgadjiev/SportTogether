@@ -78,7 +78,7 @@
                     android:id="@+id/event_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/ic_add_location"
+                    android:drawableStart="@drawable/ic_add_location"
                     android:text="@{data.name}"
                     android:textSize="20sp" />
 
@@ -94,7 +94,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:drawableLeft="@drawable/ic_people"
+                    android:drawableStart="@drawable/ic_people"
                     android:text="@{data.peopleCount}" />
 
                 <TextView
@@ -107,56 +107,71 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:gravity="center_horizontal"
                     android:orientation="horizontal">
-
-                    <Button
-                        android:id="@+id/angry_button"
-                        android:layout_width="wrap_content"
+                    <RelativeLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="16dp"
-                        android:background="@color/red"
-                        android:onClick="@{() -> listener.onAngryButtonClicked()}"
-                        android:padding="8dp"
-                        android:text="@string/angry"
-                        android:textColor="@color/md_white_1000" />
+                        style="@style/IconButtonContainer">
 
-                    <Button
-                        android:layout_width="wrap_content"
+                        <Button
+                            style="@style/IconButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/angry_button"
+                            android:onClick="@{() -> listener.onAngryButtonClicked()}"
+                            android:drawableTop="@drawable/ic_report_btn"
+                            android:text="@string/angry"
+                            />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_margin="16dp"
-                        android:background="@color/green"
-                        android:onClick="@{() -> listener.onJoinButtonClicked()}"
-                        android:padding="8dp"
-                        android:text="@string/join"
-                        android:textColor="@color/md_white_1000" />
+                        style="@style/IconButtonContainer">
 
+                        <Button
+                            style="@style/IconButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/detail_connect_button"
+                            android:onClick="@{() -> listener.onJoinButtonClicked()}"
+                            android:text="@string/join"
+                            android:drawableTop="@drawable/ic_person_add_btn"
+                            />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        style="@style/IconButtonContainer">
+
+                        <Button
+                            style="@style/IconButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/test3"
+                            android:drawableTop="@drawable/ic_share_btn"
+                            android:onClick="@{() -> listener.onShareButtonClicked()}"
+
+                            android:text="@string/share"/>
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        style="@style/IconButtonContainer">
+
+                        <Button
+                            style="@style/IconButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/test4"
+                            android:drawableTop="@drawable/ic_delete_btn"
+                            android:onClick="@{() -> listener.onCancelButtonClicked()}"
+                            android:visibility="@{data.showCancelButton? View.VISIBLE : View.GONE}"
+                            android:text="@string/cancel_event" />
+                    </RelativeLayout>
                 </LinearLayout>
-
-                <!--
-                 android:visibility="@{data.isEnded? View.VISIBLE : View.GONE}"
-                -->
-
-                <Button
-                    android:id="@+id/share_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:onClick="@{() -> listener.onShareButtonClicked()}"
-                    android:padding="8dp"
-                    android:text="@string/com_facebook_share_button_text" />
-
-                <Button
-                    android:id="@+id/cancel_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:onClick="@{() -> listener.onCancelButtonClicked()}"
-                    android:padding="8dp"
-                    android:text="@android:string/cancel"
-                    android:visibility="@{data.showCancelButton? View.VISIBLE : View.GONE}" />
 
             </LinearLayout>
 

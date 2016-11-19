@@ -141,7 +141,11 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
                     }
 
                     override fun onNext(t: Response<Any>) {
-                        view?.showToast("Событие отменено")
+                        if (t.code == 0) {
+                            view?.showToast("Событие отменено")
+                        } else {
+                            view?.showToast(t.message)
+                        }
                     }
 
                 })
