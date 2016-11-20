@@ -1,6 +1,7 @@
 apply plugin: 'kotlin'
 
 buildscript {
+    ext.kotlin_version = '1.0.5-2'
     ext.kotlin_version = '1.0.5'
 
     ext.support_version = '25.0.0'

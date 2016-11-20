@@ -44,7 +44,10 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
     private var lastMarker: Marker? = null
     private lateinit var lastPos: LatLng
     private val options: MarkerOptions = MarkerOptions()
+
+    @Deprecated("lastEvent object instead of this", replaceWith = ReplaceWith("lastEvent.id"))
     private var lastEventId = 0L
+    private lateinit var lastEvent: Event
 
     private val markerIdEventMap = HashMap<String, Event>()
 
@@ -257,12 +260,17 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
     }
 
     private fun showEventInfo(marker: Marker) {
-        val event = markerIdEventMap[marker.id]
+        val event: Event? = markerIdEventMap[marker.id]
         event?.let {
             view?.hideInfo()
             lastEventId = it.id
-            view?.showInfo(it, (userId == event.userId) and !event.isEnded)
+            lastEvent = it
+            view?.showInfo(lastEvent, (userId == event.userId) and !event.isEnded)
         }
+    }
+
+    private fun render() {
+        view?.render(lastEvent, (userId == lastEvent.userId) and !lastEvent.isEnded)
     }
 
     override fun onBackPressed() {
@@ -283,8 +291,12 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
                     }
 
                     override fun onNext(t: Response<Any>) {
-                        if (t.code === 0)
+                        if (t.code === 0) {
+                            lastEvent.reports += 1
+                            lastEvent.isReported = true
                             view?.showToast(android.R.string.ok)
+                            render()
+                        }
                         else view?.showToast("Вы уже жаловались на это событие")
                     }
                 })
@@ -296,7 +308,12 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
                 .subscribeOn(Schedulers.io())
                 .subscribe(object : Subscriber<Response<Any>>() {
                     override fun onNext(t: Response<Any>) {
-                        view?.showToast(android.R.string.ok)
+                        if (t.code === 0) {
+                            lastEvent.nowPeople += 1
+                            lastEvent.isJoined = true
+                            view?.showToast(android.R.string.ok)
+                            render()
+                        } else view?.showToast(t.message)
                     }
 
                     override fun onCompleted() {

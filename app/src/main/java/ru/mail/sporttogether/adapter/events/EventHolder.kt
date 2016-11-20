@@ -27,7 +27,7 @@ class EventHolder(v: View, clickListener: ItemClickListener?) : AbstractEventHol
         data.name.set(event.name)
         data.date.set(SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault()).format(Date(event.date)))
         data.description.set(event.result ?: event.description)
-        data.engryCount.set(event.reports.toString())
+        data.reports.set(event.reports.toString())
         data.peopleCount.set("" + event.nowPeople + '/' + event.maxPeople)
         data.clickable.set(true)
         binding.event = event

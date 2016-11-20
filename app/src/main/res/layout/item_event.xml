@@ -87,7 +87,7 @@
                 android:drawablePadding="@dimen/offset_small"
                 android:drawableStart="@drawable/ic_report"
                 android:gravity="center_vertical"
-                android:text="@{data.engryCount}" />
+                android:text="@{data.reports}" />
         </RelativeLayout>
 
         <View

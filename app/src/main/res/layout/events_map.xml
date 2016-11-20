@@ -120,7 +120,8 @@
                             android:id="@+id/angry_button"
                             android:onClick="@{() -> listener.onAngryButtonClicked()}"
                             android:drawableTop="@drawable/ic_report_btn"
-                            android:text="@string/angry"
+                            android:text="@{!data.isReported? @string/angry : @string/angryAlready}"
+                            android:clickable="@{!data.isReported}"
                             />
                     </RelativeLayout>
 
@@ -135,8 +136,9 @@
                             android:layout_height="wrap_content"
                             android:id="@+id/detail_connect_button"
                             android:onClick="@{() -> listener.onJoinButtonClicked()}"
-                            android:text="@string/join"
+                            android:text="@{!data.isJoined? @string/join : @string/joinAlready}"
                             android:drawableTop="@drawable/ic_person_add_btn"
+                            android:clickable="@{!data.isJoined}"
                             />
                     </RelativeLayout>
 

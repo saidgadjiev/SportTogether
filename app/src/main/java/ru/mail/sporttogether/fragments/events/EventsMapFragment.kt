@@ -151,15 +151,21 @@ class EventsMapFragment :
         bottomSheet.state = BottomSheetBehavior.STATE_HIDDEN
     }
 
-    override fun showInfo(event: Event, isCanceble: Boolean) {
+    override fun showInfo(event: Event, isCancelable: Boolean) {
+        render(event, isCancelable)
+        bottomSheet.state = BottomSheetBehavior.STATE_COLLAPSED
+    }
+
+    override fun render(event: Event, isCancelable: Boolean) {
         data.category.set(event.category.name)
         data.name.set(event.name)
         data.date.set(SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.getDefault()).format(Date(event.date)))
         data.description.set(event.description)
+        data.isReported.set(event.isReported)
+        data.isJoined.set(event.isJoined)
         val people = getString(R.string.users, event.nowPeople, event.maxPeople)
         data.peopleCount.set(people)
-        data.showCancelButton.set(isCanceble)
-        bottomSheet.state = BottomSheetBehavior.STATE_COLLAPSED
+        data.showCancelButton.set(isCancelable)
     }
 
     companion object {

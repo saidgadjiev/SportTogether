@@ -17,6 +17,8 @@ data class Event(
         var description: String = "",
         var result: String? = null,
         var isEnded: Boolean = false,
+        var isJoined: Boolean = false,
+        var isReported: Boolean = false,
         var date: Long = 0L,
         var reports: Int = 0,
         var nowPeople: Int = 0
