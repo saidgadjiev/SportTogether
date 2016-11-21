@@ -110,7 +110,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/category"
-                        android:completionHint="Если такого типа спорта нет, он будет создан" />
+                        android:completionHint="\t\tЕсли такого типа спорта нет, он будет создан" />
 
                     <ProgressBar
                         android:id="@+id/category_autocomplete_progress_bar"

@@ -121,8 +121,6 @@ class AddEventActivity :
     }
 
     override fun onCategoriesLoaded(categories: ArrayList<Category>) {
-        Log.d("#MY " + javaClass.simpleName, "in activity update adapter. Categories size : " + categoriesArray.size)
-        categories.forEach { e -> Log.d("#MY " + javaClass.simpleName, "loaded category : " + e.name) }
         categoriesAdapter.clear()
         categoriesAdapter.addAll(categories)
     }

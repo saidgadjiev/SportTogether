@@ -88,7 +88,6 @@ class CategoriesAdapter(mContext: Context?, resource: Int, private var fullList:
         }
 
         override fun publishResults(prefix: CharSequence?, filterResults: FilterResults) {
-            Log.d("#MY " + javaClass.simpleName, "in publish results filterResults.count : " + filterResults.count)
             if(filterResults.values != null){
                 fullList = filterResults.values as ArrayList<Category>
             }else{
