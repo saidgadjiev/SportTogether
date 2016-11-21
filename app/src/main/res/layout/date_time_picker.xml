@@ -20,6 +20,7 @@
         android:orientation="vertical" android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
+            style="@style/TitleText"
             android:id="@+id/date_picker_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -48,6 +49,7 @@
                 android:layout_below="@id/date_picker"
                 />
         <Button
+            style="@style/FlatButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/date_picker_set_btn"
