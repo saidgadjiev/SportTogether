@@ -52,10 +52,6 @@
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name" />
 
-        <provider android:authorities="com.facebook.app.FacebookContentProvider134821780315936"
-            android:name="com.facebook.FacebookContentProvider"
-            android:exported="true"/>
-
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
@@ -83,7 +79,6 @@
             </intent-filter>
             -->
         </activity>
-        <activity android:name=".activities.TestActivity"></activity>
     </application>
 
 </manifest>
