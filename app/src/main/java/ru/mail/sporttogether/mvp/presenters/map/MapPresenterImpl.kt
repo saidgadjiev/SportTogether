@@ -45,8 +45,8 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
     private lateinit var lastPos: LatLng
     private val options: MarkerOptions = MarkerOptions()
 
-    @Deprecated("lastEvent object instead of this", replaceWith = ReplaceWith("lastEvent.id"))
-    private var lastEventId = 0L
+//    @Deprecated("lastEvent object instead of this", replaceWith = ReplaceWith("lastEvent.id"))
+//    private var lastEventId = 0L
     private lateinit var lastEvent: Event
 
     private val markerIdEventMap = HashMap<String, Event>()
@@ -131,7 +131,7 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
 
     override fun onCancelButtonClicked() {
         apiSubscribtion?.unsubscribe()
-        api.cancelEvent(lastEventId)
+        api.cancelEvent(lastEvent.id)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(object : Subscriber<Response<Any>>() {
@@ -263,7 +263,6 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
         val event: Event? = markerIdEventMap[marker.id]
         event?.let {
             view?.hideInfo()
-            lastEventId = it.id
             lastEvent = it
             view?.showInfo(lastEvent, (userId == event.userId) and !event.isEnded)
         }
@@ -278,7 +277,7 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
     }
 
     override fun onAngryButtonClicked() {
-        api.report(lastEventId)
+        api.report(lastEvent.id)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(object : Subscriber<Response<Any>>() {
@@ -304,52 +303,60 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
 
     override fun onJoinButtonClicked() {
         if (lastEvent.isJoined) {
-            api.unjoinFromEvent(lastEvent.id)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeOn(Schedulers.io())
-                    .subscribe(object : Subscriber<Response<Any>>() {
-                        override fun onNext(t: Response<Any>) {
-                            if (t.code === 0) {
-                                lastEvent.nowPeople -= 1
-                                lastEvent.isJoined = false
-                                view?.showToast(android.R.string.ok)
-                                render()
-                            } else view?.showToast(t.message)
-                        }
-
-                        override fun onCompleted() {
-
-                        }
-
-                        override fun onError(e: Throwable) {
-
-                        }
-
-                    })
+            unJoin()
         } else {
-            api.joinToEvent(lastEventId, FirebaseInstanceId.getInstance().token)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeOn(Schedulers.io())
-                    .subscribe(object : Subscriber<Response<Any>>() {
-                        override fun onNext(t: Response<Any>) {
-                            if (t.code === 0) {
-                                lastEvent.nowPeople += 1
-                                lastEvent.isJoined = true
-                                view?.showToast(android.R.string.ok)
-                                render()
-                            } else view?.showToast(t.message)
-                        }
-
-                        override fun onCompleted() {
-
-                        }
-
-                        override fun onError(e: Throwable) {
-
-                        }
-
-                    })
+            join()
         }
+    }
+
+    fun join() {
+        api.joinToEvent(lastEvent.id, FirebaseInstanceId.getInstance().token)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(object : Subscriber<Response<Any>>() {
+                    override fun onNext(t: Response<Any>) {
+                        if (t.code === 0) {
+                            lastEvent.nowPeople += 1
+                            lastEvent.isJoined = true
+                            view?.showToast(android.R.string.ok)
+                            render()
+                        } else view?.showToast(t.message)
+                    }
+
+                    override fun onCompleted() {
+
+                    }
+
+                    override fun onError(e: Throwable) {
+
+                    }
+
+                })
+    }
+
+    fun unJoin() {
+        api.unjoinFromEvent(lastEvent.id)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(object : Subscriber<Response<Any>>() {
+                    override fun onNext(t: Response<Any>) {
+                        if (t.code === 0) {
+                            lastEvent.nowPeople -= 1
+                            lastEvent.isJoined = false
+                            view?.showToast(android.R.string.ok)
+                            render()
+                        } else view?.showToast(t.message)
+                    }
+
+                    override fun onCompleted() {
+
+                    }
+
+                    override fun onError(e: Throwable) {
+
+                    }
+
+                })
     }
 
     override fun onPermissionsGranted(requestCode: Int) {
