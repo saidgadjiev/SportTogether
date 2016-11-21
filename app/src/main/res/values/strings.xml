@@ -26,5 +26,6 @@
     <string name="datetime_picker_header">Установить дату</string>
     <string name="add_event_set_date_btn">Время события</string>
     <string name="category">Категория</string>
+    <string name="description_header">описание</string>
 
 </resources>

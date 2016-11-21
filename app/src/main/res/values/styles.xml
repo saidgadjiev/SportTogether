@@ -33,6 +33,17 @@
         <item name="android:textSize">@dimen/font_large</item>
     </style>
 
+    <style name="TitleSecondaryText">
+        <item name="android:textColor">@color/app_secondary_text</item>
+        <item name="android:textSize">@dimen/font_large</item>
+    </style>
+
+    <style name="AccentText">
+        <item name="android:textColor">@color/app_accent_text</item>
+        <item name="android:textSize">@dimen/font_xlarge</item>
+    </style>
+
+
     <style name="BaseText">
         <item name="android:textColor">@color/app_primary_text</item>
         <item name="android:textSize">@dimen/font_medium</item>

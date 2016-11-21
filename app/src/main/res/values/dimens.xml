@@ -6,7 +6,9 @@
     <dimen name="offset_small">4dp</dimen>
     <dimen name="offset_medium">8dp</dimen>
     <dimen name="offset_large">12dp</dimen>
-    <dimen name="font_large">20sp</dimen>
+    <dimen name="font_xlarge">28sp</dimen>
+    <dimen name="font_large">22sp</dimen>
     <dimen name="font_medium">16sp</dimen>
-    <dimen name="font_tiny">10sp</dimen>
+    <dimen name="font_small">12sp</dimen>
+    <dimen name="font_tiny">9sp</dimen>
 </resources>
