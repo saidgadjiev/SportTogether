@@ -3,7 +3,7 @@
     <string name="add">Добавить</string>
     <string name="name_event_hint">Название события</string>
     <string name="max_people_event_hint">Максимум людей</string>
-    <string name="description">Описание</string>
+    <string name="description">Описание(не обязательно)</string>
     <string name="event_added">Событие добавлено</string>
     <string name="events_map">Карта событий</string>
     <string name="events_list">Список событий</string>
@@ -25,7 +25,7 @@
     <string name="datetime_picker_btn_set">Установить</string>
     <string name="datetime_picker_header">Установить дату</string>
     <string name="add_event_set_date_btn">Время события</string>
-    <string name="category">Категория</string>
+    <string name="category">Вид спорта</string>
     <string name="description_header">описание</string>
 
 </resources>

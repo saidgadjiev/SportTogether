@@ -36,6 +36,44 @@
                 android:orientation="vertical"
                 android:visibility="@{data.mainDataVisibility? View.VISIBLE : View.GONE}">
 
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <RelativeLayout
+                        android:layout_weight="7"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/category_autocomplete"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/category"
+                            android:completionHint="\t\tЕсли такого типа спорта нет, он будет создан" />
+
+                        <ProgressBar
+                            android:id="@+id/category_autocomplete_progress_bar"
+                            style="?android:attr/progressBarStyleSmall"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignEnd="@+id/category_autocomplete"
+                            android:layout_marginTop="5dp"
+                            android:visibility="gone" />
+                    </RelativeLayout>
+
+                    <EditText
+                        android:id="@+id/event_max_people"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:drawableStart="@drawable/ic_people"
+                        android:layout_marginStart="@dimen/offset_small"
+                        android:inputType="number"
+                        android:text="10"
+                        android:textAlignment="textEnd" />
+                </LinearLayout>
+
                 <EditText
                     android:id="@+id/event_name"
                     android:layout_width="match_parent"
@@ -43,27 +81,6 @@
                     android:hint="@string/name_event_hint"
                     android:maxEms="15"
                     android:maxLines="1" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight=".8"
-                        android:text="@string/max_people_event_hint" />
-
-                    <EditText
-                        android:id="@+id/event_max_people"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight=".2"
-                        android:hint="@string/max_people_event_hint"
-                        android:inputType="number"
-                        android:text="10"
-                        android:textAlignment="textEnd" />
-                </LinearLayout>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -100,34 +117,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@{data.lng}" />
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <AutoCompleteTextView
-                        android:id="@+id/category_autocomplete"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/category"
-                        android:completionHint="\t\tЕсли такого типа спорта нет, он будет создан" />
-
-                    <ProgressBar
-                        android:id="@+id/category_autocomplete_progress_bar"
-                        style="?android:attr/progressBarStyleSmall"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignEnd="@+id/category_autocomplete"
-                        android:layout_marginTop="5dp"
-                        android:visibility="gone" />
-                </RelativeLayout>
-
-                <!--<EditText-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:hint="Сделать"-->
-                    <!--android:lines="2"-->
-                    <!--android:maxLines="3" />-->
             </LinearLayout>
 
             <EditText
