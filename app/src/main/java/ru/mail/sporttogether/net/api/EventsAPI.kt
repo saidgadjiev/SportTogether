@@ -38,6 +38,9 @@ interface EventsAPI {
     @GET("event/{id}/join")
     fun joinToEvent(@Path("id") id: Long, @Query("token") token: String?): Observable<Response<Any>>
 
+    @DELETE("event/{id}/join")
+    fun unjoinFromEvent(@Path("id") id: Long): Observable<Response<Any>>
+
     @GET("event/distance/{dis}")
     fun getEventsByDistanceAndPosition(@Path("dis") distance: Double, @Query("latitude") latitude: Double, @Query("longtitude") longitude: Double): Observable<Response<EventsResponse>>
 

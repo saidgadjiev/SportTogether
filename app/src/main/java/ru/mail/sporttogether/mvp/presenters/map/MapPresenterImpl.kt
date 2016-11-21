@@ -303,28 +303,53 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
     }
 
     override fun onJoinButtonClicked() {
-        api.joinToEvent(lastEventId, FirebaseInstanceId.getInstance().token)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(object : Subscriber<Response<Any>>() {
-                    override fun onNext(t: Response<Any>) {
-                        if (t.code === 0) {
-                            lastEvent.nowPeople += 1
-                            lastEvent.isJoined = true
-                            view?.showToast(android.R.string.ok)
-                            render()
-                        } else view?.showToast(t.message)
-                    }
+        if (lastEvent.isJoined) {
+            api.unjoinFromEvent(lastEvent.id)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.io())
+                    .subscribe(object : Subscriber<Response<Any>>() {
+                        override fun onNext(t: Response<Any>) {
+                            if (t.code === 0) {
+                                lastEvent.nowPeople -= 1
+                                lastEvent.isJoined = false
+                                view?.showToast(android.R.string.ok)
+                                render()
+                            } else view?.showToast(t.message)
+                        }
 
-                    override fun onCompleted() {
+                        override fun onCompleted() {
 
-                    }
+                        }
 
-                    override fun onError(e: Throwable) {
+                        override fun onError(e: Throwable) {
 
-                    }
+                        }
 
-                })
+                    })
+        } else {
+            api.joinToEvent(lastEventId, FirebaseInstanceId.getInstance().token)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.io())
+                    .subscribe(object : Subscriber<Response<Any>>() {
+                        override fun onNext(t: Response<Any>) {
+                            if (t.code === 0) {
+                                lastEvent.nowPeople += 1
+                                lastEvent.isJoined = true
+                                view?.showToast(android.R.string.ok)
+                                render()
+                            } else view?.showToast(t.message)
+                        }
+
+                        override fun onCompleted() {
+
+                        }
+
+                        override fun onError(e: Throwable) {
+
+                        }
+
+                    })
+        }
     }
 
     override fun onPermissionsGranted(requestCode: Int) {
