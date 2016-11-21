@@ -9,4 +9,8 @@ interface EventDetailsListener {
     fun onAngryButtonClicked()
 
     fun onJoinButtonClicked()
+
+    fun onShareButtonClicked()
+
+    fun onCancelButtonClicked()
 }

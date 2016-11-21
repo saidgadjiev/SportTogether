@@ -28,4 +28,8 @@ interface IPresenter {
 
     fun onBackPressed(){}
 
+    fun onPermissionsGranted(requestCode:Int){}
+
+    fun onPermissionNotGranted(requestCode: Int){}
+
 }

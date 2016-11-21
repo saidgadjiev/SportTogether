@@ -28,7 +28,6 @@ class App : Application() {
         injector = DaggerAppMainComponent
                 .builder()
                 .build()
-        //TODO подключать, если не релизная версия
         if (BuildConfig.DEBUG)
             Stetho.initializeWithDefaults(this)
     }

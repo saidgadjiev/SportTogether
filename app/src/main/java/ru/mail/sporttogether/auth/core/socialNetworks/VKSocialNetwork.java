@@ -70,7 +70,8 @@ public class VKSocialNetwork implements ISocialNetwork {
     }
 
     @Override
-    public void login() {
+    public void login(Activity activity, OnLoginCompleteListener onLoginCompleteListener) {
+        this.onLoginCompleteListener = onLoginCompleteListener;
         VKSdk.login(activity, scopes);
     }
 

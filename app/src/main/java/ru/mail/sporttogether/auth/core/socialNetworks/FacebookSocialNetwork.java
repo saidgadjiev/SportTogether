@@ -74,7 +74,8 @@ public class FacebookSocialNetwork implements ISocialNetwork {
     }
 
     @Override
-    public void login() {
+    public void login(Activity activity, OnLoginCompleteListener onLoginCompleteListener1) {
+        this.onLoginCompleteListener = onLoginCompleteListener1;
         LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult result) {

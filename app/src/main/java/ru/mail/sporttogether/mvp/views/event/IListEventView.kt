@@ -4,7 +4,10 @@ import ru.mail.sporttogether.net.models.Event
 
 /**
  * Created by Ivan on 19.10.2016.
+ *
  */
 interface IListEventView {
-    fun loadEvents(events: List<Event>)
+    fun loadEvents(events: MutableList<Event>)
+
+    fun addEvent(event: Event)
 }

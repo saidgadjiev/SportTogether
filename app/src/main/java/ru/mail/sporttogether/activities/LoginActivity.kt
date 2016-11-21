@@ -16,11 +16,10 @@ import ru.mail.sporttogether.auth.core.socialNetworks.VKSocialNetwork
 import ru.mail.sporttogether.databinding.ActivityLoginBinding
 import ru.mail.sporttogether.managers.headers.HeaderManagerImpl
 import ru.mail.sporttogether.mvp.presenters.auth.ILoginPresenter
-import ru.mail.sporttogether.mvp.presenters.auth.LoginActivityPresenterImpl
 import ru.mail.sporttogether.mvp.views.login.ILoginView
 import javax.inject.Inject
 
-class LoginActivity: PresenterActivity<ILoginPresenter>(), ILoginView, android.support.v4.app.FragmentManager.OnBackStackChangedListener, OnLoginCompleteListener, OnInitializationCompleteListener {
+class LoginActivity: PresenterActivity<ILoginPresenter>(), ILoginView, android.support.v4.app.FragmentManager.OnBackStackChangedListener, OnLoginCompleteListener {
 
     private lateinit var binding: ActivityLoginBinding
     private lateinit var vk: Button
@@ -43,29 +42,13 @@ class LoginActivity: PresenterActivity<ILoginPresenter>(), ILoginView, android.s
 
         socialNetworkManager = SocialNetworkManager.getInstance()
 
-        val networkFacebook = FacebookSocialNetwork(this)
-        val networkVK = VKSocialNetwork(this)
-
-        socialNetworkManager.addSocialNetwork(networkFacebook)
-        socialNetworkManager.addSocialNetwork(networkVK)
-        socialNetworkManager.setOnInitializationCompleteListener(this)
-
-        presenter = LoginActivityPresenterImpl(this)
         presenter.onCreate(savedInstanceState)
-        if (tryLogin()) {
-            startMainActivity()
-        }
     }
 
     override fun onResume() {
         super.onResume()
 
         socialNetworkManager.onResume()
-    }
-
-    private fun tryLogin(): Boolean {
-        headerManager.clientId =
-        return socialNetworkManager.initializedSocialNetworks.any { it.isConnected }
     }
 
     override fun onDestroy() {
@@ -75,8 +58,8 @@ class LoginActivity: PresenterActivity<ILoginPresenter>(), ILoginView, android.s
 
     private val loginClick = View.OnClickListener { view ->
         when (view.id) {
-            R.id.facebook -> socialNetworkManager.facebookSocialNetwork.login()
-            R.id.vk -> socialNetworkManager.vkSocialNetwork.login()
+            R.id.facebook -> socialNetworkManager.facebookSocialNetwork.login(this, this)
+            R.id.vk -> socialNetworkManager.vkSocialNetwork.login(this, this)
         }
     }
 
@@ -109,12 +92,6 @@ class LoginActivity: PresenterActivity<ILoginPresenter>(), ILoginView, android.s
 
     override fun onError(socialNetworkError: SocialNetworkError) {
         Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show()
-    }
-
-    override fun onSocialNetworkManagerInitialized() {
-        for (network in socialNetworkManager.getInitializedSocialNetworks()) {
-            network.setOnLoginCompleteListener(this)
-        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {

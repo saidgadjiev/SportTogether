@@ -18,7 +18,7 @@ public interface ISocialNetwork {
 
     void logout();
 
-    void login();
+    void login(Activity activity, OnLoginCompleteListener onLoginCompleteListener);
 
     void onStart();
 
@@ -38,7 +38,7 @@ public interface ISocialNetwork {
 
     void sharePost(Activity activity, String title, String description, String uri);
 
-    void requestPerson(OnRequestDetailedSocialPersonCompleteListener onRequestDetailedSocialPersonCompleteListener)
+    void requestPerson(OnRequestDetailedSocialPersonCompleteListener onRequestDetailedSocialPersonCompleteListener);
 
     Integer getID();
 }

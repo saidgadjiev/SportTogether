@@ -2,10 +2,12 @@
     <string name="app_name">SportTogether</string>
     <string name="add">Добавить</string>
     <string name="name_event_hint">Название события</string>
-    <string name="description">Описание</string>
+    <string name="max_people_event_hint">Максимум людей</string>
+    <string name="description">Описание(не обязательно)</string>
     <string name="event_added">Событие добавлено</string>
     <string name="events_map">Карта событий</string>
     <string name="events_list">Список событий</string>
+    <string name="my_events">Мои события</string>
     <string name="auth0_preferences">AUTH0_SHARED_PREFERENCES_KEY</string>
 
     <string name="cant_get_events">Не удалось получить список событий</string>
@@ -14,7 +16,16 @@
 
     <string name="users">%1$d&#47;%2$d</string>
     <string name="leave">Покинуть</string>
-    <string name="join">Присоединиться</string>
-    <string name="angry">Жалоба</string>
+    <string name="join">присоединиться</string>
+    <string name="joinAlready">отсоединиться</string>
+    <string name="angry">пожаловаться</string>
+    <string name="angryAlready">вы пожаловались</string>
+    <string name="share">поделиться</string>
+    <string name="cancel_event">отменить</string>
+    <string name="datetime_picker_btn_set">Установить</string>
+    <string name="datetime_picker_header">Установить дату</string>
+    <string name="add_event_set_date_btn">Время события</string>
+    <string name="category">Вид спорта</string>
+    <string name="description_header">описание</string>
 
 </resources>

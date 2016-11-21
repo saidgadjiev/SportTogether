@@ -5,6 +5,7 @@ package ru.mail.sporttogether.net.models
  *
  */
 data class User(
-        val token: String?,
-        val id: String?
+        val clientId: String,
+        val id: Long,
+        val role: Int
 )
