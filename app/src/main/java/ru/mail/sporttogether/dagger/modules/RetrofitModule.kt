@@ -1,6 +1,7 @@
 package ru.mail.sporttogether.dagger.modules
 
 import com.facebook.stetho.okhttp3.StethoInterceptor
+import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
@@ -29,11 +30,11 @@ class RetrofitModule {
 
     @Singleton
     @Provides
-    fun provideRetrofit(headerManager: HeaderManagerImpl): Retrofit {
+    fun provideRetrofit(headerManager: HeaderManagerImpl, gson: Gson): Retrofit {
         val logInterceptor = HttpLoggingInterceptor()
         logInterceptor.level = if (BuildConfig.DEBUG)
-                                    HttpLoggingInterceptor.Level.BODY
-                               else HttpLoggingInterceptor.Level.NONE
+            HttpLoggingInterceptor.Level.BODY
+        else HttpLoggingInterceptor.Level.NONE
         val okBuilder = OkHttpClient.Builder()
                 .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS)
                 .writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS)
@@ -44,9 +45,15 @@ class RetrofitModule {
 
         return Retrofit.Builder()
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create(GsonBuilder().setLenient().create()))
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(okBuilder.build())
                 .baseUrl(BASE_URL)
                 .build()
     }
+
+    @Provides
+    @Singleton
+    fun provideGson()
+            = GsonBuilder().setLenient().create()
+
 }

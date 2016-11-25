@@ -6,22 +6,31 @@ import android.support.v7.app.NotificationCompat
 import android.util.Log
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import com.google.gson.GsonBuilder
+import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
 import ru.mail.sporttogether.R
+import ru.mail.sporttogether.app.App
 import ru.mail.sporttogether.net.models.NotificationMessage
+import javax.inject.Inject
 
 /**
  * Created by said on 17.10.16.
  *
  */
 class CustomFirebaseMessagingService : FirebaseMessagingService() {
+
+    @Inject lateinit var gson: Gson
+
+    override fun onCreate() {
+        super.onCreate()
+        App.injector.useServiceComponent().inject(this)
+    }
+
     private val TAG = "FMService"
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
-        val body: String? = remoteMessage.notification.body
+        val body: String? = remoteMessage.notification?.body ?: ""
 
-        val gson = GsonBuilder().setPrettyPrinting().create()
         try {
             val notificationMessage: NotificationMessage = gson.fromJson(body, NotificationMessage::class.java)
             Log.d("#MY " + javaClass.simpleName, "" + notificationMessage.type)
