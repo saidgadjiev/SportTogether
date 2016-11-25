@@ -33,6 +33,7 @@ import rx.schedulers.Schedulers
 import java.util.*
 import javax.inject.Inject
 
+
 /**
  * Created by bagrusss on 01.10.16.
  *
@@ -45,7 +46,7 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
     private lateinit var lastPos: LatLng
     private val options: MarkerOptions = MarkerOptions()
 
-//    @Deprecated("lastEvent object instead of this", replaceWith = ReplaceWith("lastEvent.id"))
+    //    @Deprecated("lastEvent object instead of this", replaceWith = ReplaceWith("lastEvent.id"))
 //    private var lastEventId = 0L
     private lateinit var lastEvent: Event
 
@@ -98,6 +99,7 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
         map?.let {
             it.setOnMapClickListener(null)
             it.setOnMarkerClickListener(null)
+            it.setOnCameraMoveListener(null)
         }
     }
 
@@ -105,6 +107,7 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
         map?.let {
             it.setOnMapClickListener(this)
             it.setOnMarkerClickListener(this)
+            it.setOnCameraMoveStartedListener(this)
         }
     }
 
@@ -115,7 +118,7 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
             with(it) {
                 setOnCameraIdleListener(null)
                 setOnMapClickListener(null)
-                setOnMarkerClickListener(null)
+                setOnCameraMoveStartedListener(null)
             }
         }
         map = null
@@ -127,6 +130,10 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
 
     override fun onShareButtonClicked() {
         view?.shareResults()
+    }
+
+    override fun onCameraMoveStarted(p0: Int) {
+
     }
 
     override fun onCancelButtonClicked() {
@@ -155,31 +162,42 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
     }
 
     override fun onCameraIdle(x: Int, y: Int) {
-        lastPos = map?.projection!!.fromScreenLocation(Point(x, y))
-        apiSubscribtion?.unsubscribe()
-        apiSubscribtion = calculateScale(lastPos, x)
-                .subscribeOn(Schedulers.computation())
-                .switchMap { distance ->
-                    api.getEventsByDistanceAndPosition(Math.abs(distance), lastPos.latitude, lastPos.longitude)
-                }
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : Subscriber<Response<EventsResponse>>() {
-                    override fun onError(e: Throwable) {
-                        view?.showToast(R.string.cant_get_events)
+        map?.let { map ->
+            val cameraPosition = map.cameraPosition
+            if (cameraPosition.zoom > MAX_ZOOM) {
+                map.animateCamera(CameraUpdateFactory.zoomTo(MAX_ZOOM))
+                return
+            }
+            if (cameraPosition.zoom < MIN_ZOOM) {
+                map.animateCamera(CameraUpdateFactory.zoomTo(MIN_ZOOM))
+                return
+            }
+            lastPos = map.projection.fromScreenLocation(Point(x, y))
+            apiSubscribtion?.unsubscribe()
+            apiSubscribtion = calculateScale(lastPos, x)
+                    .subscribeOn(Schedulers.computation())
+                    .switchMap { distance ->
+                        api.getEventsByDistanceAndPosition(Math.abs(distance), lastPos.latitude, lastPos.longitude)
                     }
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(object : Subscriber<Response<EventsResponse>>() {
+                        override fun onError(e: Throwable) {
+                            view?.showToast(R.string.cant_get_events)
+                        }
 
-                    override fun onNext(response: Response<EventsResponse>) {
-                        markerIdEventMap.clear()
-                        eventsManager.swapEvents(response.data)
-                        addMarkers(response.data)
-                    }
+                        override fun onNext(response: Response<EventsResponse>) {
+                            markerIdEventMap.clear()
+                            eventsManager.swapEvents(response.data)
+                            addMarkers(response.data)
+                        }
 
-                    override fun onCompleted() {
+                        override fun onCompleted() {
 
-                    }
+                        }
 
-                })
+                    })
+        }
     }
 
     //будем брать по ширине экрана дистанцию
@@ -295,8 +313,7 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
                             lastEvent.isReported = true
                             view?.showToast(android.R.string.ok)
                             render()
-                        }
-                        else view?.showToast("Вы уже жаловались на это событие")
+                        } else view?.showToast("Вы уже жаловались на это событие")
                     }
                 })
     }
@@ -367,6 +384,10 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
 
     companion object {
         @JvmStatic private val REQUEST_CODE = 1002
+
+        @JvmStatic private val MAX_ZOOM = 17f
+        @JvmStatic private val MIN_ZOOM = 10f
+
     }
 
 
