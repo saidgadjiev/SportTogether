@@ -19,7 +19,9 @@ import ru.mail.sporttogether.R
 import ru.mail.sporttogether.adapter.CategoriesAdapter
 import ru.mail.sporttogether.data.binding.event.EventData
 import ru.mail.sporttogether.data.binding.event.EventListener
+import ru.mail.sporttogether.data.binding.tasks.AddTasksListener
 import ru.mail.sporttogether.databinding.ActivityAddEventBinding
+import ru.mail.sporttogether.databinding.AddingTasksBinding
 import ru.mail.sporttogether.databinding.DateTimePickerBinding
 import ru.mail.sporttogether.mvp.presenters.event.AddEventPresenter
 import ru.mail.sporttogether.mvp.presenters.event.AddEventPresenterImpl
@@ -33,6 +35,7 @@ import java.util.*
 class AddEventActivity :
         PresenterActivity<AddEventPresenter>(),
         IAddEventView,
+        AddTasksListener,
         EventListener {
 
     private lateinit var binding: ActivityAddEventBinding
@@ -45,6 +48,8 @@ class AddEventActivity :
     private var eventId = 0L
     private var settedDate: GregorianCalendar = GregorianCalendar()
     private lateinit var pickDateText: TextView
+
+    private lateinit var mAddTasksDialog: AlertDialog
 
     private lateinit var categoryAutocomplete: AutoCompleteTextView
     private var categoriesArray: ArrayList<Category> = ArrayList()
@@ -91,6 +96,7 @@ class AddEventActivity :
         pickDateText.text = DateUtils.format(settedDate)
 
         val mPickDateBtn = binding.pickDateButton
+
         mPickDateBtn.setOnClickListener {
             Log.d("#MY " + javaClass.simpleName, "on pick date btn click")
             val alertDialog = AlertDialog.Builder(this).create()
@@ -98,6 +104,7 @@ class AddEventActivity :
             val datepickerDialogView = datepickerDialogViewBinding.root
             val datePickerSetBtn = datepickerDialogViewBinding.datePickerSetBtn
             val pickDateText = binding.pickDateText
+
             datePickerSetBtn.setOnClickListener {
                 Log.d("#MY " + javaClass.simpleName, "on set btn click")
                 val datepicker = datepickerDialogViewBinding.datePicker
@@ -138,6 +145,7 @@ class AddEventActivity :
     override fun onStart() {
         super.onStart()
         binding.listener = this
+        binding.tasksListener = this
     }
 
     override fun onStop() {
@@ -156,27 +164,36 @@ class AddEventActivity :
         data.lng.set(lng)
     }
 
+    override fun onOpenTasksClicked() {
+        mAddTasksDialog = AlertDialog.Builder(this).create()
+        val addTasksDialogViewBinding = AddingTasksBinding.inflate(LayoutInflater.from(this), null, false)
+        addTasksDialogViewBinding.listener = this
+        val addTasksDialogView = addTasksDialogViewBinding.root
+        mAddTasksDialog.setView(addTasksDialogView)
+        mAddTasksDialog.show()
+    }
+
+    override fun onCloseTasksClicked() {
+        mAddTasksDialog.hide()
+
+    }
+
+    override fun onAddTasksButtonClicked() {
+        Log.d("#MY", "add tasks clicked!")
+    }
+
     override fun onAddButtonClicked() {
         if (data.resultVisibility.get()) {
             presenter.sendResult(eventId, binding.description.text.toString())
             return
         }
 
-
-//        val datepicker = binding.datePicker
-//        val timepicker = binding.timePicker
-//        val calendar = GregorianCalendar(
-//                datepicker.year,
-//                datepicker.month,
-//                datepicker.dayOfMonth,
-//                timepicker.currentHour,
-//                timepicker.currentMinute)
         val name = binding.eventName.text.toString()
         val nameCategory: String = binding.categoryAutocomplete.text.toString()
         Log.d("#MY " + javaClass.simpleName, "category name : " + nameCategory)
 
         if (nameCategory == "") {
-            Toast.makeText(this, "Категория не задана", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Вид спорта не задан", Toast.LENGTH_SHORT).show()
             return
         }
         val maxPeople = Integer.parseInt(binding.eventMaxPeople.text.toString())
