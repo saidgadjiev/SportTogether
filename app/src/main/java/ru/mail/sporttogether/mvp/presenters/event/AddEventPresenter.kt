@@ -1,6 +1,7 @@
 package ru.mail.sporttogether.mvp.presenters.event
 
 import ru.mail.sporttogether.mvp.presenters.IPresenter
+import ru.mail.sporttogether.net.models.Task
 import java.util.*
 
 /**
@@ -15,7 +16,8 @@ interface AddEventPresenter : IPresenter {
                         lat: Double,
                         lng: Double,
                         description: String = "",
-                        maxPeople: Int)
+                        maxPeople: Int,
+                        tasks: List<Task>)
 
     fun searchCategory(category: String)
 

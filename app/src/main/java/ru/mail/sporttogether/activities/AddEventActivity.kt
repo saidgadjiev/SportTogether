@@ -189,6 +189,7 @@ class AddEventActivity :
         Log.d("#MY " + javaClass.simpleName, "max people : " + maxPeople)
         Log.d("#MY " + javaClass.simpleName, "lat : " + lat)
         Log.d("#MY " + javaClass.simpleName, "lon : " + lng)
+        Log.d("#MY " + javaClass.simpleName, "tasks count : " + addTasksDialog.tasks.size)
 
         presenter.addEventClicked(name,
                 nameCategory,
@@ -196,7 +197,8 @@ class AddEventActivity :
                 lat.toDouble(),
                 lng.toDouble(),
                 binding.description.text.toString(),
-                maxPeople)
+                maxPeople,
+                addTasksDialog.tasks)
     }
 
     override fun onEventAdded(name: String) {

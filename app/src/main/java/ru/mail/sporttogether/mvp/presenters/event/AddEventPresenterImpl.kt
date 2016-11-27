@@ -8,6 +8,7 @@ import ru.mail.sporttogether.net.api.EventsAPI
 import ru.mail.sporttogether.net.models.Category
 import ru.mail.sporttogether.net.models.Event
 import ru.mail.sporttogether.net.models.EventResult
+import ru.mail.sporttogether.net.models.Task
 import ru.mail.sporttogether.net.responses.CategoriesResponse
 import ru.mail.sporttogether.net.responses.Response
 import rx.Subscriber
@@ -53,7 +54,8 @@ class AddEventPresenterImpl(var view: IAddEventView?) : AddEventPresenter {
                                  lat: Double,
                                  lng: Double,
                                  description: String,
-                                 maxPeople: Int) {
+                                 maxPeople: Int,
+                                 tasks: List<Task>) {
         val event = Event(
                 name = name,
                 category = Category(null, categoryName),
@@ -61,7 +63,8 @@ class AddEventPresenterImpl(var view: IAddEventView?) : AddEventPresenter {
                 lng = lng,
                 description = description,
                 maxPeople = maxPeople,
-                date = date.time) // сделаем выбор времени и даты позже
+                tasks = tasks,
+                date = date.time)
 
         eventSubscribtion = eventsApi.createEvent(event)
                 .subscribeOn(Schedulers.io())
