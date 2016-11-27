@@ -18,7 +18,6 @@ import ru.mail.sporttogether.app.App
 import ru.mail.sporttogether.eventbus.PermissionGrantedMessage
 import ru.mail.sporttogether.eventbus.PermissionMessage
 import ru.mail.sporttogether.managers.LocationManager
-import ru.mail.sporttogether.managers.data.CredentialsManager
 import ru.mail.sporttogether.managers.events.EventsManager
 import ru.mail.sporttogether.mvp.views.map.IMapView
 import ru.mail.sporttogether.net.api.EventsAPI
@@ -54,7 +53,6 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
     @Inject lateinit var api: EventsAPI
     @Inject lateinit var eventsManager: EventsManager
     @Inject lateinit var locationManager: LocationManager
-    @Inject lateinit var creditalsManager: CredentialsManager
 
     private val userId: Long
 
@@ -67,7 +65,7 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
         App.injector
                 .usePresenterComponent()
                 .inject(this)
-        userId = creditalsManager.getUserData().id
+        userId = 12323243L
     }
 
     override fun onStart() {
