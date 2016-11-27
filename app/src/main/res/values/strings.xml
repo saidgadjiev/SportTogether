@@ -31,5 +31,7 @@
     <string name="tasks_header">Список задач</string>
     <string name="list_tasks">список задач</string>
     <string name="reduce">убрать</string>
+    <string name="result_header">итог события</string>
+    <string name="you_connected_msg">вы присоеденены!</string>
 
 </resources>

@@ -161,8 +161,16 @@ class EventsMapFragment :
         data.name.set(event.name)
         data.date.set(SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.getDefault()).format(Date(event.date)))
         data.description.set(event.description)
+        data.withDescription.set(event.description.isNotEmpty())
         data.isReported.set(event.isReported)
         data.isJoined.set(event.isJoined)
+        if (event.result != null) {
+            data.isEnded.set(event.result!!.isNotEmpty())
+            data.result.set(event.result!!)
+        } else {
+            data.isEnded.set(false)
+            data.result.set("")
+        }
         val people = getString(R.string.users, event.nowPeople, event.maxPeople)
         data.peopleCount.set(people)
         data.showCancelButton.set(isCancelable)

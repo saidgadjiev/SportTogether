@@ -14,12 +14,13 @@ class EventDetailsData {
     val isReported = ObservableBoolean()
     val peopleCount = ObservableField<String>()
     val description = ObservableField<String>()
+    val withDescription = ObservableBoolean() // является ли поле описания не пустым
     val isEnded = ObservableBoolean()
-    val category = ObservableField<String>()
-    val reports = ObservableField<String>()
-
-    val showCancelButton = ObservableBoolean(false)
     val result = ObservableField<String>()
+    val category = ObservableField<String>()
+
+    val reports = ObservableField<String>()
+    val showCancelButton = ObservableBoolean(false)
 
     val clickable = ObservableBoolean(false)
 }

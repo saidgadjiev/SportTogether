@@ -50,7 +50,7 @@ class AddEventActivity :
     private var settedDate: GregorianCalendar = GregorianCalendar()
     private lateinit var pickDateText: TextView
 
-    private lateinit var addTasksDialog: AddTasksDialog
+    private var addTasksDialog: AddTasksDialog? = null
 
     private lateinit var categoryAutocomplete: AutoCompleteTextView
     private var categoriesArray: ArrayList<Category> = ArrayList()
@@ -149,7 +149,7 @@ class AddEventActivity :
     override fun onStart() {
         super.onStart()
         binding.listener = this
-        binding.tasksListener = addTasksDialog.binding.listener
+        binding.tasksListener = addTasksDialog?.binding?.listener
 
     }
 
@@ -189,7 +189,7 @@ class AddEventActivity :
         Log.d("#MY " + javaClass.simpleName, "max people : " + maxPeople)
         Log.d("#MY " + javaClass.simpleName, "lat : " + lat)
         Log.d("#MY " + javaClass.simpleName, "lon : " + lng)
-        Log.d("#MY " + javaClass.simpleName, "tasks count : " + addTasksDialog.tasks.size)
+        Log.d("#MY " + javaClass.simpleName, "tasks count : " + addTasksDialog?.tasks?.size)
 
         presenter.addEventClicked(name,
                 nameCategory,
@@ -198,7 +198,7 @@ class AddEventActivity :
                 lng.toDouble(),
                 binding.description.text.toString(),
                 maxPeople,
-                addTasksDialog.tasks)
+                addTasksDialog?.tasks.orEmpty())
     }
 
     override fun onEventAdded(name: String) {
