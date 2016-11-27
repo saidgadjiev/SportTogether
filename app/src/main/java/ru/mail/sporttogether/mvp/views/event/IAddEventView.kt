@@ -19,4 +19,6 @@ interface IAddEventView : IView {
 
     fun visibleCategoryProgressBar()
     fun invisibleCategoryProgressBar()
+
+    fun resultSended()
 }

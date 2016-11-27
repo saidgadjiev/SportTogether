@@ -6,12 +6,23 @@
         <variable
             name="data"
             type="ru.mail.sporttogether.data.binding.event.EventDetailsData" />
+
+        <variable
+            name="listener"
+            type="ru.mail.sporttogether.data.binding.event.ItemClickListener" />
+
+        <variable
+            name="event"
+            type="ru.mail.sporttogether.net.models.Event" />
+
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/md_white_1000"
+        android:clickable="@{data.clickable}"
+        android:onClick="@{() -> listener.onEventClicked(event)}"
         android:orientation="vertical">
 
         <LinearLayout
@@ -37,7 +48,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:gravity="right"
+                android:gravity="end"
                 android:text="@{data.date}" />
         </LinearLayout>
 
@@ -76,7 +87,7 @@
                 android:drawablePadding="@dimen/offset_small"
                 android:drawableStart="@drawable/ic_report"
                 android:gravity="center_vertical"
-                android:text="@{data.engryCount}" />
+                android:text="@{data.reports}" />
         </RelativeLayout>
 
         <View

@@ -15,5 +15,9 @@ interface IMapView : IView, GoogleMap.OnCameraIdleListener {
 
     fun hideInfo()
 
-    fun showInfo(event: Event)
+    fun showInfo(event: Event, isCancelable: Boolean)
+
+    fun render(event: Event, isCancelable: Boolean)
+
+    fun shareResults()
 }

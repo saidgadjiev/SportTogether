@@ -1,6 +1,7 @@
 package ru.mail.sporttogether.mvp.presenters.event
 
 import ru.mail.sporttogether.mvp.presenters.IPresenter
+import java.util.*
 
 /**
  * Created by bagrusss on 07.10.16.
@@ -9,7 +10,8 @@ import ru.mail.sporttogether.mvp.presenters.IPresenter
 interface AddEventPresenter : IPresenter {
 
     fun addEventClicked(name: String,
-                        categoryId: Long,
+                        categoryName: String,
+                        date: Date,
                         lat: Double,
                         lng: Double,
                         description: String = "",
@@ -20,5 +22,7 @@ interface AddEventPresenter : IPresenter {
     fun loadCategories()
 
     fun loadCategoriesBySubname(subname: String)
+
+    fun sendResult(id: Long, result: String)
 
 }

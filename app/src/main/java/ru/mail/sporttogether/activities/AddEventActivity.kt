@@ -5,10 +5,13 @@ import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.os.Handler
+import android.support.v7.app.AlertDialog
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.AutoCompleteTextView
 import android.widget.ProgressBar
+import android.widget.TextView
 import android.widget.Toast
 import com.jakewharton.rxbinding.widget.RxTextView
 import com.mikepenz.materialdrawer.util.KeyboardUtil
@@ -16,17 +19,26 @@ import ru.mail.sporttogether.R
 import ru.mail.sporttogether.adapter.CategoriesAdapter
 import ru.mail.sporttogether.data.binding.event.EventData
 import ru.mail.sporttogether.data.binding.event.EventListener
+import ru.mail.sporttogether.data.binding.tasks.AddTasksData
+import ru.mail.sporttogether.data.binding.tasks.AddTasksListener
 import ru.mail.sporttogether.databinding.ActivityAddEventBinding
+import ru.mail.sporttogether.databinding.AddingTasksBinding
+import ru.mail.sporttogether.databinding.DateTimePickerBinding
 import ru.mail.sporttogether.mvp.presenters.event.AddEventPresenter
 import ru.mail.sporttogether.mvp.presenters.event.AddEventPresenterImpl
 import ru.mail.sporttogether.mvp.views.event.IAddEventView
 import ru.mail.sporttogether.net.models.Category
+import ru.mail.sporttogether.net.models.Task
+import ru.mail.sporttogether.utils.DateUtils
+import rx.Subscription
+import rx.android.schedulers.AndroidSchedulers
 import java.util.*
 
 class AddEventActivity :
         PresenterActivity<AddEventPresenter>(),
         IAddEventView,
         EventListener {
+
     private lateinit var binding: ActivityAddEventBinding
 
     private val data = EventData()
@@ -34,7 +46,11 @@ class AddEventActivity :
 
     private lateinit var lng: String
     private val handler = Handler()
+    private var eventId = 0L
+    private var settedDate: GregorianCalendar = GregorianCalendar()
+    private lateinit var pickDateText: TextView
 
+    private lateinit var addTasksDialog: AddTasksDialog
 
     private lateinit var categoryAutocomplete: AutoCompleteTextView
     private var categoriesArray: ArrayList<Category> = ArrayList()
@@ -46,29 +62,33 @@ class AddEventActivity :
         presenter = AddEventPresenterImpl(this)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_add_event)
         binding.data = data
+
+
+        val intent = intent
+        eventId = intent.getLongExtra(KEY_ID, 0L)
+        if (eventId != 0L) {
+            data.resultVisibility.set(true)
+            data.mainDataVisibility.set(false)
+            return
+        }
         with(intent) {
             lat = getDoubleExtra(KEY_LAT, 0.0).toString()
             lng = getDoubleExtra(KEY_LNG, 0.0).toString()
         }
         setupCoordinates()
-        presenter.loadCategories()
 
+        pickDateText = binding.pickDateText
+        initPickDate()
 
-//        categoriesArray.add(Category(1, "cat1"))
-//        categoriesArray.add(Category(2, "category"))
-//        categoriesArray.add(Category(3, "my_category"))
-//        categoriesArray.add(Category(4, "test_c"))
-//        categoriesArray.add(Category(5, "cag"))
+        addTasksDialog = AddTasksDialog(this)
+
         categoriesAdapter = CategoriesAdapter(this, android.R.layout.select_dialog_item, categoriesArray)
         categoryAutocomplete = binding.categoryAutocomplete
         categoryAutocomplete.setAdapter(categoriesAdapter)
-//        categoriesAdapter = ArrayAdapter(this, android.R.layout.select_dialog_item)
-//        categoriesAdapter.setNotifyOnChange(true)
         loadingCategoriesProgressBar = binding.categoryAutocompleteProgressBar
-//        categoryAutocomplete.setAdapter(categoriesAdapter)
-
-        RxTextView.textChangeEvents(categoryAutocomplete)
+        subscription = RxTextView.textChangeEvents(categoryAutocomplete)
                 .filter { e -> e.count() == 3 }
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { e ->
                     Log.d("#MY " + javaClass.simpleName, "start loading categories. subname : " + e.text())
                     visibleCategoryProgressBar()
@@ -76,13 +96,42 @@ class AddEventActivity :
                 }
     }
 
+    private fun initPickDate() {
+        pickDateText.text = DateUtils.format(settedDate)
+
+        val mPickDateBtn = binding.pickDateButton
+
+        mPickDateBtn.setOnClickListener {
+            Log.d("#MY " + javaClass.simpleName, "on pick date btn click")
+            val alertDialog = AlertDialog.Builder(this).create()
+            val datepickerDialogViewBinding = DateTimePickerBinding.inflate(LayoutInflater.from(this), null, false)
+            val datepickerDialogView = datepickerDialogViewBinding.root
+            val datePickerSetBtn = datepickerDialogViewBinding.datePickerSetBtn
+            val pickDateText = binding.pickDateText
+
+            datePickerSetBtn.setOnClickListener {
+                Log.d("#MY " + javaClass.simpleName, "on set btn click")
+                val datepicker = datepickerDialogViewBinding.datePicker
+                val timepicker = datepickerDialogViewBinding.timePicker
+                settedDate = GregorianCalendar(
+                        datepicker.year,
+                        datepicker.month,
+                        datepicker.dayOfMonth,
+                        timepicker.currentHour,
+                        timepicker.currentMinute)
+                pickDateText.text = DateUtils.format(settedDate)
+                alertDialog.hide()
+            }
+            alertDialog.setView(datepickerDialogView)
+            alertDialog.show()
+        }
+    }
+
     override fun onCategoriesReady(categories: ArrayList<Category>) {
 
     }
 
     override fun onCategoriesLoaded(categories: ArrayList<Category>) {
-        Log.d("#MY " + javaClass.simpleName, "in activity update adapter. Categories size : " + categoriesArray.size)
-        categories.forEach { e -> Log.d("#MY " + javaClass.simpleName, "loaded category : " + e.name) }
         categoriesAdapter.clear()
         categoriesAdapter.addAll(categories)
     }
@@ -95,14 +144,21 @@ class AddEventActivity :
         loadingCategoriesProgressBar.visibility = View.GONE
     }
 
+    var subscription: Subscription? = null
+
     override fun onStart() {
         super.onStart()
         binding.listener = this
+        binding.tasksListener = addTasksDialog.binding.listener
+
     }
 
     override fun onStop() {
         super.onStop()
+        subscription?.unsubscribe()
         binding.listener = null
+        binding.tasksListener = null
+
     }
 
     override fun onPause() {
@@ -116,19 +172,27 @@ class AddEventActivity :
     }
 
     override fun onAddButtonClicked() {
+        if (data.resultVisibility.get()) {
+            presenter.sendResult(eventId, binding.description.text.toString())
+            return
+        }
+
         val name = binding.eventName.text.toString()
-        val nameCategory : String = binding.categoryAutocomplete.text.toString()
+        val nameCategory: String = binding.categoryAutocomplete.text.toString()
         Log.d("#MY " + javaClass.simpleName, "category name : " + nameCategory)
-        categoriesAdapter.getFullList().forEach { el -> Log.d("#MY " + javaClass.simpleName, el.name) }
-        val idCategory: Long? = categoriesAdapter.getFullList().findLast { el -> el.name == nameCategory }?.id
-        Log.d("#MY " + javaClass.simpleName, "category id : " + idCategory)
-        if (idCategory == null) {
-            Toast.makeText(this, "Категория не задана", Toast.LENGTH_SHORT).show()
+
+        if (nameCategory == "") {
+            Toast.makeText(this, "Вид спорта не задан", Toast.LENGTH_SHORT).show()
+            return
         }
         val maxPeople = Integer.parseInt(binding.eventMaxPeople.text.toString())
         Log.d("#MY " + javaClass.simpleName, "max people : " + maxPeople)
+        Log.d("#MY " + javaClass.simpleName, "lat : " + lat)
+        Log.d("#MY " + javaClass.simpleName, "lon : " + lng)
+
         presenter.addEventClicked(name,
-                idCategory!!, //TODO сделать отправку категории
+                nameCategory,
+                settedDate.time,
                 lat.toDouble(),
                 lng.toDouble(),
                 binding.description.text.toString(),
@@ -146,6 +210,13 @@ class AddEventActivity :
         showToast(errorText)
     }
 
+    override fun resultSended() {
+        showToast("ok")
+        handler.postDelayed({
+            finish()
+        }, 300)
+    }
+
     companion object {
 
         @JvmStatic
@@ -156,7 +227,69 @@ class AddEventActivity :
             c.startActivity(intent)
         }
 
+        @JvmStatic
+        fun startForResultEvent(c: Context, id: Long) {
+            val intent = Intent(c, AddEventActivity::class.java)
+            intent.putExtra(KEY_ID, id)
+            c.startActivity(intent)
+        }
+
+        @JvmStatic private val KEY_ID = "ID"
         @JvmStatic private val KEY_LNG = "lng"
         @JvmStatic private val KEY_LAT = "lat"
+    }
+
+    class AddTasksDialog: AddTasksListener {
+        val context: AddEventActivity
+        var dialog: AlertDialog
+        var binding: AddingTasksBinding
+        val tasks = ArrayList<Task>()
+
+        constructor(context: AddEventActivity) {
+            this.context = context
+            this.dialog = AlertDialog.Builder(this.context).create()
+            this.binding = AddingTasksBinding.inflate(LayoutInflater.from(this.context), null, false)
+            this.dialog.setView(this.binding.root)
+            this.binding.listener = this
+            this.binding.data = AddTasksData()
+        }
+
+        override fun onOpenTasksClicked() {
+            Log.d("#MY " + javaClass.simpleName, "open tasks clicked!")
+            this.dialog.show()
+        }
+
+        override fun onCloseTasksClicked() {
+            this.dialog.hide()
+        }
+
+        override fun onAddTaskClicked() {
+            Log.d("#MY " + javaClass.simpleName, "add task clicked!")
+            val taskMessage = this.binding.addTasksEdit.text.toString()
+            if (taskMessage.length < 3 && taskMessage.length > 31) {
+                context.showToast("Введенная задача некорректна")
+                return
+            }
+            tasks.add(Task(null, taskMessage, null, null))
+            this.binding.data.tasks.set(toTasksString())
+            this.binding.addTasksEdit.text.clear()
+        }
+
+        override fun onRemoveTaskClicked() {
+            tasks.removeAt(tasks.size - 1)
+            this.binding.data.tasks.set(toTasksString())
+        }
+
+        fun toTasksString(): String {
+            val sb = StringBuilder("")
+            var i = 1
+            tasks.forEach {
+                sb.append(i).append(". ").append(it.toString()).append('\n')
+                i++
+            }
+            val finalString = sb.toString()
+            return finalString.substring(0, finalString.length - 1)//убираю конечный перевод строки
+        }
+
     }
 }

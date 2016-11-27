@@ -13,4 +13,5 @@ interface IMyEventsView : IView {
     fun addEndedEvents(events: MutableList<Event>)
     fun addMyEvents(events: MutableList<Event>)
     fun clearEvents()
+    fun openEditActivity(id: Long)
 }

@@ -5,6 +5,7 @@ import android.graphics.Point
 import android.location.Location
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
@@ -17,6 +18,7 @@ import ru.mail.sporttogether.app.App
 import ru.mail.sporttogether.eventbus.PermissionGrantedMessage
 import ru.mail.sporttogether.eventbus.PermissionMessage
 import ru.mail.sporttogether.managers.LocationManager
+import ru.mail.sporttogether.managers.data.CredentialsManager
 import ru.mail.sporttogether.managers.events.EventsManager
 import ru.mail.sporttogether.mvp.views.map.IMapView
 import ru.mail.sporttogether.net.api.EventsAPI
@@ -42,13 +44,19 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
     private var lastMarker: Marker? = null
     private lateinit var lastPos: LatLng
     private val options: MarkerOptions = MarkerOptions()
-    private var lastEventId = 0L
+
+//    @Deprecated("lastEvent object instead of this", replaceWith = ReplaceWith("lastEvent.id"))
+//    private var lastEventId = 0L
+    private lateinit var lastEvent: Event
 
     private val markerIdEventMap = HashMap<String, Event>()
 
     @Inject lateinit var api: EventsAPI
     @Inject lateinit var eventsManager: EventsManager
     @Inject lateinit var locationManager: LocationManager
+    @Inject lateinit var creditalsManager: CredentialsManager
+
+    private val userId: Long
 
     private var apiSubscribtion: Subscription? = null
     private var locationSubscription: Subscription? = null
@@ -59,6 +67,7 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
         App.injector
                 .usePresenterComponent()
                 .inject(this)
+        userId = creditalsManager.getUserData().id
     }
 
     override fun onStart() {
@@ -107,7 +116,6 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
                 setOnCameraIdleListener(null)
                 setOnMapClickListener(null)
                 setOnMarkerClickListener(null)
-                setOnCameraMoveStartedListener(null)
             }
         }
         map = null
@@ -117,8 +125,33 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
         view?.hideInfo()
     }
 
-    override fun onCameraMoveStarted(p0: Int) {
+    override fun onShareButtonClicked() {
+        view?.shareResults()
+    }
 
+    override fun onCancelButtonClicked() {
+        apiSubscribtion?.unsubscribe()
+        api.cancelEvent(lastEvent.id)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(object : Subscriber<Response<Any>>() {
+                    override fun onCompleted() {
+
+                    }
+
+                    override fun onError(e: Throwable) {
+
+                    }
+
+                    override fun onNext(t: Response<Any>) {
+                        if (t.code == 0) {
+                            view?.showToast("Событие отменено")
+                        } else {
+                            view?.showToast(t.message)
+                        }
+                    }
+
+                })
     }
 
     override fun onCameraIdle(x: Int, y: Int) {
@@ -164,7 +197,6 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
         map.setOnMapClickListener(this)
         map.setOnMarkerClickListener(this)
         map.setOnCameraIdleListener(view)
-        map.setOnCameraMoveStartedListener(this)
         locationSubscription = locationManager.locationUpdate.subscribe { location ->
             onLocationUpdated(location)
         }
@@ -198,11 +230,14 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
             for (event in data) {
                 val latlng = LatLng(event.lat, event.lng)
                 val markerOptions = options.position(latlng)
+                if (event.isEnded)
+                    options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
+                else options.icon(null)
                 val marker = it.addMarker(markerOptions)
                 markerIdEventMap.put(marker.id, event)
             }
+            options.icon(null)
         }
-
     }
 
     override fun onAddButtonClicked() {
@@ -225,12 +260,16 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
     }
 
     private fun showEventInfo(marker: Marker) {
-        val event = markerIdEventMap[marker.id]
+        val event: Event? = markerIdEventMap[marker.id]
         event?.let {
             view?.hideInfo()
-            lastEventId = it.id
-            view?.showInfo(it)
+            lastEvent = it
+            view?.showInfo(lastEvent, (userId == event.userId) and !event.isEnded)
         }
+    }
+
+    private fun render() {
+        view?.render(lastEvent, (userId == lastEvent.userId) and !lastEvent.isEnded)
     }
 
     override fun onBackPressed() {
@@ -238,7 +277,7 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
     }
 
     override fun onAngryButtonClicked() {
-        api.report(lastEventId)
+        api.report(lastEvent.id)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(object : Subscriber<Response<Any>>() {
@@ -251,20 +290,62 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
                     }
 
                     override fun onNext(t: Response<Any>) {
-                        if (t.code === 0)
+                        if (t.code === 0) {
+                            lastEvent.reports += 1
+                            lastEvent.isReported = true
                             view?.showToast(android.R.string.ok)
+                            render()
+                        }
                         else view?.showToast("Вы уже жаловались на это событие")
                     }
                 })
     }
 
     override fun onJoinButtonClicked() {
-        api.joinToEvent(lastEventId, FirebaseInstanceId.getInstance().token)
+        if (lastEvent.isJoined) {
+            unJoin()
+        } else {
+            join()
+        }
+    }
+
+    fun join() {
+        api.joinToEvent(lastEvent.id, FirebaseInstanceId.getInstance().token)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(object : Subscriber<Response<Any>>() {
                     override fun onNext(t: Response<Any>) {
-                        view?.showToast(android.R.string.ok)
+                        if (t.code === 0) {
+                            lastEvent.nowPeople += 1
+                            lastEvent.isJoined = true
+                            view?.showToast(android.R.string.ok)
+                            render()
+                        } else view?.showToast(t.message)
+                    }
+
+                    override fun onCompleted() {
+
+                    }
+
+                    override fun onError(e: Throwable) {
+
+                    }
+
+                })
+    }
+
+    fun unJoin() {
+        api.unjoinFromEvent(lastEvent.id)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(object : Subscriber<Response<Any>>() {
+                    override fun onNext(t: Response<Any>) {
+                        if (t.code === 0) {
+                            lastEvent.nowPeople -= 1
+                            lastEvent.isJoined = false
+                            view?.showToast(android.R.string.ok)
+                            render()
+                        } else view?.showToast(t.message)
                     }
 
                     override fun onCompleted() {

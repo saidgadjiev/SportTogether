@@ -4,6 +4,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="listener"
             type="ru.mail.sporttogether.data.binding.event.EventDetailsListener" />
@@ -42,7 +44,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|end"
-                android:layout_marginBottom="120dp"
+                android:layout_margin="16dp"
                 android:onClick="@{() -> addListener.onAddButtonClicked()}"
                 android:src="@drawable/ic_add_location"
                 android:tint="@android:color/white"
@@ -56,7 +58,7 @@
             android:background="@android:color/white"
             android:clickable="true"
             android:orientation="vertical"
-            app:behavior_peekHeight="80dp"
+            app:behavior_peekHeight="90dp"
             app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
 
             <LinearLayout
@@ -72,65 +74,152 @@
                     android:layout_gravity="center_horizontal"
                     android:background="@color/md_black_1000" />
 
-                <TextView
-                    android:id="@+id/event_name"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/ic_add_location"
-                    android:text="@{data.name}"
-                    android:textSize="20sp" />
+                    android:layout_height="wrap_content">
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+                        <TextView
+                            style="@style/AccentText"
+                            android:id="@+id/event_category"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@{data.category}" />
+
+                        <TextView
+                            style="@style/TitleText"
+                            android:id="@+id/event_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@{data.name}"
+                            android:layout_below="@+id/event_category"/>
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:id="@+id/date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{data.date}"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentEnd="true"/>
+                        <TextView
+                            android:id="@+id/people_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/offset_small"
+                            android:drawableStart="@drawable/ic_people"
+                            android:text="@{data.peopleCount}"
+                            android:layout_alignParentEnd="true"
+                            android:layout_below="@+id/date"/>
+
+                        <TextView
+                            android:id="@+id/you_connected"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="вы присоеденены!"
+                            android:textSize="@dimen/font_small"
+                            android:textColor="@color/green"
+                            android:visibility="@{data.isJoined? View.VISIBLE : View.GONE}"
+                            android:layout_marginEnd="@dimen/offset_small"
+                            android:layout_alignBaseline="@+id/people_count"
+                            android:layout_toStartOf="@+id/people_count" />
+
+
+                    </RelativeLayout>
+                </LinearLayout>
+
 
                 <TextView
-                    android:id="@+id/event_category"
+                    style="@style/TitleSecondaryText"
+                    android:id="@+id/description_header"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:text="@{data.category}" />
-
-                <TextView
-                    android:id="@+id/people_count"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:drawableLeft="@drawable/ic_people"
-                    android:text="@{data.peopleCount}" />
+                    android:layout_marginTop="@dimen/offset_medium"
+                    android:text="@string/description_header" />
 
                 <TextView
                     android:id="@+id/description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
                     android:text="@{data.description}" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/offset_small"
                     android:orientation="horizontal">
-
-                    <Button
-                        android:id="@+id/angry_button"
-                        android:layout_width="wrap_content"
+                    <RelativeLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="16dp"
-                        android:background="@color/red"
-                        android:onClick="@{() -> listener.onAngryButtonClicked()}"
-                        android:padding="8dp"
-                        android:text="@string/angry"
-                        android:textColor="@color/md_white_1000" />
+                        style="@style/IconButtonContainer">
 
-                    <Button
-                        android:layout_width="wrap_content"
+                        <Button
+                            style="@style/IconButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/angry_button"
+                            android:onClick="@{() -> listener.onAngryButtonClicked()}"
+                            android:drawableTop="@{!data.isReported? @drawable/ic_report_btn : @drawable/ic_done_btn}"
+                            android:text="@{!data.isReported? @string/angry : @string/angryAlready}"
+                            android:clickable="@{!data.isReported}"
+                            />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_margin="16dp"
-                        android:background="@color/green"
-                        android:onClick="@{() -> listener.onJoinButtonClicked()}"
-                        android:padding="8dp"
-                        android:text="@string/join"
-                        android:textColor="@color/md_white_1000" />
+                        style="@style/IconButtonContainer">
 
+                        <Button
+                            style="@style/IconButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/detail_connect_button"
+                            android:onClick="@{() -> listener.onJoinButtonClicked()}"
+                            android:text="@{!data.isJoined? @string/join : @string/joinAlready}"
+                            android:drawableTop="@{!data.isJoined? @drawable/ic_person_add_btn : @drawable/ic_person_outline_btn}"
+                            />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        style="@style/IconButtonContainer">
+
+                        <Button
+                            style="@style/IconButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/test3"
+                            android:drawableTop="@drawable/ic_share_btn"
+                            android:onClick="@{() -> listener.onShareButtonClicked()}"
+
+                            android:text="@string/share"/>
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        style="@style/IconButtonContainer">
+
+                        <Button
+                            style="@style/IconButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/test4"
+                            android:drawableTop="@drawable/ic_delete_btn"
+                            android:onClick="@{() -> listener.onCancelButtonClicked()}"
+                            android:visibility="@{data.showCancelButton? View.VISIBLE : View.GONE}"
+                            android:text="@string/cancel_event" />
+                    </RelativeLayout>
                 </LinearLayout>
 
             </LinearLayout>

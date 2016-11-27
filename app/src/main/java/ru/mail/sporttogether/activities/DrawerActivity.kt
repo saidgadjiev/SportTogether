@@ -53,10 +53,8 @@ class DrawerActivity : IDrawerView, PresenterActivity<IDrawerPresenter>() {
                 .withHeaderBackground(R.drawable.drawer_background)
                 .withTextColor(ContextCompat.getColor(this, R.color.colorAccent))
                 .addProfiles(
-                        ProfileDrawerItem().withName("Ivan").withEmail("1@1.1").withTextColor(ContextCompat.getColor(this, R.color.colorPrimary)),
-                        ProfileDrawerItem().withName("Vlad").withEmail("2@2.2").withTextColor(ContextCompat.getColor(this, R.color.colorPrimary)),
-                        ProfileDrawerItem().withName("Said").withEmail("3@3.3").withTextColor(ContextCompat.getColor(this, R.color.colorPrimary))
-                )
+                        ProfileDrawerItem().withName("Ivan").withEmail("1@1.1").withTextColor(ContextCompat.getColor(this, R.color.colorPrimary))
+                        )
                 .withCloseDrawerOnProfileListClick(false)
                 .build()
 
@@ -76,6 +74,7 @@ class DrawerActivity : IDrawerView, PresenterActivity<IDrawerPresenter>() {
                 },
                 PrimaryDrawerItem().withName("Выход").withOnDrawerItemClickListener { view, i, iDrawerItem ->
                     presenter.clickSignOut()
+                    finish()
                     false
                 }
         )

@@ -2,6 +2,7 @@ package ru.mail.sporttogether.activities
 
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.support.annotation.CallSuper
 import android.support.annotation.StringRes
@@ -69,17 +70,17 @@ abstract class PresenterActivity<T : IPresenter> : AppCompatActivity(), IView {
             return true
         }
         if (item.itemId === R.id.post) {
-            shareToSocial()
+            shareToSocial("Test content", "Test description")
         }
         return super.onOptionsItemSelected(item)
     }
 
-    fun shareToSocial() {
+    fun shareToSocial(title: String, description: String) {
         val content = ShareLinkContent
                 .Builder()
                 .setContentUrl(Uri.parse("https://developers.facebook.com"))
-                .setContentTitle("Test post")
-                .setContentDescription("Welcome to sport together")
+                .setContentTitle(title)
+                .setContentDescription(description)
                 .build()
 
         ShareDialog.show(this, content)
@@ -141,7 +142,8 @@ abstract class PresenterActivity<T : IPresenter> : AppCompatActivity(), IView {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onEvent(msg: PermissionMessage) {
-        requestPermissions(msg.permissionsList.toTypedArray(), msg.reqCode)
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M)
+            requestPermissions(msg.permissionsList.toTypedArray(), msg.reqCode)
     }
 
     // сука, ебучий гугл, у вложенныех фрагментов не вызывается onRequestPermissionsResult

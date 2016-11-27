@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="data"
+            type="ru.mail.sporttogether.data.binding.event.EventData" />
+
+        <variable
+            name="listener"
+            type="ru.mail.sporttogether.data.binding.event.EventListener" />
+
+    </data>
+
+    <RelativeLayout
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            style="@style/TitleText"
+            android:id="@+id/date_picker_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="@string/datetime_picker_header"
+            android:layout_marginTop="10dp" />
+
+            <DatePicker
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="-50dp"
+                android:datePickerMode="spinner"
+                android:id="@+id/date_picker"
+                android:calendarViewShown="false"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/date_picker_header"
+                android:spinnersShown="true"
+                />
+            <TimePicker
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="-100dp"
+                android:id="@+id/time_picker"
+                android:timePickerMode="spinner"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/date_picker"
+                />
+        <Button
+            style="@style/FlatButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/date_picker_set_btn"
+            android:layout_below="@id/time_picker"
+            android:layout_centerHorizontal="true"
+            android:text="@string/datetime_picker_btn_set"
+            android:layout_marginBottom="@dimen/offset_medium"
+            />
+    </RelativeLayout>
+
+</layout>
+
+

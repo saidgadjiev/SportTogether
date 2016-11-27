@@ -34,7 +34,7 @@ class EventsFragment() : PresenterFragment<EventsPresenter>() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val fragmentManager = (activity as PresenterActivity<*>).supportFragmentManager
+        val fragmentManager = childFragmentManager
         // попробовать  childFragmentManager для получения onPermissionResult
         val viewTreeObserver = tab.viewTreeObserver
         if (viewTreeObserver.isAlive) {

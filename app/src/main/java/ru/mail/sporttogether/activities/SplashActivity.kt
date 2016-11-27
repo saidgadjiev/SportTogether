@@ -3,6 +3,7 @@ package ru.mail.sporttogether.activities
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import com.auth0.android.lock.Lock
 import ru.mail.sporttogether.R
 import ru.mail.sporttogether.mvp.presenters.splash.SplashActivityPresenter
@@ -26,7 +27,7 @@ class SplashActivity :
     }
 
     override fun startLockActivity(lock: Lock?) {
-        Handler().postDelayed({
+        Handler(Looper.getMainLooper()).postDelayed({
             startActivity(lock?.newIntent(this@SplashActivity))
         }, 1000)
     }
