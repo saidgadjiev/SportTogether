@@ -46,6 +46,7 @@ class CustomFirebaseMessagingService : FirebaseMessagingService() {
                 manager.notify(10, notification)
             } else {
                 Log.e("#MY " + javaClass.simpleName, "empty message or title in notification body")
+                return
             }
         } catch (e: JsonSyntaxException) {
             Log.e("#MY " + javaClass.simpleName, "notification body is not json : " + body)
