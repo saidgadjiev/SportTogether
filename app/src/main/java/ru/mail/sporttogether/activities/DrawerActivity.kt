@@ -14,6 +14,7 @@ import com.mikepenz.materialdrawer.DrawerBuilder
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem
 import ru.mail.sporttogether.R
+import ru.mail.sporttogether.auth.core.SocialNetworkManager
 import ru.mail.sporttogether.databinding.ActivityDrawerBinding
 import ru.mail.sporttogether.fragments.events.EventsFragment
 import ru.mail.sporttogether.mvp.presenters.drawer.DrawerPresenterImpl
@@ -24,6 +25,7 @@ class DrawerActivity : IDrawerView, PresenterActivity<IDrawerPresenter>() {
     private lateinit var binding: ActivityDrawerBinding
     private lateinit var toolbar: Toolbar
     private lateinit var mDrawer: Drawer
+    private lateinit var socialNetworkManager: SocialNetworkManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +37,7 @@ class DrawerActivity : IDrawerView, PresenterActivity<IDrawerPresenter>() {
         setSupportActionBar(toolbar)
         setupToolbar(toolbar)
         buildDrawer()
+        socialNetworkManager = SocialNetworkManager.instance
         swapFragment(EventsFragment.newInstance())
     }
 
@@ -73,11 +76,20 @@ class DrawerActivity : IDrawerView, PresenterActivity<IDrawerPresenter>() {
                     false
                 },
                 PrimaryDrawerItem().withName("Выход").withOnDrawerItemClickListener { view, i, iDrawerItem ->
-                    presenter.clickSignOut()
-                    finish()
+                    logout()
                     false
                 }
         )
+    }
+
+    fun logout() {
+        for (network in socialNetworkManager.initializedSocialNetworks) {
+            if (network.isConnected) {
+                network.logout()
+                startActivity(Intent(this, LoginActivity::class.java))
+                break
+            }
+        }
     }
 
     private fun swapFragment(fragment: Fragment) {
