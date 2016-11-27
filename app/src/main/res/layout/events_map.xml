@@ -136,37 +136,6 @@
                     </RelativeLayout>
                 </LinearLayout>
 
-
-                <TextView
-                    style="@style/TitleSecondaryText"
-                    android:id="@+id/description_header"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/offset_medium"
-                    android:visibility="@{data.withDescription? View.VISIBLE : View.GONE}"
-                    android:text="@string/description_header" />
-                <TextView
-                    android:id="@+id/description"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:visibility="@{data.withDescription? View.VISIBLE : View.GONE}"
-                    android:text="@{data.description}" />
-
-                <TextView
-                    style="@style/TitleSecondaryText"
-                    android:id="@+id/result_header"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/offset_medium"
-                    android:visibility="@{data.isEnded? View.VISIBLE : View.GONE}"
-                    android:text="@string/result_header" />
-                <TextView
-                    android:id="@+id/result"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:visibility="@{data.isEnded? View.VISIBLE : View.GONE}"
-                    android:text="@{data.result}" />
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -183,7 +152,7 @@
                             android:layout_height="wrap_content"
                             android:id="@+id/angry_button"
                             android:onClick="@{() -> listener.onAngryButtonClicked()}"
-                            android:drawableTop="@{!data.isReported? @drawable/ic_report_btn : @drawable/ic_done_btn}"
+                            android:drawableTop="@{!data.isReported? @drawable/ic_report_btn : @drawable/ic_report_btn_disabled}"
                             android:text="@{!data.isReported? @string/angry : @string/angryAlready}"
                             android:clickable="@{!data.isReported}"
                             />
@@ -238,6 +207,59 @@
                     </RelativeLayout>
                 </LinearLayout>
 
+                <TextView
+                    style="@style/TitleSecondaryText"
+                    android:id="@+id/description_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/offset_medium"
+                    android:visibility="@{data.withDescription? View.VISIBLE : View.GONE}"
+                    android:text="@string/description_header" />
+                <TextView
+                    android:id="@+id/description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="@{data.withDescription? View.VISIBLE : View.GONE}"
+                    android:text="@{data.description}" />
+
+                <TextView
+                    style="@style/TitleSecondaryText"
+                    android:id="@+id/result_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/offset_medium"
+                    android:visibility="@{data.isEnded? View.VISIBLE : View.GONE}"
+                    android:text="@string/result_header" />
+                <TextView
+                    android:id="@+id/result"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="@{data.isEnded? View.VISIBLE : View.GONE}"
+                    android:text="@{data.result}" />
+
+                <RelativeLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <Button
+                        style="@style/FlatButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/show_tasks_btn"
+                        android:text="@string/list_tasks"/>
+                    <TextView
+                        style="@style/TitleText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tasks_count"
+                        android:layout_toEndOf="@id/show_tasks_btn"
+                        android:layout_centerVertical="true"
+                        android:drawableStart="@drawable/ic_view_list"
+                        android:drawablePadding="@dimen/offset_small"
+                        android:text="1/3"
+                        android:layout_marginStart="@dimen/offset_large"
+                        />
+                </RelativeLayout>
             </LinearLayout>
 
         </FrameLayout>
