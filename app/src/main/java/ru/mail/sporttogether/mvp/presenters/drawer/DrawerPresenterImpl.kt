@@ -11,23 +11,22 @@ import javax.inject.Inject
  * Created by bagrusss on 15.10.16.
  *
  */
-class DrawerPresenterImpl : IDrawerPresenter {
+class DrawerPresenterImpl(view: IDrawerView) : IDrawerPresenter {
 
-    private var view: IDrawerView? = null
+    private var view: IDrawerView? = view
     @Inject lateinit var api: AuthorizationAPI
     @Inject lateinit var context: Context
     @Inject lateinit var headerManager: HeaderManagerImpl
 
-
-    constructor(view: IDrawerView) {
-        App.injector.usePresenterComponent().inject(this)
-        this.view = view
-    }
 
     override fun clickSignOut() {
     }
 
     override fun onDestroy() {
         view = null
+    }
+
+    init {
+        App.injector.usePresenterComponent().inject(this)
     }
 }

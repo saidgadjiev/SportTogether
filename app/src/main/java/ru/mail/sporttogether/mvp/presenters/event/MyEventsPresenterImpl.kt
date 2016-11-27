@@ -20,14 +20,13 @@ import javax.inject.Inject
 class MyEventsPresenterImpl(private var view: IMyEventsView?) : MyEventsPresenter {
 
     @Inject lateinit var eventsApi: EventsAPI
-    @Inject lateinit var credentialsManager: CredentialsManager
     private val user: User
 
     init {
         App.injector
                 .usePresenterComponent()
                 .inject(this)
-        user = credentialsManager.getUserData()
+        user = User("1234", 1234L, 1)
     }
 
     override fun getMyEvents() {

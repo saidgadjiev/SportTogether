@@ -53,7 +53,6 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
     @Inject lateinit var api: EventsAPI
     @Inject lateinit var eventsManager: EventsManager
     @Inject lateinit var locationManager: LocationManager
-    @Inject lateinit var creditalsManager: CredentialsManager
 
     private val userId: Long
 
@@ -66,7 +65,7 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
         App.injector
                 .usePresenterComponent()
                 .inject(this)
-        userId = creditalsManager.getUserData().id
+        userId = 12323243L
     }
 
     override fun onStart() {

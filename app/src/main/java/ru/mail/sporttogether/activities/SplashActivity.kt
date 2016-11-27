@@ -33,4 +33,10 @@ class SplashActivity :
     override fun close() {
         finish()
     }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        presenter.onActivityResult(requestCode, resultCode, data)
+    }
 }

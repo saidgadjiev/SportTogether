@@ -14,8 +14,6 @@ import com.mikepenz.materialdrawer.DrawerBuilder
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem
 import ru.mail.sporttogether.R
-
-import ru.mail.sporttogether.app.App
 import ru.mail.sporttogether.auth.core.SocialNetworkManager
 import ru.mail.sporttogether.databinding.ActivityDrawerBinding
 import ru.mail.sporttogether.fragments.events.EventsFragment
@@ -39,7 +37,7 @@ class DrawerActivity : IDrawerView, PresenterActivity<IDrawerPresenter>() {
         setSupportActionBar(toolbar)
         setupToolbar(toolbar)
         buildDrawer()
-        socialNetworkManager = SocialNetworkManager.getInstance()
+        socialNetworkManager = SocialNetworkManager.instance
         swapFragment(EventsFragment.newInstance())
     }
 

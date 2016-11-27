@@ -1,5 +1,6 @@
 package ru.mail.sporttogether.mvp.presenters
 
+import android.content.Intent
 import android.os.Bundle
 
 /**
@@ -7,6 +8,10 @@ import android.os.Bundle
  *
  */
 interface IPresenter {
+
+
+    fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    }
 
     fun onCreate(args: Bundle?){}
 

@@ -129,7 +129,7 @@ dependencies {
     compile 'com.google.code.gson:gson:2.7'
 
     compile 'com.vk:androidsdk:1.6.5'
-    compile 'com.facebook.android:facebook-android-sdk:4.+'
+    compile 'com.facebook.android:facebook-android-sdk:4.17.0'
 
     //rx java
     compile 'io.reactivex:rxandroid:1.2.1'
@@ -145,8 +145,6 @@ dependencies {
     compile 'com.squareup.okhttp3:logging-interceptor:3.4.1'
     compile 'com.squareup.okhttp3:okhttp:3.4.1'
     compile 'com.facebook.stetho:stetho-okhttp3:1.4.1'
-
-    compile 'com.auth0.android:lock:2.1.1'
 
     //fcm
 

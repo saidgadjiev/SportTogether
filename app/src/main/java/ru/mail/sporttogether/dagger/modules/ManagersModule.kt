@@ -4,9 +4,8 @@ import android.content.Context
 import dagger.Module
 import dagger.Provides
 import ru.mail.sporttogether.managers.LocationManager
-import ru.mail.sporttogether.managers.data.*
-import ru.mail.sporttogether.managers.data.CredentialsManagerImpl
 import ru.mail.sporttogether.managers.data.DataManagerImpl
+import ru.mail.sporttogether.managers.data.FcmTokenManager
 import ru.mail.sporttogether.managers.data.IDataManager
 import ru.mail.sporttogether.managers.events.EventsManager
 import ru.mail.sporttogether.managers.events.EventsManagerImpl
