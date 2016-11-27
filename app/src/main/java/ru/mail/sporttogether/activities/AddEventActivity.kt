@@ -19,6 +19,7 @@ import ru.mail.sporttogether.R
 import ru.mail.sporttogether.adapter.CategoriesAdapter
 import ru.mail.sporttogether.data.binding.event.EventData
 import ru.mail.sporttogether.data.binding.event.EventListener
+import ru.mail.sporttogether.data.binding.tasks.AddTasksData
 import ru.mail.sporttogether.data.binding.tasks.AddTasksListener
 import ru.mail.sporttogether.databinding.ActivityAddEventBinding
 import ru.mail.sporttogether.databinding.AddingTasksBinding
@@ -27,6 +28,7 @@ import ru.mail.sporttogether.mvp.presenters.event.AddEventPresenter
 import ru.mail.sporttogether.mvp.presenters.event.AddEventPresenterImpl
 import ru.mail.sporttogether.mvp.views.event.IAddEventView
 import ru.mail.sporttogether.net.models.Category
+import ru.mail.sporttogether.net.models.Task
 import ru.mail.sporttogether.utils.DateUtils
 import rx.Subscription
 import rx.android.schedulers.AndroidSchedulers
@@ -35,7 +37,6 @@ import java.util.*
 class AddEventActivity :
         PresenterActivity<AddEventPresenter>(),
         IAddEventView,
-        AddTasksListener,
         EventListener {
 
     private lateinit var binding: ActivityAddEventBinding
@@ -49,7 +50,7 @@ class AddEventActivity :
     private var settedDate: GregorianCalendar = GregorianCalendar()
     private lateinit var pickDateText: TextView
 
-    private lateinit var mAddTasksDialog: AlertDialog
+    private lateinit var addTasksDialog: AddTasksDialog
 
     private lateinit var categoryAutocomplete: AutoCompleteTextView
     private var categoriesArray: ArrayList<Category> = ArrayList()
@@ -61,7 +62,7 @@ class AddEventActivity :
         presenter = AddEventPresenterImpl(this)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_add_event)
         binding.data = data
-        pickDateText = binding.pickDateText
+
 
         val intent = intent
         eventId = intent.getLongExtra(KEY_ID, 0L)
@@ -76,7 +77,10 @@ class AddEventActivity :
         }
         setupCoordinates()
 
+        pickDateText = binding.pickDateText
         initPickDate()
+
+        addTasksDialog = AddTasksDialog(this)
 
         categoriesAdapter = CategoriesAdapter(this, android.R.layout.select_dialog_item, categoriesArray)
         categoryAutocomplete = binding.categoryAutocomplete
@@ -145,13 +149,16 @@ class AddEventActivity :
     override fun onStart() {
         super.onStart()
         binding.listener = this
-        binding.tasksListener = this
+        binding.tasksListener = addTasksDialog.binding.listener
+
     }
 
     override fun onStop() {
         super.onStop()
         subscription?.unsubscribe()
         binding.listener = null
+        binding.tasksListener = null
+
     }
 
     override fun onPause() {
@@ -162,24 +169,6 @@ class AddEventActivity :
     private fun setupCoordinates() {
         data.lat.set(lat)
         data.lng.set(lng)
-    }
-
-    override fun onOpenTasksClicked() {
-        mAddTasksDialog = AlertDialog.Builder(this).create()
-        val addTasksDialogViewBinding = AddingTasksBinding.inflate(LayoutInflater.from(this), null, false)
-        addTasksDialogViewBinding.listener = this
-        val addTasksDialogView = addTasksDialogViewBinding.root
-        mAddTasksDialog.setView(addTasksDialogView)
-        mAddTasksDialog.show()
-    }
-
-    override fun onCloseTasksClicked() {
-        mAddTasksDialog.hide()
-
-    }
-
-    override fun onAddTasksButtonClicked() {
-        Log.d("#MY", "add tasks clicked!")
     }
 
     override fun onAddButtonClicked() {
@@ -248,5 +237,59 @@ class AddEventActivity :
         @JvmStatic private val KEY_ID = "ID"
         @JvmStatic private val KEY_LNG = "lng"
         @JvmStatic private val KEY_LAT = "lat"
+    }
+
+    class AddTasksDialog: AddTasksListener {
+        val context: AddEventActivity
+        var dialog: AlertDialog
+        var binding: AddingTasksBinding
+        val tasks = ArrayList<Task>()
+
+        constructor(context: AddEventActivity) {
+            this.context = context
+            this.dialog = AlertDialog.Builder(this.context).create()
+            this.binding = AddingTasksBinding.inflate(LayoutInflater.from(this.context), null, false)
+            this.dialog.setView(this.binding.root)
+            this.binding.listener = this
+            this.binding.data = AddTasksData()
+        }
+
+        override fun onOpenTasksClicked() {
+            Log.d("#MY " + javaClass.simpleName, "open tasks clicked!")
+            this.dialog.show()
+        }
+
+        override fun onCloseTasksClicked() {
+            this.dialog.hide()
+        }
+
+        override fun onAddTaskClicked() {
+            Log.d("#MY " + javaClass.simpleName, "add task clicked!")
+            val taskMessage = this.binding.addTasksEdit.text.toString()
+            if (taskMessage.length < 3 && taskMessage.length > 31) {
+                context.showToast("Введенная задача некорректна")
+                return
+            }
+            tasks.add(Task(null, taskMessage, null, null))
+            this.binding.data.tasks.set(toTasksString())
+            this.binding.addTasksEdit.text.clear()
+        }
+
+        override fun onRemoveTaskClicked() {
+            tasks.removeAt(tasks.size - 1)
+            this.binding.data.tasks.set(toTasksString())
+        }
+
+        fun toTasksString(): String {
+            val sb = StringBuilder("")
+            var i = 1
+            tasks.forEach {
+                sb.append(i).append(". ").append(it.toString()).append('\n')
+                i++
+            }
+            val finalString = sb.toString()
+            return finalString.substring(0, finalString.length - 1)//убираю конечный перевод строки
+        }
+
     }
 }

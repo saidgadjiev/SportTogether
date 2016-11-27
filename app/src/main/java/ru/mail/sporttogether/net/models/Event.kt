@@ -1,6 +1,7 @@
 package ru.mail.sporttogether.net.models
 
 import com.google.gson.annotations.SerializedName
+import java.util.*
 
 /**
  * Created by bagrusss on 29.09.16.
@@ -19,6 +20,7 @@ data class Event(
         var isEnded: Boolean = false,
         var isJoined: Boolean = false,
         var isReported: Boolean = false,
+        var tasks: ArrayList<Task>? = null,
         var date: Long = 0L,
         var reports: Int = 0,
         var nowPeople: Int = 0

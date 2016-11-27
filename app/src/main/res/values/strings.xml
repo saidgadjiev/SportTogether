@@ -30,5 +30,6 @@
     <string name="description_header">описание</string>
     <string name="tasks_header">Список задач</string>
     <string name="list_tasks">список задач</string>
+    <string name="reduce">убрать</string>
 
 </resources>
