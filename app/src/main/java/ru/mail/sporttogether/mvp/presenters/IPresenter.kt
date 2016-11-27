@@ -1,13 +1,17 @@
 package ru.mail.sporttogether.mvp.presenters
 
+import android.content.Intent
 import android.os.Bundle
-import java.net.CacheRequest
 
 /**
  * Created by bagrusss on 01.10.16.
  *
  */
 interface IPresenter {
+
+
+    fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    }
 
     fun onCreate(args: Bundle?){}
 

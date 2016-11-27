@@ -2,141 +2,103 @@ package ru.mail.sporttogether.mvp.presenters.splash
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
-import com.auth0.android.Auth0
-import com.auth0.android.authentication.AuthenticationAPIClient
-import com.auth0.android.authentication.AuthenticationException
-import com.auth0.android.callback.BaseCallback
-import com.auth0.android.facebook.FacebookAuthHandler
-import com.auth0.android.facebook.FacebookAuthProvider
-import com.auth0.android.lock.AuthButtonSize
-import com.auth0.android.lock.AuthenticationCallback
-import com.auth0.android.lock.InitialScreen
-import com.auth0.android.lock.Lock
-import com.auth0.android.lock.utils.LockException
-import com.auth0.android.result.Credentials
-import com.auth0.android.result.UserProfile
-import com.facebook.FacebookSdk
 import ru.mail.sporttogether.activities.SplashActivity
 import ru.mail.sporttogether.app.App
-import ru.mail.sporttogether.managers.auth.AuthManager
-import ru.mail.sporttogether.managers.data.CredentialsManager
+import ru.mail.sporttogether.auth.core.SocialNetworkError
+import ru.mail.sporttogether.auth.core.SocialNetworkManager
+import ru.mail.sporttogether.auth.core.listeners.OnInitializationCompleteListener
+import ru.mail.sporttogether.auth.core.listeners.OnLoginCompleteListener
+import ru.mail.sporttogether.auth.core.listeners.OnRequestSocialPersonCompleteListener
+import ru.mail.sporttogether.auth.core.persons.SocialPerson
+import ru.mail.sporttogether.auth.core.social_networks.FacebookSocialNetwork
+import ru.mail.sporttogether.auth.core.social_networks.VKSocialNetwork
 import ru.mail.sporttogether.managers.headers.HeaderManagerImpl
-import ru.mail.sporttogether.mvp.presenters.auth.auth0provider.vkprovider.VKAuthProvider
-import ru.mail.sporttogether.mvp.presenters.auth.auth0provider.vkprovider.VkAuthHandler
 import ru.mail.sporttogether.mvp.views.ISplashView
 import ru.mail.sporttogether.net.api.AuthorizationAPI
-import java.util.*
+import ru.mail.sporttogether.net.models.Profile
+import ru.mail.sporttogether.net.responses.Response
+import rx.Subscriber
+import rx.android.schedulers.AndroidSchedulers
+import rx.schedulers.Schedulers
 import javax.inject.Inject
 
 /**
  * Created by bagrusss on 07.11.16.
  *
  */
-class SplashActivityPresenterImpl : SplashActivityPresenter {
+class SplashActivityPresenterImpl(view: ISplashView) : SplashActivityPresenter, OnRequestSocialPersonCompleteListener, OnLoginCompleteListener, OnInitializationCompleteListener {
 
-    private var view: ISplashView? = null
+    private var view: ISplashView? = view
     @Inject lateinit var api: AuthorizationAPI
     @Inject lateinit var context: Context
-    @Inject lateinit var auth0: Auth0
-    @Inject lateinit var aClient: AuthenticationAPIClient
-    @Inject lateinit var credentialsManager: CredentialsManager
     @Inject lateinit var headerManager: HeaderManagerImpl
-    @Inject lateinit var authManager: AuthManager
-    @Inject lateinit var facebookProvider: FacebookAuthProvider
-    @Inject lateinit var vkProvider: VKAuthProvider
-    private var lock: Lock? = null
 
-    constructor(view: ISplashView) {
-        App.injector.usePresenterComponent().inject(this)
-        this.view = view
+    private lateinit var socialNetworkManager: SocialNetworkManager
+
+    override fun onCreate(args: Bundle?) {
+        socialNetworkManager = SocialNetworkManager.instance
+
+        val networkFacebook = FacebookSocialNetwork(view as SplashActivity)
+        val networkVK = VKSocialNetwork(view as SplashActivity)
+
+        socialNetworkManager.addSocialNetwork(networkFacebook)
+        socialNetworkManager.addSocialNetwork(networkVK)
+        socialNetworkManager.setOnInitializationCompleteListener(this)
+
+        tryLogin()
     }
 
-    fun generateConnections(): List<String> {
-        val connections = ArrayList<String>()
-
-        connections.add("facebook")
-        connections.add("vkontakte")
-        if (connections.isEmpty()) {
-            connections.add("no-connection")
+    private fun tryLogin() {
+        for (socialNetwork in socialNetworkManager.initializedSocialNetworks) {
+            if (socialNetwork.tryAutoLogin(this)) {
+                return
+            }
         }
+        onError(SocialNetworkError("Not logged in", -1))
+    }
 
-        return connections
+    override fun onDestroy() {
+        view = null
+    }
+
+    override fun onSocialNetworkManagerInitialized() {
 
     }
 
-    fun trySignIn() {
-        if (!FacebookSdk.isInitialized()) {
-            FacebookSdk.sdkInitialize(context)
-        }
-        aClient.tokenInfo(credentialsManager.getCredentials().idToken)
-                .start(object : BaseCallback<UserProfile, AuthenticationException> {
-                    override fun onSuccess(payload: UserProfile) {
-                        Log.d("AUTH", "Authomatic login")
+    override fun onComplete(person: SocialPerson, ID: Int) {
+        headerManager.clientId = person.id!!
+        headerManager.token = socialNetworkManager.getSocialNetwork(ID)!!.token
+        api.updateAuthorization(Profile(person.avatarURL!!, person.name!!))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(object : Subscriber<Response<Any>>() {
+                    override fun onCompleted() {
 
-                        headerManager.token = credentialsManager.getCredentials().idToken
-                        headerManager.clientId = payload.id
-                        authManager.auth(api, view)
                     }
 
-                    override fun onFailure(error: AuthenticationException) {
-                        Log.d("AUTH", "Session expired")
+                    override fun onNext(t: Response<Any>?) {
+                        socialNetworkManager.setNetworkID(ID)
+                        view?.startMainActivity()
+                    }
 
-                        credentialsManager.deleteCredentials()
-                        view?.startLockActivity(lock)
+                    override fun onError(e: Throwable?) {
+
                     }
                 })
     }
 
-    override fun onCreate(args: Bundle?) {
-        val builder = Lock.newBuilder(auth0, callback)
-
-        aClient = AuthenticationAPIClient(auth0)
-        facebookProvider.setPermissions(Arrays.asList("public_profile"))
-
-        var facebookHandler = FacebookAuthHandler(facebookProvider)
-        var vkHandler = VkAuthHandler(vkProvider)
-
-        builder.closable(true)
-        builder.withAuthHandlers(facebookHandler, vkHandler)
-        builder.withAuthButtonSize(AuthButtonSize.SMALL)
-        //builder.withUsernameStyle(UsernameStyle.USERNAME);
-        //builder.allowLogIn(true);
-        //builder.allowSignUp(true);
-        //builder.allowForgotPassword(true);
-        builder.initialScreen(InitialScreen.LOG_IN)
-        builder.allowedConnections(generateConnections())
-        builder.setDefaultDatabaseConnection("Username-Password-Authentication")
-        lock = builder.build(view as SplashActivity)
-        if (credentialsManager.getCredentials().idToken == null) {
-            view?.startLockActivity(lock)
-
-            return
-        }
-        trySignIn()
+    override fun onSuccess(ID: Int) {
+        socialNetworkManager.getSocialNetwork(ID)!!.requestPerson(this)
     }
 
-    var callback = object : AuthenticationCallback() {
-        override fun onAuthentication(credentials: Credentials) {
-            Log.d("AUTH", "Logged in")
-
-            credentialsManager.saveCredentials(credentials)
-            trySignIn()
-        }
-
-        override fun onCanceled() {
-            Log.d("Lock", "User pressed back.")
-            view?.close()
-        }
-
-        override fun onError(error: LockException) {
-            Log.d("Lock", "Error")
-        }
+    override fun onCancel() {
     }
 
-    override fun onDestroy() {
-        lock?.onDestroy(view as SplashActivity)
-        lock = null
-        view = null
+    override fun onError(socialNetworkError: SocialNetworkError) {
+        view?.startLoginActivity()
+    }
+
+    init {
+        App.injector.usePresenterComponent().inject(this)
     }
 }
