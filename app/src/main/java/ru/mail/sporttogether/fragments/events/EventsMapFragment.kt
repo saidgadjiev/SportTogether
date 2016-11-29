@@ -4,18 +4,25 @@ import android.content.Context
 import android.graphics.Point
 import android.os.Bundle
 import android.support.design.widget.BottomSheetBehavior
+import android.support.v7.app.AlertDialog
+import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.*
 import com.google.android.gms.maps.MapView
 import ru.mail.sporttogether.R
 import ru.mail.sporttogether.activities.AddEventActivity
 import ru.mail.sporttogether.activities.PresenterActivity
+import ru.mail.sporttogether.adapter.TaskAdapter
 import ru.mail.sporttogether.data.binding.event.EventDetailsData
 import ru.mail.sporttogether.databinding.EventsMapBinding
+import ru.mail.sporttogether.databinding.ShowingTasksBinding
+import ru.mail.sporttogether.fragments.CheckingTasks
 import ru.mail.sporttogether.fragments.PresenterFragment
 import ru.mail.sporttogether.mvp.presenters.map.IMapPresenter
 import ru.mail.sporttogether.mvp.presenters.map.MapPresenterImpl
 import ru.mail.sporttogether.mvp.views.map.IMapView
 import ru.mail.sporttogether.net.models.Event
+import ru.mail.sporttogether.net.models.Task
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -26,12 +33,16 @@ import java.util.*
  */
 class EventsMapFragment :
         PresenterFragment<IMapPresenter>(),
-        IMapView {
+        IMapView,
+        CheckingTasks {
 
     private lateinit var mapView: MapView
     private lateinit var binding: EventsMapBinding
     private lateinit var bottomSheet: BottomSheetBehavior<View>
     private val data = EventDetailsData()
+    private var tasksDialog: TasksDialog? = null
+
+//    private val tasksDialog
 
     private var markerDownX = 0
     private var markerDownY = 0
@@ -57,6 +68,7 @@ class EventsMapFragment :
 
         })
         hideInfo()
+
         return binding.root
     }
 
@@ -154,6 +166,12 @@ class EventsMapFragment :
     override fun showInfo(event: Event, isCancelable: Boolean) {
         render(event, isCancelable)
         bottomSheet.state = BottomSheetBehavior.STATE_COLLAPSED
+        if (event.tasks != null) {
+            tasksDialog = TasksDialog(this, event.tasks!!)
+            binding.showTasksBtn.setOnClickListener {
+                tasksDialog!!.dialog.show()
+            }
+        }
     }
 
     override fun render(event: Event, isCancelable: Boolean) {
@@ -188,4 +206,28 @@ class EventsMapFragment :
         }
     }
 
+    override fun checkTask(task: Task) {
+        presenter.checkTask(task)
+    }
+
+    override fun uncheckTask(task: Task) {
+        presenter.uncheckTask(task)
+    }
+
+    class TasksDialog(val fragment: EventsMapFragment, val tasks: ArrayList<Task>) {
+        var dialog: AlertDialog = AlertDialog.Builder(this.fragment.context).create()
+        var binding: ShowingTasksBinding = ShowingTasksBinding.inflate(LayoutInflater.from(this.fragment.context), null, false)
+        val adapter = TaskAdapter(ArrayList<Task>(), fragment)
+
+
+        init {
+            this.dialog.setView(this.binding.root)
+            this.binding.tasksOkBtn.setOnClickListener {
+                this.dialog.hide()
+            }
+            this.binding.tasksRecyclerView.adapter = this.adapter
+            this.binding.tasksRecyclerView.layoutManager = LinearLayoutManager(this.fragment.context)
+            Log.d("#MY " + javaClass.simpleName, "end init")
+        }
+    }
 }

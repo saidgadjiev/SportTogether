@@ -55,7 +55,7 @@ class AddEventPresenterImpl(var view: IAddEventView?) : AddEventPresenter {
                                  lng: Double,
                                  description: String,
                                  maxPeople: Int,
-                                 tasks: List<Task>) {
+                                 tasks: ArrayList<Task>) {
         val event = Event(
                 name = name,
                 category = Category(null, categoryName),

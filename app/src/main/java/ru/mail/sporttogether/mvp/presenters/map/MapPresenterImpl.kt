@@ -3,6 +3,7 @@ package ru.mail.sporttogether.mvp.presenters.map
 import android.Manifest
 import android.graphics.Point
 import android.location.Location
+import android.util.Log
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
@@ -23,6 +24,7 @@ import ru.mail.sporttogether.managers.events.EventsManager
 import ru.mail.sporttogether.mvp.views.map.IMapView
 import ru.mail.sporttogether.net.api.EventsAPI
 import ru.mail.sporttogether.net.models.Event
+import ru.mail.sporttogether.net.models.Task
 import ru.mail.sporttogether.net.responses.EventsResponse
 import ru.mail.sporttogether.net.responses.Response
 import rx.Observable
@@ -357,6 +359,33 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
                     }
 
                 })
+    }
+
+    override fun checkTask(task: Task) {
+        Log.d("#MY " + javaClass.simpleName, "In presenter : " + task)
+        api.checkTask(task).observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(object : Subscriber<Response<Any>>() {
+                    override fun onCompleted() {
+
+                    }
+
+                    override fun onError(e: Throwable) {
+                        view?.showToast("Произошла ошибка")
+                    }
+
+                    override fun onNext(t: Response<Any>) {
+                        Log.d("#MY " + javaClass.simpleName, "Успешный ответ : " + t.code)
+                        if (t.code === 0) {
+                            view?.showToast("Вы приняли на себя задачу : " + task.message)
+                        }
+                        else view?.showToast(t.message)
+                    }
+                })
+    }
+
+    override fun uncheckTask(task: Task) {
+        api.checkTask(task) //потому что чтобы снять надо повторно отправить. Такой вот веселый сервер
     }
 
     override fun onPermissionsGranted(requestCode: Int) {

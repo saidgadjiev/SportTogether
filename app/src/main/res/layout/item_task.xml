@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="data"
+            type="ru.mail.sporttogether.data.binding.tasks.TaskData" />
+
+        <variable
+            name="listener"
+            type="ru.mail.sporttogether.data.binding.tasks.TaskItemListener" />
+
+    </data>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="@color/gray"
+            android:checked="@{data.isChecked}"
+            android:clickable="@{!data.isChecked}"
+            android:id="@+id/task_checkbox"/>
+
+        <TextView
+            android:id="@+id/task_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{data.message}"
+            android:layout_alignBaseline="@+id/task_checkbox"
+            android:layout_toEndOf="@+id/task_checkbox" />
+
+        <TextView
+            android:id="@+id/task_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{data.id}"
+            android:visibility="invisible"
+            android:layout_toEndOf="@+id/task_message" />
+    </RelativeLayout>
+</layout>

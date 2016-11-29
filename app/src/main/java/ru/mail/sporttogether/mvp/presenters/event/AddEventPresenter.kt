@@ -17,7 +17,7 @@ interface AddEventPresenter : IPresenter {
                         lng: Double,
                         description: String = "",
                         maxPeople: Int,
-                        tasks: List<Task>)
+                        tasks: ArrayList<Task>)
 
     fun searchCategory(category: String)
 
