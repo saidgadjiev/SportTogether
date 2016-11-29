@@ -12,13 +12,11 @@ import ru.mail.sporttogether.R
 import ru.mail.sporttogether.activities.AddEventActivity
 import ru.mail.sporttogether.activities.PresenterActivity
 import ru.mail.sporttogether.adapter.TaskAdapter
-import ru.mail.sporttogether.app.App
 import ru.mail.sporttogether.data.binding.event.EventDetailsData
 import ru.mail.sporttogether.databinding.EventsMapBinding
 import ru.mail.sporttogether.databinding.ShowingTasksBinding
 import ru.mail.sporttogether.fragments.CheckingTasks
 import ru.mail.sporttogether.fragments.PresenterFragment
-import ru.mail.sporttogether.managers.data.CredentialsManager
 import ru.mail.sporttogether.mvp.presenters.map.IMapPresenter
 import ru.mail.sporttogether.mvp.presenters.map.MapPresenterImpl
 import ru.mail.sporttogether.mvp.views.map.IMapView
@@ -26,7 +24,6 @@ import ru.mail.sporttogether.net.models.Event
 import ru.mail.sporttogether.net.models.Task
 import java.text.SimpleDateFormat
 import java.util.*
-import javax.inject.Inject
 
 
 /**
@@ -37,7 +34,7 @@ class EventsMapFragment :
         PresenterFragment<IMapPresenter>(),
         IMapView,
         CheckingTasks {
-    @Inject lateinit var credentialsManager: CredentialsManager
+//    @Inject lateinit var credentialsManager: CredentialsManager
 
     private lateinit var mapView: MapView
     private lateinit var binding: EventsMapBinding
@@ -52,9 +49,9 @@ class EventsMapFragment :
     private var tabHeight = 0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        App.injector
-                .useViewComponent()
-                .inject(this)
+//        App.injector
+//                .useViewComponent()
+//                .inject(this)
 
         binding = EventsMapBinding.inflate(inflater, container, false)
         mapView = binding.mapview
@@ -231,7 +228,7 @@ class EventsMapFragment :
     fun initTasks (tasks: ArrayList<Task>) {
         val tasksBinding: ShowingTasksBinding = ShowingTasksBinding.inflate(LayoutInflater.from(this.context), null, false)
         val dialog: AlertDialog = AlertDialog.Builder(this.context).create()
-        val taskAdapter = TaskAdapter(tasks, this, credentialsManager.getUserData().id)
+        val taskAdapter = TaskAdapter(tasks, this, 1)
         tasksBinding.tasksRecyclerView.adapter = taskAdapter
         tasksBinding.tasksRecyclerView.layoutManager = LinearLayoutManager(this.context)
         tasksDialog = TasksDialog(tasksBinding, taskAdapter, dialog)

@@ -46,8 +46,6 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
     private lateinit var lastPos: LatLng
     private val options: MarkerOptions = MarkerOptions()
 
-//    @Deprecated("lastEvent object instead of this", replaceWith = ReplaceWith("lastEvent.id"))
-//    private var lastEventId = 0L
     private lateinit var lastEvent: Event
 
     private val markerIdEventMap = HashMap<String, Event>()
@@ -55,6 +53,7 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
     @Inject lateinit var api: EventsAPI
     @Inject lateinit var eventsManager: EventsManager
     @Inject lateinit var locationManager: LocationManager
+//    @Inject lateinit var credentialsManager: CredeMana
 
     private val userId: Long
 
@@ -377,7 +376,7 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
                             if (changedTask != null) {
                                 val index = tasks?.indexOf(changedTask)!!.or(0)
                                 tasks?.remove(changedTask)
-                                tasks?.add(index, changedTask.copy(userId = creditalsManager.getUserData().id) )
+                                tasks?.add(index, changedTask.copy(userId = 1L) ) //TODO
                             }
                             render()
                         }
