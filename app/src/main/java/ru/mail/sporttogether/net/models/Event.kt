@@ -39,4 +39,10 @@ data class Event(
 
         return true
     }
+
+    fun tasksInfo(): String {
+        var allTasks: Int = tasks?.size!!.or(0)
+        var acceptedTasks: Int = tasks?.filter { it.userId != null }!!.count().or(0)
+        return "" + acceptedTasks + '/' + allTasks
+    }
 }

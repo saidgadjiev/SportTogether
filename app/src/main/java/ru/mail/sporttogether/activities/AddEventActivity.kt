@@ -286,7 +286,7 @@ class AddEventActivity :
             val sb = StringBuilder("")
             var i = 1
             tasks.forEach {
-                sb.append(i).append(". ").append(it.toString()).append('\n')
+                sb.append(i).append(". ").append(it.message).append('\n')
                 i++
             }
             val finalString = sb.toString()

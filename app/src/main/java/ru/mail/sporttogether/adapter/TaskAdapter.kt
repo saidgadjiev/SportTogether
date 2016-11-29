@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import ru.mail.sporttogether.data.binding.tasks.TaskData
 import ru.mail.sporttogether.data.binding.tasks.TaskItemListener
 import ru.mail.sporttogether.databinding.ItemTaskBinding
@@ -37,6 +38,7 @@ class TaskAdapter(private val tasks: ArrayList<Task>, private val checkingTasks:
                     override fun onNext(task: Task) {
                         Log.d("#MY " + javaClass.simpleName, "on next checked : " + task.toString())
                         checkingTasks.checkTask(task)
+
                     }
 
                     override fun onCompleted() {
@@ -78,6 +80,9 @@ class TaskAdapter(private val tasks: ArrayList<Task>, private val checkingTasks:
                 binding.taskCheckbox.setOnClickListener(View.OnClickListener { v ->
                     if (subscriber.isUnsubscribed) return@OnClickListener
                     subscriber.onNext(task)
+                    if (v is CheckBox) {
+                        v.isClickable = false
+                    }
                 })
             })
             return clickEventObservable

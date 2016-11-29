@@ -18,6 +18,7 @@ class EventDetailsData {
     val isEnded = ObservableBoolean()
     val result = ObservableField<String>()
     val category = ObservableField<String>()
+    val tasksInfo = ObservableField<String>()
 
     val reports = ObservableField<String>()
     val showCancelButton = ObservableBoolean(false)

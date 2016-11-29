@@ -378,6 +378,13 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
                         Log.d("#MY " + javaClass.simpleName, "Успешный ответ : " + t.code)
                         if (t.code === 0) {
                             view?.showToast("Вы приняли на себя задачу : " + task.message)
+                            val changedTask = lastEvent.tasks?.find { it.id == task.id }
+                            if (changedTask != null) {
+                                lastEvent.tasks?.remove(changedTask)
+                                lastEvent.tasks?.add(changedTask.copy(userId = creditalsManager.getUserData().id) )
+                            }
+
+                            render()
                         }
                         else view?.showToast(t.message)
                     }

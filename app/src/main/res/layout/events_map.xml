@@ -256,7 +256,7 @@
                         android:layout_centerVertical="true"
                         android:drawableStart="@drawable/ic_view_list"
                         android:drawablePadding="@dimen/offset_small"
-                        android:text="1/3"
+                        android:text="@{data.tasksInfo}"
                         android:layout_marginStart="@dimen/offset_large"
                         />
                 </RelativeLayout>

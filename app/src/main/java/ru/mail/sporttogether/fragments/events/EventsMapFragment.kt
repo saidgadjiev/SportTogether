@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.support.design.widget.BottomSheetBehavior
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
 import android.view.*
 import com.google.android.gms.maps.MapView
 import ru.mail.sporttogether.R
@@ -167,7 +166,7 @@ class EventsMapFragment :
         render(event, isCancelable)
         bottomSheet.state = BottomSheetBehavior.STATE_COLLAPSED
         if (event.tasks != null) {
-            tasksDialog = TasksDialog(this, event.tasks!!)
+            initTasks(event.tasks!!)
             binding.showTasksBtn.setOnClickListener {
                 tasksDialog!!.dialog.show()
             }
@@ -182,6 +181,7 @@ class EventsMapFragment :
         data.withDescription.set(event.description.isNotEmpty())
         data.isReported.set(event.isReported)
         data.isJoined.set(event.isJoined)
+        data.tasksInfo.set(event.tasksInfo())
         if (event.result != null) {
             data.isEnded.set(event.result!!.isNotEmpty())
             data.result.set(event.result!!)
@@ -214,10 +214,16 @@ class EventsMapFragment :
         presenter.uncheckTask(task)
     }
 
-    class TasksDialog(val fragment: EventsMapFragment, val tasks: ArrayList<Task>) {
-        var dialog: AlertDialog = AlertDialog.Builder(this.fragment.context).create()
-        var binding: ShowingTasksBinding = ShowingTasksBinding.inflate(LayoutInflater.from(this.fragment.context), null, false)
-        val adapter = TaskAdapter(ArrayList<Task>(), fragment)
+    fun initTasks (tasks: ArrayList<Task>) {
+        var tasksBinding: ShowingTasksBinding = ShowingTasksBinding.inflate(LayoutInflater.from(this.context), null, false)
+        val adapter = TaskAdapter(ArrayList<Task>(), this)
+        var dialog: AlertDialog = AlertDialog.Builder(this.context).create()
+        tasksBinding.tasksRecyclerView.adapter = TaskAdapter(tasks, this)
+        tasksBinding.tasksRecyclerView.layoutManager = LinearLayoutManager(this.context)
+        tasksDialog = TasksDialog(tasksBinding, tasks, dialog)
+    }
+
+    class TasksDialog(val binding: ShowingTasksBinding, val tasks: ArrayList<Task>, val dialog: AlertDialog) {
 
 
         init {
@@ -225,9 +231,6 @@ class EventsMapFragment :
             this.binding.tasksOkBtn.setOnClickListener {
                 this.dialog.hide()
             }
-            this.binding.tasksRecyclerView.adapter = this.adapter
-            this.binding.tasksRecyclerView.layoutManager = LinearLayoutManager(this.fragment.context)
-            Log.d("#MY " + javaClass.simpleName, "end init")
         }
     }
 }
