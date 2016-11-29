@@ -6,7 +6,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
 import ru.mail.sporttogether.data.binding.tasks.TaskData
 import ru.mail.sporttogether.data.binding.tasks.TaskItemListener
 import ru.mail.sporttogether.databinding.ItemTaskBinding
@@ -18,7 +17,7 @@ import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import java.util.*
 
-class TaskAdapter(private val tasks: ArrayList<Task>, private val checkingTasks: CheckingTasks) : RecyclerView.Adapter<TaskAdapter.ViewHolder>() {
+class TaskAdapter(private val tasks: ArrayList<Task>, private val checkingTasks: CheckingTasks, val myId: Long) : RecyclerView.Adapter<TaskAdapter.ViewHolder>() {
 
     override fun getItemCount(): Int {
         return tasks.size
@@ -26,7 +25,7 @@ class TaskAdapter(private val tasks: ArrayList<Task>, private val checkingTasks:
 
     override fun onBindViewHolder(holder: TaskAdapter.ViewHolder?, position: Int) {
         Log.d("#MY " + javaClass.simpleName, "on bind viewholder. position = " + position)
-        val observableChecked = holder?.onBind(tasks[position])
+        val observableChecked = holder?.onBind(tasks[position], myId)
         observableChecked!!
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -37,7 +36,11 @@ class TaskAdapter(private val tasks: ArrayList<Task>, private val checkingTasks:
 
                     override fun onNext(task: Task) {
                         Log.d("#MY " + javaClass.simpleName, "on next checked : " + task.toString())
-                        checkingTasks.checkTask(task)
+                        if (task.userId == null) {
+                            checkingTasks.checkTask(task)
+                        } else {
+                            checkingTasks.uncheckTask(task)
+                        }
 
                     }
 
@@ -55,40 +58,33 @@ class TaskAdapter(private val tasks: ArrayList<Task>, private val checkingTasks:
         return ViewHolder(binding.root)
     }
 
-    fun swapTasks(newTasks: List<Task>) {
-        Log.d("#MY " + javaClass.simpleName, "swap tasks")
-        tasks.clear()
-        tasks.addAll(newTasks)
+    fun swapTasks() {
         notifyDataSetChanged()
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), TaskItemListener {
         val binding: ItemTaskBinding = DataBindingUtil.bind(itemView)
         val data = TaskData()
-        lateinit var observableCheck: Observable<Task>
 
         init {
             binding.data = data
             binding.listener = this
         }
 
-        fun onBind(task: Task): Observable<Task> {
+        fun onBind(task: Task, myId: Long): Observable<Task> {
             data.id.set(Integer.toString(task.id!!.toInt()))
             data.message.set(task.message)
             data.isChecked.set(task.userId != null)
+            data.iMayChecked.set(task.userId == myId || !data.isChecked.get())
             val clickEventObservable = Observable.create(Observable.OnSubscribe<Task> { subscriber ->
                 binding.taskCheckbox.setOnClickListener(View.OnClickListener { v ->
                     if (subscriber.isUnsubscribed) return@OnClickListener
                     subscriber.onNext(task)
-                    if (v is CheckBox) {
-                        v.isClickable = false
-                    }
+                    Log.d("#MY ", "view is checked : " + binding.taskCheckbox.isChecked)
+                    Log.d("#MY ", "data is checked : " + data.isChecked.get())
                 })
             })
             return clickEventObservable
-//            val observable = RxView.clicks(binding.taskCheckbox)
-//            observableCheck = observable.map { aVoid -> Log.d("#MY " + javaClass.simpleName, task.message); task }
-//            return observableCheck
         }
 
         //не нужно

@@ -367,23 +367,20 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
                 .subscribeOn(Schedulers.io())
                 .subscribe(object : Subscriber<Response<Any>>() {
                     override fun onCompleted() {
-
                     }
-
                     override fun onError(e: Throwable) {
                         view?.showToast("Произошла ошибка")
                     }
-
                     override fun onNext(t: Response<Any>) {
-                        Log.d("#MY " + javaClass.simpleName, "Успешный ответ : " + t.code)
                         if (t.code === 0) {
                             view?.showToast("Вы приняли на себя задачу : " + task.message)
-                            val changedTask = lastEvent.tasks?.find { it.id == task.id }
+                            val tasks = lastEvent.tasks
+                            val changedTask = tasks?.find { it.id == task.id }
                             if (changedTask != null) {
-                                lastEvent.tasks?.remove(changedTask)
-                                lastEvent.tasks?.add(changedTask.copy(userId = creditalsManager.getUserData().id) )
+                                val index = tasks?.indexOf(changedTask)!!.or(0)
+                                tasks?.remove(changedTask)
+                                tasks?.add(index, changedTask.copy(userId = creditalsManager.getUserData().id) )
                             }
-
                             render()
                         }
                         else view?.showToast(t.message)
@@ -392,7 +389,30 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
     }
 
     override fun uncheckTask(task: Task) {
-        api.checkTask(task) //потому что чтобы снять надо повторно отправить. Такой вот веселый сервер
+        //потому что чтобы снять надо повторно отправить. Такой вот веселый сервер
+        api.checkTask(task).observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(object : Subscriber<Response<Any>>() {
+                    override fun onCompleted() {
+                    }
+                    override fun onError(e: Throwable) {
+                        view?.showToast("Произошла ошибка")
+                    }
+                    override fun onNext(t: Response<Any>) {
+                        if (t.code === 0) {
+                            view?.showToast("Вы отменили задачу : " + task.message)
+                            val tasks = lastEvent.tasks
+                            val changedTask = tasks?.find { it.id == task.id }
+                            if (changedTask != null) {
+                                val index = tasks?.indexOf(changedTask)!!.or(0)
+                                tasks?.remove(changedTask)
+                                tasks?.add(index, changedTask.copy(userId = null) )
+                            }
+                            render()
+                        }
+                        else view?.showToast(t.message)
+                    }
+                })
     }
 
     override fun onPermissionsGranted(requestCode: Int) {

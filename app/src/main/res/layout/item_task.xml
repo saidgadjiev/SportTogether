@@ -18,9 +18,9 @@
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:buttonTint="@color/gray"
+            android:buttonTint="@{data.iMayChecked ? @color/colorAccent : @color/gray}"
             android:checked="@{data.isChecked}"
-            android:clickable="@{!data.isChecked}"
+            android:clickable="@{data.iMayChecked}"
             android:id="@+id/task_checkbox"/>
 
         <TextView

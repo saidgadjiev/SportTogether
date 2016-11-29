@@ -7,4 +7,5 @@ class TaskData {
     val id = ObservableField<String>()
     val message = ObservableField<String>()
     val isChecked = ObservableBoolean()
+    val iMayChecked = ObservableBoolean()
 }
