@@ -4,14 +4,13 @@ import android.content.Context
 import dagger.Module
 import dagger.Provides
 import ru.mail.sporttogether.managers.LocationManager
-import ru.mail.sporttogether.managers.auth.AuthManager
-import ru.mail.sporttogether.managers.data.CredentialsManagerImpl
 import ru.mail.sporttogether.managers.data.DataManagerImpl
-import ru.mail.sporttogether.managers.data.CredentialsManager
+import ru.mail.sporttogether.managers.data.FcmTokenManager
 import ru.mail.sporttogether.managers.data.IDataManager
 import ru.mail.sporttogether.managers.events.EventsManager
 import ru.mail.sporttogether.managers.events.EventsManagerImpl
 import ru.mail.sporttogether.managers.headers.HeaderManagerImpl
+import ru.mail.sporttogether.managers.notification.NotificationManager
 import javax.inject.Singleton
 
 /**
@@ -33,22 +32,22 @@ class ManagersModule {
 
     @Singleton
     @Provides
-    fun provideCredentialsManager(context: Context): CredentialsManager
-            = CredentialsManagerImpl(context)
-
-    @Singleton
-    @Provides
     fun provideHeaderManager(): HeaderManagerImpl
             = HeaderManagerImpl()
 
-    @Singleton
     @Provides
-    fun provideAuthManager(manager: CredentialsManager): AuthManager
-            = AuthManager(manager)
+    @Singleton
+    fun provideNotificationManager()
+            = NotificationManager()
+
+
+    @Provides
+    @Singleton
+    fun provideFCMTokenManager()
+            = FcmTokenManager()
 
     @Singleton
     @Provides
     fun provideEventsManager(): EventsManager
             = EventsManagerImpl()
-
 }

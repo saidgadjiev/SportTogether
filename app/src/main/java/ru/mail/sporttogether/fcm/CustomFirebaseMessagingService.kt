@@ -19,14 +19,8 @@ class CustomFirebaseMessagingService : FirebaseMessagingService() {
     private val TAG = "FMService"
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
-        val data: MutableMap<String, String>? = remoteMessage.data
-        val body: String?
-        try {
-            body = remoteMessage.notification.body
-        } catch (e: NullPointerException) {
-            Log.e("#MY " + javaClass.simpleName, "no body in received notification")
-            return
-        }
+
+        val body: String? = remoteMessage.notification.body
 
         val gson = GsonBuilder().setPrettyPrinting().create()
         try {
@@ -44,7 +38,7 @@ class CustomFirebaseMessagingService : FirebaseMessagingService() {
                 manager.notify(10, notification)
             } else {
                 Log.e("#MY " + javaClass.simpleName, "empty message or title in notification body")
-                return
+
             }
         } catch (e: JsonSyntaxException) {
             Log.e("#MY " + javaClass.simpleName, "notification body is not json : " + body)
