@@ -32,6 +32,7 @@ class MyEventsPresenterImpl(private var view: IMyEventsView?) : MyEventsPresente
         socialNetworkManager = SocialNetworkManager.instance
         val network = socialNetworkManager.getSocialNetwork(socialNetworkManager.getNetworkID())
         user = User(network!!.token, network.getLoadedSocialPerson()!!.id!!.toLong(), 1)
+        Log.d("#MY! ", user.id.toString())
     }
 
     override fun getMyEvents() {

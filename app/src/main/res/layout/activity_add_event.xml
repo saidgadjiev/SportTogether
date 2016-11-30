@@ -54,7 +54,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/category"
-                            android:completionHint="\t\tЕсли такого типа спорта нет, он будет создан" />
+                            android:completionHint="\t\tЕсли такого вида спорта нет, он будет создан" />
 
                         <ProgressBar
                             android:id="@+id/category_autocomplete_progress_bar"
@@ -132,6 +132,7 @@
 
             <Button style="@style/FlatButton"
                 android:id="@+id/open_tasks_button"
+                android:layout_gravity="start"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="@{()->tasksListener.onOpenTasksClicked()}"
@@ -142,8 +143,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="@{()->listener.onAddButtonClicked()}"
-                android:text="@string/add" />
-
+                android:text="@string/add_event" />
         </LinearLayout>
     </ScrollView>
 

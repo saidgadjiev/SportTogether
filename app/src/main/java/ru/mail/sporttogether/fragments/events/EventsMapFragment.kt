@@ -12,6 +12,7 @@ import ru.mail.sporttogether.R
 import ru.mail.sporttogether.activities.AddEventActivity
 import ru.mail.sporttogether.activities.PresenterActivity
 import ru.mail.sporttogether.adapter.TaskAdapter
+import ru.mail.sporttogether.app.App
 import ru.mail.sporttogether.data.binding.event.EventDetailsData
 import ru.mail.sporttogether.databinding.EventsMapBinding
 import ru.mail.sporttogether.databinding.ShowingTasksBinding
@@ -34,7 +35,7 @@ class EventsMapFragment :
         PresenterFragment<IMapPresenter>(),
         IMapView,
         CheckingTasks {
-//    @Inject lateinit var credentialsManager: CredentialsManager
+//    @Inject lateinit var socialNetworkManager: SocialNetworkManager
 
     private lateinit var mapView: MapView
     private lateinit var binding: EventsMapBinding
@@ -49,9 +50,9 @@ class EventsMapFragment :
     private var tabHeight = 0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-//        App.injector
-//                .useViewComponent()
-//                .inject(this)
+        App.injector
+                .useViewComopnent()
+                .inject(this)
 
         binding = EventsMapBinding.inflate(inflater, container, false)
         mapView = binding.mapview

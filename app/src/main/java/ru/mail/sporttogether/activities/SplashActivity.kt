@@ -3,11 +3,12 @@ package ru.mail.sporttogether.activities
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-
 import ru.mail.sporttogether.R
 import ru.mail.sporttogether.mvp.presenters.splash.SplashActivityPresenter
 import ru.mail.sporttogether.mvp.presenters.splash.SplashActivityPresenterImpl
 import ru.mail.sporttogether.mvp.views.ISplashView
+
+
 
 class SplashActivity :
         PresenterActivity<SplashActivityPresenter>(),
@@ -27,7 +28,9 @@ class SplashActivity :
 
     override fun startLoginActivity() {
         Handler().postDelayed({
-            startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
+            val intent = Intent(this@SplashActivity, LoginActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
         }, 1000)
     }
 
