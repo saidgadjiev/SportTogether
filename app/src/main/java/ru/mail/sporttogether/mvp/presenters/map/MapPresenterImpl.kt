@@ -302,6 +302,9 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
     }
 
     override fun onJoinButtonClicked() {
+        if (lastEvent.isEnded) {
+            view?.showToast("Событие уже завершилось")
+        } else
         if (lastEvent.isJoined) {
             unJoin()
         } else {
