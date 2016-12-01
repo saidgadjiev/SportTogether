@@ -16,6 +16,7 @@ import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import ru.mail.sporttogether.R
 import ru.mail.sporttogether.app.App
+import ru.mail.sporttogether.auth.core.SocialNetworkManager
 import ru.mail.sporttogether.eventbus.PermissionGrantedMessage
 import ru.mail.sporttogether.eventbus.PermissionMessage
 import ru.mail.sporttogether.managers.LocationManager
@@ -66,7 +67,7 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
         App.injector
                 .usePresenterComponent()
                 .inject(this)
-        userId = 12323243L
+        userId = SocialNetworkManager.instance.activeUser.id //TODO inject network manager
     }
 
     override fun onStart() {
@@ -376,7 +377,7 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
                             if (changedTask != null) {
                                 val index = tasks?.indexOf(changedTask)!!.or(0)
                                 tasks?.remove(changedTask)
-                                tasks?.add(index, changedTask.copy(userId = 1L) ) //TODO
+                                tasks?.add(index, changedTask.copy(userId = SocialNetworkManager.instance.activeUser.id) ) //TODO inject social network manager
                             }
                             render()
                         }

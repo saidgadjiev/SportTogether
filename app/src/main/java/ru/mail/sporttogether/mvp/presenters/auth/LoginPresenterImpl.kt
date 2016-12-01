@@ -2,6 +2,7 @@ package ru.mail.sporttogether.mvp.presenters.auth
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import ru.mail.sporttogether.R
 import ru.mail.sporttogether.activities.LoginActivity
@@ -15,6 +16,7 @@ import ru.mail.sporttogether.managers.headers.HeaderManagerImpl
 import ru.mail.sporttogether.mvp.views.login.ILoginView
 import ru.mail.sporttogether.net.api.AuthorizationAPI
 import ru.mail.sporttogether.net.models.Profile
+import ru.mail.sporttogether.net.models.User
 import ru.mail.sporttogether.net.responses.Response
 import rx.Subscriber
 import rx.android.schedulers.AndroidSchedulers
@@ -49,13 +51,16 @@ class LoginPresenterImpl(view: ILoginView) : ILoginPresenter, OnLoginCompleteLis
         authApi.updateAuthorization(Profile(person.avatarURL!!, person.name!!))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : Subscriber<Response<Any>>() {
+                .subscribe(object : Subscriber<Response<User>>() {
                     override fun onCompleted() {
 
                     }
 
-                    override fun onNext(t: Response<Any>?) {
+                    override fun onNext(resp: Response<User>?) {
+                        val user = resp!!.data
+                        Log.d("#MY ", "answer from server : " + user)
                         socialNetworkManager.setNetworkID(ID)
+                        socialNetworkManager.activeUser = user
                         view?.startMainActivity()
                     }
 

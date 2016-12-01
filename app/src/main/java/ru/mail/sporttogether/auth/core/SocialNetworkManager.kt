@@ -5,6 +5,7 @@ import android.util.Log
 import ru.mail.sporttogether.auth.core.listeners.OnInitializationCompleteListener
 import ru.mail.sporttogether.auth.core.social_networks.FacebookSocialNetwork
 import ru.mail.sporttogether.auth.core.social_networks.VKSocialNetwork
+import ru.mail.sporttogether.net.models.User
 import java.util.*
 
 
@@ -16,6 +17,7 @@ class SocialNetworkManager private constructor() {
     private val socialNetworksMap = HashMap<Int, ISocialNetwork>()
     private var onInitializationCompleteListener: OnInitializationCompleteListener? = null
     private var networkID: Int = -1
+    lateinit var activeUser: User
 
     fun addSocialNetwork(network: ISocialNetwork) {
         socialNetworksMap.put(network.id!!, network)

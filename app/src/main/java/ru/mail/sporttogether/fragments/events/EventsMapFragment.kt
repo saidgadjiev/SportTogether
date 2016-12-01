@@ -13,6 +13,7 @@ import ru.mail.sporttogether.activities.AddEventActivity
 import ru.mail.sporttogether.activities.PresenterActivity
 import ru.mail.sporttogether.adapter.TaskAdapter
 import ru.mail.sporttogether.app.App
+import ru.mail.sporttogether.auth.core.SocialNetworkManager
 import ru.mail.sporttogether.data.binding.event.EventDetailsData
 import ru.mail.sporttogether.databinding.EventsMapBinding
 import ru.mail.sporttogether.databinding.ShowingTasksBinding
@@ -229,7 +230,7 @@ class EventsMapFragment :
     fun initTasks (tasks: ArrayList<Task>) {
         val tasksBinding: ShowingTasksBinding = ShowingTasksBinding.inflate(LayoutInflater.from(this.context), null, false)
         val dialog: AlertDialog = AlertDialog.Builder(this.context).create()
-        val taskAdapter = TaskAdapter(tasks, this, 1)
+        val taskAdapter = TaskAdapter(tasks, this, SocialNetworkManager.instance.activeUser.id) // TODO inject manager
         tasksBinding.tasksRecyclerView.adapter = taskAdapter
         tasksBinding.tasksRecyclerView.layoutManager = LinearLayoutManager(this.context)
         tasksDialog = TasksDialog(tasksBinding, taskAdapter, dialog)

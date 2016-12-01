@@ -2,6 +2,7 @@ package ru.mail.sporttogether.mvp.presenters.splash
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import ru.mail.sporttogether.activities.SplashActivity
 import ru.mail.sporttogether.app.App
 import ru.mail.sporttogether.auth.core.SocialNetworkError
@@ -77,6 +78,7 @@ class SplashActivityPresenterImpl(view: ISplashView) : SplashActivityPresenter, 
                     }
 
                     override fun onNext(t: Response<Any>?) {
+                        Log.d("#MY ", "answer from server")
                         socialNetworkManager.setNetworkID(ID)
                         view?.startMainActivity()
                     }

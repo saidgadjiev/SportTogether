@@ -17,7 +17,7 @@ interface AuthorizationAPI {
 
     // жду сервер чтобы отдавал User
     @POST("auth")
-    fun updateAuthorization(@Body profile: Profile): Observable<Response<Any>>
+    fun updateAuthorization(@Body profile: Profile): Observable<Response<User>>
 
     @DELETE("auth")
     fun unauthorize(): Observable<Response<Any>>

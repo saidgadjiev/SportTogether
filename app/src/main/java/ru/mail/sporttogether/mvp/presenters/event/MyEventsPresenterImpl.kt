@@ -30,8 +30,7 @@ class MyEventsPresenterImpl(private var view: IMyEventsView?) : MyEventsPresente
                 .inject(this)
 
         socialNetworkManager = SocialNetworkManager.instance
-        val network = socialNetworkManager.getSocialNetwork(socialNetworkManager.getNetworkID())
-        user = User(network!!.token, network.getLoadedSocialPerson()!!.id!!.toLong(), 1)
+        user = socialNetworkManager.activeUser
         Log.d("#MY! ", user.id.toString())
     }
 
