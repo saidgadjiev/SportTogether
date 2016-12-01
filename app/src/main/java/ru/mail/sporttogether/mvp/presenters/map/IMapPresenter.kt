@@ -4,6 +4,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import ru.mail.sporttogether.data.binding.event.EventDetailsListener
 import ru.mail.sporttogether.data.binding.event.EventListener
+import ru.mail.sporttogether.fragments.CheckingTasks
 import ru.mail.sporttogether.mvp.presenters.IPresenter
 
 /**
@@ -15,6 +16,7 @@ interface IMapPresenter :
         OnMapReadyCallback,
         EventDetailsListener,
         EventListener,
+        CheckingTasks,
         GoogleMap.OnMapClickListener,
         GoogleMap.OnMarkerClickListener,
         GoogleMap.OnCameraMoveStartedListener {

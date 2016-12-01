@@ -50,7 +50,7 @@ class AddEventActivity :
     private var settedDate: GregorianCalendar = GregorianCalendar()
     private lateinit var pickDateText: TextView
 
-    private lateinit var addTasksDialog: AddTasksDialog
+    private var addTasksDialog: AddTasksDialog? = null
 
     private lateinit var categoryAutocomplete: AutoCompleteTextView
     private var categoriesArray: ArrayList<Category> = ArrayList()
@@ -149,7 +149,7 @@ class AddEventActivity :
     override fun onStart() {
         super.onStart()
         binding.listener = this
-        binding.tasksListener = addTasksDialog.binding.listener
+        binding.tasksListener = addTasksDialog?.binding?.listener
 
     }
 
@@ -189,6 +189,7 @@ class AddEventActivity :
         Log.d("#MY " + javaClass.simpleName, "max people : " + maxPeople)
         Log.d("#MY " + javaClass.simpleName, "lat : " + lat)
         Log.d("#MY " + javaClass.simpleName, "lon : " + lng)
+        Log.d("#MY " + javaClass.simpleName, "tasks count : " + addTasksDialog?.tasks?.size)
 
         presenter.addEventClicked(name,
                 nameCategory,
@@ -196,7 +197,8 @@ class AddEventActivity :
                 lat.toDouble(),
                 lng.toDouble(),
                 binding.description.text.toString(),
-                maxPeople)
+                maxPeople,
+                addTasksDialog!!.tasks)
     }
 
     override fun onEventAdded(name: String) {
@@ -239,16 +241,12 @@ class AddEventActivity :
         @JvmStatic private val KEY_LAT = "lat"
     }
 
-    class AddTasksDialog: AddTasksListener {
-        val context: AddEventActivity
-        var dialog: AlertDialog
-        var binding: AddingTasksBinding
+    class AddTasksDialog(val context: AddEventActivity) : AddTasksListener {
+        var dialog: AlertDialog = AlertDialog.Builder(this.context).create()
+        var binding: AddingTasksBinding = AddingTasksBinding.inflate(LayoutInflater.from(this.context), null, false)
         val tasks = ArrayList<Task>()
 
-        constructor(context: AddEventActivity) {
-            this.context = context
-            this.dialog = AlertDialog.Builder(this.context).create()
-            this.binding = AddingTasksBinding.inflate(LayoutInflater.from(this.context), null, false)
+        init {
             this.dialog.setView(this.binding.root)
             this.binding.listener = this
             this.binding.data = AddTasksData()
@@ -276,7 +274,11 @@ class AddEventActivity :
         }
 
         override fun onRemoveTaskClicked() {
-            tasks.removeAt(tasks.size - 1)
+            if (tasks.isNotEmpty()) {
+                tasks.removeAt(tasks.size - 1)
+            } else {
+                context.showToast("список задач пуст")
+            }
             this.binding.data.tasks.set(toTasksString())
         }
 
@@ -284,11 +286,14 @@ class AddEventActivity :
             val sb = StringBuilder("")
             var i = 1
             tasks.forEach {
-                sb.append(i).append(". ").append(it.toString()).append('\n')
+                sb.append(i).append(". ").append(it.message).append('\n')
                 i++
             }
             val finalString = sb.toString()
-            return finalString.substring(0, finalString.length - 1)//убираю конечный перевод строки
+            if (finalString.isNotEmpty())
+                return finalString.substring(0, finalString.length - 1)
+            else
+                return ""//убираю конечный перевод строки
         }
 
     }

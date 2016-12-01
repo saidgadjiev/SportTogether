@@ -10,6 +10,6 @@ data class Task(
         val eventId: Long?
 ) {
     override fun toString(): String {
-        return message
+        return message + " " + id
     }
 }

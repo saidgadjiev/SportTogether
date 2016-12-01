@@ -2,7 +2,7 @@ package ru.mail.sporttogether.mvp.presenters.event
 
 import android.util.Log
 import ru.mail.sporttogether.app.App
-import ru.mail.sporttogether.managers.data.CredentialsManager
+import ru.mail.sporttogether.auth.core.SocialNetworkManager
 import ru.mail.sporttogether.mvp.views.event.IMyEventsView
 import ru.mail.sporttogether.net.api.EventsAPI
 import ru.mail.sporttogether.net.models.Event
@@ -21,14 +21,17 @@ import javax.inject.Inject
 class MyEventsPresenterImpl(private var view: IMyEventsView?) : MyEventsPresenter {
 
     @Inject lateinit var eventsApi: EventsAPI
-    @Inject lateinit var credentialsManager: CredentialsManager
+    private var socialNetworkManager: SocialNetworkManager
     private val user: User
 
     init {
         App.injector
                 .usePresenterComponent()
                 .inject(this)
-        user = credentialsManager.getUserData()
+
+        socialNetworkManager = SocialNetworkManager.instance
+        user = socialNetworkManager.activeUser
+        Log.d("#MY! ", user.id.toString())
     }
 
     override fun getMyEvents() {

@@ -3,6 +3,7 @@ package ru.mail.sporttogether.mvp.presenters.map
 import android.Manifest
 import android.graphics.Point
 import android.location.Location
+import android.util.Log
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
@@ -15,14 +16,15 @@ import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import ru.mail.sporttogether.R
 import ru.mail.sporttogether.app.App
+import ru.mail.sporttogether.auth.core.SocialNetworkManager
 import ru.mail.sporttogether.eventbus.PermissionGrantedMessage
 import ru.mail.sporttogether.eventbus.PermissionMessage
 import ru.mail.sporttogether.managers.LocationManager
-import ru.mail.sporttogether.managers.data.CredentialsManager
 import ru.mail.sporttogether.managers.events.EventsManager
 import ru.mail.sporttogether.mvp.views.map.IMapView
 import ru.mail.sporttogether.net.api.EventsAPI
 import ru.mail.sporttogether.net.models.Event
+import ru.mail.sporttogether.net.models.Task
 import ru.mail.sporttogether.net.responses.EventsResponse
 import ru.mail.sporttogether.net.responses.Response
 import rx.Observable
@@ -55,7 +57,7 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
     @Inject lateinit var api: EventsAPI
     @Inject lateinit var eventsManager: EventsManager
     @Inject lateinit var locationManager: LocationManager
-    @Inject lateinit var creditalsManager: CredentialsManager
+//    @Inject lateinit var credentialsManager: CredeMana
 
     private val userId: Long
 
@@ -68,7 +70,7 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
         App.injector
                 .usePresenterComponent()
                 .inject(this)
-        userId = creditalsManager.getUserData().id
+        userId = SocialNetworkManager.instance.activeUser.id //TODO inject network manager
     }
 
     override fun onStart() {
@@ -319,11 +321,14 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
     }
 
     override fun onJoinButtonClicked() {
-        if (lastEvent.isJoined) {
-            unJoin()
-        } else {
-            join()
-        }
+        if (lastEvent.isEnded) {
+            view?.showToast("Событие уже завершилось")
+        } else
+            if (lastEvent.isJoined) {
+                unJoin()
+            } else {
+                join()
+            }
     }
 
     fun join() {
@@ -373,6 +378,62 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
 
                     }
 
+                })
+    }
+
+    override fun checkTask(task: Task) {
+        Log.d("#MY " + javaClass.simpleName, "In presenter : " + task)
+        api.checkTask(task).observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(object : Subscriber<Response<Any>>() {
+                    override fun onCompleted() {
+                    }
+
+                    override fun onError(e: Throwable) {
+                        view?.showToast("Произошла ошибка")
+                    }
+
+                    override fun onNext(t: Response<Any>) {
+                        if (t.code === 0) {
+                            view?.showToast("Вы приняли на себя задачу : " + task.message)
+                            val tasks = lastEvent.tasks
+                            val changedTask = tasks?.find { it.id == task.id }
+                            if (changedTask != null) {
+                                val index = tasks?.indexOf(changedTask)!!.or(0)
+                                tasks?.remove(changedTask)
+                                tasks?.add(index, changedTask.copy(userId = SocialNetworkManager.instance.activeUser.id)) //TODO inject social network manager
+                            }
+                            render()
+                        } else view?.showToast(t.message)
+                    }
+                })
+    }
+
+    override fun uncheckTask(task: Task) {
+        //потому что чтобы снять надо повторно отправить. Такой вот веселый сервер
+        api.checkTask(task).observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(object : Subscriber<Response<Any>>() {
+                    override fun onCompleted() {
+                    }
+
+                    override fun onError(e: Throwable) {
+                        view?.showToast("Произошла ошибка")
+                    }
+
+                    override fun onNext(t: Response<Any>) {
+                        if (t.code === 0) {
+                            view?.showToast("Вы отменили задачу : " + task.message)
+                            val tasks = lastEvent.tasks
+                            val changedTask = tasks?.find { it.id == task.id }
+                            if (changedTask != null) {
+                                val index = tasks?.indexOf(changedTask)!!.or(0)
+                                tasks?.remove(changedTask)
+                                tasks?.add(index, changedTask.copy(userId = null))
+                            }
+                            render()
+                        } else view?.showToast(t.message)
+                    }
                 })
     }
 

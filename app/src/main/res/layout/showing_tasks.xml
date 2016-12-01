@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View" />
+    </data>
+
+    <RelativeLayout
+        android:paddingStart="@dimen/offset_medium"
+        android:paddingEnd="@dimen/offset_medium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            style="@style/TitleText"
+            android:id="@+id/tasks_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="@string/tasks_header"
+            android:layout_marginTop="10dp" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/tasks_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tasks_header"/>
+        <Button
+            style="@style/FlatButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tasks_ok_btn"
+            android:layout_below="@id/tasks_recycler_view"
+            android:layout_centerHorizontal="true"
+            android:text="@string/ok"
+            android:layout_marginBottom="@dimen/offset_medium"
+            />
+    </RelativeLayout>
+</layout>
+
+

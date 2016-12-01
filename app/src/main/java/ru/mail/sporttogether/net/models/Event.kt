@@ -39,4 +39,12 @@ data class Event(
 
         return true
     }
+
+    fun tasksInfo(): String {
+        if (tasks != null) {
+            val allTasks: Int = tasks.orEmpty().size
+            val acceptedTasks: Int = tasks?.filter { it.userId != null }!!.count().or(0)
+            return "" + acceptedTasks + '/' + allTasks
+        } else return "0/0"
+    }
 }

@@ -8,7 +8,7 @@
     <string name="events_map">Карта событий</string>
     <string name="events_list">Список событий</string>
     <string name="my_events">Мои события</string>
-    <string name="auth0_preferences">AUTH0_SHARED_PREFERENCES_KEY</string>
+    <string name="preferences">CREDENTIALS</string>
 
     <string name="cant_get_events">Не удалось получить список событий</string>
 
@@ -31,5 +31,8 @@
     <string name="tasks_header">Список задач</string>
     <string name="list_tasks">список задач</string>
     <string name="reduce">убрать</string>
+    <string name="result_header">итог события</string>
+    <string name="you_connected_msg">вы присоеденены!</string>
+    <string name="add_event">Создать событие</string>
 
 </resources>

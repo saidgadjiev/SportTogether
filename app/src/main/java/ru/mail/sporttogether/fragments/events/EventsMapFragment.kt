@@ -4,18 +4,26 @@ import android.content.Context
 import android.graphics.Point
 import android.os.Bundle
 import android.support.design.widget.BottomSheetBehavior
+import android.support.v7.app.AlertDialog
+import android.support.v7.widget.LinearLayoutManager
 import android.view.*
 import com.google.android.gms.maps.MapView
 import ru.mail.sporttogether.R
 import ru.mail.sporttogether.activities.AddEventActivity
 import ru.mail.sporttogether.activities.PresenterActivity
+import ru.mail.sporttogether.adapter.TaskAdapter
+import ru.mail.sporttogether.app.App
+import ru.mail.sporttogether.auth.core.SocialNetworkManager
 import ru.mail.sporttogether.data.binding.event.EventDetailsData
 import ru.mail.sporttogether.databinding.EventsMapBinding
+import ru.mail.sporttogether.databinding.ShowingTasksBinding
+import ru.mail.sporttogether.fragments.CheckingTasks
 import ru.mail.sporttogether.fragments.PresenterFragment
 import ru.mail.sporttogether.mvp.presenters.map.IMapPresenter
 import ru.mail.sporttogether.mvp.presenters.map.MapPresenterImpl
 import ru.mail.sporttogether.mvp.views.map.IMapView
 import ru.mail.sporttogether.net.models.Event
+import ru.mail.sporttogether.net.models.Task
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -26,18 +34,27 @@ import java.util.*
  */
 class EventsMapFragment :
         PresenterFragment<IMapPresenter>(),
-        IMapView {
+        IMapView,
+        CheckingTasks {
+//    @Inject lateinit var socialNetworkManager: SocialNetworkManager
 
     private lateinit var mapView: MapView
     private lateinit var binding: EventsMapBinding
     private lateinit var bottomSheet: BottomSheetBehavior<View>
     private val data = EventDetailsData()
+    private var tasksDialog: TasksDialog? = null
+
+//    private val tasksDialog
 
     private var markerDownX = 0
     private var markerDownY = 0
     private var tabHeight = 0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        App.injector
+                .useViewComopnent()
+                .inject(this)
+
         binding = EventsMapBinding.inflate(inflater, container, false)
         mapView = binding.mapview
         mapView.onCreate(savedInstanceState)
@@ -57,6 +74,7 @@ class EventsMapFragment :
 
         })
         hideInfo()
+
         return binding.root
     }
 
@@ -133,6 +151,7 @@ class EventsMapFragment :
     override fun onDestroyView() {
         super.onDestroyView()
         mapView.onDestroy()
+        tasksDialog = null
     }
 
     override fun onCameraIdle() {
@@ -149,11 +168,18 @@ class EventsMapFragment :
 
     override fun hideInfo() {
         bottomSheet.state = BottomSheetBehavior.STATE_HIDDEN
+        tasksDialog = null
     }
 
     override fun showInfo(event: Event, isCancelable: Boolean) {
         render(event, isCancelable)
         bottomSheet.state = BottomSheetBehavior.STATE_COLLAPSED
+        if (event.tasks != null) {
+            initTasks(event.tasks!!)
+            binding.showTasksBtn.setOnClickListener {
+                tasksDialog!!.dialog.show()
+            }
+        }
     }
 
     override fun render(event: Event, isCancelable: Boolean) {
@@ -161,11 +187,24 @@ class EventsMapFragment :
         data.name.set(event.name)
         data.date.set(SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.getDefault()).format(Date(event.date)))
         data.description.set(event.description)
+        data.withDescription.set(event.description.isNotEmpty())
         data.isReported.set(event.isReported)
         data.isJoined.set(event.isJoined)
+        data.tasksInfo.set(event.tasksInfo())
+        if (event.result != null) {
+            data.isEnded.set(event.result!!.isNotEmpty())
+            data.result.set(event.result!!)
+        } else {
+            data.isEnded.set(false)
+            data.result.set("")
+        }
         val people = getString(R.string.users, event.nowPeople, event.maxPeople)
         data.peopleCount.set(people)
         data.showCancelButton.set(isCancelable)
+        if (event.tasks != null) {
+            //в адаптере хранится ссылка на массив тасков, с ним синхронизируется
+            tasksDialog?.taskAdapter?.swapTasks()
+        }
     }
 
     companion object {
@@ -180,4 +219,32 @@ class EventsMapFragment :
         }
     }
 
+    override fun checkTask(task: Task) {
+        presenter.checkTask(task)
+    }
+
+    override fun uncheckTask(task: Task) {
+        presenter.uncheckTask(task)
+    }
+
+    fun initTasks (tasks: ArrayList<Task>) {
+        val tasksBinding: ShowingTasksBinding = ShowingTasksBinding.inflate(LayoutInflater.from(this.context), null, false)
+        val dialog: AlertDialog = AlertDialog.Builder(this.context).create()
+        val taskAdapter = TaskAdapter(tasks, this, SocialNetworkManager.instance.activeUser.id) // TODO inject manager
+        tasksBinding.tasksRecyclerView.adapter = taskAdapter
+        tasksBinding.tasksRecyclerView.layoutManager = LinearLayoutManager(this.context)
+        tasksDialog = TasksDialog(tasksBinding, taskAdapter, dialog)
+    }
+
+    class TasksDialog(
+            val binding: ShowingTasksBinding,
+            val taskAdapter: TaskAdapter,
+            val dialog: AlertDialog) {
+        init {
+            this.dialog.setView(this.binding.root)
+            this.binding.tasksOkBtn.setOnClickListener {
+                this.dialog.hide()
+            }
+        }
+    }
 }
