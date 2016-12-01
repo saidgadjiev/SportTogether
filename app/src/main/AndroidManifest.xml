@@ -23,7 +23,7 @@
             android:value="@string/facebook_app_id" />
 
         <service
-            android:name=".services.CustomFirebaseMessagingService"
+            android:name=".fcm.CustomFirebaseMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

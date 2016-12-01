@@ -19,12 +19,22 @@ class CustomFirebaseMessagingService : FirebaseMessagingService() {
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         Log.d("#MY " + javaClass.simpleName, "message received ")
 
-        val body: String? = remoteMessage.notification.body
-        val notificationMessage: NotificationMessage = NotificationMessage(
-                remoteMessage.data.get("type")?.toInt()!!.or(0),
-                remoteMessage.data.get("title").orEmpty(),
-                remoteMessage.data.get("message").orEmpty()
+
+        var type: Int? = remoteMessage.data.get("type")?.toInt()
+        if (type == null) type = 0
+        val title = remoteMessage.data.get("title")
+        val message = remoteMessage.data.get("message")
+        if (title == null || message == null) {
+            Log.e("#MY " + javaClass.simpleName, "title or message is null")
+            return
+        }
+        val notificationMessage2 = NotificationMessage(
+                type,
+                title,
+                message
         )
+        val notificationMessage1 = notificationMessage2
+        val notificationMessage: NotificationMessage = notificationMessage1
         if (notificationMessage.isValid()) {
             val notification = NotificationCompat.Builder(this)
                     .setContentTitle(notificationMessage.title)
