@@ -8,6 +8,18 @@
         android:orientation="vertical"
         tools:context=".activities.drawer.DrawerActivity">
 
+
+
+        <Button
+            android:id="@+id/facebook"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="8dp"
+            android:background="@color/vk"
+            android:text="Login via Facebook"
+            android:textColor="#ffffffff" />
+
         <Button
             android:id="@+id/vk"
             android:layout_width="fill_parent"
@@ -16,16 +28,7 @@
             android:layout_margin="8dp"
             android:background="@color/vk"
             android:text="Login via VK"
-            android:textColor="#ffffffff" />
-
-        <Button
-            android:id="@+id/facebook"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_margin="8dp"
-            android:background="@color/ok"
-            android:text="Login via Facebook"
+            android:visibility="invisible"
             android:textColor="#ffffffff" />
     </LinearLayout>
 </layout>
