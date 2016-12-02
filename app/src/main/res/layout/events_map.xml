@@ -46,14 +46,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|end"
-                android:layout_margin="16dp"
+                android:layout_marginBottom="61dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
                 android:onClick="@{() -> addListener.onAddButtonClicked()}"
                 android:src="@drawable/ic_add"
                 android:tint="@android:color/white"
                 app:backgroundTint="@color/red" />
         </FrameLayout>
 
-        <!--<FrameLayout
+<!--        <FrameLayout
             android:id="@+id/events_list_sheet"
             android:layout_width="match_parent"
             android:layout_height="45dp"
@@ -140,13 +142,13 @@
                             android:id="@+id/you_connected"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_alignBaseline="@+id/people_count"
+                            android:layout_alignBottom="@+id/people_count"
+                            android:layout_toStartOf="@+id/people_count"
                             android:text="@string/you_connected_msg"
                             android:textColor="@color/green"
                             android:textSize="@dimen/font_small"
-                            android:visibility="@{data.isJoined? View.VISIBLE : View.GONE}"
-                            android:layout_alignBaseline="@+id/people_count"
-                            android:layout_alignBottom="@+id/people_count"
-                            android:layout_toStartOf="@+id/people_count" />
+                            android:visibility="@{data.isJoined? View.VISIBLE : View.GONE}" />
 
                     </RelativeLayout>
                 </LinearLayout>

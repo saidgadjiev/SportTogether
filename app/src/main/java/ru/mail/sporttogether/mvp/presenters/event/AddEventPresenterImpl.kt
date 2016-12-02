@@ -28,10 +28,8 @@ class AddEventPresenterImpl(var view: IAddEventView?) : AddEventPresenter {
     @Inject lateinit var categoriesApi: CategoriesAPI
     @Inject lateinit var eventsManager: EventsManager
 
-
     private var eventSubscribtion: Subscription? = null
     private var categoriesSubscribtion: Subscription? = null
-
 
     init {
         App.injector.usePresenterComponent().inject(this)
