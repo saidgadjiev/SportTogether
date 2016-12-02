@@ -121,29 +121,29 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@{data.lng}" />
+
+                <Button style="@style/FlatButton"
+                    android:id="@+id/open_tasks_button"
+                    android:layout_gravity="start"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{()->tasksListener.onOpenTasksClicked()}"
+                    android:text="@string/list_tasks" />
             </LinearLayout>
 
             <EditText
                 android:id="@+id/description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/description"
+                android:hint="@{data.mainDataVisibility? @string/description : @string/result_header}"
                 android:lines="3" />
-
-            <Button style="@style/FlatButton"
-                android:id="@+id/open_tasks_button"
-                android:layout_gravity="start"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="@{()->tasksListener.onOpenTasksClicked()}"
-                android:text="@string/list_tasks" />
 
             <Button style="@style/FlatButton"
                 android:id="@+id/add_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="@{()->listener.onAddButtonClicked()}"
-                android:text="@string/add_event" />
+                android:text="@{data.mainDataVisibility? @string/add_event : @string/add_result}" />
         </LinearLayout>
     </ScrollView>
 

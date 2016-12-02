@@ -34,5 +34,6 @@
     <string name="result_header">итог события</string>
     <string name="you_connected_msg">вы присоеденены!</string>
     <string name="add_event">Создать событие</string>
+    <string name="add_result">Добавить итог</string>
 
 </resources>
