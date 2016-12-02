@@ -6,12 +6,14 @@ import android.os.Bundle
 import android.support.design.widget.BottomSheetBehavior
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.*
 import com.google.android.gms.maps.MapView
 import ru.mail.sporttogether.R
 import ru.mail.sporttogether.activities.AddEventActivity
 import ru.mail.sporttogether.activities.PresenterActivity
 import ru.mail.sporttogether.adapter.TaskAdapter
+import ru.mail.sporttogether.adapter.events.EventsAdapter
 import ru.mail.sporttogether.app.App
 import ru.mail.sporttogether.auth.core.SocialNetworkManager
 import ru.mail.sporttogether.data.binding.event.EventDetailsData
@@ -43,8 +45,12 @@ class EventsMapFragment :
     private lateinit var mapView: MapView
     private lateinit var binding: EventsMapBinding
     private lateinit var bottomSheet: BottomSheetBehavior<View>
+    private lateinit var bottomSheetEventsList: BottomSheetBehavior<View>
     private val data = EventDetailsData()
     private var tasksDialog: TasksDialog? = null
+
+    private lateinit var eventsListView: RecyclerView
+    private val adapter = EventsAdapter()
 
 //    private val tasksDialog
 
@@ -75,6 +81,26 @@ class EventsMapFragment :
             }
 
         })
+
+
+        bottomSheetEventsList = BottomSheetBehavior.from(binding.eventsListSheet)
+        bottomSheet.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+
+            }
+
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                when (newState) {
+
+                }
+
+            }
+        })
+
+        eventsListView = binding.eventsListRecyclerView
+        eventsListView.layoutManager = LinearLayoutManager(context)
+        eventsListView.adapter = adapter
+
         hideInfo()
 
         return binding.root
@@ -118,7 +144,7 @@ class EventsMapFragment :
                 name,
                 text,
                 "http://vk.com"
-                )
+        )
 //        if (parentActivity is PresenterActivity<*>) {
 //            parentActivity.shareToSocial(name, text)
 //        }
@@ -237,7 +263,7 @@ class EventsMapFragment :
         presenter.uncheckTask(task)
     }
 
-    fun initTasks (tasks: ArrayList<Task>) {
+    fun initTasks(tasks: ArrayList<Task>) {
         val tasksBinding: ShowingTasksBinding = ShowingTasksBinding.inflate(LayoutInflater.from(this.context), null, false)
         val dialog: AlertDialog = AlertDialog.Builder(this.context).create()
         val taskAdapter = TaskAdapter(tasks, this, SocialNetworkManager.instance.activeUser.id) // TODO inject manager

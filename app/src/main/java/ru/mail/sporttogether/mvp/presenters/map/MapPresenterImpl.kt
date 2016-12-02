@@ -284,7 +284,7 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
         event?.let {
             view?.hideInfo()
             lastEvent = it
-            view?.showInfo(lastEvent, (userId === event.user?.id) and !event.isEnded)
+            view?.showInfo(lastEvent, (userId == event.user?.id) and !event.isEnded)
         }
     }
 

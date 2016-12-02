@@ -7,7 +7,6 @@ import android.util.Log
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.google.gson.Gson
-import com.google.gson.JsonSyntaxException
 import ru.mail.sporttogether.R
 import ru.mail.sporttogether.app.App
 import ru.mail.sporttogether.net.models.NotificationMessage
@@ -29,36 +28,10 @@ class CustomFirebaseMessagingService : FirebaseMessagingService() {
     private val TAG = "FMService"
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
-        val body: String? = remoteMessage.notification?.body ?: ""
-
-        try {
-            val notificationMessage: NotificationMessage = gson.fromJson(body, NotificationMessage::class.java)
-            Log.d("#MY " + javaClass.simpleName, "" + notificationMessage.type)
-            Log.d("#MY " + javaClass.simpleName, notificationMessage.title)
-            Log.d("#MY " + javaClass.simpleName, notificationMessage.message)
-            if (notificationMessage.isValid()) {
-                val notification = NotificationCompat.Builder(this)
-                        .setContentTitle(notificationMessage.title)
-                        .setContentText(notificationMessage.message)
-                        .setSmallIcon(R.drawable.ic_racing_flag)
-                        .build()
-                val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-                manager.notify(10, notification)
-            } else {
-                Log.e("#MY " + javaClass.simpleName, "empty message or title in notification body")
-                return
-            }
-        } catch (e: JsonSyntaxException) {
-            Log.e("#MY " + javaClass.simpleName, "notification body is not json : " + body)
-            return
-        }
-        Log.d("#MY " + javaClass.simpleName, "message received ")
-
-
-        var type: Int? = remoteMessage.data.get("type")?.toInt()
+        var type: Int? = remoteMessage.data["type"]?.toInt()
         if (type == null) type = 0
-        val title = remoteMessage.data.get("title")
-        val message = remoteMessage.data.get("message")
+        val title = remoteMessage.data["title"]
+        val message = remoteMessage.data["message"]
         if (title == null || message == null) {
             Log.e("#MY " + javaClass.simpleName, "title or message is null")
             return
