@@ -13,6 +13,7 @@ import com.mikepenz.materialdrawer.Drawer
 import com.mikepenz.materialdrawer.DrawerBuilder
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem
+import com.mikepenz.materialdrawer.util.DrawerImageLoader
 import ru.mail.sporttogether.R
 import ru.mail.sporttogether.auth.core.SocialNetworkManager
 import ru.mail.sporttogether.databinding.ActivityDrawerBinding
@@ -20,6 +21,7 @@ import ru.mail.sporttogether.fragments.events.EventsFragment
 import ru.mail.sporttogether.mvp.presenters.drawer.DrawerPresenterImpl
 import ru.mail.sporttogether.mvp.presenters.drawer.IDrawerPresenter
 import ru.mail.sporttogether.mvp.views.drawer.IDrawerView
+import ru.mail.sporttogether.utils.MyDrawerImageLoader
 
 class DrawerActivity : IDrawerView, PresenterActivity<IDrawerPresenter>() {
     private lateinit var binding: ActivityDrawerBinding
@@ -51,14 +53,20 @@ class DrawerActivity : IDrawerView, PresenterActivity<IDrawerPresenter>() {
     }
 
     private fun buildAccountHeader(activity: DrawerActivity): AccountHeader {
+        DrawerImageLoader.init(MyDrawerImageLoader())
+        var  avatar = SocialNetworkManager.instance.activeUser.avatar
+        var name = SocialNetworkManager.instance.activeUser.name
+        if (name == null || name.isEmpty()) name = "Ivan Semenc"
+        if (avatar == null || avatar.isEmpty()) avatar = "https://graph.facebook.com/106396279832921/picture?type=large"
         return AccountHeaderBuilder()
                 .withActivity(activity)
                 .withHeaderBackground(R.drawable.drawer_background)
                 .withTextColor(ContextCompat.getColor(this, R.color.colorAccent))
                 .addProfiles(
-                        ProfileDrawerItem().withName("Ivan").withEmail("1@1.1").withTextColor(ContextCompat.getColor(this, R.color.colorPrimary))
+                        ProfileDrawerItem().withName(name).withIcon(avatar).withTextColor(ContextCompat.getColor(this, R.color.colorPrimary))
                         )
                 .withCloseDrawerOnProfileListClick(false)
+                .withSelectionListEnabled(false)
                 .build()
 
     }
