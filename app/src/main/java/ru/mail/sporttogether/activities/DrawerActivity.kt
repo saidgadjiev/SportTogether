@@ -58,12 +58,16 @@ class DrawerActivity : IDrawerView, PresenterActivity<IDrawerPresenter>() {
         var name = SocialNetworkManager.instance.activeUser.name
         if (name == null || name.isEmpty()) name = "Ivan Semenc"
         if (avatar == null || avatar.isEmpty()) avatar = "https://graph.facebook.com/106396279832921/picture?type=large"
+        val instance = SocialNetworkManager.instance
+        val socialNetwork = instance.getSocialNetwork(instance.getNetworkID())!!
+        val name1 = socialNetwork.getLoadedSocialPerson()!!.name
+        val avatar1 = socialNetwork.getLoadedSocialPerson()!!.avatarURL
         return AccountHeaderBuilder()
                 .withActivity(activity)
                 .withHeaderBackground(R.drawable.drawer_background)
                 .withTextColor(ContextCompat.getColor(this, R.color.colorAccent))
                 .addProfiles(
-                        ProfileDrawerItem().withName(name).withIcon(avatar).withTextColor(ContextCompat.getColor(this, R.color.colorPrimary))
+                        ProfileDrawerItem().withName(name1).withIcon(avatar1).withTextColor(ContextCompat.getColor(this, R.color.colorPrimary))
                         )
                 .withCloseDrawerOnProfileListClick(false)
                 .withSelectionListEnabled(false)
