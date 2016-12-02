@@ -264,12 +264,12 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
         event?.let {
             view?.hideInfo()
             lastEvent = it
-            view?.showInfo(lastEvent, (userId == event.userId) and !event.isEnded)
+            view?.showInfo(lastEvent, (userId == event.user?.id) and !event.isEnded)
         }
     }
 
     private fun render() {
-        view?.render(lastEvent, (userId == lastEvent.userId) and !lastEvent.isEnded)
+        view?.render(lastEvent, (userId == lastEvent.user?.id) and !lastEvent.isEnded)
     }
 
     override fun onBackPressed() {

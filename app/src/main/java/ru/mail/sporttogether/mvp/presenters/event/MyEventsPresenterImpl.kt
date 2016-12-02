@@ -96,7 +96,7 @@ class MyEventsPresenterImpl(private var view: IMyEventsView?) : MyEventsPresente
     }
 
     override fun onEventClicked(e: Event) {
-        if (e.userId == user.id)
+        if (e.user?.id == user.id)
             view?.openEditActivity(e.id)
     }
 

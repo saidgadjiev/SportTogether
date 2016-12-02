@@ -14,6 +14,7 @@ data class Event(
         @SerializedName("longtitude") var lng: Double = 0.0,
         var id: Long = 0L,
         var userId: Long = 0L,
+        var user: User? = null,
         var maxPeople: Int = 5,
         var description: String = "",
         var result: String? = null,
