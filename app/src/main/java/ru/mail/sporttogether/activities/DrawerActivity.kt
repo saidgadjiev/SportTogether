@@ -19,7 +19,7 @@ import com.mikepenz.materialdrawer.util.DrawerImageLoader
 import ru.mail.sporttogether.R
 import ru.mail.sporttogether.auth.core.SocialNetworkManager
 import ru.mail.sporttogether.databinding.ActivityDrawerBinding
-import ru.mail.sporttogether.fragments.events.EventsFragment
+import ru.mail.sporttogether.fragments.events.EventsMapFragment
 import ru.mail.sporttogether.fragments.events.MyEventsFragment
 import ru.mail.sporttogether.mvp.presenters.drawer.DrawerPresenterImpl
 import ru.mail.sporttogether.mvp.presenters.drawer.IDrawerPresenter
@@ -43,7 +43,7 @@ class DrawerActivity : IDrawerView, PresenterActivity<IDrawerPresenter>() {
         setupToolbar(toolbar)
         buildDrawer()
         socialNetworkManager = SocialNetworkManager.instance
-        swapFragment(EventsFragment.newInstance())
+        swapFragment(EventsMapFragment.newInstance(0))
     }
 
     private fun buildDrawer() {
@@ -80,7 +80,7 @@ class DrawerActivity : IDrawerView, PresenterActivity<IDrawerPresenter>() {
         drawerBuilder.addDrawerItems(
                 //TODO add icons
                 PrimaryDrawerItem().withName("Карта").withOnDrawerItemClickListener { view, i, iDrawerItem ->
-                    swapFragment(EventsFragment.newInstance())
+                    swapFragment(EventsMapFragment.newInstance(0))
                     println("Clicked : " + i)
                     false
                 },

@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.support.v7.widget.Toolbar
 import ru.mail.sporttogether.R
 import ru.mail.sporttogether.databinding.ActivityFragmentBinding
-import ru.mail.sporttogether.fragments.events.EventsFragment
+import ru.mail.sporttogether.fragments.events.EventsMapFragment
 import ru.mail.sporttogether.mvp.presenters.IPresenter
 
 class FragmentActivity : PresenterActivity<IPresenter>() {
@@ -20,7 +20,7 @@ class FragmentActivity : PresenterActivity<IPresenter>() {
         toolbar = binding.toolbar
         setupToolbar(toolbar)
         supportFragmentManager.beginTransaction()
-                .replace(R.id.container, EventsFragment.newInstance())
+                .replace(R.id.container, EventsMapFragment.newInstance(0))
                 .commit()
     }
 }
