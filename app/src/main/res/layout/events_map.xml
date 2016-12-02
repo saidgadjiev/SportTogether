@@ -39,8 +39,7 @@
                 android:layout_gravity="center"
                 android:scaleX="2"
                 android:scaleY="2"
-                android:src="@drawable/ic_man"
-                android:tint="@android:color/darker_gray" />
+                android:src="@drawable/ic_man" />
 
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/add_event_fab"
@@ -53,6 +52,18 @@
                 android:tint="@android:color/white"
                 app:backgroundTint="@color/red" />
         </FrameLayout>
+
+        <!--<FrameLayout
+            android:id="@+id/events_list_sheet"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@android:color/darker_gray"
+            android:clickable="true"
+            android:orientation="vertical"
+            app:behavior_peekHeight="90dp"
+            app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
+
+        </FrameLayout>-->
 
         <FrameLayout
             android:id="@+id/bottom_sheet"
@@ -129,13 +140,13 @@
                             android:id="@+id/you_connected"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignBaseline="@+id/people_count"
-                            android:layout_marginEnd="@dimen/offset_small"
-                            android:layout_toStartOf="@+id/people_count"
                             android:text="@string/you_connected_msg"
                             android:textColor="@color/green"
                             android:textSize="@dimen/font_small"
-                            android:visibility="@{data.isJoined? View.VISIBLE : View.GONE}" />
+                            android:visibility="@{data.isJoined? View.VISIBLE : View.GONE}"
+                            android:layout_alignBaseline="@+id/people_count"
+                            android:layout_alignBottom="@+id/people_count"
+                            android:layout_toStartOf="@+id/people_count" />
 
                     </RelativeLayout>
                 </LinearLayout>
@@ -267,18 +278,6 @@
                         android:text="@{data.tasksInfo}" />
                 </RelativeLayout>
             </LinearLayout>
-        </FrameLayout>
-
-        <FrameLayout
-            android:id="@+id/events_list_sheet"
-            android:layout_width="match_parent"
-            android:layout_height="90dp"
-            android:background="@android:color/white"
-            android:clickable="true"
-            android:orientation="vertical"
-            app:behavior_peekHeight="90dp"
-            app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
-
         </FrameLayout>
     </android.support.design.widget.CoordinatorLayout>
 
