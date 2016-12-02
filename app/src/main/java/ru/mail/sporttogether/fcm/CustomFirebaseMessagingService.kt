@@ -6,24 +6,32 @@ import android.support.v7.app.NotificationCompat
 import android.util.Log
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import com.google.gson.Gson
 import ru.mail.sporttogether.R
+import ru.mail.sporttogether.app.App
 import ru.mail.sporttogether.net.models.NotificationMessage
+import javax.inject.Inject
 
 /**
  * Created by said on 17.10.16.
  *
  */
 class CustomFirebaseMessagingService : FirebaseMessagingService() {
+
+    @Inject lateinit var gson: Gson
+
+    override fun onCreate() {
+        super.onCreate()
+        App.injector.useServiceComponent().inject(this)
+    }
+
     private val TAG = "FMService"
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
-        Log.d("#MY " + javaClass.simpleName, "message received ")
-
-
-        var type: Int? = remoteMessage.data.get("type")?.toInt()
+        var type: Int? = remoteMessage.data["type"]?.toInt()
         if (type == null) type = 0
-        val title = remoteMessage.data.get("title")
-        val message = remoteMessage.data.get("message")
+        val title = remoteMessage.data["title"]
+        val message = remoteMessage.data["message"]
         if (title == null || message == null) {
             Log.e("#MY " + javaClass.simpleName, "title or message is null")
             return

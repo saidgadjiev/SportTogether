@@ -30,7 +30,7 @@ import ru.mail.sporttogether.mvp.views.IView
 abstract class PresenterActivity<T : IPresenter> : AppCompatActivity(), IView {
 
     protected lateinit var presenter: T
-    protected val injector = App.injector.useViewComopnent()
+    protected val injector = App.injector.useViewComponent()
 
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,9 +69,6 @@ abstract class PresenterActivity<T : IPresenter> : AppCompatActivity(), IView {
             finish()
             return true
         }
-        if (item.itemId === R.id.post) {
-            shareToSocial("Test content", "Test description")
-        }
         return super.onOptionsItemSelected(item)
     }
 
@@ -84,13 +81,6 @@ abstract class PresenterActivity<T : IPresenter> : AppCompatActivity(), IView {
                 .build()
 
         ShareDialog.show(this, content)
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        val inflater = menuInflater
-        inflater.inflate(R.menu.main, menu)
-
-        return true
     }
 
     fun setupToolbar(toolbar: Toolbar) {

@@ -15,8 +15,7 @@ import rx.schedulers.Schedulers
 import javax.inject.Inject
 
 /**
- * Created by bagrusss on 15.10.16.
- *
+ * Created by bagrusss on 15.10.16
  */
 class MyEventsPresenterImpl(private var view: IMyEventsView?) : MyEventsPresenter {
 
@@ -31,7 +30,6 @@ class MyEventsPresenterImpl(private var view: IMyEventsView?) : MyEventsPresente
 
         socialNetworkManager = SocialNetworkManager.instance
         user = socialNetworkManager.activeUser
-        Log.d("#MY! ", user.id.toString())
     }
 
     override fun getMyEvents() {
@@ -43,7 +41,7 @@ class MyEventsPresenterImpl(private var view: IMyEventsView?) : MyEventsPresente
                     Observable.from(response.data)
                 }
                 .filter { //события которые создал пользователь
-                    it.userId == user.id
+                    it.user?.id === user.id
                 }
                 .toList()
                 .subscribeOn(Schedulers.io())
@@ -96,7 +94,7 @@ class MyEventsPresenterImpl(private var view: IMyEventsView?) : MyEventsPresente
     }
 
     override fun onEventClicked(e: Event) {
-        if (e.user?.id == user.id)
+        if (e.user?.id === user.id)
             view?.openEditActivity(e.id)
     }
 

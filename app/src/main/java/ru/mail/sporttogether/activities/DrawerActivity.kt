@@ -7,6 +7,8 @@ import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.Toolbar
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import com.mikepenz.materialdrawer.AccountHeader
 import com.mikepenz.materialdrawer.AccountHeaderBuilder
 import com.mikepenz.materialdrawer.Drawer
@@ -18,6 +20,7 @@ import ru.mail.sporttogether.R
 import ru.mail.sporttogether.auth.core.SocialNetworkManager
 import ru.mail.sporttogether.databinding.ActivityDrawerBinding
 import ru.mail.sporttogether.fragments.events.EventsFragment
+import ru.mail.sporttogether.fragments.events.MyEventsFragment
 import ru.mail.sporttogether.mvp.presenters.drawer.DrawerPresenterImpl
 import ru.mail.sporttogether.mvp.presenters.drawer.IDrawerPresenter
 import ru.mail.sporttogether.mvp.views.drawer.IDrawerView
@@ -54,21 +57,19 @@ class DrawerActivity : IDrawerView, PresenterActivity<IDrawerPresenter>() {
 
     private fun buildAccountHeader(activity: DrawerActivity): AccountHeader {
         DrawerImageLoader.init(MyDrawerImageLoader())
-        var  avatar = SocialNetworkManager.instance.activeUser.avatar
+        var avatar = SocialNetworkManager.instance.activeUser.avatar
         var name = SocialNetworkManager.instance.activeUser.name
-        if (name == null || name.isEmpty()) name = "Ivan Semenc"
-        if (avatar == null || avatar.isEmpty()) avatar = "https://graph.facebook.com/106396279832921/picture?type=large"
-        val instance = SocialNetworkManager.instance
-        val socialNetwork = instance.getSocialNetwork(instance.getNetworkID())!!
-        val name1 = socialNetwork.getLoadedSocialPerson()!!.name
-        val avatar1 = socialNetwork.getLoadedSocialPerson()!!.avatarURL
+        if (name.isNullOrEmpty())
+            name = "Vladislav Kozhushko"
+        if (avatar.isNullOrEmpty())
+            avatar = "https://scontent-amt2-1.xx.fbcdn.net/v/t1.0-9/14225377_107564209701561_5320272900042567420_n.jpg?oh=efa955d0b647185a747f44f6ce54d390&oe=58B58ED2"
         return AccountHeaderBuilder()
                 .withActivity(activity)
                 .withHeaderBackground(R.drawable.drawer_background)
                 .withTextColor(ContextCompat.getColor(this, R.color.colorAccent))
                 .addProfiles(
-                        ProfileDrawerItem().withName(name1).withIcon(avatar1).withTextColor(ContextCompat.getColor(this, R.color.colorPrimary))
-                        )
+                        ProfileDrawerItem().withName(name).withIcon(avatar).withTextColor(ContextCompat.getColor(this, R.color.colorPrimary))
+                )
                 .withCloseDrawerOnProfileListClick(false)
                 .withSelectionListEnabled(false)
                 .build()
@@ -80,6 +81,11 @@ class DrawerActivity : IDrawerView, PresenterActivity<IDrawerPresenter>() {
                 //TODO add icons
                 PrimaryDrawerItem().withName("Карта").withOnDrawerItemClickListener { view, i, iDrawerItem ->
                     swapFragment(EventsFragment.newInstance())
+                    println("Clicked : " + i)
+                    false
+                },
+                PrimaryDrawerItem().withName("Мои события").withOnDrawerItemClickListener { view, i, iDrawerItem ->
+                    swapFragment(MyEventsFragment.newInstance())
                     println("Clicked : " + i)
                     false
                 },
@@ -109,6 +115,17 @@ class DrawerActivity : IDrawerView, PresenterActivity<IDrawerPresenter>() {
                 .replace(R.id.drawer_container, fragment)
                 .commit()
     }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem) =
+            if (item.itemId === R.id.post) {
+                shareToSocial("Test content", "Test description")
+                true
+            } else super.onOptionsItemSelected(item)
 
     override fun startLoginActivity() {
         startActivity(Intent(this, SplashActivity::class.java))

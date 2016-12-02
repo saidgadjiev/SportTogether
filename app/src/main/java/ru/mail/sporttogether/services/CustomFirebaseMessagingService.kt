@@ -10,13 +10,9 @@ import javax.inject.Inject
 /**
  * Created by said on 17.10.16.
  */
-class CustomFirebaseMessagingService : FirebaseMessagingService {
+class CustomFirebaseMessagingService() : FirebaseMessagingService() {
     private val TAG = "FMService"
     @Inject lateinit var manager: NotificationManager
-
-    constructor() {
-        App.injector.useSharedComponent().inject(this)
-    }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         // Handle data payload of FCM messages.
@@ -24,5 +20,9 @@ class CustomFirebaseMessagingService : FirebaseMessagingService {
         Log.d(TAG, "FCM Notification Message: " + remoteMessage.notification)
         Log.d(TAG, "FCM Data Message: " + remoteMessage.data)
         manager.push(applicationContext, remoteMessage.notification)
+    }
+
+    init {
+        App.injector.useSharedComponent().inject(this)
     }
 }

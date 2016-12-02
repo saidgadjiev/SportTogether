@@ -6,6 +6,7 @@ import ru.mail.sporttogether.dagger.modules.ManagersModule
 import ru.mail.sporttogether.dagger.modules.RestModule
 import ru.mail.sporttogether.dagger.modules.RetrofitModule
 import ru.mail.sporttogether.dagger.subcomponents.PresenterSubcomponent
+import ru.mail.sporttogether.dagger.subcomponents.ServiceComponent
 import ru.mail.sporttogether.dagger.subcomponents.SharedSubComponent
 import ru.mail.sporttogether.dagger.subcomponents.ViewSubComponent
 import javax.inject.Singleton
@@ -22,6 +23,7 @@ import javax.inject.Singleton
         AndroidModule::class))
 interface AppMainComponent {
     fun usePresenterComponent(): PresenterSubcomponent
-    fun useViewComopnent(): ViewSubComponent
+    fun useServiceComponent(): ServiceComponent
+    fun useViewComponent(): ViewSubComponent
     fun useSharedComponent(): SharedSubComponent
 }
