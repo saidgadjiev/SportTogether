@@ -38,6 +38,8 @@ class EventsMapFragment :
         CheckingTasks {
 //    @Inject lateinit var socialNetworkManager: SocialNetworkManager
 
+    private val socialNetworkManager = SocialNetworkManager.instance
+
     private lateinit var mapView: MapView
     private lateinit var binding: EventsMapBinding
     private lateinit var bottomSheet: BottomSheetBehavior<View>
@@ -108,10 +110,18 @@ class EventsMapFragment :
     }
 
     override fun shareResults() {
+        val name = data.name.get()
+        val text = if (data.result.get() == null) data.description.get() else data.result.get()
         val parentActivity = activity
-        if (parentActivity is PresenterActivity<*>) {
-            parentActivity.shareToSocial(data.name.get(), data.description.get())
-        }
+        socialNetworkManager.getSocialNetwork(socialNetworkManager.getNetworkID())?.sharePost(
+                activity,
+                name,
+                text,
+                "http://vk.com"
+                )
+//        if (parentActivity is PresenterActivity<*>) {
+//            parentActivity.shareToSocial(name, text)
+//        }
     }
 
     override fun onStart() {
