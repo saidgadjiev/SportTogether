@@ -57,7 +57,6 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
     @Inject lateinit var api: EventsAPI
     @Inject lateinit var eventsManager: EventsManager
     @Inject lateinit var locationManager: LocationManager
-//    @Inject lateinit var credentialsManager: CredeMana
 
     private val userId: Long
 
@@ -65,12 +64,44 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
     private var locationSubscription: Subscription? = null
 
     private var eventsSubscribion: Subscription? = null
+    private var eventSubscribtion: Subscription? = null
 
     init {
         App.injector
                 .usePresenterComponent()
                 .inject(this)
         userId = SocialNetworkManager.instance.activeUser.id //TODO inject network manager
+        subscribeToEventManager()
+    }
+
+    private fun subscribeToEventManager() {
+        eventSubscribtion = eventsManager.getObservable()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(object : Subscriber<EventsManager.NewData<*>>() {
+                    override fun onNext(t: EventsManager.NewData<*>) {
+                        when (t.type) {
+                            EventsManager.UpdateType.ADD -> {
+                                view?.addEvent(t.data as Event)
+                            }
+
+                            EventsManager.UpdateType.NEW_LIST -> {
+                                view?.loadEvents(t.data as MutableList<Event>)
+                            }
+
+                            else -> {
+
+                            }
+                        }
+                    }
+
+                    override fun onError(e: Throwable) {
+
+                    }
+
+                    override fun onCompleted() {
+
+                    }
+                })
     }
 
     override fun onStart() {
@@ -115,6 +146,7 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
 
     override fun onDestroy() {
         locationSubscription?.unsubscribe()
+        eventSubscribtion?.unsubscribe()
         view = null
         map?.let {
             with(it) {
@@ -136,6 +168,13 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
 
     override fun onCameraMoveStarted(p0: Int) {
 
+    }
+
+    override fun loadEvents() {
+        val events = eventsManager.getEvents()
+        if (events.size > 0) {
+            view?.loadEvents(events)
+        }
     }
 
     override fun onCancelButtonClicked() {

@@ -55,21 +55,6 @@ class CustomFirebaseMessagingService : FirebaseMessagingService() {
             Log.e("#MY " + javaClass.simpleName, "notification is not valid : " + notificationMessage)
 
         }
-//
-//        val gson = GsonBuilder().setPrettyPrinting().create()
-//        try {
-//            Log.d("#MY " + javaClass.simpleName, "" + notificationMessage.type)
-//            Log.d("#MY " + javaClass.simpleName, notificationMessage.title)
-//            Log.d("#MY " + javaClass.simpleName, notificationMessage.message)
-//
-//            } else {
-//                Log.e("#MY " + javaClass.simpleName, "empty message or title in notification body")
-//
-//            }
-//        } catch (e: JsonSyntaxException) {
-//            Log.e("#MY " + javaClass.simpleName, "notification body is not json : " + body)
-//            return
-//        }
 
     }
 }

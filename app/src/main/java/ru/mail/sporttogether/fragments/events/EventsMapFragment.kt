@@ -38,7 +38,6 @@ class EventsMapFragment :
         PresenterFragment<IMapPresenter>(),
         IMapView,
         CheckingTasks {
-//    @Inject lateinit var socialNetworkManager: SocialNetworkManager
 
     private val socialNetworkManager = SocialNetworkManager.instance
 
@@ -138,16 +137,12 @@ class EventsMapFragment :
     override fun shareResults() {
         val name = data.name.get()
         val text = if (data.result.get() == null) data.description.get() else data.result.get()
-        val parentActivity = activity
         socialNetworkManager.getSocialNetwork(socialNetworkManager.getNetworkID())?.sharePost(
                 activity,
                 name,
                 text,
                 "http://vk.com"
         )
-//        if (parentActivity is PresenterActivity<*>) {
-//            parentActivity.shareToSocial(name, text)
-//        }
     }
 
     override fun onStart() {
@@ -188,6 +183,14 @@ class EventsMapFragment :
         super.onDestroyView()
         mapView.onDestroy()
         tasksDialog = null
+    }
+
+    override fun loadEvents(events: MutableList<Event>) {
+        adapter.swap(events)
+    }
+
+    override fun addEvent(event: Event) {
+        adapter.addEvent(event)
     }
 
     override fun onCameraIdle() {

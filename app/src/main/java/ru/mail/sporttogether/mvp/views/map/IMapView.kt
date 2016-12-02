@@ -20,4 +20,8 @@ interface IMapView : IView, GoogleMap.OnCameraIdleListener {
     fun render(event: Event, isCancelable: Boolean)
 
     fun shareResults()
+
+    fun loadEvents(events: MutableList<Event>)
+
+    fun addEvent(event: Event)
 }
