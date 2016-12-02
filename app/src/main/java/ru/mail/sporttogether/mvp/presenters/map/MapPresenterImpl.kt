@@ -71,37 +71,6 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
                 .usePresenterComponent()
                 .inject(this)
         userId = SocialNetworkManager.instance.activeUser.id //TODO inject network manager
-        subscribeToEventManager()
-    }
-
-    private fun subscribeToEventManager() {
-        eventSubscribtion = eventsManager.getObservable()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : Subscriber<EventsManager.NewData<*>>() {
-                    override fun onNext(t: EventsManager.NewData<*>) {
-                        when (t.type) {
-                            EventsManager.UpdateType.ADD -> {
-                                view?.addEvent(t.data as Event)
-                            }
-
-                            EventsManager.UpdateType.NEW_LIST -> {
-                                view?.loadEvents(t.data as MutableList<Event>)
-                            }
-
-                            else -> {
-
-                            }
-                        }
-                    }
-
-                    override fun onError(e: Throwable) {
-
-                    }
-
-                    override fun onCompleted() {
-
-                    }
-                })
     }
 
     override fun onStart() {
@@ -171,10 +140,29 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
     }
 
     override fun loadEvents() {
-        val events = eventsManager.getEvents()
-        if (events.size > 0) {
-            view?.loadEvents(events)
-        }
+
+    }
+
+    override fun searchByCategory(s: String) {
+        apiSubscribtion?.unsubscribe()
+        apiSubscribtion = api.getEventsByCategory(s)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(object : Subscriber<Response<EventsResponse>>() {
+                    override fun onNext(t: Response<EventsResponse>) {
+                        if (t.code == 0) {
+                            view?.loadEvents(t.data)
+                        }
+                    }
+
+                    override fun onError(e: Throwable?) {
+
+                    }
+
+                    override fun onCompleted() {
+                    }
+
+                })
     }
 
     override fun onCancelButtonClicked() {

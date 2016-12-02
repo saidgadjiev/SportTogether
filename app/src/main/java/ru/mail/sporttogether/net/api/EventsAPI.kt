@@ -48,4 +48,7 @@ interface EventsAPI {
     @GET("event/distance/{dis}")
     fun getEventsByDistanceAndPosition(@Path("dis") distance: Double, @Query("latitude") latitude: Double, @Query("longtitude") longitude: Double): Observable<Response<EventsResponse>>
 
+    @GET("event")
+    fun getEventsByCategory(@Query("events:category:name") category: String): Observable<Response<EventsResponse>>
+
 }

@@ -192,7 +192,7 @@ class EventsMapFragment :
     }
 
     override fun addEvent(event: Event) {
-        adapter.addEvent(event)
+        //adapter.addEvent(event)
     }
 
     override fun onCameraIdle() {
@@ -284,14 +284,16 @@ class EventsMapFragment :
         val searchView = myActionMenuItem.actionView as SearchView
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
-
                 return false
             }
 
             override fun onQueryTextChange(s: String): Boolean {
-
+                presenter.searchByCategory(s)
                 return false
             }
+        })
+        searchView.setOnSearchClickListener({ view ->
+            bottomSheetEventsList.state = BottomSheetBehavior.STATE_EXPANDED
         })
     }
 
