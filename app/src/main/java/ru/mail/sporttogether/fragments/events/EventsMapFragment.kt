@@ -7,6 +7,7 @@ import android.support.design.widget.BottomSheetBehavior
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.SearchView
 import android.view.*
 import com.google.android.gms.maps.MapView
 import ru.mail.sporttogether.R
@@ -101,6 +102,7 @@ class EventsMapFragment :
         eventsListView.adapter = adapter
 
         hideInfo()
+        setHasOptionsMenu(true)
 
         return binding.root
     }
@@ -273,6 +275,24 @@ class EventsMapFragment :
         tasksBinding.tasksRecyclerView.adapter = taskAdapter
         tasksBinding.tasksRecyclerView.layoutManager = LinearLayoutManager(this.context)
         tasksDialog = TasksDialog(tasksBinding, taskAdapter, dialog)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.main, menu)
+
+        val myActionMenuItem = menu.findItem(R.id.action_search)
+        val searchView = myActionMenuItem.actionView as SearchView
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+
+                return false
+            }
+
+            override fun onQueryTextChange(s: String): Boolean {
+
+                return false
+            }
+        })
     }
 
     class TasksDialog(
