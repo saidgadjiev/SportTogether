@@ -52,7 +52,7 @@ class EventsMapFragment :
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         App.injector
-                .useViewComopnent()
+                .useViewComponent()
                 .inject(this)
 
         binding = EventsMapBinding.inflate(inflater, container, false)

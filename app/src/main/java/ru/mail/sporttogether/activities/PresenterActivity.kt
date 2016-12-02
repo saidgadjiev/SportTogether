@@ -30,7 +30,7 @@ import ru.mail.sporttogether.mvp.views.IView
 abstract class PresenterActivity<T : IPresenter> : AppCompatActivity(), IView {
 
     protected lateinit var presenter: T
-    protected val injector = App.injector.useViewComopnent()
+    protected val injector = App.injector.useViewComponent()
 
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {

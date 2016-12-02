@@ -11,15 +11,11 @@ import javax.inject.Inject
 /**
  * Created by said on 17.10.16.
  */
-class CustomFirebaseInstanceIdService: FirebaseInstanceIdService {
+class CustomFirebaseInstanceIdService() : FirebaseInstanceIdService() {
 
     private val TAG = "FMIIdService"
     private val FRIENDLY_ENGAGE_TOPIC = "friendly_engage"
     @Inject lateinit var manager: FcmTokenManager
-
-    constructor() {
-        App.injector.useSharedComponent().inject(this)
-    }
 
     override fun onTokenRefresh() {
         val token = FirebaseInstanceId.getInstance().token
@@ -27,5 +23,9 @@ class CustomFirebaseInstanceIdService: FirebaseInstanceIdService {
 
         manager.saveToken(applicationContext, token)
         FirebaseMessaging.getInstance().subscribeToTopic(FRIENDLY_ENGAGE_TOPIC)
+    }
+
+    init {
+        App.injector.useSharedComponent().inject(this)
     }
 }
