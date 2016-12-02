@@ -11,16 +11,15 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/app_secondary_light"
-        android:padding="16dp">
+        android:background="@color/md_white_1000"
+        android:padding="@dimen/offset_medium">
 
         <TextView
+            style="@style/AccentText"
             android:id="@+id/separator_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxLines="1"
-            android:text="@{data.text}"
-            android:textColor="@color/gray"
-            android:textSize="16sp" />
+            android:text="@{data.text}"/>
     </FrameLayout>
 </layout>
