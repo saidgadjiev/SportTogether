@@ -41,7 +41,7 @@ class MyEventsPresenterImpl(private var view: IMyEventsView?) : MyEventsPresente
                     Observable.from(response.data)
                 }
                 .filter { //события которые создал пользователь
-                    it.user?.id === user.id
+                    it.user.id === user.id
                 }
                 .toList()
                 .subscribeOn(Schedulers.io())
@@ -94,7 +94,7 @@ class MyEventsPresenterImpl(private var view: IMyEventsView?) : MyEventsPresente
     }
 
     override fun onEventClicked(e: Event) {
-        if (e.user?.id === user.id)
+        if (e.user.id === user.id)
             view?.openEditActivity(e.id)
     }
 

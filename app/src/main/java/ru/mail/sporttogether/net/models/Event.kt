@@ -23,7 +23,7 @@ data class Event(
         var date: Long = 0L,
         var reports: Int = 0,
         var nowPeople: Int = 0,
-        var user: User? = null
+        var user: User = User("", -1L, -1)
 ) {
     override fun hashCode(): Int {
         return (id + date).toInt()

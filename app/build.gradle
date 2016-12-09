@@ -20,15 +20,15 @@ android {
     }
 
     dexOptions {
-        //incremental true
+//        incremental true
         preDexLibraries true //use false if files not exists
         dexInProcess true
-        //jumboMode true
+//        jumboMode true
         javaMaxHeapSize "2g" // Use gig increments depending on needs
     }
 
     defaultConfig {
-        //multiDexEnabled true
+        multiDexEnabled true
         applicationId "ru.mail.sporttogether"
         minSdkVersion 16
         targetSdkVersion 25
@@ -40,14 +40,14 @@ android {
     productFlavors {
         // https://developer.android.com/studio/build/multidex.html
         dev {
-            multiDexEnabled false
+            multiDexEnabled true
             minSdkVersion 21 //не трогать
             buildConfigField "boolean", "ALLOW_SELF_SINGED_SSL", "false"
         }
 
         prod {
             minSdkVersion 16
-            multiDexEnabled false
+//            multiDexEnabled false
             buildConfigField "boolean", "ALLOW_SELF_SINGED_SSL", "false"
         }
     }
@@ -57,7 +57,7 @@ android {
         release {
             minifyEnabled true
             shrinkResources true
-            //multiDexEnabled true
+//            multiDexEnabled true
             debuggable false
 
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -144,7 +144,9 @@ dependencies {
 
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
-    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+
+    compile 'com.android.support:multidex:1.0.1'
 }
 
 apply plugin: 'com.google.gms.google-services'

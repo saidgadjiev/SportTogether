@@ -51,6 +51,7 @@ class EventsAdapter : RecyclerView.Adapter<EventsAdapter.ViewHolder>() {
             data.date.set(SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault()).format(Date(e.date)))
             data.peopleCount.set("" + e.nowPeople + '/' + e.maxPeople)
             data.reports.set(e.reports.toString())
+            data.user.set(e.user)
         }
     }
 

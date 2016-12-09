@@ -5,10 +5,8 @@ import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
-import android.support.v7.widget.SearchView
 import android.support.v7.widget.Toolbar
 import android.util.Log
-import android.view.Menu
 import com.mikepenz.materialdrawer.AccountHeader
 import com.mikepenz.materialdrawer.AccountHeaderBuilder
 import com.mikepenz.materialdrawer.Drawer
@@ -82,16 +80,13 @@ class DrawerActivity : IDrawerView, PresenterActivity<IDrawerPresenter>() {
                 //TODO add icons
                 PrimaryDrawerItem().withName("Карта").withOnDrawerItemClickListener { view, i, iDrawerItem ->
                     swapFragment(EventsMapFragment.newInstance(0))
-                    println("Clicked : " + i)
                     false
                 },
                 PrimaryDrawerItem().withName("Мои события").withOnDrawerItemClickListener { view, i, iDrawerItem ->
                     swapFragment(MyEventsFragment.newInstance())
-                    println("Clicked : " + i)
                     false
                 },
                 PrimaryDrawerItem().withName("Настройки").withOnDrawerItemClickListener { view, i, iDrawerItem ->
-                    println("Clicked : " + i)
                     false
                 },
                 PrimaryDrawerItem().withName("Выход").withOnDrawerItemClickListener { view, i, iDrawerItem ->
