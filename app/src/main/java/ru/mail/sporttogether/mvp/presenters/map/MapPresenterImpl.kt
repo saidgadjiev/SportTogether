@@ -152,6 +152,10 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
                     override fun onNext(t: Response<EventsResponse>) {
                         if (t.code == 0) {
                             view?.loadEvents(t.data)
+                            markerIdEventMap.clear()
+                            map?.clear()
+                            eventsManager.swapEvents(t.data)
+                            addMarkers(t.data)
                         }
                     }
 

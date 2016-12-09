@@ -284,11 +284,12 @@ class EventsMapFragment :
         val searchView = myActionMenuItem.actionView as SearchView
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
+                presenter.searchByCategory(query)
+
                 return false
             }
 
             override fun onQueryTextChange(s: String): Boolean {
-                presenter.searchByCategory(s)
                 return false
             }
         })
