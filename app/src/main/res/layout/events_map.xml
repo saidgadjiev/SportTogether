@@ -226,6 +226,43 @@
                     </RelativeLayout>
                 </LinearLayout>
 
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/show_tasks_btn"
+                        style="@style/FlatButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@{data.isTasksReady? @color/colorPrimary : @color/gray}"
+                        android:clickable="@{data.isTasksReady}"
+                        android:text="@string/list_tasks" />
+
+                    <TextView
+                        android:id="@+id/tasks_count"
+                        style="@style/TitleText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/offset_large"
+                        android:layout_toEndOf="@id/show_tasks_btn"
+                        android:drawablePadding="@dimen/offset_small"
+                        android:drawableStart="@drawable/ic_view_list"
+                        android:text="@{data.tasksInfo}"
+                        android:visibility="@{data.isTasksReady? View.VISIBLE : View.GONE}"/>
+                    <ProgressBar
+                        android:id="@+id/tasks_pb"
+                        style="?android:attr/progressBarStyleSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginTop="5dp"
+                        android:visibility="@{!data.isTasksReady? View.VISIBLE : View.GONE}" />
+                </RelativeLayout>
+
                 <TextView
                     android:id="@+id/description_header"
                     style="@style/TitleSecondaryText"
@@ -257,31 +294,6 @@
                     android:layout_height="wrap_content"
                     android:text="@{data.result}"
                     android:visibility="@{data.isEnded? View.VISIBLE : View.GONE}" />
-
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <Button
-                        android:id="@+id/show_tasks_btn"
-                        style="@style/FlatButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/list_tasks" />
-
-                    <TextView
-                        android:id="@+id/tasks_count"
-                        style="@style/TitleText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="@dimen/offset_large"
-                        android:layout_toEndOf="@id/show_tasks_btn"
-                        android:drawablePadding="@dimen/offset_small"
-                        android:drawableStart="@drawable/ic_view_list"
-                        android:text="@{data.tasksInfo}" />
-                </RelativeLayout>
             </LinearLayout>
         </FrameLayout>
     </android.support.design.widget.CoordinatorLayout>

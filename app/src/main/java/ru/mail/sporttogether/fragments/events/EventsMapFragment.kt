@@ -212,18 +212,13 @@ class EventsMapFragment :
         tasksDialog = null
     }
 
-    override fun showInfo(event: Event, isCancelable: Boolean) {
-        render(event, isCancelable)
+    override fun showInfo(event: Event, isCancelable: Boolean, tasks: ArrayList<Task>?) {
+        render(event, isCancelable, tasks)
+        presenter.loadTasks()
         bottomSheet.state = BottomSheetBehavior.STATE_COLLAPSED
-        if (event.tasks != null) {
-            initTasks(event.tasks!!)
-            binding.showTasksBtn.setOnClickListener {
-                tasksDialog!!.dialog.show()
-            }
-        }
     }
 
-    override fun render(event: Event, isCancelable: Boolean) {
+    override fun render(event: Event, isCancelable: Boolean, tasks: ArrayList<Task>?) {
         data.category.set(event.category.name)
         data.name.set(event.name)
         data.date.set(SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.getDefault()).format(Date(event.date)))
@@ -231,7 +226,6 @@ class EventsMapFragment :
         data.withDescription.set(event.description.isNotEmpty())
         data.isReported.set(event.isReported)
         data.isJoined.set(event.isJoined)
-        data.tasksInfo.set(event.tasksInfo())
         if (event.result != null) {
             data.isEnded.set(event.result!!.isNotEmpty())
             data.result.set(event.result!!)
@@ -242,21 +236,22 @@ class EventsMapFragment :
         val people = getString(R.string.users, event.nowPeople, event.maxPeople)
         data.peopleCount.set(people)
         data.showCancelButton.set(isCancelable)
-        if (event.tasks != null) {
+        if (tasks != null) {
             //в адаптере хранится ссылка на массив тасков, с ним синхронизируется
+            data.tasksInfo.set(Event.tasksInfo(tasks))
+            data.isTasksReady.set(true)
             tasksDialog?.taskAdapter?.swapTasks()
+        } else {
+            data.isTasksReady.set(false)
         }
     }
 
-    companion object {
-        @JvmStatic val TAB_HEIGHT_KEY = "TAB_HEIGHT"
-
-        @JvmStatic fun newInstance(tabHeight: Int): EventsMapFragment {
-            val args = Bundle()
-            args.putInt(TAB_HEIGHT_KEY, tabHeight)
-            val fragment = EventsMapFragment()
-            fragment.arguments = args
-            return fragment
+    override fun onFinishLoadTasks(tasks: ArrayList<Task>?) {
+        if (tasks != null) {
+            initTasks(tasks)
+            binding.showTasksBtn.setOnClickListener {
+                tasksDialog!!.dialog.show()
+            }
         }
     }
 
@@ -275,6 +270,18 @@ class EventsMapFragment :
         tasksBinding.tasksRecyclerView.adapter = taskAdapter
         tasksBinding.tasksRecyclerView.layoutManager = LinearLayoutManager(this.context)
         tasksDialog = TasksDialog(tasksBinding, taskAdapter, dialog)
+    }
+
+    companion object {
+        @JvmStatic val TAB_HEIGHT_KEY = "TAB_HEIGHT"
+
+        @JvmStatic fun newInstance(tabHeight: Int): EventsMapFragment {
+            val args = Bundle()
+            args.putInt(TAB_HEIGHT_KEY, tabHeight)
+            val fragment = EventsMapFragment()
+            fragment.arguments = args
+            return fragment
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

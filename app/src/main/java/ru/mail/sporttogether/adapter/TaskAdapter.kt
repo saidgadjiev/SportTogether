@@ -36,7 +36,7 @@ class TaskAdapter(private val tasks: ArrayList<Task>, private val checkingTasks:
 
                     override fun onNext(task: Task) {
                         Log.d("#MY " + javaClass.simpleName, "on next checked : " + task.toString())
-                        if (task.userId == null) {
+                        if (task.user == null) {
                             checkingTasks.checkTask(task)
                         } else {
                             checkingTasks.uncheckTask(task)
@@ -74,14 +74,12 @@ class TaskAdapter(private val tasks: ArrayList<Task>, private val checkingTasks:
         fun onBind(task: Task, myId: Long): Observable<Task> {
             data.id.set(Integer.toString(task.id!!.toInt()))
             data.message.set(task.message)
-            data.isChecked.set(task.userId != null)
-            data.iMayChecked.set(task.userId == myId || !data.isChecked.get())
+            data.isChecked.set(task.user != null)
+            data.iMayChecked.set(task.user == null || task.user.id == myId) //можно закрыть таск только если он не закрыт или его закрыл я
             val clickEventObservable = Observable.create(Observable.OnSubscribe<Task> { subscriber ->
                 binding.taskCheckbox.setOnClickListener(View.OnClickListener { v ->
                     if (subscriber.isUnsubscribed) return@OnClickListener
                     subscriber.onNext(task)
-                    Log.d("#MY ", "view is checked : " + binding.taskCheckbox.isChecked)
-                    Log.d("#MY ", "data is checked : " + data.isChecked.get())
                 })
             })
             return clickEventObservable

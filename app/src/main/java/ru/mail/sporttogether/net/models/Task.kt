@@ -6,7 +6,7 @@ package ru.mail.sporttogether.net.models
 data class Task(
         val id: Long?,
         val message: String,
-        val userId: Long?,
+        val user: User?,
         val eventId: Long?
 ) {
     override fun toString(): String {

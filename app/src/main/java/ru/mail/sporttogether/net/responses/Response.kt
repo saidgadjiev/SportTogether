@@ -16,4 +16,6 @@ data class Response<out T>(
 
 class EventsResponse : ArrayList<Event>()
 
+class TasksResponse : ArrayList<Event>()
+
 class CategoriesResponse : ArrayList<Category>()

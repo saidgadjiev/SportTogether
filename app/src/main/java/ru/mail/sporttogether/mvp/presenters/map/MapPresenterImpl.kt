@@ -25,6 +25,7 @@ import ru.mail.sporttogether.mvp.views.map.IMapView
 import ru.mail.sporttogether.net.api.EventsAPI
 import ru.mail.sporttogether.net.models.Event
 import ru.mail.sporttogether.net.models.Task
+import ru.mail.sporttogether.net.models.User
 import ru.mail.sporttogether.net.responses.EventsResponse
 import ru.mail.sporttogether.net.responses.Response
 import rx.Observable
@@ -48,9 +49,8 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
     private lateinit var lastPos: LatLng
     private val options: MarkerOptions = MarkerOptions()
 
-    //    @Deprecated("lastEvent object instead of this", replaceWith = ReplaceWith("lastEvent.id"))
-//    private var lastEventId = 0L
     private lateinit var lastEvent: Event
+    private var lastEventTasks: ArrayList<Task>? = null
 
     private val markerIdEventMap = HashMap<String, Event>()
 
@@ -166,6 +166,29 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
                     override fun onCompleted() {
                     }
 
+                })
+    }
+
+    override fun loadTasks() {
+        api.getTasksByEventId(lastEvent.id)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(object : Subscriber<Response<ArrayList<Task>>>() {
+                    override fun onCompleted() {
+
+                    }
+
+                    override fun onError(e: Throwable) {
+                        view?.showToast("Произошла ошибка")
+                    }
+
+                    override fun onNext(resp: Response<ArrayList<Task>>) {
+                        if (resp.code === 0) {
+                            lastEventTasks = resp.data
+                            view?.onFinishLoadTasks(lastEventTasks)
+                            render()
+                        } else view?.showToast(resp.message)
+                    }
                 })
     }
 
@@ -315,12 +338,15 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
         event?.let {
             view?.hideInfo()
             lastEvent = it
-            view?.showInfo(lastEvent, (userId == event.user.id) and !event.isEnded)
+            lastEventTasks = null //обнуляем таски, когда только кликнули по маркеру, считается, что когда массив = null, таски не загружены
+            val isCancelable = (userId == event.user.id) and !event.isEnded
+            view?.showInfo(lastEvent, isCancelable, lastEventTasks)
         }
     }
 
     private fun render() {
-        view?.render(lastEvent, (userId === lastEvent.user.id) and !lastEvent.isEnded)
+        val isCancelable = (userId === lastEvent.user.id) and !lastEvent.isEnded
+        view?.render(lastEvent, isCancelable, lastEventTasks)
     }
 
     override fun onBackPressed() {
@@ -427,12 +453,12 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
                     override fun onNext(t: Response<Any>) {
                         if (t.code === 0) {
                             view?.showToast("Вы приняли на себя задачу : " + task.message)
-                            val tasks = lastEvent.tasks
+                            val tasks = lastEventTasks
                             val changedTask = tasks?.find { it.id == task.id }
                             if (changedTask != null) {
                                 val index = tasks?.indexOf(changedTask)!!.or(0)
                                 tasks?.remove(changedTask)
-                                tasks?.add(index, changedTask.copy(userId = SocialNetworkManager.instance.activeUser.id)) //TODO inject social network manager
+                                tasks?.add(index, changedTask.copy(user = User("", SocialNetworkManager.instance.activeUser.id, 0))) //TODO inject social network manager
                             }
                             render()
                         } else view?.showToast(t.message)
@@ -455,12 +481,12 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
                     override fun onNext(t: Response<Any>) {
                         if (t.code === 0) {
                             view?.showToast("Вы отменили задачу : " + task.message)
-                            val tasks = lastEvent.tasks
+                            val tasks = lastEventTasks
                             val changedTask = tasks?.find { it.id == task.id }
                             if (changedTask != null) {
                                 val index = tasks?.indexOf(changedTask)!!.or(0)
                                 tasks?.remove(changedTask)
-                                tasks?.add(index, changedTask.copy(userId = null))
+                                tasks?.add(index, changedTask.copy(user = null))
                             }
                             render()
                         } else view?.showToast(t.message)

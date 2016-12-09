@@ -7,6 +7,7 @@ import ru.mail.sporttogether.net.models.Task
 import ru.mail.sporttogether.net.responses.EventsResponse
 import ru.mail.sporttogether.net.responses.Response
 import rx.Observable
+import java.util.*
 
 /**
  * Created by bagrusss on 09.10.16.
@@ -35,6 +36,9 @@ interface EventsAPI {
 
     @PUT("event/result")
     fun updateResult(@Body event: EventResult): Observable<Response<Any>>
+
+    @GET("task")
+    fun getTasksByEventId(@Query("eventId") idEvent: Long): Observable<Response<ArrayList<Task>>>
 
     @PUT("task")
     fun checkTask(@Body task: Task): Observable<Response<Any>>
