@@ -12,7 +12,7 @@ import ru.mail.sporttogether.services.RejectIntentService
 import java.util.*
 
 /**
- * Created by said on 20.10.16.
+ * Created by said on 20.10.16
  */
 class NotificationManager {
 

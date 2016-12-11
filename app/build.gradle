@@ -20,7 +20,7 @@ android {
     }
 
     dexOptions {
-//        incremental true
+        incremental true
         preDexLibraries true //use false if files not exists
         dexInProcess true
 //        jumboMode true
@@ -28,7 +28,7 @@ android {
     }
 
     defaultConfig {
-        multiDexEnabled true
+        //multiDexEnabled true
         applicationId "ru.mail.sporttogether"
         minSdkVersion 16
         targetSdkVersion 25
@@ -146,7 +146,7 @@ dependencies {
 
     compile 'com.github.bumptech.glide:glide:3.7.0'
 
-    compile 'com.android.support:multidex:1.0.1'
+    //compile 'com.android.support:multidex:1.0.1'
 }
 
 apply plugin: 'com.google.gms.google-services'
