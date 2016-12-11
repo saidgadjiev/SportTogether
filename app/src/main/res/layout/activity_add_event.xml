@@ -21,9 +21,9 @@
     </data>
 
     <ScrollView
-        android:background="@color/md_white_1000"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/md_white_1000">
 
         <LinearLayout
             android:id="@+id/activity_add_event"
@@ -41,20 +41,24 @@
                 android:visibility="@{data.mainDataVisibility? View.VISIBLE : View.GONE}">
 
                 <LinearLayout
-                    android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
                     <RelativeLayout
-                        android:layout_weight="7"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_weight="7">
 
                         <AutoCompleteTextView
                             android:id="@+id/category_autocomplete"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="@string/category"
-                            android:completionHint="\t\tЕсли такого вида спорта нет, он будет создан" />
+                            android:completionHint="\t\tЕсли такого вида спорта нет, он будет создан"
+                            android:hint="@string/category">
+
+                            <requestFocus />
+                        </AutoCompleteTextView>
 
                         <ProgressBar
                             android:id="@+id/category_autocomplete_progress_bar"
@@ -70,9 +74,9 @@
                         android:id="@+id/event_max_people"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/offset_small"
                         android:layout_weight="2"
                         android:drawableStart="@drawable/ic_people"
-                        android:layout_marginStart="@dimen/offset_small"
                         android:inputType="number"
                         android:text="10"
                         android:textAlignment="textEnd" />
@@ -90,24 +94,26 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <Button style="@style/FlatButton"
-                        android:text="@string/add_event_set_date_btn"
+                    <Button
+                        android:id="@+id/pick_date_button"
+                        style="@style/FlatButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
                         android:layout_alignParentStart="true"
-                        android:id="@+id/pick_date_button"
-                        android:layout_marginTop="5dp"/>
+                        android:layout_centerVertical="true"
+                        android:layout_marginTop="5dp"
+                        android:text="@string/add_event_set_date_btn" />
+
                     <TextView
+                        android:id="@+id/pick_date_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
                         android:layout_alignParentEnd="true"
-                        android:id="@+id/pick_date_text"
+                        android:layout_centerVertical="true"
+                        android:layout_marginTop="15dp"
                         android:layout_toEndOf="@id/pick_date_button"
                         android:gravity="end"
-                        android:paddingStart="@dimen/offset_medium"
-                        android:layout_marginTop="15dp" />
+                        android:paddingStart="@dimen/offset_medium" />
                 </RelativeLayout>
 
                 <TextView
@@ -122,11 +128,12 @@
                     android:layout_height="wrap_content"
                     android:text="@{data.lng}" />
 
-                <Button style="@style/FlatButton"
+                <Button
                     android:id="@+id/open_tasks_button"
-                    android:layout_gravity="start"
+                    style="@style/FlatButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="start"
                     android:onClick="@{()->tasksListener.onOpenTasksClicked()}"
                     android:text="@string/list_tasks" />
             </LinearLayout>
@@ -138,8 +145,9 @@
                 android:hint="@{data.mainDataVisibility? @string/description : @string/result_header}"
                 android:lines="3" />
 
-            <Button style="@style/FlatButton"
+            <Button
                 android:id="@+id/add_button"
+                style="@style/FlatButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="@{()->listener.onAddButtonClicked()}"

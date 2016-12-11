@@ -78,20 +78,23 @@ class DrawerActivity : IDrawerView, PresenterActivity<IDrawerPresenter>() {
     private fun setDrawerItems(drawerBuilder: DrawerBuilder) {
         drawerBuilder.addDrawerItems(
                 //TODO add icons
-                PrimaryDrawerItem().withName("Карта").withOnDrawerItemClickListener { view, i, iDrawerItem ->
+                PrimaryDrawerItem().withName(R.string.map).withOnDrawerItemClickListener { view, i, iDrawerItem ->
                     swapFragment(EventsMapFragment.newInstance(0))
+                    title = getString(R.string.events_map)
                     false
                 },
-                PrimaryDrawerItem().withName("Мои события").withOnDrawerItemClickListener { view, i, iDrawerItem ->
+                PrimaryDrawerItem().withName(R.string.my_events).withOnDrawerItemClickListener { view, i, iDrawerItem ->
                     swapFragment(MyEventsFragment.newInstance())
+                    title = getString(R.string.my_events)
                     false
                 },
                 PrimaryDrawerItem().withName("Настройки").withOnDrawerItemClickListener { view, i, iDrawerItem ->
+                    title = "Настройки"
                     false
                 },
                 PrimaryDrawerItem().withName("Выход").withOnDrawerItemClickListener { view, i, iDrawerItem ->
                     logout()
-                    false
+                    true
                 }
         )
     }

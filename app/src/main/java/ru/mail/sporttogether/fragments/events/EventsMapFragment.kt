@@ -4,11 +4,13 @@ import android.content.Context
 import android.graphics.Point
 import android.os.Bundle
 import android.support.design.widget.BottomSheetBehavior
+import android.support.v4.view.MenuItemCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SearchView
 import android.view.*
+import android.widget.FrameLayout
 import com.google.android.gms.maps.MapView
 import ru.mail.sporttogether.R
 import ru.mail.sporttogether.activities.AddEventActivity
@@ -44,10 +46,11 @@ class EventsMapFragment :
 
     private lateinit var mapView: MapView
     private lateinit var binding: EventsMapBinding
-    private lateinit var bottomSheet: BottomSheetBehavior<View>
+    private lateinit var eventDedailsBottomSheet: BottomSheetBehavior<View>
     private lateinit var bottomSheetEventsList: BottomSheetBehavior<View>
     private val data = EventDetailsData()
     private var tasksDialog: TasksDialog? = null
+    private lateinit var resultsContainer: FrameLayout
 
     private lateinit var eventsListView: RecyclerView
     private val adapter = EventsAdapter()
@@ -57,6 +60,8 @@ class EventsMapFragment :
     private var markerDownX = 0
     private var markerDownY = 0
     private var tabHeight = 0
+
+    private lateinit var animator: ViewPropertyAnimator
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         App.injector
@@ -69,9 +74,9 @@ class EventsMapFragment :
         presenter = MapPresenterImpl(this)
         mapView.getMapAsync(presenter)
         binding.data = data
-        bottomSheet = BottomSheetBehavior.from(binding.bottomSheet)
-        bottomSheet.isHideable = true
-        bottomSheet.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+        eventDedailsBottomSheet = BottomSheetBehavior.from(binding.bottomSheet)
+        eventDedailsBottomSheet.isHideable = true
+        eventDedailsBottomSheet.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
 
             }
@@ -82,20 +87,29 @@ class EventsMapFragment :
 
         })
 
-
-        bottomSheetEventsList = BottomSheetBehavior.from(binding.eventsListSheet)
-        bottomSheet.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+        resultsContainer = binding.eventsListSheet
+        resultsContainer.pivotY = resultsContainer.height.toFloat()
+        resultsContainer.animate().scaleY(0f).setDuration(0L).start()
+        /*bottomSheetEventsList = BottomSheetBehavior.from(binding.eventsListSheet)
+        eventDedailsBottomSheet.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
 
             }
 
             override fun onStateChanged(bottomSheet: View, newState: Int) {
-                when (newState) {
 
+                when (newState) {
+                    BottomSheetBehavior.STATE_DRAGGING -> {
+                        if (searchSheetLocked)
+                            eventDedailsBottomSheet.state = BottomSheetBehavior.STATE_EXPANDED
+                    }
+                    BottomSheetBehavior.STATE_EXPANDED -> {
+                        searchSheetLocked = true
+                    }
                 }
 
             }
-        })
+        })*/
 
         eventsListView = binding.eventsListRecyclerView
         eventsListView.layoutManager = LinearLayoutManager(context)
@@ -208,13 +222,13 @@ class EventsMapFragment :
     }
 
     override fun hideInfo() {
-        bottomSheet.state = BottomSheetBehavior.STATE_HIDDEN
+        eventDedailsBottomSheet.state = BottomSheetBehavior.STATE_HIDDEN
         tasksDialog = null
     }
 
     override fun showInfo(event: Event, isCancelable: Boolean) {
         render(event, isCancelable)
-        bottomSheet.state = BottomSheetBehavior.STATE_COLLAPSED
+        eventDedailsBottomSheet.state = BottomSheetBehavior.STATE_COLLAPSED
         if (event.tasks != null) {
             initTasks(event.tasks!!)
             binding.showTasksBtn.setOnClickListener {
@@ -281,6 +295,17 @@ class EventsMapFragment :
         inflater.inflate(R.menu.main, menu)
 
         val myActionMenuItem = menu.findItem(R.id.action_search)
+        MenuItemCompat.setOnActionExpandListener(myActionMenuItem, object : MenuItemCompat.OnActionExpandListener {
+            override fun onMenuItemActionExpand(p0: MenuItem): Boolean {
+                return true
+            }
+
+            override fun onMenuItemActionCollapse(p0: MenuItem): Boolean {
+                hideResultsList()
+                return true
+            }
+
+        })
         val searchView = myActionMenuItem.actionView as SearchView
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
@@ -294,8 +319,21 @@ class EventsMapFragment :
             }
         })
         searchView.setOnSearchClickListener({ view ->
-            bottomSheetEventsList.state = BottomSheetBehavior.STATE_EXPANDED
+            showResultsList()
+            hideInfo()
         })
+    }
+
+    private fun showResultsList() {
+        resultsContainer.visibility = View.VISIBLE
+        resultsContainer.animate().scaleY(1f).setDuration(300L).start()
+    }
+
+    private fun hideResultsList() {
+        val animator = resultsContainer.animate().scaleY(0f).setDuration(300L).withEndAction {
+            resultsContainer.visibility = View.GONE
+        }
+        animator.start()
     }
 
     class TasksDialog(

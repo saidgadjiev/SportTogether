@@ -6,6 +6,7 @@
     <string name="description">Описание(не обязательно)</string>
     <string name="event_added">Событие добавлено</string>
     <string name="events_map">Карта событий</string>
+    <string name="map">Карта</string>
     <string name="events_list">Список событий</string>
     <string name="my_events">Мои события</string>
     <string name="preferences">CREDENTIALS</string>
