@@ -158,7 +158,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginTop="@dimen/offset_small"
                     android:orientation="horizontal">
 
@@ -168,11 +168,11 @@
                         android:layout_height="wrap_content">
 
                         <Button
-                            android:id="@+id/angry_button"
                             style="@style/IconButton"
+                            android:id="@+id/angry_button"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:clickable="@{!data.isReported}"
+                            android:clickable="@{!data.isReported? true: false}"
                             android:drawableTop="@{!data.isReported? @drawable/ic_report_btn : @drawable/ic_report_btn_disabled}"
                             android:onClick="@{() -> listener.onAngryButtonClicked()}"
                             android:text="@{!data.isReported? @string/angry : @string/angryAlready}" />
@@ -184,8 +184,8 @@
                         android:layout_height="wrap_content">
 
                         <Button
-                            android:id="@+id/detail_connect_button"
                             style="@style/IconButton"
+                            android:id="@+id/detail_connect_button"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:drawableTop="@{!data.isJoined? @drawable/ic_person_add_btn : @drawable/ic_person_outline_btn}"
@@ -199,8 +199,8 @@
                         android:layout_height="wrap_content">
 
                         <Button
-                            android:id="@+id/test3"
                             style="@style/IconButton"
+                            android:id="@+id/share_button"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:drawableTop="@drawable/ic_share_btn"
@@ -215,8 +215,8 @@
                         android:layout_height="wrap_content">
 
                         <Button
-                            android:id="@+id/test4"
                             style="@style/IconButton"
+                            android:id="@+id/delete_button"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:drawableTop="@drawable/ic_delete_btn"
@@ -232,12 +232,11 @@
                     android:orientation="horizontal">
 
                     <Button
-                        android:id="@+id/show_tasks_btn"
                         style="@style/FlatButton"
+                        android:id="@+id/show_tasks_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@{data.isTasksReady? @color/colorPrimary : @color/gray}"
-                        android:clickable="@{data.isTasksReady}"
+                        android:textColor="@{data.isTasksCanBeChanged? @color/colorPrimary : @color/app_secondary_text}"
                         android:text="@string/list_tasks" />
 
                     <TextView
@@ -260,7 +259,17 @@
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:layout_marginTop="5dp"
-                        android:visibility="@{!data.isTasksReady? View.VISIBLE : View.GONE}" />
+                        android:visibility="@{!data.isTasksReady? View.VISIBLE : View.INVISIBLE}" />
+                    <TextView
+                        style="@style/SecondaryText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{data.tasksMessage}"
+                        android:textAlignment="center"
+                        android:layout_centerVertical="true"
+                        android:maxWidth="100dp"
+                        android:layout_toStartOf="@id/tasks_pb"
+                        android:layout_marginStart="@dimen/offset_medium" />
                 </RelativeLayout>
 
                 <TextView

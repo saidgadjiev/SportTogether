@@ -8,6 +8,7 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SearchView
+import android.util.Log
 import android.view.*
 import com.google.android.gms.maps.MapView
 import ru.mail.sporttogether.R
@@ -240,17 +241,29 @@ class EventsMapFragment :
             //в адаптере хранится ссылка на массив тасков, с ним синхронизируется
             data.tasksInfo.set(Event.tasksInfo(tasks))
             data.isTasksReady.set(true)
+            data.isTasksCanBeChanged.set(data.isTasksReady.get() && event.isJoined && !event.isEnded)
+            if (event.isEnded) {
+                data.tasksMessage.set("событие уже завершено")
+            } else if (!event.isJoined) {
+                data.tasksMessage.set("вам нужно присоединиться")
+            } else {
+                data.tasksMessage.set("")
+            }
             tasksDialog?.taskAdapter?.swapTasks()
         } else {
+            data.tasksMessage.set("идет загрузка задач")
             data.isTasksReady.set(false)
+            data.isTasksCanBeChanged.set(false)
         }
+        Log.d("#MY " + javaClass.simpleName, "isTasksCanBeChanged : " + data.isTasksCanBeChanged.get())
     }
 
     override fun onFinishLoadTasks(tasks: ArrayList<Task>?) {
         if (tasks != null) {
             initTasks(tasks)
             binding.showTasksBtn.setOnClickListener {
-                tasksDialog!!.dialog.show()
+                if (data.isTasksCanBeChanged.get())
+                    tasksDialog!!.dialog.show()
             }
         }
     }
@@ -266,7 +279,8 @@ class EventsMapFragment :
     fun initTasks(tasks: ArrayList<Task>) {
         val tasksBinding: ShowingTasksBinding = ShowingTasksBinding.inflate(LayoutInflater.from(this.context), null, false)
         val dialog: AlertDialog = AlertDialog.Builder(this.context).create()
-        val taskAdapter = TaskAdapter(tasks, this, SocialNetworkManager.instance.activeUser.id) // TODO inject manager
+        val myId = SocialNetworkManager.instance.activeUser.id
+        val taskAdapter = TaskAdapter(tasks, this, myId) // TODO inject manager
         tasksBinding.tasksRecyclerView.adapter = taskAdapter
         tasksBinding.tasksRecyclerView.layoutManager = LinearLayoutManager(this.context)
         tasksDialog = TasksDialog(tasksBinding, taskAdapter, dialog)

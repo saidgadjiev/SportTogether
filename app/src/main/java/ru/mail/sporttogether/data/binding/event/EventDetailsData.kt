@@ -21,7 +21,9 @@ class EventDetailsData {
     val category = ObservableField<String>()
 
     val tasksInfo = ObservableField<String>()
+    val tasksMessage = ObservableField<String>()
     val isTasksReady = ObservableBoolean()
+    val isTasksCanBeChanged = ObservableBoolean()
 
     val user = ObservableField<User>()
 
