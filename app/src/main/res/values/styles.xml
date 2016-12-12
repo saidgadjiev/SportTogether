@@ -13,6 +13,7 @@
         <item name="material_drawer_selected">@color/vk_white</item>
         <item name="material_drawer_selected_text">@color/colorPrimary</item>
         <item name="material_drawer_background">@color/vk_white</item>
+        <item name="material_drawer_header_selection_text">@color/vk_white</item>
 
     </style>
 
