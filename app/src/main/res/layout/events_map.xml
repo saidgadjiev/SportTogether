@@ -67,15 +67,16 @@
             android:background="@android:color/white"
             android:clickable="true"
             android:orientation="vertical"
-            app:behavior_peekHeight="90dp"
+            app:behavior_peekHeight="200dp"
             app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:elevation="5dp">
 
-                <android.support.constraint.ConstraintLayout
-                    android:id="@+id/constraintLayout"
+                <android.support.v7.widget.CardView
+                    android:id="@+id/cv"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:background="?colorPrimary"
@@ -84,88 +85,102 @@
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
-                    <TextView
-                        android:id="@+id/event_name"
-                        android:layout_width="wrap_content"
+                    <android.support.constraint.ConstraintLayout
+                        android:id="@+id/constraintLayout"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="16dp"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="32dp"
-                        android:ems="10"
-                        android:text="@{data.name}"
-                        android:textColor="@color/vk_white"
-                        android:textSize="18sp"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/event_category"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginTop="8dp"
-                        android:ems="10"
-                        android:text="@{data.category}"
-                        android:textColor="@color/vk_white"
-                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:background="?colorPrimary"
                         app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintLeft_toLeftOf="@+id/event_name"
-                        app:layout_constraintRight_toRightOf="@+id/event_name"
-                        app:layout_constraintTop_toBottomOf="@+id/event_name"
-                        app:layout_constraintVertical_bias="0.0" />
-
-                    <ImageView
-                        android:id="@+id/people_icon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:tint="@color/vk_white"
-                        app:layout_constraintLeft_toLeftOf="@+id/event_category"
-                        app:layout_constraintTop_toBottomOf="@+id/event_category"
-                        app:srcCompat="@drawable/ic_people" />
-
-                    <View
-                        android:layout_width="40dp"
-                        android:layout_height="2dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginRight="8dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
-                        android:background="@color/vk_white"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent">
 
-                    <TextView
-                        android:id="@+id/user_subscribed"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginEnd="16dp"
-                        android:layout_marginRight="16dp"
-                        android:layout_marginTop="8dp"
-                        android:text="@string/you_connected_msg"
-                        android:textColor="@color/vk_white"
-                        android:visibility="@{data.isJoined? View.VISIBLE : View.GONE}"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.23000002" />
+                        <TextView
+                            android:id="@+id/event_name"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginRight="16dp"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="32dp"
+                            android:text="@{data.name}"
+                            android:textColor="@color/vk_white"
+                            android:textSize="18sp"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
-                    <TextView
-                        android:id="@+id/people_count"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="72dp"
-                        android:layout_marginStart="72dp"
-                        android:text="TextView"
-                        android:textColor="@color/vk_white"
-                        app:layout_constraintBottom_toBottomOf="@+id/people_icon"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/people_icon" />
+                        <TextView
+                            android:id="@+id/event_category"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:layout_marginTop="8dp"
+                            android:text="@{data.category}"
+                            android:textColor="@color/vk_white"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintLeft_toLeftOf="@+id/event_name"
+                            app:layout_constraintRight_toRightOf="@+id/event_name"
+                            app:layout_constraintTop_toBottomOf="@+id/event_name"
+                            app:layout_constraintVertical_bias="0.0" />
 
-                </android.support.constraint.ConstraintLayout>
+                        <ImageView
+                            android:id="@+id/people_icon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:tint="@color/vk_white"
+                            app:layout_constraintLeft_toLeftOf="@+id/event_category"
+                            app:layout_constraintTop_toBottomOf="@+id/event_category"
+                            app:srcCompat="@drawable/ic_people" />
+
+                        <View
+                            android:layout_width="40dp"
+                            android:layout_height="2dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginRight="8dp"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:background="@color/vk_white"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/user_subscribed"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginRight="16dp"
+                            android:layout_marginTop="8dp"
+                            android:text="@string/you_connected_msg"
+                            android:textColor="@color/vk_white"
+                            android:visibility="@{data.isJoined? View.VISIBLE : View.GONE}"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintVertical_bias="0.68" />
+
+                        <TextView
+                            android:id="@+id/people_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="16dp"
+                            android:layout_marginLeft="72dp"
+                            android:layout_marginStart="72dp"
+                            android:text="@{data.peopleCount}"
+                            android:textColor="@color/vk_white"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/people_icon" />
+
+                    </android.support.constraint.ConstraintLayout>
+                </android.support.v7.widget.CardView>
 
                 <FrameLayout
                     android:id="@+id/frameLayout"
@@ -174,7 +189,7 @@
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
+                    app:layout_constraintTop_toBottomOf="@+id/cv">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -195,7 +210,8 @@
                                 android:clickable="@{!data.isReported}"
                                 android:drawableTop="@{!data.isReported? @drawable/ic_report_btn : @drawable/ic_report_btn_disabled}"
                                 android:onClick="@{() -> listener.onAngryButtonClicked()}"
-                                android:text="@{!data.isReported? @string/angry : @string/angryAlready}" />
+                                android:text="@{!data.isReported? @string/angry : @string/angryAlready}"
+                                android:textSize="14sp" />
                         </FrameLayout>
 
                         <FrameLayout
@@ -210,7 +226,8 @@
                                 android:layout_height="wrap_content"
                                 android:drawableTop="@{!data.isJoined? @drawable/ic_person_add_btn : @drawable/ic_person_outline_btn}"
                                 android:onClick="@{() -> listener.onJoinButtonClicked()}"
-                                android:text="@{!data.isJoined? @string/join : @string/joinAlready}" />
+                                android:text="@{!data.isJoined? @string/join : @string/joinAlready}"
+                                android:textSize="14sp" />
                         </FrameLayout>
 
                         <FrameLayout
@@ -226,6 +243,7 @@
                                 android:drawableTop="@drawable/ic_delete_btn"
                                 android:onClick="@{() -> listener.onCancelButtonClicked()}"
                                 android:text="@string/cancel_event"
+                                android:textSize="14sp"
                                 android:visibility="@{data.showCancelButton? View.VISIBLE : View.GONE}" />
                         </FrameLayout>
                     </LinearLayout>
@@ -278,8 +296,7 @@
                     android:text="TextView"
                     app:layout_constraintBottom_toBottomOf="@+id/time_icon"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/time_icon"
-                    app:layout_constraintVertical_bias="0.0" />
+                    app:layout_constraintTop_toTopOf="@+id/time_icon" />
 
                 <ImageView
                     android:id="@+id/icon_tasks"
@@ -304,7 +321,6 @@
                     android:layout_marginLeft="72dp"
                     android:layout_marginRight="16dp"
                     android:layout_marginStart="72dp"
-                    android:layout_marginTop="0dp"
                     android:clickable="true"
                     android:text="TextView"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -335,8 +351,7 @@
                     android:text="@{data.description}"
                     app:layout_constraintBottom_toBottomOf="@+id/description_icon"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/description_icon"
-                    app:layout_constraintVertical_bias="0.39" />
+                    app:layout_constraintTop_toTopOf="@+id/description_icon" />
 
             </android.support.constraint.ConstraintLayout>
 
