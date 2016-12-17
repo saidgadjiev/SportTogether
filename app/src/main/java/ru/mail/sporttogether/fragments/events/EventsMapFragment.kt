@@ -263,10 +263,11 @@ class EventsMapFragment :
 
     private fun renderTasks(event: Event, tasks: ArrayList<Task>?) {
         if (tasks != null) {
-            //в адаптере хранится ссылка на массив тасков, с ним синхронизируется
             data.tasksInfo.set(Event.tasksInfo(tasks))
+            val withTasks = tasks.size > 0
+            data.withTasks.set(withTasks)
             data.isTasksReady.set(true)
-            data.isTasksCanBeChanged.set(data.isTasksReady.get() && event.isJoined && !event.isEnded)
+            data.isTasksCanBeChanged.set(withTasks && event.isJoined && !event.isEnded)
             if (event.isEnded) {
                 data.tasksMessage.set("событие уже завершено")
             } else if (!event.isJoined) {
@@ -277,6 +278,7 @@ class EventsMapFragment :
             tasksDialog?.taskAdapter?.swapTasks()
         } else {
             data.tasksMessage.set("идет загрузка задач")
+            data.withTasks.set(false)
             data.isTasksReady.set(false)
             data.isTasksCanBeChanged.set(false)
         }

@@ -237,6 +237,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/list_tasks"
+                        android:visibility="@{data.withTasks? View.VISIBLE : View.GONE}"
                         android:textColor="@{data.isTasksCanBeChanged? @color/colorPrimary : @color/app_secondary_text}" />
 
                     <TextView
@@ -250,7 +251,7 @@
                         android:drawablePadding="@dimen/offset_small"
                         android:drawableStart="@drawable/ic_view_list"
                         android:text="@{data.tasksInfo}"
-                        android:visibility="@{data.isTasksReady? View.VISIBLE : View.GONE}" />
+                        android:visibility="@{data.withTasks? View.VISIBLE : View.GONE}" />
 
                     <ProgressBar
                         android:id="@+id/tasks_pb"
