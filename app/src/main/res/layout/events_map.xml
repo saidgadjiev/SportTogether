@@ -46,9 +46,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|end"
-                android:layout_marginBottom="61dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
+                android:layout_margin="16dp"
                 android:onClick="@{() -> addListener.onAddButtonClicked()}"
                 android:src="@drawable/ic_add"
                 android:tint="@android:color/white"
@@ -170,8 +168,8 @@
                         android:layout_height="wrap_content">
 
                         <Button
-                            style="@style/IconButton"
                             android:id="@+id/angry_button"
+                            style="@style/IconButton"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:clickable="@{!data.isReported? true: false}"
@@ -186,8 +184,8 @@
                         android:layout_height="wrap_content">
 
                         <Button
-                            style="@style/IconButton"
                             android:id="@+id/detail_connect_button"
+                            style="@style/IconButton"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:drawableTop="@{!data.isJoined? @drawable/ic_person_add_btn : @drawable/ic_person_outline_btn}"
@@ -201,8 +199,8 @@
                         android:layout_height="wrap_content">
 
                         <Button
-                            style="@style/IconButton"
                             android:id="@+id/share_button"
+                            style="@style/IconButton"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:drawableTop="@drawable/ic_share_btn"
@@ -217,8 +215,8 @@
                         android:layout_height="wrap_content">
 
                         <Button
-                            style="@style/IconButton"
                             android:id="@+id/delete_button"
+                            style="@style/IconButton"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:drawableTop="@drawable/ic_delete_btn"
@@ -234,12 +232,12 @@
                     android:orientation="horizontal">
 
                     <Button
-                        style="@style/FlatButton"
                         android:id="@+id/show_tasks_btn"
+                        style="@style/FlatButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@{data.isTasksCanBeChanged? @color/colorPrimary : @color/app_secondary_text}"
-                        android:text="@string/list_tasks" />
+                        android:text="@string/list_tasks"
+                        android:textColor="@{data.isTasksCanBeChanged? @color/colorPrimary : @color/app_secondary_text}" />
 
                     <TextView
                         android:id="@+id/tasks_count"
@@ -252,7 +250,8 @@
                         android:drawablePadding="@dimen/offset_small"
                         android:drawableStart="@drawable/ic_view_list"
                         android:text="@{data.tasksInfo}"
-                        android:visibility="@{data.isTasksReady? View.VISIBLE : View.GONE}"/>
+                        android:visibility="@{data.isTasksReady? View.VISIBLE : View.GONE}" />
+
                     <ProgressBar
                         android:id="@+id/tasks_pb"
                         style="?android:attr/progressBarStyleSmall"
@@ -262,16 +261,17 @@
                         android:layout_centerVertical="true"
                         android:layout_marginTop="5dp"
                         android:visibility="@{!data.isTasksReady? View.VISIBLE : View.INVISIBLE}" />
+
                     <TextView
                         style="@style/SecondaryText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{data.tasksMessage}"
-                        android:textAlignment="center"
                         android:layout_centerVertical="true"
-                        android:maxWidth="100dp"
+                        android:layout_marginStart="@dimen/offset_medium"
                         android:layout_toStartOf="@id/tasks_pb"
-                        android:layout_marginStart="@dimen/offset_medium" />
+                        android:maxWidth="100dp"
+                        android:text="@{data.tasksMessage}"
+                        android:textAlignment="center" />
                 </RelativeLayout>
 
                 <TextView

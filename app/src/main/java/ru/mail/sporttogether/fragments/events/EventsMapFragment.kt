@@ -164,13 +164,8 @@ class EventsMapFragment :
 
     override fun showInfo(event: Event, isCancelable: Boolean, tasks: ArrayList<Task>?) {
         render(event, isCancelable, tasks)
+        presenter.loadTasks()
         eventDedailsBottomSheet.state = BottomSheetBehavior.STATE_COLLAPSED
-        if (event.tasks != null) {
-            initTasks(event.tasks!!)
-            binding.showTasksBtn.setOnClickListener {
-                tasksDialog!!.dialog.show()
-            }
-        }
     }
 
     override fun onStart() {
