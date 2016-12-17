@@ -13,6 +13,7 @@ import ru.mail.sporttogether.net.models.EventResult
 import ru.mail.sporttogether.net.models.Task
 import ru.mail.sporttogether.net.responses.CategoriesResponse
 import ru.mail.sporttogether.net.responses.Response
+import ru.mail.sporttogether.utils.DateUtils
 import rx.Subscriber
 import rx.Subscription
 import rx.android.schedulers.AndroidSchedulers
@@ -58,8 +59,17 @@ class AddEventPresenterImpl(var view: IAddEventView?) : AddEventPresenter {
                                  tasks: ArrayList<Task>,
                                  addMeNow: Boolean
     ) {
+        val sb = StringBuilder(categoryName)
+        sb.append(", ")
+                .append(DateUtils.DateUtils.toXLongDateString(date))
+                .append(". ")
+                .append(maxPeople)
+                .append(" человек(а)")
+        val nameEvent = sb.toString()
+        Log.d("#MY ", "generated name : " + nameEvent)
+
         val event = Event(
-                name = name,
+                name = nameEvent,
                 category = Category(null, categoryName),
                 lat = lat,
                 lng = lng,
@@ -167,7 +177,7 @@ class AddEventPresenterImpl(var view: IAddEventView?) : AddEventPresenter {
                 .subscribe(object : Subscriber<Response<Any>>() {
                     override fun onNext(t: Response<Any>) {
                         if (t.code === 0) {
-                            view?.showToast(android.R.string.ok)
+                            Log.i("#MY " + javaClass.simpleName, "Вы присоеденены к событию")
                         } else view?.showToast(t.message)
                     }
 

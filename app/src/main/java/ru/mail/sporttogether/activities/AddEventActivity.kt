@@ -97,7 +97,7 @@ class AddEventActivity :
     }
 
     private fun initPickDate() {
-        pickDateText.text = DateUtils.format(settedDate)
+        pickDateText.text = DateUtils.toLongDateString(settedDate)
 
         val mPickDateBtn = binding.pickDateButton
 
@@ -119,7 +119,7 @@ class AddEventActivity :
                         datepicker.dayOfMonth,
                         timepicker.currentHour,
                         timepicker.currentMinute)
-                pickDateText.text = DateUtils.format(settedDate)
+                pickDateText.text = DateUtils.toLongDateString(settedDate)
                 alertDialog.hide()
             }
             alertDialog.setView(datepickerDialogView)
@@ -177,7 +177,7 @@ class AddEventActivity :
             return
         }
 
-        val name = binding.eventName.text.toString()
+//        val name = binding.eventName.text.toString()
         val nameCategory: String = binding.categoryAutocomplete.text.toString()
         Log.d("#MY " + javaClass.simpleName, "category name : " + nameCategory)
 
@@ -191,7 +191,7 @@ class AddEventActivity :
         Log.d("#MY " + javaClass.simpleName, "lon : " + lng)
         Log.d("#MY " + javaClass.simpleName, "tasks count : " + addTasksDialog?.tasks?.size)
 
-        presenter.addEventClicked(name,
+        presenter.addEventClicked("not used", // TODO убрать
                 nameCategory,
                 settedDate.time,
                 lat.toDouble(),
