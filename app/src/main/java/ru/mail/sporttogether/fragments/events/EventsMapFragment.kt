@@ -20,6 +20,7 @@ import ru.mail.sporttogether.adapter.TaskAdapter
 import ru.mail.sporttogether.adapter.events.EventsAdapter
 import ru.mail.sporttogether.app.App
 import ru.mail.sporttogether.auth.core.SocialNetworkManager
+import ru.mail.sporttogether.data.binding.event.ButtonListener
 import ru.mail.sporttogether.data.binding.event.EventDetailsData
 import ru.mail.sporttogether.databinding.EventsMapBinding
 import ru.mail.sporttogether.databinding.ShowingTasksBinding
@@ -41,6 +42,7 @@ import java.util.*
 class EventsMapFragment :
         PresenterFragment<IMapPresenter>(),
         IMapView,
+        ButtonListener,
         CheckingTasks {
 
     private val socialNetworkManager = SocialNetworkManager.instance
@@ -93,26 +95,6 @@ class EventsMapFragment :
         resultsContainer = binding.eventsListSheet
         resultsContainer.pivotY = resultsContainer.height.toFloat()
         resultsContainer.animate().scaleY(0f).setDuration(0L).start()
-        /*bottomSheetEventsList = BottomSheetBehavior.from(binding.eventsListSheet)
-        eventDedailsBottomSheet.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
-            override fun onSlide(bottomSheet: View, slideOffset: Float) {
-
-            }
-
-            override fun onStateChanged(bottomSheet: View, newState: Int) {
-
-                when (newState) {
-                    BottomSheetBehavior.STATE_DRAGGING -> {
-                        if (searchSheetLocked)
-                            eventDedailsBottomSheet.state = BottomSheetBehavior.STATE_EXPANDED
-                    }
-                    BottomSheetBehavior.STATE_EXPANDED -> {
-                        searchSheetLocked = true
-                    }
-                }
-
-            }
-        })*/
 
         eventsListView = binding.eventsListRecyclerView
         eventsListView.layoutManager = LinearLayoutManager(context)
@@ -174,7 +156,7 @@ class EventsMapFragment :
         super.onStart()
         mapView.onStart()
         binding.listener = presenter
-        binding.addListener = presenter
+        binding.addListener = this
     }
 
     override fun onStop() {
@@ -233,6 +215,10 @@ class EventsMapFragment :
     override fun hideInfo() {
         eventDedailsBottomSheet.state = BottomSheetBehavior.STATE_HIDDEN
         tasksDialog = null
+    }
+
+    override fun onButtonClicked() {
+        presenter.fabClicked(data.fabForBottomSheet.get())
     }
 
     override fun render(event: Event, isCancelable: Boolean, tasks: ArrayList<Task>?) {

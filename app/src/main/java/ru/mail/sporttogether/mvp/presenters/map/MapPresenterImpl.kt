@@ -143,6 +143,16 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
 
     }
 
+    override fun fabClicked(isBottomSheet: Boolean) {
+        if (!isBottomSheet) {
+            lastPos.let {
+                view?.startAddEventActivity(it.longitude, it.latitude)
+            }
+        } else {
+            view?.shareResults()
+        }
+    }
+
     override fun searchByCategory(s: String) {
         apiSubscribtion?.unsubscribe()
         apiSubscribtion = api.getEventsByCategory(s)
@@ -311,12 +321,6 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
                 markerIdEventMap.put(marker.id, event)
             }
             options.icon(null)
-        }
-    }
-
-    override fun onAddButtonClicked() {
-        lastPos.let {
-            view?.startAddEventActivity(it.longitude, it.latitude)
         }
     }
 

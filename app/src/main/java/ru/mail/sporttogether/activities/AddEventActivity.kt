@@ -18,7 +18,7 @@ import com.mikepenz.materialdrawer.util.KeyboardUtil
 import ru.mail.sporttogether.R
 import ru.mail.sporttogether.adapter.CategoriesAdapter
 import ru.mail.sporttogether.data.binding.event.EventData
-import ru.mail.sporttogether.data.binding.event.EventListener
+import ru.mail.sporttogether.data.binding.event.ButtonListener
 import ru.mail.sporttogether.data.binding.tasks.AddTasksData
 import ru.mail.sporttogether.data.binding.tasks.AddTasksListener
 import ru.mail.sporttogether.databinding.ActivityAddEventBinding
@@ -37,7 +37,7 @@ import java.util.*
 class AddEventActivity :
         PresenterActivity<AddEventPresenter>(),
         IAddEventView,
-        EventListener {
+        ButtonListener {
 
     private lateinit var binding: ActivityAddEventBinding
 
@@ -171,7 +171,7 @@ class AddEventActivity :
         data.lng.set(lng)
     }
 
-    override fun onAddButtonClicked() {
+    override fun onButtonClicked() {
         if (data.resultVisibility.get()) {
             presenter.sendResult(eventId, binding.description.text.toString())
             return

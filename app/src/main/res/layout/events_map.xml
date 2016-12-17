@@ -12,7 +12,7 @@
 
         <variable
             name="addListener"
-            type="ru.mail.sporttogether.data.binding.event.EventListener" />
+            type="ru.mail.sporttogether.data.binding.event.ButtonListener" />
 
         <variable
             name="data"
@@ -189,22 +189,6 @@
                         android:layout_height="wrap_content">
 
                         <Button
-                            android:id="@+id/share_button"
-                            style="@style/IconButton"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:drawableTop="@drawable/ic_share_btn"
-                            android:onClick="@{() -> listener.onShareButtonClicked()}"
-
-                            android:text="@string/share" />
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        style="@style/IconButtonContainer"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content">
-
-                        <Button
                             android:id="@+id/delete_button"
                             style="@style/IconButton"
                             android:layout_width="match_parent"
@@ -303,7 +287,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:onClick="@{() -> addListener.onAddButtonClicked()}"
+            android:onClick="@{() -> addListener.onButtonClicked()}"
             android:src="@{data.fabForBottomSheet? @drawable/ic_share : @drawable/ic_add}"
             android:tint="@android:color/white"
             app:backgroundTint="?colorAccent"

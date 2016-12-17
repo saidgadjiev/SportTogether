@@ -25,7 +25,8 @@ import ru.mail.sporttogether.mvp.views.drawer.IDrawerView
 import ru.mail.sporttogether.utils.MyDrawerImageLoader
 
 
-class DrawerActivity : IDrawerView, PresenterActivity<IDrawerPresenter>() {
+class DrawerActivity : IDrawerView,
+        PresenterActivity<IDrawerPresenter>() {
     private lateinit var binding: ActivityDrawerBinding
     private lateinit var toolbar: Toolbar
     private lateinit var mDrawer: Drawer

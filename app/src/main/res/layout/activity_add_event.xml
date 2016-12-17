@@ -12,7 +12,7 @@
 
         <variable
             name="listener"
-            type="ru.mail.sporttogether.data.binding.event.EventListener" />
+            type="ru.mail.sporttogether.data.binding.event.ButtonListener" />
 
         <variable
             name="tasksListener"
@@ -150,7 +150,7 @@
                 style="@style/FlatButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="@{()->listener.onAddButtonClicked()}"
+                android:onClick="@{()->listener.onButtonClicked()}"
                 android:text="@{data.mainDataVisibility? @string/add_event : @string/add_result}" />
         </LinearLayout>
     </ScrollView>
