@@ -9,6 +9,7 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SearchView
+import android.util.Log
 import android.view.*
 import android.widget.FrameLayout
 import com.google.android.gms.maps.MapView
@@ -161,6 +162,17 @@ class EventsMapFragment :
         )
     }
 
+    override fun showInfo(event: Event, isCancelable: Boolean, tasks: ArrayList<Task>?) {
+        render(event, isCancelable, tasks)
+        eventDedailsBottomSheet.state = BottomSheetBehavior.STATE_COLLAPSED
+        if (event.tasks != null) {
+            initTasks(event.tasks!!)
+            binding.showTasksBtn.setOnClickListener {
+                tasksDialog!!.dialog.show()
+            }
+        }
+    }
+
     override fun onStart() {
         super.onStart()
         mapView.onStart()
@@ -226,18 +238,7 @@ class EventsMapFragment :
         tasksDialog = null
     }
 
-    override fun showInfo(event: Event, isCancelable: Boolean) {
-        render(event, isCancelable)
-        eventDedailsBottomSheet.state = BottomSheetBehavior.STATE_COLLAPSED
-        if (event.tasks != null) {
-            initTasks(event.tasks!!)
-            binding.showTasksBtn.setOnClickListener {
-                tasksDialog!!.dialog.show()
-            }
-        }
-    }
-
-    override fun render(event: Event, isCancelable: Boolean) {
+    override fun render(event: Event, isCancelable: Boolean, tasks: ArrayList<Task>?) {
         data.category.set(event.category.name)
         data.name.set(event.name)
         data.date.set(SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.getDefault()).format(Date(event.date)))
@@ -245,7 +246,6 @@ class EventsMapFragment :
         data.withDescription.set(event.description.isNotEmpty())
         data.isReported.set(event.isReported)
         data.isJoined.set(event.isJoined)
-        data.tasksInfo.set(event.tasksInfo())
         if (event.result != null) {
             data.isEnded.set(event.result!!.isNotEmpty())
             data.result.set(event.result!!)
@@ -256,21 +256,34 @@ class EventsMapFragment :
         val people = getString(R.string.users, event.nowPeople, event.maxPeople)
         data.peopleCount.set(people)
         data.showCancelButton.set(isCancelable)
-        if (event.tasks != null) {
+        if (tasks != null) {
             //в адаптере хранится ссылка на массив тасков, с ним синхронизируется
+            data.tasksInfo.set(Event.tasksInfo(tasks))
+            data.isTasksReady.set(true)
+            data.isTasksCanBeChanged.set(data.isTasksReady.get() && event.isJoined && !event.isEnded)
+            if (event.isEnded) {
+                data.tasksMessage.set("событие уже завершено")
+            } else if (!event.isJoined) {
+                data.tasksMessage.set("вам нужно присоединиться")
+            } else {
+                data.tasksMessage.set("")
+            }
             tasksDialog?.taskAdapter?.swapTasks()
+        } else {
+            data.tasksMessage.set("идет загрузка задач")
+            data.isTasksReady.set(false)
+            data.isTasksCanBeChanged.set(false)
         }
+        Log.d("#MY " + javaClass.simpleName, "isTasksCanBeChanged : " + data.isTasksCanBeChanged.get())
     }
 
-    companion object {
-        @JvmStatic val TAB_HEIGHT_KEY = "TAB_HEIGHT"
-
-        @JvmStatic fun newInstance(tabHeight: Int): EventsMapFragment {
-            val args = Bundle()
-            args.putInt(TAB_HEIGHT_KEY, tabHeight)
-            val fragment = EventsMapFragment()
-            fragment.arguments = args
-            return fragment
+    override fun onFinishLoadTasks(tasks: ArrayList<Task>?) {
+        if (tasks != null) {
+            initTasks(tasks)
+            binding.showTasksBtn.setOnClickListener {
+                if (data.isTasksCanBeChanged.get())
+                    tasksDialog!!.dialog.show()
+            }
         }
     }
 
@@ -285,10 +298,23 @@ class EventsMapFragment :
     fun initTasks(tasks: ArrayList<Task>) {
         val tasksBinding: ShowingTasksBinding = ShowingTasksBinding.inflate(LayoutInflater.from(this.context), null, false)
         val dialog: AlertDialog = AlertDialog.Builder(this.context).create()
-        val taskAdapter = TaskAdapter(tasks, this, SocialNetworkManager.instance.activeUser.id) // TODO inject manager
+        val myId = SocialNetworkManager.instance.activeUser.id
+        val taskAdapter = TaskAdapter(tasks, this, myId) // TODO inject manager
         tasksBinding.tasksRecyclerView.adapter = taskAdapter
         tasksBinding.tasksRecyclerView.layoutManager = LinearLayoutManager(this.context)
         tasksDialog = TasksDialog(tasksBinding, taskAdapter, dialog)
+    }
+
+    companion object {
+        @JvmStatic val TAB_HEIGHT_KEY = "TAB_HEIGHT"
+
+        @JvmStatic fun newInstance(tabHeight: Int): EventsMapFragment {
+            val args = Bundle()
+            args.putInt(TAB_HEIGHT_KEY, tabHeight)
+            val fragment = EventsMapFragment()
+            fragment.arguments = args
+            return fragment
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

@@ -24,5 +24,8 @@ interface IMapPresenter :
     fun onCameraIdle(x: Int, y: Int)
 
     fun loadEvents()
+
     fun searchByCategory(s: String)
+
+    fun loadTasks()
 }
