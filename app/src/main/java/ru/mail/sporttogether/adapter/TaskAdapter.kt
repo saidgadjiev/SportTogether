@@ -76,7 +76,12 @@ class TaskAdapter(private val tasks: ArrayList<Task>, private val checkingTasks:
             Log.d("#MY " + javaClass.simpleName, "my id : " + myId)
             data.id.set(Integer.toString(task.id!!.toInt()))
             data.message.set(task.message)
-            data.username.set(task.user?.name)
+            if (task.user == null) {
+                data.username.set("задача никем не закрыта")
+            } else {
+                Log.d("#MY ", "rendering username : " + task.user)
+                data.username.set(task.user.name)
+            }
             data.isChecked.set(task.user != null)
             data.iMayChecked.set(task.user == null || task.user.id == myId) //можно закрыть таск только если он не закрыт или его закрыл я
             val clickEventObservable = Observable.create(Observable.OnSubscribe<Task> { subscriber ->
