@@ -377,9 +377,6 @@ class EventsMapFragment :
             val dialog: AlertDialog) {
         init {
             this.dialog.setView(this.binding.root)
-            this.binding.tasksOkBtn.setOnClickListener {
-                this.dialog.hide()
-            }
         }
     }
 }

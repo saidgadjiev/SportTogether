@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import ru.mail.sporttogether.data.binding.tasks.TaskData
-import ru.mail.sporttogether.data.binding.tasks.TaskItemListener
 import ru.mail.sporttogether.databinding.ItemTaskBinding
 import ru.mail.sporttogether.fragments.CheckingTasks
 import ru.mail.sporttogether.net.models.Task
@@ -62,13 +61,12 @@ class TaskAdapter(private val tasks: ArrayList<Task>, private val checkingTasks:
         notifyDataSetChanged()
     }
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), TaskItemListener {
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val binding: ItemTaskBinding = DataBindingUtil.bind(itemView)
         val data = TaskData()
 
         init {
             binding.data = data
-            binding.listener = this
         }
 
         fun onBind(task: Task, myId: Long): Observable<Task> {
@@ -78,6 +76,7 @@ class TaskAdapter(private val tasks: ArrayList<Task>, private val checkingTasks:
             Log.d("#MY " + javaClass.simpleName, "my id : " + myId)
             data.id.set(Integer.toString(task.id!!.toInt()))
             data.message.set(task.message)
+            data.username.set(task.user?.name)
             data.isChecked.set(task.user != null)
             data.iMayChecked.set(task.user == null || task.user.id == myId) //можно закрыть таск только если он не закрыт или его закрыл я
             val clickEventObservable = Observable.create(Observable.OnSubscribe<Task> { subscriber ->
@@ -87,11 +86,6 @@ class TaskAdapter(private val tasks: ArrayList<Task>, private val checkingTasks:
                 })
             })
             return clickEventObservable
-        }
-
-        //не нужно
-        override fun onCheckTask() {
-            Log.d("#MY " + javaClass.simpleName, "checked : " + binding.taskId.text.toString())
         }
     }
 
