@@ -263,7 +263,7 @@ class EventsMapFragment :
     override fun onFinishLoadTasks(tasks: ArrayList<Task>?) {
         if (tasks != null) {
             initTasks(tasks)
-            binding.showTasksBtn.setOnClickListener {
+            binding.tasksText.setOnClickListener {
                 if (data.isTasksCanBeChanged.get())
                     tasksDialog!!.dialog.show()
             }

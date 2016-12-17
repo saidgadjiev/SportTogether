@@ -70,216 +70,276 @@
             app:behavior_peekHeight="90dp"
             app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
 
-            <LinearLayout
-                android:id="@+id/content"
+            <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
+                android:layout_height="wrap_content">
 
-                <View
-                    android:layout_width="25dp"
-                    android:layout_height="2dp"
-                    android:layout_gravity="center_horizontal"
-                    android:background="@color/md_black_1000" />
+                <android.support.constraint.ConstraintLayout
+                    android:id="@+id/constraintLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="?colorPrimary"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <RelativeLayout
-                        android:layout_width="0dp"
+                    <TextView
+                        android:id="@+id/event_name"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1">
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="32dp"
+                        android:ems="10"
+                        android:text="@{data.name}"
+                        android:textColor="@color/vk_white"
+                        android:textSize="18sp"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                        <TextView
-                            android:id="@+id/event_category"
-                            style="@style/AccentText"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@{data.category}" />
-
-                        <TextView
-                            android:id="@+id/event_name"
-                            style="@style/TitleText"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/event_category"
-                            android:text="@{data.name}" />
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:layout_width="0dp"
+                    <TextView
+                        android:id="@+id/event_category"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1">
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="8dp"
+                        android:ems="10"
+                        android:text="@{data.category}"
+                        android:textColor="@color/vk_white"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintLeft_toLeftOf="@+id/event_name"
+                        app:layout_constraintRight_toRightOf="@+id/event_name"
+                        app:layout_constraintTop_toBottomOf="@+id/event_name"
+                        app:layout_constraintVertical_bias="0.0" />
 
-                        <TextView
-                            android:id="@+id/date"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_alignParentTop="true"
-                            android:text="@{data.date}" />
+                    <ImageView
+                        android:id="@+id/people_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:tint="@color/vk_white"
+                        app:layout_constraintLeft_toLeftOf="@+id/event_category"
+                        app:layout_constraintTop_toBottomOf="@+id/event_category"
+                        app:srcCompat="@drawable/ic_people" />
 
-                        <TextView
-                            android:id="@+id/people_count"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_below="@+id/date"
-                            android:layout_marginTop="@dimen/offset_small"
-                            android:drawableStart="@drawable/ic_people"
-                            android:text="@{data.peopleCount}" />
+                    <View
+                        android:layout_width="40dp"
+                        android:layout_height="2dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@color/vk_white"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                        <TextView
-                            android:id="@+id/you_connected"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignBaseline="@+id/people_count"
-                            android:layout_alignBottom="@+id/people_count"
-                            android:layout_toStartOf="@+id/people_count"
-                            android:text="@string/you_connected_msg"
-                            android:textColor="@color/green"
-                            android:textSize="@dimen/font_small"
-                            android:visibility="@{data.isJoined? View.VISIBLE : View.GONE}" />
+                    <TextView
+                        android:id="@+id/user_subscribed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/you_connected_msg"
+                        android:textColor="@color/vk_white"
+                        android:visibility="@{data.isJoined? View.VISIBLE : View.GONE}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.23000002" />
 
-                    </RelativeLayout>
-                </LinearLayout>
+                    <TextView
+                        android:id="@+id/people_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="72dp"
+                        android:layout_marginStart="72dp"
+                        android:text="TextView"
+                        android:textColor="@color/vk_white"
+                        app:layout_constraintBottom_toBottomOf="@+id/people_icon"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/people_icon" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="@dimen/offset_small"
-                    android:orientation="horizontal">
+                </android.support.constraint.ConstraintLayout>
 
-                    <RelativeLayout
-                        style="@style/IconButtonContainer"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content">
+                <FrameLayout
+                    android:id="@+id/frameLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="72dp"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
 
-                        <Button
-                            android:id="@+id/angry_button"
-                            style="@style/IconButton"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:clickable="@{!data.isReported}"
-                            android:drawableTop="@{!data.isReported? @drawable/ic_report_btn : @drawable/ic_report_btn_disabled}"
-                            android:onClick="@{() -> listener.onAngryButtonClicked()}"
-                            android:text="@{!data.isReported? @string/angry : @string/angryAlready}" />
-                    </RelativeLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/offset_small"
+                        android:orientation="horizontal">
 
-                    <RelativeLayout
-                        style="@style/IconButtonContainer"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content">
+                        <FrameLayout
+                            style="@style/IconButtonContainer"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content">
 
-                        <Button
-                            android:id="@+id/detail_connect_button"
-                            style="@style/IconButton"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:drawableTop="@{!data.isJoined? @drawable/ic_person_add_btn : @drawable/ic_person_outline_btn}"
-                            android:onClick="@{() -> listener.onJoinButtonClicked()}"
-                            android:text="@{!data.isJoined? @string/join : @string/joinAlready}" />
-                    </RelativeLayout>
+                            <Button
+                                android:id="@+id/angry_button"
+                                style="@style/IconButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:clickable="@{!data.isReported}"
+                                android:drawableTop="@{!data.isReported? @drawable/ic_report_btn : @drawable/ic_report_btn_disabled}"
+                                android:onClick="@{() -> listener.onAngryButtonClicked()}"
+                                android:text="@{!data.isReported? @string/angry : @string/angryAlready}" />
+                        </FrameLayout>
 
-                    <RelativeLayout
-                        style="@style/IconButtonContainer"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content">
+                        <FrameLayout
+                            style="@style/IconButtonContainer"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content">
 
-                        <Button
-                            android:id="@+id/delete_button"
-                            style="@style/IconButton"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:drawableTop="@drawable/ic_delete_btn"
-                            android:onClick="@{() -> listener.onCancelButtonClicked()}"
-                            android:text="@string/cancel_event"
-                            android:visibility="@{data.showCancelButton? View.VISIBLE : View.GONE}" />
-                    </RelativeLayout>
-                </LinearLayout>
+                            <Button
+                                android:id="@+id/detail_connect_button"
+                                style="@style/IconButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:drawableTop="@{!data.isJoined? @drawable/ic_person_add_btn : @drawable/ic_person_outline_btn}"
+                                android:onClick="@{() -> listener.onJoinButtonClicked()}"
+                                android:text="@{!data.isJoined? @string/join : @string/joinAlready}" />
+                        </FrameLayout>
 
-                <RelativeLayout
+                        <FrameLayout
+                            style="@style/IconButtonContainer"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content">
+
+                            <Button
+                                android:id="@+id/delete_button"
+                                style="@style/IconButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:drawableTop="@drawable/ic_delete_btn"
+                                android:onClick="@{() -> listener.onCancelButtonClicked()}"
+                                android:text="@string/cancel_event"
+                                android:visibility="@{data.showCancelButton? View.VISIBLE : View.GONE}" />
+                        </FrameLayout>
+                    </LinearLayout>
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/address_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginLeft="72dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginStart="72dp"
+                    android:text="TextView"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/address_icon" />
+
+                <ImageView
+                    android:id="@+id/address_icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:tint="?colorPrimary"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/frameLayout"
+                    app:srcCompat="@drawable/ic_location" />
 
-                    <Button
-                        android:id="@+id/show_tasks_btn"
-                        style="@style/FlatButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/list_tasks"
-                        android:textColor="@{data.isTasksCanBeChanged? @color/colorPrimary : @color/app_secondary_text}" />
-
-                    <TextView
-                        android:id="@+id/tasks_count"
-                        style="@style/TitleText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="@dimen/offset_large"
-                        android:layout_toEndOf="@id/show_tasks_btn"
-                        android:drawablePadding="@dimen/offset_small"
-                        android:drawableStart="@drawable/ic_view_list"
-                        android:text="@{data.tasksInfo}"
-                        android:visibility="@{data.isTasksReady? View.VISIBLE : View.GONE}" />
-
-                    <ProgressBar
-                        android:id="@+id/tasks_pb"
-                        style="?android:attr/progressBarStyleSmall"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginTop="5dp"
-                        android:visibility="@{!data.isTasksReady? View.VISIBLE : View.INVISIBLE}" />
-
-                    <TextView
-                        style="@style/SecondaryText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="@dimen/offset_medium"
-                        android:layout_toStartOf="@id/tasks_pb"
-                        android:maxWidth="100dp"
-                        android:text="@{data.tasksMessage}"
-                        android:textAlignment="center" />
-                </RelativeLayout>
+                <ImageView
+                    android:id="@+id/time_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:tint="?colorPrimary"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintLeft_toLeftOf="@+id/address_icon"
+                    app:layout_constraintRight_toRightOf="@+id/address_icon"
+                    app:layout_constraintTop_toBottomOf="@+id/address_text"
+                    app:srcCompat="@drawable/ic_time" />
 
                 <TextView
-                    android:id="@+id/description_header"
-                    style="@style/TitleSecondaryText"
-                    android:layout_width="match_parent"
+                    android:id="@+id/date_time_text"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/offset_medium"
-                    android:text="@string/description_header"
-                    android:visibility="@{data.withDescription? View.VISIBLE : View.GONE}" />
+                    android:layout_marginLeft="72dp"
+                    android:layout_marginStart="72dp"
+                    android:text="TextView"
+                    app:layout_constraintBottom_toBottomOf="@+id/time_icon"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/time_icon"
+                    app:layout_constraintVertical_bias="0.0" />
+
+                <ImageView
+                    android:id="@+id/icon_tasks"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginTop="16dp"
+                    android:tint="?colorPrimary"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintLeft_toLeftOf="@+id/description_icon"
+                    app:layout_constraintRight_toRightOf="@+id/description_icon"
+                    app:layout_constraintTop_toBottomOf="@+id/description_text"
+                    app:layout_constraintVertical_bias="0.0"
+                    app:srcCompat="@drawable/ic_tasks" />
 
                 <TextView
-                    android:id="@+id/description"
-                    android:layout_width="match_parent"
+                    android:id="@+id/tasks_text"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginLeft="72dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginStart="72dp"
+                    android:layout_marginTop="0dp"
+                    android:clickable="true"
+                    android:text="TextView"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/icon_tasks" />
+
+                <ImageView
+                    android:id="@+id/description_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:tint="?colorPrimary"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintLeft_toLeftOf="@+id/time_icon"
+                    app:layout_constraintRight_toRightOf="@+id/time_icon"
+                    app:layout_constraintTop_toBottomOf="@+id/date_time_text"
+                    app:layout_constraintVertical_bias="0.0"
+                    app:srcCompat="@drawable/ic_description" />
+
+                <TextView
+                    android:id="@+id/description_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="72dp"
+                    android:layout_marginStart="72dp"
                     android:text="@{data.description}"
-                    android:visibility="@{data.withDescription? View.VISIBLE : View.GONE}" />
+                    app:layout_constraintBottom_toBottomOf="@+id/description_icon"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/description_icon"
+                    app:layout_constraintVertical_bias="0.39" />
 
-                <TextView
-                    android:id="@+id/result_header"
-                    style="@style/TitleSecondaryText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/offset_medium"
-                    android:text="@string/result_header"
-                    android:visibility="@{data.isEnded? View.VISIBLE : View.GONE}" />
+            </android.support.constraint.ConstraintLayout>
 
-                <TextView
-                    android:id="@+id/result"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@{data.result}"
-                    android:visibility="@{data.isEnded? View.VISIBLE : View.GONE}" />
-            </LinearLayout>
         </FrameLayout>
 
         <android.support.design.widget.FloatingActionButton
