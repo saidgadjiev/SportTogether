@@ -2,6 +2,7 @@ package ru.mail.sporttogether.activities
 
 import android.content.Intent
 import android.databinding.DataBindingUtil
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
@@ -64,7 +65,7 @@ class DrawerActivity : IDrawerView, PresenterActivity<IDrawerPresenter>() {
             avatar = "https://scontent-amt2-1.xx.fbcdn.net/v/t1.0-9/14225377_107564209701561_5320272900042567420_n.jpg?oh=efa955d0b647185a747f44f6ce54d390&oe=58B58ED2"
         return AccountHeaderBuilder()
                 .withActivity(activity)
-                .withCompactStyle(true)
+                //.withCompactStyle(true)
                 .withHeaderBackground(R.drawable.drawer_background)
                 .withTextColor(ContextCompat.getColor(this, R.color.colorAccent))
                 .addProfiles(
