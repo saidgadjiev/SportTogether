@@ -5,17 +5,21 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@android:color/holo_red_light</item>
-        <item name="android:textColorPrimary">@color/app_primary_text</item>
-        <item name="android:textColorSecondary">@color/app_secondary_light</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorControlNormal">@color/vk_white</item>
+
+        <item name="android:textColorPrimary">@color/vk_white</item>
+        <item name="android:textColorSecondary">@color/colorSecondaryText</item>
         <item name="android:textColor">@color/app_primary_text</item>
         <item name="android:textSize">@dimen/font_medium</item>
+
         <item name="material_drawer_selected">@color/vk_white</item>
         <item name="material_drawer_selected_text">@color/colorPrimary</item>
         <item name="material_drawer_background">@color/vk_white</item>
         <item name="material_drawer_header_selection_text">@color/vk_white</item>
 
     </style>
+
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>

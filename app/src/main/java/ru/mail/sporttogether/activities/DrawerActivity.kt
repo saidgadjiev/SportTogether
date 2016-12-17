@@ -2,7 +2,6 @@ package ru.mail.sporttogether.activities
 
 import android.content.Intent
 import android.databinding.DataBindingUtil
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
@@ -71,6 +70,7 @@ class DrawerActivity : IDrawerView, PresenterActivity<IDrawerPresenter>() {
                 .addProfiles(
                         ProfileDrawerItem().withName(name).withIcon(avatar).withTextColor(ContextCompat.getColor(this, R.color.colorPrimary))
                 )
+                .withTextColor(R.color.vk_white)
                 .withCloseDrawerOnProfileListClick(false)
                 .withSelectionListEnabled(false)
                 .build()
@@ -80,17 +80,17 @@ class DrawerActivity : IDrawerView, PresenterActivity<IDrawerPresenter>() {
     private fun setDrawerItems(drawerBuilder: DrawerBuilder) {
         drawerBuilder.addDrawerItems(
                 //TODO add icons
-                PrimaryDrawerItem().withName(R.string.map).withOnDrawerItemClickListener { view, i, iDrawerItem ->
+                PrimaryDrawerItem().withName(R.string.map).withIcon(R.drawable.ic_map).withIconTintingEnabled(true).withOnDrawerItemClickListener { view, i, iDrawerItem ->
                     swapFragment(EventsMapFragment.newInstance(0))
                     title = getString(R.string.events_map)
                     false
                 },
-                PrimaryDrawerItem().withName(R.string.my_events).withOnDrawerItemClickListener { view, i, iDrawerItem ->
+                PrimaryDrawerItem().withName(R.string.my_events).withIcon(R.drawable.ic_location).withIconTintingEnabled(true).withOnDrawerItemClickListener { view, i, iDrawerItem ->
                     swapFragment(MyEventsFragment.newInstance())
                     title = getString(R.string.my_events)
                     false
                 },
-                PrimaryDrawerItem().withName("Настройки").withOnDrawerItemClickListener { view, i, iDrawerItem ->
+                PrimaryDrawerItem().withName("Настройки").withIcon(R.drawable.ic_settings).withIconTintingEnabled(true).withOnDrawerItemClickListener { view, i, iDrawerItem ->
                     title = "Настройки"
                     false
                 },

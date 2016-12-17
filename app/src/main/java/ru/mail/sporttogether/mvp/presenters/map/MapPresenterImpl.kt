@@ -334,9 +334,8 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
     }
 
     private fun showEventInfo(marker: Marker) {
-        val event: Event? = markerIdEventMap[marker.id]
+        val event = markerIdEventMap[marker.id]
         event?.let {
-            view?.hideInfo()
             lastEvent = it
             lastEventTasks = null //обнуляем таски, когда только кликнули по маркеру, считается, что когда массив = null, таски не загружены
             val isCancelable = (userId == event.user.id) and !event.isEnded

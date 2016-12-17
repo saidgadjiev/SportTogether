@@ -50,7 +50,7 @@
                 android:onClick="@{() -> addListener.onAddButtonClicked()}"
                 android:src="@drawable/ic_add"
                 android:tint="@android:color/white"
-                app:backgroundTint="@color/red" />
+                app:backgroundTint="?colorAccent" />
         </FrameLayout>
 
         <FrameLayout
