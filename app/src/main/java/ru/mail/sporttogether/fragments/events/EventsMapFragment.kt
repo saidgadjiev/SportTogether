@@ -29,7 +29,7 @@ import ru.mail.sporttogether.mvp.presenters.map.MapPresenterImpl
 import ru.mail.sporttogether.mvp.views.map.IMapView
 import ru.mail.sporttogether.net.models.Event
 import ru.mail.sporttogether.net.models.Task
-import java.text.SimpleDateFormat
+import ru.mail.sporttogether.utils.DateUtils
 import java.util.*
 
 
@@ -244,7 +244,7 @@ class EventsMapFragment :
     private fun renderBaseInfo(event: Event) {
         data.category.set(event.category.name)
         data.name.set(event.name)
-        data.date.set(SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.getDefault()).format(Date(event.date)))
+        data.date.set(DateUtils.toXLongDateString(Date(event.date)))
         data.description.set(event.description)
         data.withDescription.set(event.description.isNotEmpty())
         data.isReported.set(event.isReported)
