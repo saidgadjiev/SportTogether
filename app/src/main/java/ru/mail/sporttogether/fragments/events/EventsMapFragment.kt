@@ -9,7 +9,6 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SearchView
-import android.util.Log
 import android.view.*
 import android.widget.FrameLayout
 import com.google.android.gms.maps.MapView
@@ -234,6 +233,13 @@ class EventsMapFragment :
     }
 
     override fun render(event: Event, isCancelable: Boolean, tasks: ArrayList<Task>?) {
+        renderBaseInfo(event)
+        renderResult(event)
+        data.showCancelButton.set(isCancelable)
+        renderTasks(event, tasks)
+    }
+
+    private fun renderBaseInfo(event: Event) {
         data.category.set(event.category.name)
         data.name.set(event.name)
         data.date.set(SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.getDefault()).format(Date(event.date)))
@@ -241,6 +247,11 @@ class EventsMapFragment :
         data.withDescription.set(event.description.isNotEmpty())
         data.isReported.set(event.isReported)
         data.isJoined.set(event.isJoined)
+        val people = getString(R.string.users, event.nowPeople, event.maxPeople)
+        data.peopleCount.set(people)
+    }
+
+    private fun renderResult(event: Event) {
         if (event.result != null) {
             data.isEnded.set(event.result!!.isNotEmpty())
             data.result.set(event.result!!)
@@ -248,9 +259,9 @@ class EventsMapFragment :
             data.isEnded.set(false)
             data.result.set("")
         }
-        val people = getString(R.string.users, event.nowPeople, event.maxPeople)
-        data.peopleCount.set(people)
-        data.showCancelButton.set(isCancelable)
+    }
+
+    private fun renderTasks(event: Event, tasks: ArrayList<Task>?) {
         if (tasks != null) {
             //в адаптере хранится ссылка на массив тасков, с ним синхронизируется
             data.tasksInfo.set(Event.tasksInfo(tasks))
