@@ -66,11 +66,10 @@ class DrawerActivity : IDrawerView, PresenterActivity<IDrawerPresenter>() {
                 .withActivity(activity)
                 //.withCompactStyle(true)
                 .withHeaderBackground(R.drawable.drawer_background)
-                .withTextColor(ContextCompat.getColor(this, R.color.colorAccent))
                 .addProfiles(
                         ProfileDrawerItem().withName(name).withIcon(avatar).withTextColor(ContextCompat.getColor(this, R.color.colorPrimary))
                 )
-                .withTextColor(R.color.vk_white)
+                .withTextColorRes(R.color.vk_white)
                 .withCloseDrawerOnProfileListClick(false)
                 .withSelectionListEnabled(false)
                 .build()

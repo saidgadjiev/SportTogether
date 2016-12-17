@@ -82,7 +82,9 @@ class EventsMapFragment :
             }
 
             override fun onStateChanged(bottomSheet: View, newState: Int) {
-
+                if (newState == BottomSheetBehavior.STATE_HIDDEN)
+                    data.fabForBottomSheet.set(false)
+                else data.fabForBottomSheet.set(true)
             }
 
         })

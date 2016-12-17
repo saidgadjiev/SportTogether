@@ -8,7 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="colorControlNormal">@color/vk_white</item>
 
-        <item name="android:textColorPrimary">@color/vk_white</item>
+        <item name="android:textColorPrimary">@color/app_primary_text</item>
         <item name="android:textColorSecondary">@color/colorSecondaryText</item>
         <item name="android:textColor">@color/app_primary_text</item>
         <item name="android:textSize">@dimen/font_medium</item>
@@ -42,7 +42,7 @@
     </style>
 
     <style name="AccentText">
-        <item name="android:textColor">@color/app_accent_text</item>
+        <item name="android:textColor">?colorPrimary</item>
         <item name="android:textSize">@dimen/font_xlarge</item>
     </style>
 
