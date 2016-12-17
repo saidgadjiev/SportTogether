@@ -6,6 +6,8 @@ import retrofit2.Retrofit
 import ru.mail.sporttogether.net.api.AuthorizationAPI
 import ru.mail.sporttogether.net.api.CategoriesAPI
 import ru.mail.sporttogether.net.api.EventsAPI
+import ru.mail.sporttogether.net.api.YandexMapsApi
+import javax.inject.Named
 import javax.inject.Singleton
 
 /**
@@ -27,4 +29,9 @@ class RestModule {
     @Provides
     fun provideCategoriesApi(retrofit: Retrofit): CategoriesAPI =
             retrofit.create(CategoriesAPI::class.java)
+
+    @Provides
+    fun provideYandexApi(@Named("yandexmaps") retrofit: Retrofit): YandexMapsApi =
+            retrofit.create(YandexMapsApi::class.java)
+
 }
