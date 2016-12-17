@@ -31,4 +31,5 @@ class EventDetailsData {
     val showCancelButton = ObservableBoolean(false)
 
     val clickable = ObservableBoolean(false)
+    val fabForBottomSheet = ObservableBoolean(false)
 }

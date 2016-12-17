@@ -41,16 +41,6 @@
                 android:scaleY="2"
                 android:src="@drawable/ic_man" />
 
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/add_event_fab"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|end"
-                android:layout_margin="16dp"
-                android:onClick="@{() -> addListener.onAddButtonClicked()}"
-                android:src="@drawable/ic_add"
-                android:tint="@android:color/white"
-                app:backgroundTint="?colorAccent" />
         </FrameLayout>
 
         <FrameLayout
@@ -73,7 +63,7 @@
         <FrameLayout
             android:id="@+id/bottom_sheet"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:background="@android:color/white"
             android:clickable="true"
             android:orientation="vertical"
@@ -172,7 +162,7 @@
                             style="@style/IconButton"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:clickable="@{!data.isReported? true: false}"
+                            android:clickable="@{!data.isReported}"
                             android:drawableTop="@{!data.isReported? @drawable/ic_report_btn : @drawable/ic_report_btn_disabled}"
                             android:onClick="@{() -> listener.onAngryButtonClicked()}"
                             android:text="@{!data.isReported? @string/angry : @string/angryAlready}" />
@@ -307,6 +297,19 @@
                     android:visibility="@{data.isEnded? View.VISIBLE : View.GONE}" />
             </LinearLayout>
         </FrameLayout>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:onClick="@{() -> addListener.onAddButtonClicked()}"
+            android:src="@{data.fabForBottomSheet? @drawable/ic_share : @drawable/ic_add}"
+            android:tint="@android:color/white"
+            app:backgroundTint="?colorAccent"
+            app:layout_anchor="@id/bottom_sheet"
+            app:layout_anchorGravity="top|end" />
+
     </android.support.design.widget.CoordinatorLayout>
 
 </layout>
