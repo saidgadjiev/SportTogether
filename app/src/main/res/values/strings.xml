@@ -36,5 +36,6 @@
     <string name="you_connected_msg">вы участвуете</string>
     <string name="add_event">Создать событие</string>
     <string name="add_result">Добавить итог</string>
+    <string name="add_to_event">Присоединиться к событию</string>
 
 </resources>

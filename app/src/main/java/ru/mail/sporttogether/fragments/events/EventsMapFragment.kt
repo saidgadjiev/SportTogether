@@ -269,7 +269,6 @@ class EventsMapFragment :
             data.isTasksReady.set(false)
             data.isTasksCanBeChanged.set(false)
         }
-        Log.d("#MY " + javaClass.simpleName, "isTasksCanBeChanged : " + data.isTasksCanBeChanged.get())
     }
 
     override fun onFinishLoadTasks(tasks: ArrayList<Task>?) {

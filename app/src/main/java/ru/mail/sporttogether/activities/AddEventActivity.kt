@@ -198,7 +198,9 @@ class AddEventActivity :
                 lng.toDouble(),
                 binding.description.text.toString(),
                 maxPeople,
-                addTasksDialog!!.tasks)
+                addTasksDialog!!.tasks,
+                binding.addMeNow.isChecked
+        )
     }
 
     override fun onEventAdded(name: String) {
