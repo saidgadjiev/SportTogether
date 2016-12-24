@@ -17,9 +17,10 @@
 
     <string name="users">%1$d&#47;%2$d</string>
     <string name="leave">Покинуть</string>
-    <string name="join">присоединиться</string>
-    <string name="joinAlready">отсоединиться</string>
-    <string name="angry">пожаловаться</string>
+    <string name="join">войти</string>
+    <string name="joinAlready">выйти</string>
+    <string name="angry">жалоба</string>
+    <string name="cant_load_position">Не удалось загрузить местоположение</string>
     <string name="angryAlready">вы пожаловались</string>
     <string name="share">поделиться</string>
     <string name="ok">ОК</string>

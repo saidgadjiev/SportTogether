@@ -3,6 +3,7 @@ package ru.mail.sporttogether.mvp.presenters.map
 import android.Manifest
 import android.graphics.Point
 import android.location.Location
+import android.os.Bundle
 import android.util.Log
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -23,8 +24,10 @@ import ru.mail.sporttogether.managers.LocationManager
 import ru.mail.sporttogether.managers.events.EventsManager
 import ru.mail.sporttogether.mvp.views.map.IMapView
 import ru.mail.sporttogether.net.api.EventsAPI
+import ru.mail.sporttogether.net.api.ServiceApi
 import ru.mail.sporttogether.net.api.YandexMapsApi
 import ru.mail.sporttogether.net.models.Event
+import ru.mail.sporttogether.net.models.IpResponse
 import ru.mail.sporttogether.net.models.Task
 import ru.mail.sporttogether.net.models.User
 import ru.mail.sporttogether.net.models.yandex.maps.GeoObject
@@ -60,6 +63,7 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
     @Inject lateinit var eventsManager: EventsManager
     @Inject lateinit var locationManager: LocationManager
     @Inject lateinit var yandexApi: YandexMapsApi
+    @Inject lateinit var serviceApi: ServiceApi
 
     private val userId: Long
 
@@ -304,6 +308,25 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
         map.setOnMapClickListener(this)
         map.setOnMarkerClickListener(this)
         map.setOnCameraIdleListener(view)
+
+        serviceApi.getLocationByIP()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(object :Subscriber<IpResponse>(){
+                    override fun onError(e: Throwable) {
+                        view?.showToast(R.string.cant_load_position)
+                    }
+
+                    override fun onCompleted() {
+
+                    }
+
+                    override fun onNext(t: IpResponse) {
+                        map.animateCamera(CameraUpdateFactory.newLatLng(LatLng(t.lat, t.lon)))
+                    }
+
+                })
+
         locationSubscription = locationManager.locationUpdate.subscribe { location ->
             onLocationUpdated(location)
         }

@@ -87,7 +87,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
                     android:layout_marginRight="16dp"
-                    android:text="@{@string/people + data.peopleCount}"
+                    android:text="@{@string/people + ' ' + data.peopleCount}"
                     android:textColor="@color/vk_white"
                     app:layout_constraintBaseline_toBaselineOf="@+id/event_category"
                     app:layout_constraintRight_toRightOf="parent" />
@@ -98,7 +98,7 @@
         <FrameLayout
             android:id="@+id/frameLayout"
             android:layout_width="0dp"
-            android:layout_height="72dp"
+            android:layout_height="wrap_content"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -106,59 +106,51 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/offset_small"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/material_padding"
+                android:paddingRight="@dimen/material_padding">
 
-                <FrameLayout
-                    style="@style/IconButtonContainer"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content">
+                <Button
+                    android:id="@+id/angry_button"
+                    style="@style/IconButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:clickable="@{!data.isReported}"
+                    android:drawableTop="@{!data.isReported? @drawable/ic_report_btn : @drawable/ic_report_btn_disabled}"
+                    android:gravity="center"
+                    android:onClick="@{() -> listener.onAngryButtonClicked()}"
+                    android:text="@{!data.isReported? @string/angry : @string/angryAlready}"
+                    android:textSize="14sp" />
 
-                    <Button
-                        android:id="@+id/angry_button"
-                        style="@style/IconButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:clickable="@{!data.isReported}"
-                        android:drawableTop="@{!data.isReported? @drawable/ic_report_btn : @drawable/ic_report_btn_disabled}"
-                        android:onClick="@{() -> listener.onAngryButtonClicked()}"
-                        android:text="@{!data.isReported? @string/angry : @string/angryAlready}"
-                        android:textSize="14sp" />
-                </FrameLayout>
 
-                <FrameLayout
-                    style="@style/IconButtonContainer"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content">
+                <Button
+                    android:id="@+id/detail_connect_button"
+                    style="@style/IconButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawableTop="@{!data.isJoined? @drawable/ic_person_add_btn : @drawable/ic_person_outline_btn}"
+                    android:gravity="center"
+                    android:onClick="@{() -> listener.onJoinButtonClicked()}"
+                    android:text="@{!data.isJoined? @string/join : @string/joinAlready}"
+                    android:textSize="14sp" />
 
-                    <Button
-                        android:id="@+id/detail_connect_button"
-                        style="@style/IconButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:drawableTop="@{!data.isJoined? @drawable/ic_person_add_btn : @drawable/ic_person_outline_btn}"
-                        android:onClick="@{() -> listener.onJoinButtonClicked()}"
-                        android:text="@{!data.isJoined? @string/join : @string/joinAlready}"
-                        android:textSize="14sp" />
-                </FrameLayout>
 
-                <FrameLayout
-                    style="@style/IconButtonContainer"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content">
-
-                    <Button
-                        android:id="@+id/delete_button"
-                        style="@style/IconButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:drawableTop="@drawable/ic_delete_btn"
-                        android:onClick="@{() -> listener.onCancelButtonClicked()}"
-                        android:text="@string/cancel_event"
-                        android:textSize="14sp"
-                        android:visibility="@{data.showCancelButton? View.VISIBLE : View.GONE}" />
-                </FrameLayout>
+                <Button
+                    android:id="@+id/delete_button"
+                    style="@style/IconButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawableTop="@drawable/ic_delete_btn"
+                    android:gravity="center"
+                    android:onClick="@{() -> listener.onCancelButtonClicked()}"
+                    android:text="@string/cancel_event"
+                    android:textSize="14sp"
+                    android:visibility="@{data.showCancelButton? View.VISIBLE : View.GONE}" />
             </LinearLayout>
         </FrameLayout>
 
@@ -261,7 +253,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="72dp"
             android:layout_marginStart="72dp"
-            android:text="TextView"
+            android:text="@{data.description}"
             app:layout_constraintBottom_toBottomOf="@+id/description_icon"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="@+id/description_icon"
