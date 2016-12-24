@@ -23,9 +23,11 @@ import ru.mail.sporttogether.managers.LocationManager
 import ru.mail.sporttogether.managers.events.EventsManager
 import ru.mail.sporttogether.mvp.views.map.IMapView
 import ru.mail.sporttogether.net.api.EventsAPI
+import ru.mail.sporttogether.net.api.YandexMapsApi
 import ru.mail.sporttogether.net.models.Event
 import ru.mail.sporttogether.net.models.Task
 import ru.mail.sporttogether.net.models.User
+import ru.mail.sporttogether.net.models.yandex.maps.GeoObject
 import ru.mail.sporttogether.net.responses.EventsResponse
 import ru.mail.sporttogether.net.responses.Response
 import rx.Observable
@@ -57,6 +59,7 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
     @Inject lateinit var api: EventsAPI
     @Inject lateinit var eventsManager: EventsManager
     @Inject lateinit var locationManager: LocationManager
+    @Inject lateinit var yandexApi: YandexMapsApi
 
     private val userId: Long
 
@@ -141,6 +144,26 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
 
     override fun loadEvents() {
 
+    }
+
+    override fun loadAddressFromYandex(lat: Double, lng: Double) {
+        yandexApi.getAddressByCoordinates("json", "" + lng + "," + lat)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(object : Subscriber<ArrayList<GeoObject>>() {
+                    override fun onNext(t: ArrayList<GeoObject>) {
+
+                    }
+
+                    override fun onError(e: Throwable) {
+
+                    }
+
+                    override fun onCompleted() {
+
+                    }
+
+                })
     }
 
     override fun fabClicked(isBottomSheet: Boolean) {

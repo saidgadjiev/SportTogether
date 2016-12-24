@@ -152,6 +152,10 @@ class EventsMapFragment :
         eventDedailsBottomSheet.state = BottomSheetBehavior.STATE_COLLAPSED
     }
 
+    override fun updateAddress(address: String) {
+
+    }
+
     override fun onStart() {
         super.onStart()
         mapView.onStart()
@@ -263,7 +267,7 @@ class EventsMapFragment :
     override fun onFinishLoadTasks(tasks: ArrayList<Task>?) {
         if (tasks != null) {
             initTasks(tasks)
-            binding.tasksText.setOnClickListener {
+            binding.include.tasksText.setOnClickListener {
                 if (data.isTasksCanBeChanged.get())
                     tasksDialog!!.dialog.show()
             }
