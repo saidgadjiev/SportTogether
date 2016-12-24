@@ -3,6 +3,7 @@ package ru.mail.sporttogether.mvp.presenters.map
 import android.Manifest
 import android.graphics.Point
 import android.location.Location
+import android.util.Log
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -149,17 +150,19 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
 
     }
 
-    override fun loadAddressFromYandex(lat: Double, lng: Double) {
-        yandexApi.getAddressByCoordinates("json", "" + lng + "," + lat)
+    private fun loadAddressFromYandex(lat: Double, lng: Double) {
+        yandexApi.getAddressByCoordinates(longlat = "" + lng + "," + lat)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(object : Subscriber<ArrayList<GeoObject>>() {
                     override fun onNext(t: ArrayList<GeoObject>) {
-
+                        if (t.isNotEmpty()) {
+                            view?.updateAddress(t[0].textAddress)
+                        }
                     }
 
                     override fun onError(e: Throwable) {
-
+                        Log.e("yandex", e.message, e)
                     }
 
                     override fun onCompleted() {
@@ -321,7 +324,7 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
                     }
 
                     override fun onNext(t: IpResponse) {
-                        map.animateCamera(CameraUpdateFactory.newLatLng(LatLng(t.lat, t.lon)))
+                        map.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(t.lat, t.lon), 15f))
                     }
 
                 })
@@ -389,6 +392,7 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
             lastEventTasks = null //обнуляем таски, когда только кликнули по маркеру, считается, что когда массив = null, таски не загружены
             val isCancelable = (userId == event.user.id) and !event.isEnded
             view?.showInfo(lastEvent, isCancelable, lastEventTasks)
+            loadAddressFromYandex(event.lat, event.lng)
             map?.animateCamera(CameraUpdateFactory.newLatLng(LatLng(event.lat, event.lng)))
         }
     }

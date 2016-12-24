@@ -12,8 +12,8 @@ import java.util.*
  */
 interface YandexMapsApi {
     @GET("1.x/")
-    fun getAddressByCoordinates(@Query("toLongDateString") format: String, @Query("geocode") longlat: String): Observable<ArrayList<GeoObject>>
+    fun getAddressByCoordinates(@Query("format") format: String = "json", @Query("geocode") longlat: String): Observable<ArrayList<GeoObject>>
 
     @GET("1.x/")
-    fun getAddressesByString(@Query("toLongDateString") format: String, @Query("geocode") address: String): Observable<ArrayList<GeoObject>>
+    fun getAddressesByString(@Query("format") format: String = "json", @Query("geocode") address: String): Observable<ArrayList<GeoObject>>
 }

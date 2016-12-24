@@ -29,5 +29,4 @@ interface IMapPresenter :
 
     fun fabClicked(isBottomSheet: Boolean = false)
 
-    fun loadAddressFromYandex(lat: Double, lng: Double)
 }

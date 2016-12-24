@@ -152,7 +152,7 @@ class EventsMapFragment :
     }
 
     override fun updateAddress(address: String) {
-
+        data.address.set(address)
     }
 
     override fun onStart() {
