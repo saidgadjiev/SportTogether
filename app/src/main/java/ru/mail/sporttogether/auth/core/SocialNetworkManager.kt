@@ -2,7 +2,7 @@ package ru.mail.sporttogether.auth.core
 
 import android.content.Intent
 import android.util.Log
-import ru.mail.sporttogether.auth.core.listeners.OnInitializationCompleteListener
+import ru.mail.sporttogether.auth.core.listeners.OnRequestSocialPersonCompleteListener
 import ru.mail.sporttogether.auth.core.social_networks.FacebookSocialNetwork
 import ru.mail.sporttogether.auth.core.social_networks.VKSocialNetwork
 import ru.mail.sporttogether.net.models.User
@@ -15,9 +15,18 @@ import java.util.*
 
 class SocialNetworkManager private constructor() {
     private val socialNetworksMap = HashMap<Int, ISocialNetwork>()
-    private var onInitializationCompleteListener: OnInitializationCompleteListener? = null
+//    private var onInitializationCompleteListener: OnInitializationCompleteListener? = null
     private var networkID: Int = -1
     lateinit var activeUser: User
+
+    val facebookSocialNetwork: FacebookSocialNetwork
+        get() = socialNetworksMap.get(FacebookSocialNetwork.ID) as FacebookSocialNetwork
+
+    val vkSocialNetwork: VKSocialNetwork
+        get() = socialNetworksMap.get(VKSocialNetwork.ID) as VKSocialNetwork
+
+    val initializedSocialNetworks: List<ISocialNetwork>
+        get() = socialNetworksMap.values.toList()
 
     fun addSocialNetwork(network: ISocialNetwork) {
         socialNetworksMap.put(network.id!!, network)
@@ -31,25 +40,12 @@ class SocialNetworkManager private constructor() {
         }
     }
 
-    val facebookSocialNetwork: FacebookSocialNetwork
-        get() = socialNetworksMap.get(FacebookSocialNetwork.ID) as FacebookSocialNetwork
-
-    val vkSocialNetwork: VKSocialNetwork
-        get() = socialNetworksMap.get(VKSocialNetwork.ID) as VKSocialNetwork
-
-    fun setOnInitializationCompleteListener(onInitializationCompleteListener: OnInitializationCompleteListener) {
-        this.onInitializationCompleteListener = onInitializationCompleteListener
-    }
-
     fun getSocialNetwork(ID: Int): ISocialNetwork? {
         return socialNetworksMap.get(ID)
     }
 
-    val initializedSocialNetworks: List<ISocialNetwork>
-        get() = socialNetworksMap.values.toList()
 
     fun onResume() {
-        onInitializationCompleteListener!!.onSocialNetworkManagerInitialized()
     }
 
     fun setNetworkID(ID: Int) {
@@ -58,6 +54,18 @@ class SocialNetworkManager private constructor() {
 
     fun getNetworkID(): Int {
         return networkID
+    }
+
+    fun checkIsLogged(listener: OnRequestSocialPersonCompleteListener): Boolean {
+        if (vkSocialNetwork.isConnected) {
+            Log.d("#MY " + javaClass.simpleName, "vk is connected")
+            vkSocialNetwork.requestPerson(listener)
+        } else if (facebookSocialNetwork.isConnected) {
+            Log.d("#MY " + javaClass.simpleName, "facebook is connected")
+            facebookSocialNetwork.requestPerson(listener)
+        }
+
+        return true
     }
 
     private object Holder { val INSTANCE = SocialNetworkManager() }

@@ -7,7 +7,6 @@ import ru.mail.sporttogether.activities.SplashActivity
 import ru.mail.sporttogether.app.App
 import ru.mail.sporttogether.auth.core.SocialNetworkError
 import ru.mail.sporttogether.auth.core.SocialNetworkManager
-import ru.mail.sporttogether.auth.core.listeners.OnInitializationCompleteListener
 import ru.mail.sporttogether.auth.core.listeners.OnLoginCompleteListener
 import ru.mail.sporttogether.auth.core.listeners.OnRequestSocialPersonCompleteListener
 import ru.mail.sporttogether.auth.core.persons.SocialPerson
@@ -27,7 +26,7 @@ import javax.inject.Inject
  * Created by bagrusss on 07.11.16.
  *
  */
-class SplashActivityPresenterImpl(view: ISplashView) : SplashActivityPresenter, OnRequestSocialPersonCompleteListener, OnLoginCompleteListener, OnInitializationCompleteListener {
+class SplashActivityPresenterImpl(view: ISplashView) : SplashActivityPresenter, OnRequestSocialPersonCompleteListener, OnLoginCompleteListener {
 
     private var view: ISplashView? = view
     @Inject lateinit var api: AuthorizationAPI
@@ -44,9 +43,9 @@ class SplashActivityPresenterImpl(view: ISplashView) : SplashActivityPresenter, 
 
         socialNetworkManager.addSocialNetwork(networkFacebook)
         socialNetworkManager.addSocialNetwork(networkVK)
-        socialNetworkManager.setOnInitializationCompleteListener(this)
-
-        tryLogin()
+//        socialNetworkManager.setOnInitializationCompleteListener(this)
+        socialNetworkManager.checkIsLogged(this)
+//        tryLogin()
     }
 
     private fun tryLogin() {
@@ -62,11 +61,9 @@ class SplashActivityPresenterImpl(view: ISplashView) : SplashActivityPresenter, 
         view = null
     }
 
-    override fun onSocialNetworkManagerInitialized() {
-
-    }
-
     override fun onComplete(person: SocialPerson, ID: Int) {
+        Log.d("#MY " + javaClass.simpleName, "in on complete : " + person)
+
         headerManager.clientId = person.id!!
         headerManager.token = socialNetworkManager.getSocialNetwork(ID)!!.token
         api.updateAuthorization(Profile(person.avatarURL!!, person.name!!))
@@ -78,7 +75,7 @@ class SplashActivityPresenterImpl(view: ISplashView) : SplashActivityPresenter, 
                     }
 
                     override fun onNext(t: Response<Any>?) {
-                        Log.d("#MY ", "answer from server")
+                        Log.d("#MY " + javaClass.simpleName, "answer from server : " + person)
                         socialNetworkManager.setNetworkID(ID)
                         view?.startMainActivity()
                     }

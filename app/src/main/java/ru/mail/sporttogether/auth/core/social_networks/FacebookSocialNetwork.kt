@@ -34,6 +34,9 @@ class FacebookSocialNetwork(private val activity: Activity) : ISocialNetwork {
     private val ACCESS_TOKEN = "FacebookAccessToken"
     private var socialPerson: SocialPerson? = null
 
+    override val isConnected: Boolean
+        get() = !sharedPreferences.getString(ACCESS_TOKEN, "")!!.isEmpty()
+
     init {
         this.sharedPreferences = activity.getSharedPreferences(SocialNetworkManager.SHARED_PREFERCE_TAG, Context.MODE_PRIVATE)
         this.callbackManager = CallbackManager.Factory.create()
@@ -87,6 +90,7 @@ class FacebookSocialNetwork(private val activity: Activity) : ISocialNetwork {
             Log.d(TAG, "Facebook sdk already initialized")
         } else {
             FacebookSdk.sdkInitialize(activity)
+            AccessToken.refreshCurrentAccessTokenAsync()
             Log.d(TAG, "Facebook sdk initialize")
         }
     }
@@ -119,27 +123,32 @@ class FacebookSocialNetwork(private val activity: Activity) : ISocialNetwork {
         callbackManager.onActivityResult(requestCode, resultCode, data)
     }
 
-    override val isConnected: Boolean
-        get() = !sharedPreferences.getString(ACCESS_TOKEN, "")!!.isEmpty()
-
     override fun requestPerson(onRequestSocialPersonCompleteListener: OnRequestSocialPersonCompleteListener) {
         if (!isConnected) {
-            onRequestSocialPersonCompleteListener.onError(SocialNetworkError("Please loggin first", -1))
+            onRequestSocialPersonCompleteListener.onError(SocialNetworkError("Please login first", -1))
 
             return
         }
-        val graphRequest = GraphRequest.newMeRequest(
-                AccessToken.getCurrentAccessToken()) { `object`, response ->
-            Log.d(TAG, `object`.toString())
-            socialPerson = SocialPerson()
-            try {
-                getSocialPerson(socialPerson!!, `object`)
-            } catch (e: JSONException) {
-                e.printStackTrace()
-                onRequestSocialPersonCompleteListener.onError(SocialNetworkError(e.message!!, -1))
+        val currentAccessToken = AccessToken.getCurrentAccessToken()
+        Log.d("#MY " + javaClass.simpleName, "fb request person started. current access token : " + currentAccessToken)
+        val graphRequest =
+                GraphRequest.newMeRequest(currentAccessToken) { `object`, response ->
+            if (response.error != null && response.error.requestStatusCode == 400) {
+                Log.d("#MY " + javaClass.simpleName, "fb request person error")
+                onRequestSocialPersonCompleteListener.onError(SocialNetworkError("fb 400 error", -1))
+            } else {
+                Log.d(TAG, `object`.toString())
+                socialPerson = SocialPerson()
+                try {
+                    getSocialPerson(socialPerson!!, `object`)
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                    onRequestSocialPersonCompleteListener.onError(SocialNetworkError(e.message!!, -1))
+                }
+
+                onRequestSocialPersonCompleteListener.onComplete(socialPerson!!, ID)
             }
 
-            onRequestSocialPersonCompleteListener.onComplete(socialPerson!!, ID)
         }
         val parameters = Bundle()
 
@@ -181,7 +190,7 @@ class FacebookSocialNetwork(private val activity: Activity) : ISocialNetwork {
 
     override fun tryAutoLogin(onLoginCompleteListener: OnLoginCompleteListener): Boolean {
         if (isConnected) {
-            onLoginCompleteListener.onSuccess(VKSocialNetwork.ID)
+            onLoginCompleteListener.onSuccess(FacebookSocialNetwork.ID)
 
             return true
         }
@@ -195,7 +204,7 @@ class FacebookSocialNetwork(private val activity: Activity) : ISocialNetwork {
         get() = sharedPreferences.getString(ACCESS_TOKEN, "")
 
     companion object {
-        private val TAG = "FacebookSocialNetwork"
+        private val TAG = "#MY "
         val ID = 1
     }
 }

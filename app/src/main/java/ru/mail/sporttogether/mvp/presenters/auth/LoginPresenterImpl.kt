@@ -23,9 +23,6 @@ import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import javax.inject.Inject
 
-/**
- * Created by said on 26.11.16.
- */
 class LoginPresenterImpl(view: ILoginView) : ILoginPresenter, OnLoginCompleteListener, OnRequestSocialPersonCompleteListener {
 
     private var view: ILoginView? = view
@@ -58,7 +55,7 @@ class LoginPresenterImpl(view: ILoginView) : ILoginPresenter, OnLoginCompleteLis
 
                     override fun onNext(resp: Response<User>?) {
                         val user = resp!!.data
-                        Log.d("#MY ", "answer from server : " + user)
+                        Log.d("#MY " + javaClass.simpleName, "answer from server : " + user)
                         socialNetworkManager.setNetworkID(ID)
                         socialNetworkManager.activeUser = user
                         view?.startMainActivity()

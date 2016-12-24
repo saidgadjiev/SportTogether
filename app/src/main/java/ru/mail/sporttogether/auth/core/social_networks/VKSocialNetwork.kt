@@ -35,6 +35,9 @@ class VKSocialNetwork(activity: Activity) : ISocialNetwork {
     private val ACCESS_TOKEN = "VKAccessToken"
     private var socialPerson: SocialPerson ?= null
 
+    override val isConnected: Boolean
+        get() = !sharedPreferences.getString(ACCESS_TOKEN, "")!!.isEmpty()
+
     internal var vkAccessTokenTracker: VKAccessTokenTracker = object : VKAccessTokenTracker() {
         override fun onVKAccessTokenChanged(oldToken: VKAccessToken?, newToken: VKAccessToken?) {
             if (newToken != null) {
@@ -106,9 +109,6 @@ class VKSocialNetwork(activity: Activity) : ISocialNetwork {
             }
         })
     }
-
-    override val isConnected: Boolean
-        get() = !sharedPreferences.getString(ACCESS_TOKEN, "")!!.isEmpty()
 
     override fun sharePost(activity: Activity, title: String, description: String, uri: String) {
         val builder = VKShareDialogBuilder()
@@ -208,7 +208,7 @@ class VKSocialNetwork(activity: Activity) : ISocialNetwork {
     }
 
     companion object {
-        private val TAG = "VKSocialNetwork"
+        private val TAG = "#MY "
         val ID = 2
     }
 }
