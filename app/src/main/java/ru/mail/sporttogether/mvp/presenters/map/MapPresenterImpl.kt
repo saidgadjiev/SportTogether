@@ -138,10 +138,6 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
         view?.hideInfo()
     }
 
-    override fun onShareButtonClicked() {
-        view?.shareResults()
-    }
-
     override fun onCameraMoveStarted(p0: Int) {
 
     }
@@ -231,7 +227,7 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
                 })
     }
 
-    override fun onCancelButtonClicked() {
+    override fun cancelEvent() {
         apiSubscribtion?.unsubscribe()
         api.cancelEvent(lastEvent.id)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -406,7 +402,7 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
         view?.finishView()
     }
 
-    override fun onAngryButtonClicked() {
+    override fun doAngry() {
         api.report(lastEvent.id)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -430,7 +426,7 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
                 })
     }
 
-    override fun onJoinButtonClicked() {
+    override fun doJoin() {
         if (lastEvent.isEnded) {
             view?.showToast("Событие уже завершилось")
         } else

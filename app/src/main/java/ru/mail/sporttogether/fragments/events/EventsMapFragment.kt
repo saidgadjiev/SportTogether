@@ -21,6 +21,7 @@ import ru.mail.sporttogether.app.App
 import ru.mail.sporttogether.auth.core.SocialNetworkManager
 import ru.mail.sporttogether.data.binding.event.ButtonListener
 import ru.mail.sporttogether.data.binding.event.EventDetailsData
+import ru.mail.sporttogether.data.binding.event.EventDetailsListener
 import ru.mail.sporttogether.databinding.EventsMapBinding
 import ru.mail.sporttogether.databinding.ShowingTasksBinding
 import ru.mail.sporttogether.fragments.CheckingTasks
@@ -41,6 +42,7 @@ import java.util.*
 class EventsMapFragment :
         PresenterFragment<IMapPresenter>(),
         IMapView,
+        EventDetailsListener,
         ButtonListener,
         CheckingTasks {
 
@@ -55,14 +57,13 @@ class EventsMapFragment :
 
     private lateinit var eventsListView: RecyclerView
     private val adapter = EventsAdapter()
+    private var dialog: AlertDialog? = null
 
 //    private val tasksDialog
 
     private var markerDownX = 0
     private var markerDownY = 0
     private var tabHeight = 0
-
-    private lateinit var animator: ViewPropertyAnimator
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         App.injector
@@ -157,7 +158,7 @@ class EventsMapFragment :
     override fun onStart() {
         super.onStart()
         mapView.onStart()
-        binding.listener = presenter
+        binding.listener = this
         binding.addListener = this
     }
 
@@ -192,6 +193,33 @@ class EventsMapFragment :
         super.onDestroyView()
         mapView.onDestroy()
         tasksDialog = null
+    }
+
+    override fun onAngryButtonClicked() {
+        if (dialog == null)
+            dialog = AlertDialog.Builder(context)
+                    .setPositiveButton(android.R.string.yes, { dialog, which ->
+                        presenter.doAngry()
+                        dialog.cancel()
+                    })
+                    .setNegativeButton(android.R.string.no, { dialog, which ->
+                        dialog.cancel()
+                    })
+                    .setMessage(R.string.want_angry)
+                    .create()
+        else dialog!!.show()
+    }
+
+    override fun onJoinButtonClicked() {
+        presenter.doJoin()
+    }
+
+    override fun onShareButtonClicked() {
+        shareResults()
+    }
+
+    override fun onCancelButtonClicked() {
+        presenter.cancelEvent()
     }
 
     override fun loadEvents(events: MutableList<Event>) {

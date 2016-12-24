@@ -13,7 +13,6 @@ import ru.mail.sporttogether.mvp.presenters.IPresenter
 interface IMapPresenter :
         IPresenter,
         OnMapReadyCallback,
-        EventDetailsListener,
         CheckingTasks,
         GoogleMap.OnMapClickListener,
         GoogleMap.OnMarkerClickListener,
@@ -28,5 +27,11 @@ interface IMapPresenter :
     fun loadTasks()
 
     fun fabClicked(isBottomSheet: Boolean = false)
+
+    fun cancelEvent()
+
+    fun doJoin()
+
+    fun doAngry()
 
 }
