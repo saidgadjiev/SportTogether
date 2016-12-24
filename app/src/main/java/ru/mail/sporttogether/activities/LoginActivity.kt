@@ -13,7 +13,7 @@ import ru.mail.sporttogether.mvp.presenters.auth.LoginPresenterImpl
 import ru.mail.sporttogether.mvp.views.login.ILoginView
 import javax.inject.Inject
 
-class LoginActivity: PresenterActivity<ILoginPresenter>(), ILoginView, android.support.v4.app.FragmentManager.OnBackStackChangedListener {
+class LoginActivity: PresenterActivity<ILoginPresenter>(), ILoginView {
 
     private lateinit var binding: ActivityLoginBinding
     private lateinit var vk: Button
@@ -24,6 +24,8 @@ class LoginActivity: PresenterActivity<ILoginPresenter>(), ILoginView, android.s
         super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
+
+        supportActionBar!!.setDisplayHomeAsUpEnabled(false)
 
         vk = binding.vk
         facebook = binding.facebook
@@ -55,18 +57,18 @@ class LoginActivity: PresenterActivity<ILoginPresenter>(), ILoginView, android.s
         finish()
     }
 
-    override fun onBackStackChanged() {
-        homeAsUpByBackStack()
-    }
-
-    private fun homeAsUpByBackStack() {
-        val backStackEntryCount = supportFragmentManager.backStackEntryCount
-        if (backStackEntryCount > 0) {
-            supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        } else {
-            supportActionBar!!.setDisplayHomeAsUpEnabled(false)
-        }
-    }
+//    override fun onBackStackChanged() {
+//        homeAsUpByBackStack()
+//    }
+//
+//    private fun homeAsUpByBackStack() {
+//        val backStackEntryCount = supportFragmentManager.backStackEntryCount
+//        if (backStackEntryCount > 0) {
+//            supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+//        } else {
+//            supportActionBar!!.setDisplayHomeAsUpEnabled(false)
+//        }
+//    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

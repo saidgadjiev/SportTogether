@@ -3,8 +3,7 @@ package ru.mail.sporttogether.mvp.presenters.map
 import android.Manifest
 import android.graphics.Point
 import android.location.Location
-import android.os.Bundle
-import android.util.Log
+
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
@@ -312,7 +311,7 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
         serviceApi.getLocationByIP()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object :Subscriber<IpResponse>(){
+                .subscribe(object : Subscriber<IpResponse>() {
                     override fun onError(e: Throwable) {
                         view?.showToast(R.string.cant_load_position)
                     }
@@ -390,6 +389,7 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
             lastEventTasks = null //обнуляем таски, когда только кликнули по маркеру, считается, что когда массив = null, таски не загружены
             val isCancelable = (userId == event.user.id) and !event.isEnded
             view?.showInfo(lastEvent, isCancelable, lastEventTasks)
+            map?.animateCamera(CameraUpdateFactory.newLatLng(LatLng(event.lat, event.lng)))
         }
     }
 
@@ -488,7 +488,6 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
     }
 
     override fun checkTask(task: Task) {
-        Log.d("#MY " + javaClass.simpleName, "In presenter : " + task)
         api.checkTask(task).observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(object : Subscriber<Response<Any>>() {
@@ -507,7 +506,9 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
                             if (changedTask != null) {
                                 val index = tasks?.indexOf(changedTask)!!.or(0)
                                 tasks?.remove(changedTask)
-                                tasks?.add(index, changedTask.copy(user = User("", SocialNetworkManager.instance.activeUser.id, 0))) //TODO inject social network manager
+                                val activeUser = SocialNetworkManager.instance.activeUser
+                                val newUser = User("", activeUser.id, 0, activeUser.name, activeUser.avatar)
+                                tasks?.add(index, changedTask.copy(user = newUser)) //TODO inject social network manager
                             }
                             render()
                         } else view?.showToast(t.message)

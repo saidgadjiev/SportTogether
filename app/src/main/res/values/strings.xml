@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SportTogether</string>
+    <string name="app_name">Забей стрелку</string>
     <string name="add">Добавить</string>
     <string name="name_event_hint">Название события</string>
     <string name="max_people_event_hint">Максимум людей</string>
@@ -38,5 +38,6 @@
     <string name="add_event">Создать событие</string>
     <string name="add_result">Добавить итог</string>
     <string name="people">участники</string>
+    <string name="add_to_event">Присоединиться к событию</string>
 
 </resources>

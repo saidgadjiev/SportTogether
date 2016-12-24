@@ -9,10 +9,16 @@ import java.util.*
  */
 class DateUtils {
     companion object DateUtils {
-        fun format(calendar: GregorianCalendar): String {
+        fun toLongDateString(calendar: GregorianCalendar): String {
             val fmt = SimpleDateFormat("dd MMM yyyy HH:mm", Locale.getDefault())
             fmt.setCalendar(calendar)
             val dateFormatted = fmt.format(calendar.getTime())
+            return dateFormatted
+        }
+
+        fun toXLongDateString(date: Date): String {
+            val fmt = SimpleDateFormat("dd MMMM yyyy HH:mm", Locale.getDefault())
+            val dateFormatted = fmt.format(date)
             return dateFormatted
         }
     }

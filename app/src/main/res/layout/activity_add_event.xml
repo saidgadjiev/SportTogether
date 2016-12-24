@@ -79,16 +79,19 @@
                         android:drawableStart="@drawable/ic_people"
                         android:inputType="number"
                         android:text="10"
+                        android:maxLines="1"
+                        android:maxLength="5"
+                        android:maxEms="15"
                         android:textAlignment="textEnd" />
                 </LinearLayout>
 
-                <EditText
-                    android:id="@+id/event_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/name_event_hint"
-                    android:maxEms="15"
-                    android:maxLines="1" />
+                <!--<EditText-->
+                    <!--android:id="@+id/event_name"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:hint="@string/name_event_hint"-->
+                    <!--android:maxEms="15"-->
+                    <!--android:maxLines="1" />-->
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -144,6 +147,24 @@
                 android:layout_height="wrap_content"
                 android:hint="@{data.mainDataVisibility? @string/description : @string/result_header}"
                 android:lines="3" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:buttonTint="@color/colorAccent"
+                    android:id="@+id/add_me_now"/>
+                <TextView
+                    style="@style/SecondaryText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/add_to_event"
+                    android:layout_toEndOf="@id/add_me_now"
+                    android:layout_alignBaseline="@+id/add_me_now"/>
+            </RelativeLayout>
 
             <Button
                 android:id="@+id/add_button"

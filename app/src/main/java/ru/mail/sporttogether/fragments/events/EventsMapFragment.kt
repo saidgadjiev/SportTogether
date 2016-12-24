@@ -9,7 +9,6 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SearchView
-import android.util.Log
 import android.view.*
 import android.widget.FrameLayout
 import com.google.android.gms.maps.MapView
@@ -31,7 +30,7 @@ import ru.mail.sporttogether.mvp.presenters.map.MapPresenterImpl
 import ru.mail.sporttogether.mvp.views.map.IMapView
 import ru.mail.sporttogether.net.models.Event
 import ru.mail.sporttogether.net.models.Task
-import java.text.SimpleDateFormat
+import ru.mail.sporttogether.utils.DateUtils
 import java.util.*
 
 
@@ -226,13 +225,25 @@ class EventsMapFragment :
     }
 
     override fun render(event: Event, isCancelable: Boolean, tasks: ArrayList<Task>?) {
+        renderBaseInfo(event)
+        renderResult(event)
+        data.showCancelButton.set(isCancelable)
+        renderTasks(event, tasks)
+    }
+
+    private fun renderBaseInfo(event: Event) {
         data.category.set(event.category.name)
         data.name.set(event.name)
-        data.date.set(SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.getDefault()).format(Date(event.date)))
+        data.date.set(DateUtils.toXLongDateString(Date(event.date)))
         data.description.set(event.description)
         data.withDescription.set(event.description.isNotEmpty())
         data.isReported.set(event.isReported)
         data.isJoined.set(event.isJoined)
+        val people = getString(R.string.users, event.nowPeople, event.maxPeople)
+        data.peopleCount.set(people)
+    }
+
+    private fun renderResult(event: Event) {
         if (event.result != null) {
             data.isEnded.set(event.result!!.isNotEmpty())
             data.result.set(event.result!!)
@@ -240,14 +251,15 @@ class EventsMapFragment :
             data.isEnded.set(false)
             data.result.set("")
         }
-        val people = getString(R.string.users, event.nowPeople, event.maxPeople)
-        data.peopleCount.set(people)
-        data.showCancelButton.set(isCancelable)
+    }
+
+    private fun renderTasks(event: Event, tasks: ArrayList<Task>?) {
         if (tasks != null) {
-            //в адаптере хранится ссылка на массив тасков, с ним синхронизируется
             data.tasksInfo.set(Event.tasksInfo(tasks))
+            val withTasks = tasks.size > 0
+            data.withTasks.set(withTasks)
             data.isTasksReady.set(true)
-            data.isTasksCanBeChanged.set(data.isTasksReady.get() && event.isJoined && !event.isEnded)
+            data.isTasksCanBeChanged.set(withTasks && event.isJoined && !event.isEnded)
             if (event.isEnded) {
                 data.tasksMessage.set("событие уже завершено")
             } else if (!event.isJoined) {
@@ -258,10 +270,10 @@ class EventsMapFragment :
             tasksDialog?.taskAdapter?.swapTasks()
         } else {
             data.tasksMessage.set("идет загрузка задач")
+            data.withTasks.set(false)
             data.isTasksReady.set(false)
             data.isTasksCanBeChanged.set(false)
         }
-        Log.d("#MY " + javaClass.simpleName, "isTasksCanBeChanged : " + data.isTasksCanBeChanged.get())
     }
 
     override fun onFinishLoadTasks(tasks: ArrayList<Task>?) {
@@ -355,9 +367,6 @@ class EventsMapFragment :
             val dialog: AlertDialog) {
         init {
             this.dialog.setView(this.binding.root)
-            this.binding.tasksOkBtn.setOnClickListener {
-                this.dialog.hide()
-            }
         }
     }
 }

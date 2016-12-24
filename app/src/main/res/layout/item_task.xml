@@ -13,11 +13,13 @@
 
     </data>
     <RelativeLayout
+        android:paddingTop="@dimen/offset_small"
+        android:paddingBottom="@dimen/offset_small"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
             android:buttonTint="@{data.iMayChecked ? @color/colorAccent : @color/gray}"
             android:checked="@{data.isChecked}"
             android:clickable="@{data.iMayChecked}"
@@ -28,8 +30,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{data.message}"
-            android:layout_alignBaseline="@+id/task_checkbox"
             android:layout_toEndOf="@+id/task_checkbox" />
+
+
+        <TextView
+            style="@style/SecondaryText"
+            android:id="@+id/task_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{data.username}"
+            android:layout_alignStart="@id/task_message"
+            android:layout_alignBottom="@+id/task_checkbox" />
 
         <TextView
             android:id="@+id/task_id"

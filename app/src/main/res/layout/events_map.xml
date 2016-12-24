@@ -76,6 +76,7 @@
                 app:addListener="@{addListener}"
                 app:data="@{data}"
                 app:listener="@{listener}" />
+
         </FrameLayout>
 
         <android.support.design.widget.FloatingActionButton

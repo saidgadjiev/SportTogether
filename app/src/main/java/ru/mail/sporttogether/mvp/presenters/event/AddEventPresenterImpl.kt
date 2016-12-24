@@ -1,5 +1,7 @@
 package ru.mail.sporttogether.mvp.presenters.event
 
+import android.util.Log
+import com.google.firebase.iid.FirebaseInstanceId
 import ru.mail.sporttogether.app.App
 import ru.mail.sporttogether.managers.events.EventsManager
 import ru.mail.sporttogether.mvp.views.event.IAddEventView
@@ -11,6 +13,7 @@ import ru.mail.sporttogether.net.models.EventResult
 import ru.mail.sporttogether.net.models.Task
 import ru.mail.sporttogether.net.responses.CategoriesResponse
 import ru.mail.sporttogether.net.responses.Response
+import ru.mail.sporttogether.utils.DateUtils
 import rx.Subscriber
 import rx.Subscription
 import rx.android.schedulers.AndroidSchedulers
@@ -53,9 +56,20 @@ class AddEventPresenterImpl(var view: IAddEventView?) : AddEventPresenter {
                                  lng: Double,
                                  description: String,
                                  maxPeople: Int,
-                                 tasks: ArrayList<Task>) {
+                                 tasks: ArrayList<Task>,
+                                 addMeNow: Boolean
+    ) {
+        val sb = StringBuilder(categoryName)
+        sb.append(", ")
+                .append(DateUtils.DateUtils.toXLongDateString(date))
+                .append(". ")
+                .append(maxPeople)
+                .append(" человек(а)")
+        val nameEvent = sb.toString()
+        Log.d("#MY ", "generated name : " + nameEvent)
+
         val event = Event(
-                name = name,
+                name = nameEvent,
                 category = Category(null, categoryName),
                 lat = lat,
                 lng = lng,
@@ -76,6 +90,10 @@ class AddEventPresenterImpl(var view: IAddEventView?) : AddEventPresenter {
                         if (response.code == 0) {
                             eventsManager.addEvent(response.data)
                             view?.onEventAdded(response.data.name)
+
+                            if (addMeNow == true) {
+                                join(response.data.id)
+                            }
                         }
                     }
 
@@ -146,6 +164,28 @@ class AddEventPresenterImpl(var view: IAddEventView?) : AddEventPresenter {
                     }
 
                     override fun onCompleted() {
+
+                    }
+
+                })
+    }
+
+    fun join(id: Long) {
+        eventsApi.joinToEvent(id, FirebaseInstanceId.getInstance().token)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(object : Subscriber<Response<Any>>() {
+                    override fun onNext(t: Response<Any>) {
+                        if (t.code === 0) {
+                            Log.i("#MY " + javaClass.simpleName, "Вы присоеденены к событию")
+                        } else view?.showToast(t.message)
+                    }
+
+                    override fun onCompleted() {
+
+                    }
+
+                    override fun onError(e: Throwable) {
 
                     }
 
