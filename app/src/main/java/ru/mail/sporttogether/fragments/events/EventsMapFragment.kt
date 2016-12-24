@@ -49,7 +49,6 @@ class EventsMapFragment :
     private lateinit var mapView: MapView
     private lateinit var binding: EventsMapBinding
     private lateinit var eventDedailsBottomSheet: BottomSheetBehavior<View>
-    private lateinit var bottomSheetEventsList: BottomSheetBehavior<View>
     private val data = EventDetailsData()
     private var tasksDialog: TasksDialog? = null
     private lateinit var resultsContainer: FrameLayout
@@ -148,7 +147,7 @@ class EventsMapFragment :
     override fun showInfo(event: Event, isCancelable: Boolean, tasks: ArrayList<Task>?) {
         render(event, isCancelable, tasks)
         presenter.loadTasks()
-        eventDedailsBottomSheet.state = BottomSheetBehavior.STATE_COLLAPSED
+
     }
 
     override fun updateAddress(address: String) {
@@ -229,6 +228,8 @@ class EventsMapFragment :
         renderResult(event)
         data.showCancelButton.set(isCancelable)
         renderTasks(event, tasks)
+        eventDedailsBottomSheet.peekHeight = binding.include.cardviewHeader.height + binding.include.frameLayout.height
+        eventDedailsBottomSheet.state = BottomSheetBehavior.STATE_COLLAPSED
     }
 
     private fun renderBaseInfo(event: Event) {
