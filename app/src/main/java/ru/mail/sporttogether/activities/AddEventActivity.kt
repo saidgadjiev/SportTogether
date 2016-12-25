@@ -48,7 +48,7 @@ class AddEventActivity :
     private lateinit var lng: String
     private val handler = Handler()
     private var eventId = 0L
-    private var settedDate: GregorianCalendar = GregorianCalendar()
+    private var settedDate: GregorianCalendar? = null
     private lateinit var pickDateText: TextView
 
     private var addTasksDialog: AddTasksDialog? = null
@@ -98,7 +98,7 @@ class AddEventActivity :
     }
 
     private fun initPickDate() {
-        pickDateText.text = DateUtils.toLongDateString(settedDate)
+//        pickDateText.text = DateUtils.toLongDateString(settedDate)
 
         val mPickDateBtn = binding.pickDateButton
 
@@ -120,7 +120,7 @@ class AddEventActivity :
                         datepicker.dayOfMonth,
                         timepicker.currentHour,
                         timepicker.currentMinute)
-                pickDateText.text = DateUtils.toLongDateString(settedDate)
+                pickDateText.text = DateUtils.toLongDateString(settedDate!!)
                 alertDialog.hide()
             }
             alertDialog.setView(datepickerDialogView)
@@ -173,6 +173,11 @@ class AddEventActivity :
     }
 
     override fun onButtonClicked() {
+        if (settedDate == null) {
+            Toast.makeText(this, "Дата события не задана", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         if (data.resultVisibility.get()) {
             presenter.sendResult(eventId, binding.description.text.toString())
             return
@@ -200,7 +205,7 @@ class AddEventActivity :
 
         presenter.addEventClicked("not used", // TODO убрать
                 nameCategory,
-                settedDate.time,
+                settedDate!!.time,
                 lat.toDouble(),
                 lng.toDouble(),
                 binding.description.text.toString(),
