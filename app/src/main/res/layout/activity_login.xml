@@ -16,8 +16,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_margin="8dp"
-            android:background="@color/vk"
-            android:text="Login via Facebook"
+            android:background="@color/fb"
+            android:text="Войти через Facebook"
             android:textColor="#ffffffff" />
 
         <Button
@@ -27,8 +27,8 @@
             android:layout_gravity="center_horizontal"
             android:layout_margin="8dp"
             android:background="@color/vk"
-            android:text="Login via VK"
-            android:visibility="invisible"
+            android:text="Войти через Вконтакте"
+            android:visibility="visible"
             android:textColor="#ffffffff" />
     </LinearLayout>
 </layout>
