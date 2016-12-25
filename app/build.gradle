@@ -104,7 +104,7 @@ dependencies {
 
 
     compile 'com.facebook.android:facebook-android-sdk:4.17.0'
-    compile 'com.vk:androidsdk:1.6.5'
+    compile 'com.vk:androidsdk:1.6.7'
 
     //compile 'com.google.maps.android:android-maps-utils:0.4+'
 
