@@ -1,7 +1,7 @@
 package ru.mail.sporttogether.app
 
-import android.app.Application
 import android.content.Context
+import android.support.multidex.MultiDexApplication
 import com.facebook.stetho.Stetho
 import com.vk.sdk.VKSdk
 import ru.mail.sporttogether.BuildConfig
@@ -10,10 +10,9 @@ import ru.mail.sporttogether.dagger.components.DaggerAppMainComponent
 
 
 /**
- * Created by said on 19.09.16.
- *
+ * Created by said on 19.09.16
  */
-class App : Application() {
+class App : MultiDexApplication() {
 
     companion object {
         lateinit var injector: AppMainComponent
