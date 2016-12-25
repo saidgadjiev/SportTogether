@@ -41,7 +41,7 @@ class FacebookSocialNetwork(private val activity: Activity) : ISocialNetwork {
         get() = sharedPreferences.getString(ACCESS_TOKEN, "")
 
     override val isConnected: Boolean
-        get() = !sharedPreferences.getString(ACCESS_TOKEN, "")!!.isEmpty()
+        get() = !sharedPreferences.getString(ACCESS_TOKEN, "").isEmpty()
 
     init {
         this.sharedPreferences = activity.getSharedPreferences(SocialNetworkManager.SHARED_PREFERCE_TAG, Context.MODE_PRIVATE)
