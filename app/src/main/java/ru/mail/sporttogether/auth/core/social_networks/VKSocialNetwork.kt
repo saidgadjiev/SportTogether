@@ -33,14 +33,14 @@ class VKSocialNetwork(activity: Activity) : ISocialNetwork {
     private lateinit var sharedPreferences: SharedPreferences
     private val scopes: Array<String>
     private val ACCESS_TOKEN = "VKAccessToken"
-    private var socialPerson: SocialPerson ?= null
+    private var socialPerson: SocialPerson? = null
 
     override val isConnected: Boolean
-        get() = !sharedPreferences.getString(ACCESS_TOKEN, "")!!.isEmpty()
+        get() = !sharedPreferences.getString(ACCESS_TOKEN, "").isNullOrEmpty()
 
     internal var vkAccessTokenTracker: VKAccessTokenTracker = object : VKAccessTokenTracker() {
         override fun onVKAccessTokenChanged(oldToken: VKAccessToken?, newToken: VKAccessToken?) {
-            if (newToken != null) {
+            newToken?.let {
                 sharedPreferences
                         .edit()
                         .putString(ACCESS_TOKEN, newToken.accessToken)
@@ -51,7 +51,7 @@ class VKSocialNetwork(activity: Activity) : ISocialNetwork {
 
     init {
         this.sharedPreferences = activity.getSharedPreferences(SocialNetworkManager.SHARED_PREFERCE_TAG, Context.MODE_PRIVATE)
-        this.scopes = arrayOf(VKScopes.OFFLINE, VKScopes.WALL)
+        this.scopes = arrayOf(VKScopes.OFFLINE, VKScopes.WALL, VKScopes.FRIENDS)
         vkAccessTokenTracker.startTracking()
     }
 
@@ -140,31 +140,29 @@ class VKSocialNetwork(activity: Activity) : ISocialNetwork {
 
         val request = VKApi.users().get(VKParameters.from(VKApiConst.FIELDS, "id,first_name,last_name,photo_50"))
 
-        request.secure = false
         request.useSystemLanguage = true
         request.executeWithListener(object : VKRequest.VKRequestListener() {
-            override fun onComplete(response: VKResponse?) {
+            override fun onComplete(response: VKResponse) {
                 super.onComplete(response)
 
                 socialPerson = SocialPerson()
                 try {
-                    val jsonResponse = response!!.json.getJSONArray("response").getJSONObject(0)
+                    val jsonResponse = response.json.getJSONArray("response").getJSONObject(0)
                     getSocialPerson(socialPerson!!, jsonResponse)
                     onRequestSocialPersonCompleteListener.onComplete(socialPerson!!, ID)
                     Log.d(TAG, jsonResponse.toString())
                 } catch (e: JSONException) {
-                    e.printStackTrace()
+                    Log.e(TAG, e.message, e)
                 }
 
             }
 
-            override fun attemptFailed(request: VKRequest?, attemptNumber: Int, totalAttempts: Int) {
-                super.attemptFailed(request, attemptNumber, totalAttempts)
+            override fun attemptFailed(request: VKRequest, attemptNumber: Int, totalAttempts: Int) {
+
             }
 
-            override fun onError(error: VKError?) {
-                super.onError(error)
-                onRequestSocialPersonCompleteListener.onError(SocialNetworkError(error!!.errorMessage, error.errorCode))
+            override fun onError(error: VKError) {
+                onRequestSocialPersonCompleteListener.onError(SocialNetworkError(error.errorMessage, error.errorCode))
             }
         })
     }
@@ -176,7 +174,7 @@ class VKSocialNetwork(activity: Activity) : ISocialNetwork {
             socialPerson.id = "vk|" + user.getString("id")
         }
         if (user.has("first_name")) {
-            socialPerson.name = user.getString("first_name")
+            socialPerson.name = user.getString("first_name") + ' ' + user.getString("last_name")
         }
         if (user.has("email")) {
             socialPerson.email = user.getString("email")
