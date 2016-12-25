@@ -59,6 +59,8 @@ android {
         prod {
             minSdkVersion 16
 //            multiDexEnabled false
+            proguardFile 'proguard.pro'
+
             buildConfigField "boolean", "ALLOW_SELF_SINGED_SSL", "false"
         }
     }
@@ -69,16 +71,15 @@ android {
             minifyEnabled true
             shrinkResources true
             debuggable false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            resValue "string", "google_maps_api_key", "your key"
             signingConfig signingConfigs.key
+            proguardFile 'proguard.pro'
         }
+
         debug {
             versionNameSuffix "_dev"
             debuggable true
             applicationIdSuffix '.debug'
             versionNameSuffix '-DEBUG'
-            resValue "string", "google_maps_api_key", "our key"
         }
     }
 }
