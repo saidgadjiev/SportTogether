@@ -6,12 +6,15 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="colorControlNormal">@color/vk_white</item>
 
         <item name="android:textColorPrimary">@color/app_primary_text</item>
         <item name="android:textColorSecondary">@color/colorSecondaryText</item>
         <item name="android:textColor">@color/app_primary_text</item>
         <item name="android:textSize">@dimen/font_medium</item>
+
+        <item name="colorControlNormal">@color/colorPrimary</item>
+        <item name="colorControlActivated">@color/colorAccent</item>
+        <item name="colorControlHighlight">@color/colorAccent</item>
 
         <item name="material_drawer_selected">@color/vk_white</item>
         <item name="material_drawer_selected_text">@color/colorPrimary</item>
@@ -58,9 +61,12 @@
     </style>
 
     <style name="FlatButton" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:height">36dp</item>
         <item name="android:textSize">@dimen/font_medium</item>
         <item name="android:fontFamily">sans-serif</item>
-        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textColor">@color/md_white_1000</item>
+        <item name="android:paddingStart">8dp</item>
+        <item name="android:paddingEnd">8dp</item>
         <item name="android:background">@drawable/raised_button_background</item>
 
     </style>

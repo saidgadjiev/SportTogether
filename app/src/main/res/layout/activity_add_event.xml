@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -19,71 +20,274 @@
             type="ru.mail.sporttogether.data.binding.tasks.AddTasksListener" />
 
     </data>
-
-    <ScrollView
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/md_white_1000">
 
-        <LinearLayout
-            android:id="@+id/activity_add_event"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
-            android:padding="@dimen/material_padding"
-            tools:context=".activities.AddEventActivity">
+        <TextView
+            style="@style/SecondaryText"
+            android:text="описание (необязательно)"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:id="@+id/description_header"
+            android:gravity="center_vertical"
+            app:layout_constraintLeft_toLeftOf="@+id/date_header"
+            app:layout_constraintRight_toLeftOf="@+id/pick_date_button"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/pick_date_button"
+            android:layout_marginTop="8dp"
+            app:layout_constraintHorizontal_bias="0.25" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="@{data.mainDataVisibility? View.VISIBLE : View.GONE}">
+        <TextView
+            style="@style/SecondaryText"
+            android:text="играем в"
+            android:layout_width="63dp"
+            android:layout_height="40dp"
+            android:id="@+id/category_header"
+            android:gravity="center_vertical"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginStart="16dp"
+            app:layout_constraintLeft_toLeftOf="parent" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+        <AutoCompleteTextView
+            android:id="@+id/category_autocomplete"
+            android:layout_width="308dp"
+            android:layout_height="wrap_content"
+            android:completionHint="\t\tЕсли такого вида спорта нет, он будет создан"
+            android:hint="@string/category"
+            tools:layout_editor_absoluteY="16dp"
+            tools:layout_editor_absoluteX="87dp">
+            <requestFocus />
+        </AutoCompleteTextView>
 
-                    <RelativeLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="7">
+        <ProgressBar
+            android:id="@+id/category_autocomplete_progress_bar"
+            style="?android:attr/progressBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintRight_toRightOf="@+id/category_autocomplete"
+            app:layout_constraintBottom_toBottomOf="@+id/category_autocomplete"
+            app:layout_constraintTop_toTopOf="@+id/category_autocomplete" />
 
-                        <AutoCompleteTextView
-                            android:id="@+id/category_autocomplete"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:completionHint="\t\tЕсли такого вида спорта нет, он будет создан"
-                            android:hint="@string/category">
+        <TextView
+            style="@style/SecondaryText"
+            android:text="нас будет"
+            android:layout_width="63dp"
+            android:layout_height="40dp"
+            android:id="@+id/people_header"
+            android:gravity="center_vertical"
+            app:layout_constraintTop_toBottomOf="@+id/category_header"
+            android:layout_marginTop="8dp"
+            app:layout_constraintLeft_toLeftOf="@+id/category_header" />
 
-                            <requestFocus />
-                        </AutoCompleteTextView>
+        <EditText
+            android:id="@+id/event_max_people"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:maxEms="6"
+            android:maxLength="5"
+            android:maxLines="1"
+            android:textAlignment="textEnd"
+            android:minEms="4"
+            app:layout_constraintTop_toTopOf="@+id/people_header"
+            android:layout_marginStart="8dp"
+            app:layout_constraintLeft_toRightOf="@+id/people_header" />
 
-                        <ProgressBar
-                            android:id="@+id/category_autocomplete_progress_bar"
-                            style="?android:attr/progressBarStyleSmall"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignEnd="@+id/category_autocomplete"
-                            android:layout_marginTop="5dp"
-                            android:visibility="gone" />
-                    </RelativeLayout>
+        <TextView
+            style="@style/SecondaryText"
+            android:text="человек(а)"
+            android:layout_width="82dp"
+            android:layout_height="40dp"
+            android:id="@+id/people_postfix"
+            android:gravity="center_vertical"
+            android:layout_marginStart="8dp"
+            app:layout_constraintLeft_toRightOf="@+id/event_max_people"
+            app:layout_constraintTop_toTopOf="@+id/event_max_people" />
 
-                    <EditText
-                        android:id="@+id/event_max_people"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/offset_small"
-                        android:layout_weight="2"
-                        android:drawableStart="@drawable/ic_people"
-                        android:inputType="number"
-                        android:maxEms="15"
-                        android:maxLength="5"
-                        android:maxLines="1"
-                        android:text="10"
-                        android:textAlignment="textEnd" />
-                </LinearLayout>
+        <TextView
+            style="@style/SecondaryText"
+            android:text="когда"
+            android:layout_width="63dp"
+            android:layout_height="40dp"
+            android:id="@+id/date_header"
+            android:gravity="center_vertical"
+            app:layout_constraintRight_toRightOf="@+id/category_header"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/people_header"
+            app:layout_constraintLeft_toLeftOf="@+id/people_header" />
+
+        <Button
+            android:id="@+id/pick_date_button"
+            style="@style/FlatButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:text="@string/add_event_set_date_btn"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/pick_date_text"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <TextView
+            android:id="@+id/pick_date_text"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:gravity="center_vertical"
+            android:layout_marginStart="8dp"
+            app:layout_constraintLeft_toRightOf="@+id/date_header"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintHorizontal_bias="0.41"
+            app:layout_constraintTop_toTopOf="@+id/date_header" />
+
+        <TextView
+            android:id="@+id/lat_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{data.lat}"
+            android:textSize="4sp"
+            app:layout_constraintTop_toBottomOf="@+id/pick_date_button"
+            app:layout_constraintRight_toRightOf="@+id/pick_date_button"
+            app:layout_constraintLeft_toLeftOf="@+id/pick_date_button" />
+
+        <TextView
+            android:id="@+id/lng_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="4sp"
+            android:text="@{data.lng}"
+            app:layout_constraintTop_toBottomOf="@+id/lat_view"
+            app:layout_constraintRight_toRightOf="@+id/lat_view"
+            android:layout_marginStart="8dp"
+            app:layout_constraintLeft_toRightOf="@+id/description_header" />
+
+        <EditText
+            android:id="@+id/description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@{data.mainDataVisibility? @string/description : @string/result_header}"
+            android:lines="3"
+            app:layout_constraintTop_toBottomOf="@+id/description_header"
+            app:layout_constraintLeft_toLeftOf="@+id/description_header"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginTop="8dp" />
+
+        <Button
+            android:id="@+id/open_tasks_button"
+            style="@style/FlatButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:onClick="@{()->tasksListener.onOpenTasksClicked()}"
+            android:text="@string/tasks_header"
+            app:layout_constraintTop_toBottomOf="@+id/description"
+            app:layout_constraintRight_toRightOf="@+id/description"
+            android:layout_marginTop="8dp" />
+
+        <CheckBox
+            android:id="@+id/add_me_now"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="@color/colorAccent"
+            android:checked="true"
+            app:layout_constraintTop_toBottomOf="@+id/open_tasks_button"
+            app:layout_constraintLeft_toLeftOf="@+id/description" />
+
+        <TextView
+            style="@style/SecondaryText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_to_event"
+            android:id="@+id/textView5"
+            app:layout_constraintLeft_toRightOf="@+id/add_me_now"
+            app:layout_constraintTop_toTopOf="@+id/add_me_now"
+            app:layout_constraintBottom_toBottomOf="@+id/add_me_now" />
+
+        <Button
+            android:id="@+id/add_button"
+            style="@style/FlatButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{()->listener.onButtonClicked()}"
+            android:text="@{data.mainDataVisibility? @string/add_event : @string/add_result}"
+            app:layout_constraintTop_toBottomOf="@+id/add_me_now"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginStart="16dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginTop="8dp" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <!--<ScrollView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:background="@color/md_white_1000">-->
+
+        <!--<LinearLayout-->
+            <!--android:id="@+id/activity_add_event"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:gravity="center_horizontal"-->
+            <!--android:orientation="vertical"-->
+            <!--android:padding="@dimen/material_padding"-->
+            <!--tools:context=".activities.AddEventActivity">-->
+
+            <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:orientation="vertical"-->
+                <!--android:visibility="@{data.mainDataVisibility? View.VISIBLE : View.GONE}">-->
+
+                <!--<LinearLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:orientation="horizontal">-->
+
+                    <!--<RelativeLayout-->
+                        <!--android:layout_width="0dp"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_weight="7">-->
+
+                        <!--<AutoCompleteTextView-->
+                            <!--android:id="@+id/category_autocomplete"-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:completionHint="\t\tЕсли такого вида спорта нет, он будет создан"-->
+                            <!--android:hint="@string/category">-->
+                            <!--<requestFocus />-->
+                        <!--</AutoCompleteTextView>-->
+
+                        <!--<ProgressBar-->
+                            <!--android:id="@+id/category_autocomplete_progress_bar"-->
+                            <!--style="?android:attr/progressBarStyleSmall"-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_alignEnd="@+id/category_autocomplete"-->
+                            <!--android:layout_marginTop="5dp"-->
+                            <!--android:visibility="gone" />-->
+                    <!--</RelativeLayout>-->
+
+                    <!--<EditText-->
+                        <!--android:id="@+id/event_max_people"-->
+                        <!--android:layout_width="0dp"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginStart="@dimen/offset_small"-->
+                        <!--android:layout_weight="2"-->
+                        <!--android:drawableStart="@drawable/ic_people"-->
+                        <!--android:inputType="number"-->
+                        <!--android:maxEms="15"-->
+                        <!--android:maxLength="5"-->
+                        <!--android:maxLines="1"-->
+                        <!--android:text="10"-->
+                        <!--android:textAlignment="textEnd" />-->
+                <!--</LinearLayout>-->
 
                 <!--<EditText-->
                 <!--android:id="@+id/event_name"-->
@@ -93,89 +297,89 @@
                 <!--android:maxEms="15"-->
                 <!--android:maxLines="1" />-->
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                <!--<RelativeLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content">-->
 
-                    <Button
-                        android:id="@+id/pick_date_button"
-                        style="@style/FlatButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginTop="5dp"
-                        android:text="@string/add_event_set_date_btn" />
+                    <!--<Button-->
+                        <!--android:id="@+id/pick_date_button"-->
+                        <!--style="@style/FlatButton"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_alignParentStart="true"-->
+                        <!--android:layout_centerVertical="true"-->
+                        <!--android:layout_marginTop="5dp"-->
+                        <!--android:text="@string/add_event_set_date_btn" />-->
 
-                    <TextView
-                        android:id="@+id/pick_date_text"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginTop="15dp"
-                        android:layout_toEndOf="@id/pick_date_button"
-                        android:gravity="end"
-                        android:paddingStart="@dimen/offset_medium" />
-                </RelativeLayout>
+                    <!--<TextView-->
+                        <!--android:id="@+id/pick_date_text"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_alignParentEnd="true"-->
+                        <!--android:layout_centerVertical="true"-->
+                        <!--android:layout_marginTop="15dp"-->
+                        <!--android:layout_toEndOf="@id/pick_date_button"-->
+                        <!--android:gravity="end"-->
+                        <!--android:paddingStart="@dimen/offset_medium" />-->
+                <!--</RelativeLayout>-->
 
-                <TextView
-                    android:id="@+id/lat_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{data.lat}" />
+                <!--<TextView-->
+                    <!--android:id="@+id/lat_view"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="@{data.lat}" />-->
 
-                <TextView
-                    android:id="@+id/lng_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{data.lng}" />
+                <!--<TextView-->
+                    <!--android:id="@+id/lng_view"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="@{data.lng}" />-->
 
-                <Button
-                    android:id="@+id/open_tasks_button"
-                    style="@style/FlatButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:onClick="@{()->tasksListener.onOpenTasksClicked()}"
-                    android:text="@string/tasks_header" />
-            </LinearLayout>
+                <!--<Button-->
+                    <!--android:id="@+id/open_tasks_button"-->
+                    <!--style="@style/FlatButton"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_gravity="start"-->
+                    <!--android:onClick="@{()->tasksListener.onOpenTasksClicked()}"-->
+                    <!--android:text="@string/tasks_header" />-->
+            <!--</LinearLayout>-->
 
-            <EditText
-                android:id="@+id/description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@{data.mainDataVisibility? @string/description : @string/result_header}"
-                android:lines="3" />
+            <!--<EditText-->
+                <!--android:id="@+id/description"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:hint="@{data.mainDataVisibility? @string/description : @string/result_header}"-->
+                <!--android:lines="3" />-->
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+            <!--<RelativeLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content">-->
 
-                <CheckBox
-                    android:id="@+id/add_me_now"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:buttonTint="@color/colorAccent"
-                    android:checked="true" />
+                <!--<CheckBox-->
+                    <!--android:id="@+id/add_me_now"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:buttonTint="@color/colorAccent"-->
+                    <!--android:checked="true" />-->
 
-                <TextView
-                    style="@style/SecondaryText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@+id/add_me_now"
-                    android:layout_toEndOf="@id/add_me_now"
-                    android:text="@string/add_to_event" />
-            </RelativeLayout>
+                <!--<TextView-->
+                    <!--style="@style/SecondaryText"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_alignBaseline="@+id/add_me_now"-->
+                    <!--android:layout_toEndOf="@id/add_me_now"-->
+                    <!--android:text="@string/add_to_event" />-->
+            <!--</RelativeLayout>-->
 
-            <Button
-                android:id="@+id/add_button"
-                style="@style/FlatButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="@{()->listener.onButtonClicked()}"
-                android:text="@{data.mainDataVisibility? @string/add_event : @string/add_result}" />
-        </LinearLayout>
-    </ScrollView>
+            <!--<Button-->
+                <!--android:id="@+id/add_button"-->
+                <!--style="@style/FlatButton"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:onClick="@{()->listener.onButtonClicked()}"-->
+                <!--android:text="@{data.mainDataVisibility? @string/add_event : @string/add_result}" />-->
+        <!--</LinearLayout>-->
+    <!--</ScrollView>-->
 
 </layout>

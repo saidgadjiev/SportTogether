@@ -1,5 +1,6 @@
 package ru.mail.sporttogether.activities
 
+//import android.widget.`@+id/category_header`
 import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
@@ -17,8 +18,8 @@ import com.jakewharton.rxbinding.widget.RxTextView
 import com.mikepenz.materialdrawer.util.KeyboardUtil
 import ru.mail.sporttogether.R
 import ru.mail.sporttogether.adapter.CategoriesAdapter
-import ru.mail.sporttogether.data.binding.event.EventData
 import ru.mail.sporttogether.data.binding.event.ButtonListener
+import ru.mail.sporttogether.data.binding.event.EventData
 import ru.mail.sporttogether.data.binding.tasks.AddTasksData
 import ru.mail.sporttogether.data.binding.tasks.AddTasksListener
 import ru.mail.sporttogether.databinding.ActivityAddEventBinding
