@@ -2,6 +2,7 @@ package ru.mail.sporttogether.auth.core.persons
 
 import android.os.Parcel
 import android.os.Parcelable
+import ru.mail.sporttogether.net.utils.createParcel
 
 /**
  * Created by said on 21.11.16
@@ -71,13 +72,8 @@ class SocialPerson : Parcelable {
 
     companion object {
 
-        val CREATOR: Parcelable.Creator<SocialPerson> = object : Parcelable.Creator<SocialPerson> {
-            override fun createFromParcel(`in`: Parcel): SocialPerson {
-                return SocialPerson(`in`)
-            }
-
-            override fun newArray(size: Int): Array<out SocialPerson?> = arrayOfNulls(size)
-        }
+        @JvmStatic
+        val CREATOR = createParcel(::SocialPerson)
     }
 
 }
