@@ -14,7 +14,8 @@
     <color name="green">#FF4CAF50</color>
     <color name="red">#FFF44336</color>
     <color name="gray">@android:color/darker_gray</color>
-     <color name="vk">#36638e</color>
+     <color name="vk">#45668e</color>
+     <color name="fb">#3B5998</color>
     <color name="ok">#cf6700</color>
     <color name="app_primary_text">#212121</color>
     <color name="app_secondary_text">#757575</color>

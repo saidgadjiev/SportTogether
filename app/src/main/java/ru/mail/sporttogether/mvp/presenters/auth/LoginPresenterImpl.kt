@@ -23,9 +23,6 @@ import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import javax.inject.Inject
 
-/**
- * Created by said on 26.11.16.
- */
 class LoginPresenterImpl(view: ILoginView) : ILoginPresenter, OnLoginCompleteListener, OnRequestSocialPersonCompleteListener {
 
     private var view: ILoginView? = view
@@ -58,7 +55,7 @@ class LoginPresenterImpl(view: ILoginView) : ILoginPresenter, OnLoginCompleteLis
 
                     override fun onNext(resp: Response<User>?) {
                         val user = resp!!.data
-                        Log.d("#MY ", "answer from server : " + user)
+                        Log.d("#MY " + javaClass.simpleName, "answer from server : " + user)
                         socialNetworkManager.setNetworkID(ID)
                         socialNetworkManager.activeUser = user
                         view?.startMainActivity()
@@ -71,6 +68,7 @@ class LoginPresenterImpl(view: ILoginView) : ILoginPresenter, OnLoginCompleteLis
     }
 
     override fun onSuccess(ID: Int) {
+        Log.d("#MY " + javaClass.simpleName, "on success callback")
         socialNetworkManager.getSocialNetwork(ID)!!.requestPerson(this)
     }
 
@@ -89,6 +87,25 @@ class LoginPresenterImpl(view: ILoginView) : ILoginPresenter, OnLoginCompleteLis
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         socialNetworkManager.onActivityResult(requestCode, resultCode, data)
+    }
+
+    override fun logoutFromServer() {
+        authApi.unauthorize()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(object : Subscriber<Response<Any>>() {
+                    override fun onCompleted() {
+
+                    }
+
+                    override fun onNext(resp: Response<Any>?) {
+                        Log.d("#MY " + javaClass.simpleName, "unauthorized : " + resp?.message)
+                    }
+
+                    override fun onError(e: Throwable?) {
+
+                    }
+                })
     }
 
 }
