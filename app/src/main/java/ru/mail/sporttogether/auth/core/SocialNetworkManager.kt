@@ -9,26 +9,26 @@ import java.util.*
 
 
 /**
- * Created by said on 12.11.16.
+ * Created by said on 12.11.16
  */
 
 class SocialNetworkManager private constructor() {
-    private val socialNetworksMap = HashMap<Int, ISocialNetwork>()
+    private val socialNetworksMap = TreeMap<Int, ISocialNetwork>()
 //    private var onInitializationCompleteListener: OnInitializationCompleteListener? = null
     private var networkID: Int = -1
     lateinit var activeUser: User
 
     val facebookSocialNetwork: FacebookSocialNetwork
-        get() = socialNetworksMap.get(FacebookSocialNetwork.ID) as FacebookSocialNetwork
+        get() = socialNetworksMap[FacebookSocialNetwork.ID] as FacebookSocialNetwork
 
     val vkSocialNetwork: VKSocialNetwork
-        get() = socialNetworksMap.get(VKSocialNetwork.ID) as VKSocialNetwork
+        get() = socialNetworksMap[VKSocialNetwork.ID] as VKSocialNetwork
 
     val initializedSocialNetworks: List<ISocialNetwork>
         get() = socialNetworksMap.values.toList()
 
     fun addSocialNetwork(network: ISocialNetwork) {
-        socialNetworksMap.put(network.id!!, network)
+        socialNetworksMap.put(network.id, network)
     }
 
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -40,7 +40,7 @@ class SocialNetworkManager private constructor() {
     }
 
     fun getSocialNetwork(ID: Int): ISocialNetwork? {
-        return socialNetworksMap.get(ID)
+        return socialNetworksMap[ID]
     }
 
 

@@ -11,7 +11,7 @@ import ru.mail.sporttogether.auth.core.persons.SocialPerson
 
 
 /**
- * Created by said on 17.11.16.
+ * Created by said on 17.11.16
  */
 
 class GoogleSocialNetwork(private val activity: Activity, private val appId: String) : ISocialNetwork {
@@ -74,8 +74,8 @@ class GoogleSocialNetwork(private val activity: Activity, private val appId: Str
 
     }
 
-    override val id: Int?
-        get() = null
+    override val id: Int
+        get() = 10
 
     override val token: String
         get() = ""

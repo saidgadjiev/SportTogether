@@ -117,8 +117,8 @@ class AddEventActivity :
                         datepicker.year,
                         datepicker.month,
                         datepicker.dayOfMonth,
-                        timepicker.currentHour,
-                        timepicker.currentMinute)
+                        timepicker.hour,
+                        timepicker.minute)
                 pickDateText.text = DateUtils.toLongDateString(settedDate)
                 alertDialog.hide()
             }

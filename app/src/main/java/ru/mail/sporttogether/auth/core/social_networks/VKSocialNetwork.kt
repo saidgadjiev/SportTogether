@@ -24,9 +24,8 @@ import ru.mail.sporttogether.auth.core.listeners.OnRequestSocialPersonCompleteLi
 import ru.mail.sporttogether.auth.core.persons.SocialPerson
 
 /**
- * Created by said on 17.11.16.
+ * Created by said on 17.11.16
  */
-
 
 class VKSocialNetwork(activity: Activity) : ISocialNetwork {
     private var onLoginCompleteListener: OnLoginCompleteListener? = null
@@ -185,7 +184,7 @@ class VKSocialNetwork(activity: Activity) : ISocialNetwork {
         return socialPerson
     }
 
-    override val id: Int?
+    override val id: Int
         get() = ID
 
     override val token: String
@@ -206,7 +205,7 @@ class VKSocialNetwork(activity: Activity) : ISocialNetwork {
     }
 
     companion object {
-        private val TAG = "#MY "
+        private val TAG = VKSocialNetwork::class.java.canonicalName
         val ID = 2
     }
 }

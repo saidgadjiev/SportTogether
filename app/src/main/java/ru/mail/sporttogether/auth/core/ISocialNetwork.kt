@@ -43,7 +43,7 @@ interface ISocialNetwork {
 
     fun requestPerson(onRequestSocialPersonCompleteListener: OnRequestSocialPersonCompleteListener)
 
-    val id: Int?
+    val id: Int
 
     val token: String
     fun getLoadedSocialPerson(): SocialPerson?

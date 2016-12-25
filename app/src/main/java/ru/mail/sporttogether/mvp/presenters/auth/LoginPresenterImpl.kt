@@ -43,9 +43,9 @@ class LoginPresenterImpl(view: ILoginView) : ILoginPresenter, OnLoginCompleteLis
     }
 
     override fun onComplete(person: SocialPerson, ID: Int) {
-        headerManager.clientId = person.id!!
+        headerManager.clientId = person.id
         headerManager.token = socialNetworkManager.getSocialNetwork(ID)!!.token
-        authApi.updateAuthorization(Profile(person.avatarURL!!, person.name!!))
+        authApi.updateAuthorization(Profile(person.avatarURL, person.name))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : Subscriber<Response<User>>() {

@@ -34,7 +34,7 @@ class FacebookSocialNetwork(private val activity: Activity) : ISocialNetwork {
     private val ACCESS_TOKEN = "FacebookAccessToken"
     private var socialPerson: SocialPerson? = null
 
-    override val id: Int?
+    override val id: Int
         get() = ID
 
     override val token: String
