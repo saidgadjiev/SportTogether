@@ -2,6 +2,7 @@ package ru.mail.sporttogether.mvp.presenters.splash
 
 import android.content.Context
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import ru.mail.sporttogether.activities.SplashActivity
 import ru.mail.sporttogether.app.App
@@ -16,6 +17,7 @@ import ru.mail.sporttogether.managers.headers.HeaderManagerImpl
 import ru.mail.sporttogether.mvp.views.ISplashView
 import ru.mail.sporttogether.net.api.AuthorizationAPI
 import ru.mail.sporttogether.net.models.Profile
+import ru.mail.sporttogether.net.models.User
 import ru.mail.sporttogether.net.responses.Response
 import rx.Subscriber
 import rx.android.schedulers.AndroidSchedulers
@@ -44,8 +46,10 @@ class SplashActivityPresenterImpl(view: ISplashView) : SplashActivityPresenter, 
         socialNetworkManager.addSocialNetwork(networkFacebook)
         socialNetworkManager.addSocialNetwork(networkVK)
 //        socialNetworkManager.setOnInitializationCompleteListener(this)
-        socialNetworkManager.checkIsLogged(this)
-//        tryLogin()
+//        socialNetworkManager.checkIsLogged(view!!.getActivity(), this)
+        Handler().postDelayed({
+            tryLogin()
+        }, 1500)
     }
 
     private fun tryLogin() {
@@ -69,15 +73,20 @@ class SplashActivityPresenterImpl(view: ISplashView) : SplashActivityPresenter, 
         api.updateAuthorization(Profile(person.avatarURL!!, person.name!!))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : Subscriber<Response<Any>>() {
+                .subscribe(object : Subscriber<Response<User>>() {
                     override fun onCompleted() {
 
                     }
 
-                    override fun onNext(t: Response<Any>?) {
+                    override fun onNext(resp: Response<User>?) {
                         Log.d("#MY " + javaClass.simpleName, "answer from server : " + person)
                         socialNetworkManager.setNetworkID(ID)
-                        view?.startMainActivity()
+                        if (resp!!.code == 0) {
+                            socialNetworkManager.activeUser = resp.data
+                            view?.startMainActivity()
+                        } else {
+                            view?.showToast("error when authorize : " + resp.message)
+                        }
                     }
 
                     override fun onError(e: Throwable?) {

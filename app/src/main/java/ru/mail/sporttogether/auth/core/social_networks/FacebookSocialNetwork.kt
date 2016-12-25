@@ -34,6 +34,12 @@ class FacebookSocialNetwork(private val activity: Activity) : ISocialNetwork {
     private val ACCESS_TOKEN = "FacebookAccessToken"
     private var socialPerson: SocialPerson? = null
 
+    override val id: Int?
+        get() = ID
+
+    override val token: String
+        get() = sharedPreferences.getString(ACCESS_TOKEN, "")
+
     override val isConnected: Boolean
         get() = !sharedPreferences.getString(ACCESS_TOKEN, "")!!.isEmpty()
 
@@ -44,55 +50,22 @@ class FacebookSocialNetwork(private val activity: Activity) : ISocialNetwork {
         initializeSdk()
     }
 
-    override fun setOnLoginCompleteListener(onLoginCompleteListener: OnLoginCompleteListener) {
-
-    }
-
-    override fun logout() {
-        if (FacebookSdk.isInitialized()) {
-            LoginManager.getInstance().logOut()
-            sharedPreferences
-                    .edit()
-                    .putString(ACCESS_TOKEN, null)
-                    .apply()
-            Log.d(TAG, "Facebook sdk logout")
-        } else {
-            Log.w(TAG, "Couldn't log out as the SDK wasn't initialized yet.")
-        }
-    }
-
-    override fun login(activity: Activity, onLoginCompleteListener: OnLoginCompleteListener) {
-        this.onLoginCompleteListener = onLoginCompleteListener
-        LoginManager.getInstance().registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
-            override fun onSuccess(result: LoginResult) {
-                this@FacebookSocialNetwork.onLoginCompleteListener!!.onSuccess(ID)
-                sharedPreferences
-                        .edit()
-                        .putString(ACCESS_TOKEN, result.accessToken.token)
-                        .apply()
-                Log.d(TAG, "Facebook sdk login")
-            }
-
-            override fun onCancel() {
-                this@FacebookSocialNetwork.onLoginCompleteListener!!.onCancel()
-            }
-
-            override fun onError(error: FacebookException) {
-                this@FacebookSocialNetwork.onLoginCompleteListener!!.onError(SocialNetworkError(error.message!!, -1))
-                Log.d(TAG, "Facebook sdk error")
-            }
-        })
-        LoginManager.getInstance().logInWithReadPermissions(activity, permissions)
-    }
-
     private fun initializeSdk() {
         if (FacebookSdk.isInitialized()) {
             Log.d(TAG, "Facebook sdk already initialized")
         } else {
-            FacebookSdk.sdkInitialize(activity)
-            AccessToken.refreshCurrentAccessTokenAsync()
+            val initializeCallback: FacebookSdk.InitializeCallback = FacebookSdk.InitializeCallback {
+                Log.d("#MY " + javaClass.simpleName, "sdk init completed")
+            }
+            FacebookSdk.sdkInitialize(activity, initializeCallback)
             Log.d(TAG, "Facebook sdk initialize")
         }
+        val currentToken1 = AccessToken.getCurrentAccessToken()
+        Log.d("#MY " + javaClass.simpleName, "current token after sdk init : " + currentToken1)
+    }
+
+    override fun setOnLoginCompleteListener(onLoginCompleteListener: OnLoginCompleteListener) {
+
     }
 
     override fun onStart() {
@@ -123,7 +96,48 @@ class FacebookSocialNetwork(private val activity: Activity) : ISocialNetwork {
         callbackManager.onActivityResult(requestCode, resultCode, data)
     }
 
+    override fun logout() {
+        if (FacebookSdk.isInitialized()) {
+            LoginManager.getInstance().logOut()
+            sharedPreferences
+                    .edit()
+                    .putString(ACCESS_TOKEN, null)
+                    .apply()
+            Log.d(TAG, "Facebook sdk logout")
+        } else {
+            Log.w(TAG, "Couldn't log out as the SDK wasn't initialized yet.")
+        }
+    }
+
+    override fun login(activity: Activity, onLoginCompleteListener: OnLoginCompleteListener) {
+        Log.d("#MY " + javaClass.simpleName, "Facebook start logging")
+        Log.d("#MY " + javaClass.simpleName, "on login complete listener : " + onLoginCompleteListener.javaClass.simpleName)
+        this.onLoginCompleteListener = onLoginCompleteListener
+        LoginManager.getInstance().registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
+            override fun onSuccess(result: LoginResult) {
+                Log.d("#MY " + javaClass.simpleName, "Facebook success logging")
+                sharedPreferences
+                        .edit()
+                        .putString(ACCESS_TOKEN, result.accessToken.token)
+                        .apply()
+                this@FacebookSocialNetwork.onLoginCompleteListener!!.onSuccess(ID)
+            }
+
+            override fun onCancel() {
+                Log.d("#MY " + javaClass.simpleName, "Facebook logging on cancel")
+                this@FacebookSocialNetwork.onLoginCompleteListener!!.onCancel()
+            }
+
+            override fun onError(error: FacebookException) {
+                this@FacebookSocialNetwork.onLoginCompleteListener!!.onError(SocialNetworkError(error.message!!, -1))
+                Log.d(TAG, "Facebook sdk error")
+            }
+        })
+        LoginManager.getInstance().logInWithReadPermissions(activity, permissions)
+    }
+
     override fun requestPerson(onRequestSocialPersonCompleteListener: OnRequestSocialPersonCompleteListener) {
+        Log.d("#MY " + javaClass.simpleName, "fb request person started. is connected? : " + isConnected)
         if (!isConnected) {
             onRequestSocialPersonCompleteListener.onError(SocialNetworkError("Please login first", -1))
 
@@ -137,7 +151,7 @@ class FacebookSocialNetwork(private val activity: Activity) : ISocialNetwork {
                 Log.d("#MY " + javaClass.simpleName, "fb request person error")
                 onRequestSocialPersonCompleteListener.onError(SocialNetworkError("fb 400 error", -1))
             } else {
-                Log.d(TAG, `object`.toString())
+                Log.d("#MY " + javaClass.simpleName, `object`.toString())
                 socialPerson = SocialPerson()
                 try {
                     getSocialPerson(socialPerson!!, `object`)
@@ -196,12 +210,6 @@ class FacebookSocialNetwork(private val activity: Activity) : ISocialNetwork {
         }
         return false
     }
-
-    override val id: Int?
-        get() = ID
-
-    override val token: String
-        get() = sharedPreferences.getString(ACCESS_TOKEN, "")
 
     companion object {
         private val TAG = "#MY "

@@ -1,5 +1,6 @@
 package ru.mail.sporttogether.activities
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -13,6 +14,10 @@ import ru.mail.sporttogether.mvp.views.ISplashView
 class SplashActivity :
         PresenterActivity<SplashActivityPresenter>(),
         ISplashView {
+
+    override fun getActivity(): Activity {
+        return this
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -68,6 +68,7 @@ class LoginPresenterImpl(view: ILoginView) : ILoginPresenter, OnLoginCompleteLis
     }
 
     override fun onSuccess(ID: Int) {
+        Log.d("#MY " + javaClass.simpleName, "on success callback")
         socialNetworkManager.getSocialNetwork(ID)!!.requestPerson(this)
     }
 

@@ -1,8 +1,9 @@
 package ru.mail.sporttogether.auth.core
 
+import android.app.Activity
 import android.content.Intent
 import android.util.Log
-import ru.mail.sporttogether.auth.core.listeners.OnRequestSocialPersonCompleteListener
+import ru.mail.sporttogether.auth.core.listeners.OnLoginCompleteListener
 import ru.mail.sporttogether.auth.core.social_networks.FacebookSocialNetwork
 import ru.mail.sporttogether.auth.core.social_networks.VKSocialNetwork
 import ru.mail.sporttogether.net.models.User
@@ -56,13 +57,15 @@ class SocialNetworkManager private constructor() {
         return networkID
     }
 
-    fun checkIsLogged(listener: OnRequestSocialPersonCompleteListener): Boolean {
+    fun checkIsLogged(activity: Activity, listener: OnLoginCompleteListener): Boolean {
         if (vkSocialNetwork.isConnected) {
             Log.d("#MY " + javaClass.simpleName, "vk is connected")
-            vkSocialNetwork.requestPerson(listener)
+            vkSocialNetwork.login(activity, listener)
         } else if (facebookSocialNetwork.isConnected) {
             Log.d("#MY " + javaClass.simpleName, "facebook is connected")
-            facebookSocialNetwork.requestPerson(listener)
+            facebookSocialNetwork.login(activity, listener)
+
+//            facebookSocialNetwork.requestPerson(listener)
         }
 
         return true
