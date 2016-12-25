@@ -74,7 +74,7 @@ class TaskAdapter(private val tasks: ArrayList<Task>, private val checkingTasks:
             Log.d("#MY " + javaClass.simpleName, "task user : " + task.user)
             Log.d("#MY " + javaClass.simpleName, "task user id : " + task.user?.id)
             Log.d("#MY " + javaClass.simpleName, "my id : " + myId)
-            data.id.set(Integer.toString(task.id!!.toInt()))
+            data.id.set(Integer.toString(task.id.toInt()))
             data.message.set(task.message)
             if (task.user == null) {
                 data.username.set("задача никем не закрыта")

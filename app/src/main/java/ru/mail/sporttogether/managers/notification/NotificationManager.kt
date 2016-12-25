@@ -38,8 +38,8 @@ class NotificationManager {
         acceptIntent.putExtras(bundle)
         rejectIntent.putExtras(bundle)
 
-        val acceptPenIntent = PendingIntent.getService(context, 0, acceptIntent, PendingIntent.FLAG_UPDATE_CURRENT)
-        val rejectPenIntent = PendingIntent.getService(context, 0, rejectIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+        //val acceptPenIntent = PendingIntent.getService(context, 0, acceptIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+        //val rejectPenIntent = PendingIntent.getService(context, 0, rejectIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
         builder.addAction(R.drawable.ic_check, "Accept", null)
         builder.addAction(R.drawable.ic_remove, "Reject", null)

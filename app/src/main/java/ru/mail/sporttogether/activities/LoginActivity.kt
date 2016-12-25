@@ -28,8 +28,6 @@ class LoginActivity: PresenterActivity<ILoginPresenter>(), ILoginView {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
 
-        supportActionBar!!.setDisplayHomeAsUpEnabled(false)
-
         vk = binding.vk
         facebook = binding.facebook
         vk.setOnClickListener(loginClick)

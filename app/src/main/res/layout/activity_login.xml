@@ -9,7 +9,6 @@
         tools:context=".activities.drawer.DrawerActivity">
 
 
-
         <Button
             android:id="@+id/facebook"
             android:layout_width="fill_parent"
@@ -18,7 +17,7 @@
             android:layout_margin="8dp"
             android:background="@color/fb"
             android:text="Войти через Facebook"
-            android:textColor="#ffffffff" />
+            android:textColor="@color/vk_white" />
 
         <Button
             android:id="@+id/vk"
@@ -28,7 +27,7 @@
             android:layout_margin="8dp"
             android:background="@color/vk"
             android:text="Войти через Вконтакте"
-            android:visibility="visible"
-            android:textColor="#ffffffff" />
+            android:textColor="@color/vk_white"
+            android:visibility="visible" />
     </LinearLayout>
 </layout>

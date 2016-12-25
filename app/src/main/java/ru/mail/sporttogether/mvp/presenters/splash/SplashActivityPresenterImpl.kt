@@ -8,8 +8,6 @@ import ru.mail.sporttogether.activities.SplashActivity
 import ru.mail.sporttogether.app.App
 import ru.mail.sporttogether.auth.core.SocialNetworkError
 import ru.mail.sporttogether.auth.core.SocialNetworkManager
-import ru.mail.sporttogether.auth.core.listeners.OnLoginCompleteListener
-import ru.mail.sporttogether.auth.core.listeners.OnRequestSocialPersonCompleteListener
 import ru.mail.sporttogether.auth.core.persons.SocialPerson
 import ru.mail.sporttogether.auth.core.social_networks.FacebookSocialNetwork
 import ru.mail.sporttogether.auth.core.social_networks.VKSocialNetwork
@@ -28,7 +26,7 @@ import javax.inject.Inject
  * Created by bagrusss on 07.11.16.
  *
  */
-class SplashActivityPresenterImpl(view: ISplashView) : SplashActivityPresenter, OnRequestSocialPersonCompleteListener, OnLoginCompleteListener {
+class SplashActivityPresenterImpl(view: ISplashView) : SplashActivityPresenter {
 
     private var view: ISplashView? = view
     @Inject lateinit var api: AuthorizationAPI
@@ -57,11 +55,9 @@ class SplashActivityPresenterImpl(view: ISplashView) : SplashActivityPresenter, 
     }
 
     private fun tryLogin() {
-        for (socialNetwork in socialNetworkManager.initializedSocialNetworks) {
-            if (socialNetwork.tryAutoLogin(this)) {
-                return
-            }
-        }
+        socialNetworkManager.initializedSocialNetworks
+                .filter { it.tryAutoLogin(this) }
+                .forEach { return }
         onError(SocialNetworkError("Not logged in", -1))
     }
 
@@ -72,9 +68,9 @@ class SplashActivityPresenterImpl(view: ISplashView) : SplashActivityPresenter, 
     override fun onComplete(person: SocialPerson, ID: Int) {
         Log.d("#MY " + javaClass.simpleName, "in on complete : " + person)
 
-        headerManager.clientId = person.id!!
+        headerManager.clientId = person.id
         headerManager.token = socialNetworkManager.getSocialNetwork(ID)!!.token
-        api.updateAuthorization(Profile(person.avatarURL!!, person.name!!))
+        api.updateAuthorization(Profile(person.avatarURL, person.name))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : Subscriber<Response<User>>() {
@@ -82,10 +78,12 @@ class SplashActivityPresenterImpl(view: ISplashView) : SplashActivityPresenter, 
 
                     }
 
-                    override fun onNext(resp: Response<User>?) {
+                    override fun onNext(resp: Response<User>) {
                         Log.d("#MY " + javaClass.simpleName, "answer from server : " + person)
                         socialNetworkManager.setNetworkID(ID)
-                        if (resp!!.code == 0) {
+                        if (resp.code == 0) {
+                            //TODO костыль с сервера должен приходить обновленный объект пользователя
+                            resp.data.name = person.name
                             socialNetworkManager.activeUser = resp.data
                             view?.startMainActivity()
                         } else {
@@ -93,8 +91,8 @@ class SplashActivityPresenterImpl(view: ISplashView) : SplashActivityPresenter, 
                         }
                     }
 
-                    override fun onError(e: Throwable?) {
-
+                    override fun onError(e: Throwable) {
+                        Log.e("splash", e.message, e)
                     }
                 })
     }
