@@ -186,7 +186,7 @@ class AddEventActivity :
             Toast.makeText(this, "Вид спорта не задан", Toast.LENGTH_SHORT).show()
             return
         }
-        var maxPeople = 0
+        val maxPeople: Int
         try {
             maxPeople = Integer.parseInt(binding.eventMaxPeople.text.toString())
         } catch (e: NumberFormatException) {
