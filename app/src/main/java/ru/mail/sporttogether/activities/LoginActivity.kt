@@ -1,5 +1,6 @@
 package ru.mail.sporttogether.activities
 
+import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
@@ -12,6 +13,8 @@ import ru.mail.sporttogether.mvp.presenters.auth.ILoginPresenter
 import ru.mail.sporttogether.mvp.presenters.auth.LoginPresenterImpl
 import ru.mail.sporttogether.mvp.views.login.ILoginView
 import javax.inject.Inject
+
+
 
 class LoginActivity: PresenterActivity<ILoginPresenter>(), ILoginView {
 
@@ -34,6 +37,11 @@ class LoginActivity: PresenterActivity<ILoginPresenter>(), ILoginView {
 
         presenter = LoginPresenterImpl(this)
         presenter.onCreate(savedInstanceState)
+
+        val withLogout = intent.extras[WITH_LOGOUT] as Boolean
+        if (withLogout) {
+            presenter.logoutFromServer()
+        }
     }
 
     override fun onResume() {
@@ -74,5 +82,20 @@ class LoginActivity: PresenterActivity<ILoginPresenter>(), ILoginView {
         super.onActivityResult(requestCode, resultCode, data)
 
         presenter.onActivityResult(requestCode, resultCode, data)
+    }
+
+    companion object {
+        val WITH_LOGOUT = "with_logout"
+
+        fun startActivity(context: Context) {
+            startActivity(context, false)
+        }
+
+        fun startActivity(context: Context, withLogout: Boolean) {
+            val intent = Intent(context, LoginActivity::class.java)
+            intent.putExtra(WITH_LOGOUT, withLogout)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            context.startActivity(intent)
+        }
     }
 }

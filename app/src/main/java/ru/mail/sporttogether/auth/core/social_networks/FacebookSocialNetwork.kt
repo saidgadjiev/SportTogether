@@ -103,6 +103,7 @@ class FacebookSocialNetwork(private val activity: Activity) : ISocialNetwork {
                     .edit()
                     .putString(ACCESS_TOKEN, null)
                     .apply()
+
             Log.d(TAG, "Facebook sdk logout")
         } else {
             Log.w(TAG, "Couldn't log out as the SDK wasn't initialized yet.")

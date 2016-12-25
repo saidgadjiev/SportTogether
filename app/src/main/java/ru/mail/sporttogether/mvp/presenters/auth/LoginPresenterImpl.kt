@@ -89,4 +89,23 @@ class LoginPresenterImpl(view: ILoginView) : ILoginPresenter, OnLoginCompleteLis
         socialNetworkManager.onActivityResult(requestCode, resultCode, data)
     }
 
+    override fun logoutFromServer() {
+        authApi.unauthorize()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(object : Subscriber<Response<Any>>() {
+                    override fun onCompleted() {
+
+                    }
+
+                    override fun onNext(resp: Response<Any>?) {
+                        Log.d("#MY " + javaClass.simpleName, "unauthorized : " + resp?.message)
+                    }
+
+                    override fun onError(e: Throwable?) {
+
+                    }
+                })
+    }
+
 }

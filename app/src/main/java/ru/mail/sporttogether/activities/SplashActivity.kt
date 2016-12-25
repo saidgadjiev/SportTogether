@@ -33,9 +33,7 @@ class SplashActivity :
 
     override fun startLoginActivity() {
         Handler().postDelayed({
-            val intent = Intent(this@SplashActivity, LoginActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            startActivity(intent)
+            LoginActivity.startActivity(this)
         }, 1000)
     }
 

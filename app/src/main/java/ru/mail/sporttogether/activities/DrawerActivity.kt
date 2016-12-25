@@ -1,6 +1,5 @@
 package ru.mail.sporttogether.activities
 
-import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -104,7 +103,7 @@ class DrawerActivity : IDrawerView, PresenterActivity<IDrawerPresenter>() {
         for (network in socialNetworkManager.initializedSocialNetworks) {
             if (network.isConnected) {
                 network.logout()
-                startActivity(Intent(this, LoginActivity::class.java))
+                startLoginActivity()
                 break
             }
         }
@@ -131,6 +130,6 @@ class DrawerActivity : IDrawerView, PresenterActivity<IDrawerPresenter>() {
 
 
     override fun startLoginActivity() {
-        startActivity(Intent(this, SplashActivity::class.java))
+        LoginActivity.startActivity(this, true)
     }
 }

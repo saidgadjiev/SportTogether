@@ -37,6 +37,10 @@ class SplashActivityPresenterImpl(view: ISplashView) : SplashActivityPresenter, 
 
     private lateinit var socialNetworkManager: SocialNetworkManager
 
+    init {
+        App.injector.usePresenterComponent().inject(this)
+    }
+
     override fun onCreate(args: Bundle?) {
         socialNetworkManager = SocialNetworkManager.instance
 
@@ -104,9 +108,5 @@ class SplashActivityPresenterImpl(view: ISplashView) : SplashActivityPresenter, 
 
     override fun onError(socialNetworkError: SocialNetworkError) {
         view?.startLoginActivity()
-    }
-
-    init {
-        App.injector.usePresenterComponent().inject(this)
     }
 }
