@@ -186,7 +186,13 @@ class AddEventActivity :
             Toast.makeText(this, "Вид спорта не задан", Toast.LENGTH_SHORT).show()
             return
         }
-        val maxPeople = Integer.parseInt(binding.eventMaxPeople.text.toString())
+        var maxPeople = 0
+        try {
+            maxPeople = Integer.parseInt(binding.eventMaxPeople.text.toString())
+        } catch (e: NumberFormatException) {
+            Toast.makeText(this, "Количество людей не задано", Toast.LENGTH_SHORT).show()
+            return
+        }
         Log.d("#MY " + javaClass.simpleName, "max people : " + maxPeople)
         Log.d("#MY " + javaClass.simpleName, "lat : " + lat)
         Log.d("#MY " + javaClass.simpleName, "lon : " + lng)

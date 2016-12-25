@@ -16,10 +16,10 @@
         <item name="colorControlActivated">@color/colorAccent</item>
         <item name="colorControlHighlight">@color/colorAccent</item>
 
-        <item name="material_drawer_selected">@color/vk_white</item>
+        <item name="material_drawer_selected">@color/white</item>
         <item name="material_drawer_selected_text">@color/colorPrimary</item>
-        <item name="material_drawer_background">@color/vk_white</item>
-        <item name="material_drawer_header_selection_text">@color/vk_white</item>
+        <item name="material_drawer_background">@color/white</item>
+        <item name="material_drawer_header_selection_text">@color/white</item>
 
     </style>
 
@@ -60,21 +60,18 @@
         <item name="android:padding">@dimen/offset_small</item>
     </style>
 
-    <style name="FlatButton" parent="Widget.AppCompat.Button.Borderless">
-        <item name="android:height">36dp</item>
-        <item name="android:textSize">@dimen/font_medium</item>
-        <item name="android:fontFamily">sans-serif</item>
-        <item name="android:textColor">@color/md_white_1000</item>
+    <style name="FlatButton" parent="Widget.AppCompat.Button.Borderless.Colored">
+        <item name="android:textColor">@color/white</item>
         <item name="android:paddingStart">8dp</item>
         <item name="android:paddingEnd">8dp</item>
+        <item name="android:radius">2dp</item>
+        <item name="android:elevation">2dp</item>
         <item name="android:background">@drawable/raised_button_background</item>
 
     </style>
 
     <style name="IconButton" parent="Widget.AppCompat.Button.Borderless">
-        <item name="android:textSize">@dimen/font_tiny</item>
-        <item name="android:fontFamily">sans-serif</item>
-        <item name="android:textColor">?colorPrimary</item>
+        <item name="android:textColor">@color/primary</item>
         <item name="android:drawablePadding">@dimen/offset_medium</item>
         <item name="android:background">@drawable/raised_button_background</item>
 
