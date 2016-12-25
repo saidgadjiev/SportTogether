@@ -11,7 +11,7 @@
 
         <variable
             name="listener"
-            type="ru.mail.sporttogether.data.binding.event.EventListener" />
+            type="ru.mail.sporttogether.data.binding.event.ButtonListener" />
 
     </data>
 

@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.Toolbar
 import android.util.Log
+import com.bumptech.glide.Glide
 import com.mikepenz.materialdrawer.AccountHeader
 import com.mikepenz.materialdrawer.AccountHeaderBuilder
 import com.mikepenz.materialdrawer.Drawer
@@ -24,7 +25,8 @@ import ru.mail.sporttogether.mvp.views.drawer.IDrawerView
 import ru.mail.sporttogether.utils.MyDrawerImageLoader
 
 
-class DrawerActivity : IDrawerView, PresenterActivity<IDrawerPresenter>() {
+class DrawerActivity : IDrawerView,
+        PresenterActivity<IDrawerPresenter>() {
     private lateinit var binding: ActivityDrawerBinding
     private lateinit var toolbar: Toolbar
     private lateinit var mDrawer: Drawer
@@ -61,10 +63,10 @@ class DrawerActivity : IDrawerView, PresenterActivity<IDrawerPresenter>() {
             name = "No name"
         if (avatar.isNullOrEmpty())
             avatar = "https://scontent-amt2-1.xx.fbcdn.net/v/t1.0-9/14225377_107564209701561_5320272900042567420_n.jpg?oh=efa955d0b647185a747f44f6ce54d390&oe=58B58ED2"
-        return AccountHeaderBuilder()
+        val header = AccountHeaderBuilder()
                 .withActivity(activity)
                 //.withCompactStyle(true)
-                .withHeaderBackground(R.drawable.drawer_background)
+                .withHeaderBackground(R.drawable.navigation_header)
                 .addProfiles(
                         ProfileDrawerItem().withName(name).withIcon(avatar).withTextColor(ContextCompat.getColor(this, R.color.colorPrimary))
                 )
@@ -72,6 +74,12 @@ class DrawerActivity : IDrawerView, PresenterActivity<IDrawerPresenter>() {
                 .withCloseDrawerOnProfileListClick(false)
                 .withSelectionListEnabled(false)
                 .build()
+
+        Glide.with(this)
+                .load(R.drawable.navigation_header)
+                .into(header.headerBackgroundView)
+
+        return header
 
     }
 

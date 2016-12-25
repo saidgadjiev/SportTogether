@@ -19,7 +19,9 @@ import ru.mail.sporttogether.adapter.TaskAdapter
 import ru.mail.sporttogether.adapter.events.EventsAdapter
 import ru.mail.sporttogether.app.App
 import ru.mail.sporttogether.auth.core.SocialNetworkManager
+import ru.mail.sporttogether.data.binding.event.ButtonListener
 import ru.mail.sporttogether.data.binding.event.EventDetailsData
+import ru.mail.sporttogether.data.binding.event.EventDetailsListener
 import ru.mail.sporttogether.databinding.EventsMapBinding
 import ru.mail.sporttogether.databinding.ShowingTasksBinding
 import ru.mail.sporttogether.fragments.CheckingTasks
@@ -40,6 +42,8 @@ import java.util.*
 class EventsMapFragment :
         PresenterFragment<IMapPresenter>(),
         IMapView,
+        EventDetailsListener,
+        ButtonListener,
         CheckingTasks {
 
     private val socialNetworkManager = SocialNetworkManager.instance
@@ -47,21 +51,19 @@ class EventsMapFragment :
     private lateinit var mapView: MapView
     private lateinit var binding: EventsMapBinding
     private lateinit var eventDedailsBottomSheet: BottomSheetBehavior<View>
-    private lateinit var bottomSheetEventsList: BottomSheetBehavior<View>
     private val data = EventDetailsData()
     private var tasksDialog: TasksDialog? = null
     private lateinit var resultsContainer: FrameLayout
 
     private lateinit var eventsListView: RecyclerView
     private val adapter = EventsAdapter()
+    private var dialog: AlertDialog? = null
 
 //    private val tasksDialog
 
     private var markerDownX = 0
     private var markerDownY = 0
     private var tabHeight = 0
-
-    private lateinit var animator: ViewPropertyAnimator
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         App.injector
@@ -92,26 +94,6 @@ class EventsMapFragment :
         resultsContainer = binding.eventsListSheet
         resultsContainer.pivotY = resultsContainer.height.toFloat()
         resultsContainer.animate().scaleY(0f).setDuration(0L).start()
-        /*bottomSheetEventsList = BottomSheetBehavior.from(binding.eventsListSheet)
-        eventDedailsBottomSheet.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
-            override fun onSlide(bottomSheet: View, slideOffset: Float) {
-
-            }
-
-            override fun onStateChanged(bottomSheet: View, newState: Int) {
-
-                when (newState) {
-                    BottomSheetBehavior.STATE_DRAGGING -> {
-                        if (searchSheetLocked)
-                            eventDedailsBottomSheet.state = BottomSheetBehavior.STATE_EXPANDED
-                    }
-                    BottomSheetBehavior.STATE_EXPANDED -> {
-                        searchSheetLocked = true
-                    }
-                }
-
-            }
-        })*/
 
         eventsListView = binding.eventsListRecyclerView
         eventsListView.layoutManager = LinearLayoutManager(context)
@@ -166,14 +148,18 @@ class EventsMapFragment :
     override fun showInfo(event: Event, isCancelable: Boolean, tasks: ArrayList<Task>?) {
         render(event, isCancelable, tasks)
         presenter.loadTasks()
-        eventDedailsBottomSheet.state = BottomSheetBehavior.STATE_COLLAPSED
+
+    }
+
+    override fun updateAddress(address: String) {
+        data.address.set(address)
     }
 
     override fun onStart() {
         super.onStart()
         mapView.onStart()
-        binding.listener = presenter
-        binding.addListener = presenter
+        binding.listener = this
+        binding.addListener = this
     }
 
     override fun onStop() {
@@ -209,6 +195,33 @@ class EventsMapFragment :
         tasksDialog = null
     }
 
+    override fun onAngryButtonClicked() {
+        if (dialog == null)
+            dialog = AlertDialog.Builder(context)
+                    .setPositiveButton(android.R.string.yes, { dialog, which ->
+                        presenter.doAngry()
+                        dialog.cancel()
+                    })
+                    .setNegativeButton(android.R.string.no, { dialog, which ->
+                        dialog.cancel()
+                    })
+                    .setMessage(R.string.want_angry)
+                    .create()
+        else dialog!!.show()
+    }
+
+    override fun onJoinButtonClicked() {
+        presenter.doJoin()
+    }
+
+    override fun onShareButtonClicked() {
+        shareResults()
+    }
+
+    override fun onCancelButtonClicked() {
+        presenter.cancelEvent()
+    }
+
     override fun loadEvents(events: MutableList<Event>) {
         adapter.swap(events)
     }
@@ -234,11 +247,17 @@ class EventsMapFragment :
         tasksDialog = null
     }
 
+    override fun onButtonClicked() {
+        presenter.fabClicked(data.fabForBottomSheet.get())
+    }
+
     override fun render(event: Event, isCancelable: Boolean, tasks: ArrayList<Task>?) {
         renderBaseInfo(event)
         renderResult(event)
         data.showCancelButton.set(isCancelable)
         renderTasks(event, tasks)
+        eventDedailsBottomSheet.peekHeight = binding.include.cardviewHeader.height + binding.include.frameLayout.height
+        eventDedailsBottomSheet.state = BottomSheetBehavior.STATE_COLLAPSED
     }
 
     private fun renderBaseInfo(event: Event) {
@@ -289,7 +308,7 @@ class EventsMapFragment :
     override fun onFinishLoadTasks(tasks: ArrayList<Task>?) {
         if (tasks != null) {
             initTasks(tasks)
-            binding.showTasksBtn.setOnClickListener {
+            binding.include.tasksText.setOnClickListener {
                 if (data.isTasksCanBeChanged.get())
                     tasksDialog!!.dialog.show()
             }

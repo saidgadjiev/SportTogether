@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="listener"
+            type="ru.mail.sporttogether.data.binding.event.EventDetailsListener" />
+
+        <variable
+            name="addListener"
+            type="ru.mail.sporttogether.data.binding.event.ButtonListener" />
+
+        <variable
+            name="data"
+            type="ru.mail.sporttogether.data.binding.event.EventDetailsData" />
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/cardview_header"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?colorPrimary">
+
+                <TextView
+                    android:id="@+id/event_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="32dp"
+                    android:ellipsize="end"
+                    android:ems="10"
+                    android:maxLines="1"
+                    android:text="@{data.name}"
+                    android:textColor="@color/vk_white"
+                    android:textSize="20sp"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/event_category"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:ems="10"
+                    android:text="@{data.category}"
+                    android:textColor="@color/vk_white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintLeft_toLeftOf="@+id/event_name"
+                    app:layout_constraintRight_toRightOf="@+id/event_name"
+                    app:layout_constraintTop_toBottomOf="@+id/event_name"
+                    app:layout_constraintVertical_bias="0.0" />
+
+                <View
+                    android:layout_width="40dp"
+                    android:layout_height="2dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@color/vk_white"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/people_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginRight="16dp"
+                    android:text="@{@string/people + ' ' + data.peopleCount}"
+                    android:textColor="@color/vk_white"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/event_category"
+                    app:layout_constraintRight_toRightOf="parent" />
+            </android.support.constraint.ConstraintLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <FrameLayout
+            android:id="@+id/frameLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardview_header">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/offset_small"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/material_padding"
+                android:paddingRight="@dimen/material_padding">
+
+                <Button
+                    android:id="@+id/angry_button"
+                    style="@style/IconButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawableTop="@{!data.isReported? @drawable/ic_report_btn : @drawable/ic_report_btn_disabled}"
+                    android:gravity="center"
+                    android:onClick="@{() -> listener.onAngryButtonClicked()}"
+                    android:text="@{!data.isReported? @string/angry : @string/angryAlready}"
+                    android:textSize="14sp" />
+
+
+                <Button
+                    android:id="@+id/detail_connect_button"
+                    style="@style/IconButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawableTop="@{!data.isJoined? @drawable/ic_person_add_btn : @drawable/ic_person_outline_btn}"
+                    android:gravity="center"
+                    android:onClick="@{() -> listener.onJoinButtonClicked()}"
+                    android:text="@{!data.isJoined? @string/join : @string/joinAlready}"
+                    android:textSize="14sp" />
+
+
+                <Button
+                    android:id="@+id/delete_button"
+                    style="@style/IconButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawableTop="@drawable/ic_delete_btn"
+                    android:gravity="center"
+                    android:onClick="@{() -> listener.onCancelButtonClicked()}"
+                    android:text="@string/cancel_event"
+                    android:textSize="14sp"
+                    android:visibility="@{data.showCancelButton? View.VISIBLE : View.GONE}" />
+            </LinearLayout>
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/address_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginLeft="72dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginStart="72dp"
+            android:layout_marginTop="0dp"
+            android:text="@{data.address}"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/address_icon" />
+
+        <ImageView
+            android:id="@+id/address_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:tint="?colorPrimary"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/frameLayout"
+            app:srcCompat="@drawable/ic_location" />
+
+        <ImageView
+            android:id="@+id/time_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:tint="?colorPrimary"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="@+id/address_icon"
+            app:layout_constraintRight_toRightOf="@+id/address_icon"
+            app:layout_constraintTop_toBottomOf="@+id/address_text"
+            app:srcCompat="@drawable/ic_time" />
+
+        <TextView
+            android:id="@+id/date_time_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginLeft="72dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginStart="72dp"
+            android:layout_marginTop="0dp"
+            android:text="TextView"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/time_icon" />
+
+        <ImageView
+            android:id="@+id/icon_tasks"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="8dp"
+            android:tint="?colorPrimary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="@+id/description_icon"
+            app:layout_constraintRight_toRightOf="@+id/description_icon"
+            app:layout_constraintTop_toBottomOf="@+id/description_text"
+            app:layout_constraintVertical_bias="0.0"
+            app:srcCompat="@drawable/ic_tasks" />
+
+        <TextView
+            android:id="@+id/tasks_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginLeft="72dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginStart="72dp"
+            android:text="@string/tasks_header"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/icon_tasks" />
+
+        <ImageView
+            android:id="@+id/description_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:tint="?colorPrimary"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="@+id/time_icon"
+            app:layout_constraintRight_toRightOf="@+id/time_icon"
+            app:layout_constraintTop_toBottomOf="@+id/date_time_text"
+            app:srcCompat="@drawable/ic_description" />
+
+        <TextView
+            android:id="@+id/description_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginLeft="72dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginStart="72dp"
+            android:layout_marginTop="0dp"
+            android:text="@{data.description}"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/description_icon" />
+
+    </android.support.constraint.ConstraintLayout>
+</layout>

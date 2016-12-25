@@ -84,7 +84,7 @@ class RetrofitModule {
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(okBuilder.build())
-                .baseUrl(BASE_URL)
+                .baseUrl("https://geocode-maps.yandex.ru/")
                 .build()
 
     }

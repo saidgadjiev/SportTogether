@@ -3,6 +3,8 @@ package ru.mail.sporttogether.mvp.presenters.map
 import android.Manifest
 import android.graphics.Point
 import android.location.Location
+import android.util.Log
+
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
@@ -22,9 +24,13 @@ import ru.mail.sporttogether.managers.LocationManager
 import ru.mail.sporttogether.managers.events.EventsManager
 import ru.mail.sporttogether.mvp.views.map.IMapView
 import ru.mail.sporttogether.net.api.EventsAPI
+import ru.mail.sporttogether.net.api.ServiceApi
+import ru.mail.sporttogether.net.api.YandexMapsApi
 import ru.mail.sporttogether.net.models.Event
+import ru.mail.sporttogether.net.models.IpResponse
 import ru.mail.sporttogether.net.models.Task
 import ru.mail.sporttogether.net.models.User
+import ru.mail.sporttogether.net.models.yandex.maps.GeoObject
 import ru.mail.sporttogether.net.responses.EventsResponse
 import ru.mail.sporttogether.net.responses.Response
 import rx.Observable
@@ -56,6 +62,8 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
     @Inject lateinit var api: EventsAPI
     @Inject lateinit var eventsManager: EventsManager
     @Inject lateinit var locationManager: LocationManager
+    @Inject lateinit var yandexApi: YandexMapsApi
+    @Inject lateinit var serviceApi: ServiceApi
 
     private val userId: Long
 
@@ -130,16 +138,44 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
         view?.hideInfo()
     }
 
-    override fun onShareButtonClicked() {
-        view?.shareResults()
-    }
-
     override fun onCameraMoveStarted(p0: Int) {
 
     }
 
     override fun loadEvents() {
 
+    }
+
+    private fun loadAddressFromYandex(lat: Double, lng: Double) {
+        yandexApi.getAddressByCoordinates(longlat = "" + lng + "," + lat)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(object : Subscriber<ArrayList<GeoObject>>() {
+                    override fun onNext(t: ArrayList<GeoObject>) {
+                        if (t.isNotEmpty()) {
+                            view?.updateAddress(t[0].textAddress)
+                        }
+                    }
+
+                    override fun onError(e: Throwable) {
+                        Log.e("yandex", e.message, e)
+                    }
+
+                    override fun onCompleted() {
+
+                    }
+
+                })
+    }
+
+    override fun fabClicked(isBottomSheet: Boolean) {
+        if (!isBottomSheet) {
+            lastPos.let {
+                view?.startAddEventActivity(it.longitude, it.latitude)
+            }
+        } else {
+            view?.shareResults()
+        }
     }
 
     override fun searchByCategory(s: String) {
@@ -191,7 +227,7 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
                 })
     }
 
-    override fun onCancelButtonClicked() {
+    override fun cancelEvent() {
         apiSubscribtion?.unsubscribe()
         api.cancelEvent(lastEvent.id)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -270,6 +306,25 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
         map.setOnMapClickListener(this)
         map.setOnMarkerClickListener(this)
         map.setOnCameraIdleListener(view)
+
+        serviceApi.getLocationByIP()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(object : Subscriber<IpResponse>() {
+                    override fun onError(e: Throwable) {
+                        view?.showToast(R.string.cant_load_position)
+                    }
+
+                    override fun onCompleted() {
+
+                    }
+
+                    override fun onNext(t: IpResponse) {
+                        map.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(t.lat, t.lon), 15f))
+                    }
+
+                })
+
         locationSubscription = locationManager.locationUpdate.subscribe { location ->
             onLocationUpdated(location)
         }
@@ -313,12 +368,6 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
         }
     }
 
-    override fun onAddButtonClicked() {
-        lastPos.let {
-            view?.startAddEventActivity(it.longitude, it.latitude)
-        }
-    }
-
     private fun addMarker(latlng: LatLng) {
         map?.let {
             lastPos = latlng
@@ -339,6 +388,8 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
             lastEventTasks = null //обнуляем таски, когда только кликнули по маркеру, считается, что когда массив = null, таски не загружены
             val isCancelable = (userId == event.user.id) and !event.isEnded
             view?.showInfo(lastEvent, isCancelable, lastEventTasks)
+            loadAddressFromYandex(event.lat, event.lng)
+            map?.animateCamera(CameraUpdateFactory.newLatLng(LatLng(event.lat, event.lng)))
         }
     }
 
@@ -351,7 +402,7 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
         view?.finishView()
     }
 
-    override fun onAngryButtonClicked() {
+    override fun doAngry() {
         api.report(lastEvent.id)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -375,7 +426,7 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
                 })
     }
 
-    override fun onJoinButtonClicked() {
+    override fun doJoin() {
         if (lastEvent.isEnded) {
             view?.showToast("Событие уже завершилось")
         } else

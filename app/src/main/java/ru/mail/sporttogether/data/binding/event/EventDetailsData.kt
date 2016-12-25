@@ -33,4 +33,6 @@ class EventDetailsData {
 
     val clickable = ObservableBoolean(false)
     val fabForBottomSheet = ObservableBoolean(false)
+
+    val address = ObservableField<String>()
 }

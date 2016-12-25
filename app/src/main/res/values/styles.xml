@@ -68,7 +68,7 @@
     <style name="IconButton" parent="Widget.AppCompat.Button.Borderless">
         <item name="android:textSize">@dimen/font_tiny</item>
         <item name="android:fontFamily">sans-serif</item>
-        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textColor">?colorPrimary</item>
         <item name="android:drawablePadding">@dimen/offset_medium</item>
         <item name="android:background">@drawable/raised_button_background</item>
 

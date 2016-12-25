@@ -28,4 +28,6 @@ interface IMapView : IView, GoogleMap.OnCameraIdleListener {
     fun addEvent(event: Event)
 
     fun onFinishLoadTasks(tasks: ArrayList<Task>?)
+
+    fun updateAddress(address: String)
 }
