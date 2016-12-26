@@ -1,6 +1,6 @@
 package ru.mail.sporttogether.activities
 
-import android.app.Activity
+//import android.widget.`@+id/category_header`
 import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
@@ -48,7 +48,7 @@ class AddEventActivity :
 
     private val handler = Handler()
     private var eventId = 0L
-    private var settedDate: GregorianCalendar = GregorianCalendar()
+    private var settedDate: GregorianCalendar? = null
     private lateinit var pickDateText: TextView
     private lateinit var event: Event
 
@@ -161,7 +161,7 @@ class AddEventActivity :
     }
 
     private fun initPickDate() {
-        pickDateText.text = DateUtils.toLongDateString(settedDate)
+//        pickDateText.text = DateUtils.toLongDateString(settedDate)
 
         val mPickDateBtn = binding.pickDateButton
 
@@ -183,7 +183,8 @@ class AddEventActivity :
                         datepicker.dayOfMonth,
                         timepicker.currentHour,
                         timepicker.currentMinute)
-                pickDateText.text = DateUtils.toLongDateString(settedDate)
+                pickDateText.text = DateUtils.toLongDateString(settedDate!!)
+
                 alertDialog.hide()
             }
             alertDialog.setView(datepickerDialogView)
@@ -233,6 +234,11 @@ class AddEventActivity :
     }
 
     override fun onButtonClicked() {
+        if (settedDate == null) {
+            Toast.makeText(this, "Дата события не задана", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         if (data.resultVisibility.get()) {
             presenter.sendResult(eventId, binding.description.text.toString())
             return
@@ -246,17 +252,24 @@ class AddEventActivity :
             Toast.makeText(this, "Вид спорта не задан", Toast.LENGTH_SHORT).show()
             return
         }
-        val maxPeople = Integer.parseInt(binding.eventMaxPeople.text.toString())
+        val maxPeople: Int
+        try {
+            maxPeople = Integer.parseInt(binding.eventMaxPeople.text.toString())
+        } catch (e: NumberFormatException) {
+            Toast.makeText(this, "Количество людей не задано", Toast.LENGTH_SHORT).show()
+            return
+        }
         Log.d("#MY " + javaClass.simpleName, "max people : " + maxPeople)
         Log.d("#MY " + javaClass.simpleName, "tasks count : " + addTasksDialog?.tasks?.size)
 
-        event.date = settedDate.time.time
+        event.date = settedDate?.time?.time ?: 0
         event.description = binding.description.text.toString()
         event.maxPeople = maxPeople
         event.tasks = addTasksDialog!!.tasks
         event.category.name = nameCategory
 
         presenter.addEventClicked(event, binding.addMeNow.isChecked)
+
     }
 
     override fun onEventAdded(event: Event) {

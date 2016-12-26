@@ -27,7 +27,7 @@
     <string name="cancel_event">отменить</string>
     <string name="datetime_picker_btn_set">Установить</string>
     <string name="datetime_picker_header">Установить дату</string>
-    <string name="add_event_set_date_btn">Время события</string>
+    <string name="add_event_set_date_btn">задать</string>
     <string name="category">Вид спорта</string>
     <string name="description_header">Описание</string>
     <string name="tasks_header">Список задач</string>
