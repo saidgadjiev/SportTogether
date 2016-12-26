@@ -1,6 +1,8 @@
 package ru.mail.sporttogether.fragments.events
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.graphics.Point
 import android.os.Bundle
 import android.support.design.widget.BottomSheetBehavior
@@ -64,6 +66,15 @@ class EventsMapFragment :
     private var markerDownX = 0
     private var markerDownY = 0
     private var tabHeight = 0
+
+    inner class TasksDialog(
+            val binding: ShowingTasksBinding,
+            val taskAdapter: TaskAdapter,
+            val dialog: AlertDialog) {
+        init {
+            this.dialog.setView(this.binding.root)
+        }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         App.injector
@@ -147,7 +158,7 @@ class EventsMapFragment :
 
     override fun showInfo(event: Event, isCancelable: Boolean, tasks: ArrayList<Task>?) {
         render(event, isCancelable, tasks)
-        presenter.loadTasks()
+        presenter.loadTasks(event)
 
     }
 
@@ -195,15 +206,24 @@ class EventsMapFragment :
         tasksDialog = null
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK)
+            data?.let {
+                it.getParcelableExtra<Event>(AddEventActivity.KEY_EVENT)?.let {
+                    showInfo(it, true, it.tasks)
+                }
+            }
+    }
+
     override fun onAngryButtonClicked() {
         if (dialog == null)
             dialog = AlertDialog.Builder(context)
                     .setPositiveButton(android.R.string.yes, { dialog, which ->
                         presenter.doAngry()
-                        dialog.cancel()
+                        dialog.dismiss()
                     })
                     .setNegativeButton(android.R.string.no, { dialog, which ->
-                        dialog.cancel()
+                        dialog.dismiss()
                     })
                     .setMessage(R.string.want_angry)
                     .create()
@@ -235,7 +255,8 @@ class EventsMapFragment :
     }
 
     override fun startAddEventActivity(lng: Double, lat: Double) {
-        AddEventActivity.start(context, lng, lat)
+        val event = Event(lat = lat, lng = lng)
+        AddEventActivity.startForResult(this, event, REQUEST_CODE)
     }
 
     override fun finishView() {
@@ -262,6 +283,7 @@ class EventsMapFragment :
 
     private fun renderBaseInfo(event: Event) {
         data.category.set(event.category.name)
+        data.address.set(event.address)
         data.name.set(event.name)
         data.date.set(DateUtils.toXLongDateString(Date(event.date)))
         data.description.set(event.description)
@@ -333,18 +355,6 @@ class EventsMapFragment :
         tasksDialog = TasksDialog(tasksBinding, taskAdapter, dialog)
     }
 
-    companion object {
-        @JvmStatic val TAB_HEIGHT_KEY = "TAB_HEIGHT"
-
-        @JvmStatic fun newInstance(tabHeight: Int): EventsMapFragment {
-            val args = Bundle()
-            args.putInt(TAB_HEIGHT_KEY, tabHeight)
-            val fragment = EventsMapFragment()
-            fragment.arguments = args
-            return fragment
-        }
-    }
-
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.main, menu)
 
@@ -390,12 +400,16 @@ class EventsMapFragment :
         animator.start()
     }
 
-    class TasksDialog(
-            val binding: ShowingTasksBinding,
-            val taskAdapter: TaskAdapter,
-            val dialog: AlertDialog) {
-        init {
-            this.dialog.setView(this.binding.root)
+    companion object {
+        @JvmStatic val TAB_HEIGHT_KEY = "TAB_HEIGHT"
+        @JvmStatic val REQUEST_CODE = 1092
+
+        @JvmStatic fun newInstance(tabHeight: Int): EventsMapFragment {
+            val args = Bundle()
+            args.putInt(TAB_HEIGHT_KEY, tabHeight)
+            val fragment = EventsMapFragment()
+            fragment.arguments = args
+            return fragment
         }
     }
 }

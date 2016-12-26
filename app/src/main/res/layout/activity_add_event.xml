@@ -28,7 +28,7 @@
         <LinearLayout
             android:id="@+id/activity_add_event"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:orientation="vertical"
             android:padding="@dimen/material_padding"
@@ -65,7 +65,7 @@
                             style="?android:attr/progressBarStyleSmall"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignEnd="@+id/category_autocomplete"
+                            android:layout_alignRight="@+id/category_autocomplete"
                             android:layout_marginTop="5dp"
                             android:visibility="gone" />
                     </RelativeLayout>
@@ -74,15 +74,15 @@
                         android:id="@+id/event_max_people"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/offset_small"
+                        android:layout_marginLeft="@dimen/offset_small"
                         android:layout_weight="2"
-                        android:drawableStart="@drawable/ic_people"
+                        android:drawableLeft="@drawable/ic_people"
+                        android:gravity="center_horizontal"
                         android:inputType="number"
                         android:maxEms="15"
                         android:maxLength="5"
                         android:maxLines="1"
-                        android:text="10"
-                        android:textAlignment="textEnd" />
+                        android:text="10" />
                 </LinearLayout>
 
                 <!--<EditText-->
@@ -102,7 +102,7 @@
                         style="@style/FlatButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
+                        android:layout_alignParentLeft="true"
                         android:layout_centerVertical="true"
                         android:layout_marginTop="5dp"
                         android:text="@string/add_event_set_date_btn" />
@@ -111,25 +111,20 @@
                         android:id="@+id/pick_date_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginTop="15dp"
-                        android:layout_toEndOf="@id/pick_date_button"
+                        android:layout_toRightOf="@id/pick_date_button"
                         android:gravity="end"
-                        android:paddingStart="@dimen/offset_medium" />
+                        android:paddingLeft="@dimen/offset_medium" />
                 </RelativeLayout>
 
                 <TextView
-                    android:id="@+id/lat_view"
+                    android:id="@+id/address_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{data.lat}" />
-
-                <TextView
-                    android:id="@+id/lng_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{data.lng}" />
+                    android:drawableLeft="@drawable/ic_location"
+                    android:text="@{data.address}" />
 
                 <Button
                     android:id="@+id/open_tasks_button"
@@ -145,28 +140,18 @@
                 android:id="@+id/description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center_vertical"
                 android:hint="@{data.mainDataVisibility? @string/description : @string/result_header}"
                 android:lines="3" />
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <CheckBox
-                    android:id="@+id/add_me_now"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:buttonTint="@color/colorAccent"
-                    android:checked="true" />
-
-                <TextView
-                    style="@style/SecondaryText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@+id/add_me_now"
-                    android:layout_toEndOf="@id/add_me_now"
-                    android:text="@string/add_to_event" />
-            </RelativeLayout>
+            <CheckBox
+                android:id="@+id/add_me_now"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:buttonTint="@color/colorAccent"
+                android:checked="true"
+                android:text="@string/add_to_event" />
 
             <Button
                 android:id="@+id/add_button"

@@ -1,5 +1,6 @@
 package ru.mail.sporttogether.mvp.presenters.event
 
+import android.os.Bundle
 import android.util.Log
 import com.google.firebase.iid.FirebaseInstanceId
 import ru.mail.sporttogether.app.App
@@ -7,10 +8,10 @@ import ru.mail.sporttogether.managers.events.EventsManager
 import ru.mail.sporttogether.mvp.views.event.IAddEventView
 import ru.mail.sporttogether.net.api.CategoriesAPI
 import ru.mail.sporttogether.net.api.EventsAPI
-import ru.mail.sporttogether.net.models.Category
+import ru.mail.sporttogether.net.api.YandexMapsApi
 import ru.mail.sporttogether.net.models.Event
 import ru.mail.sporttogether.net.models.EventResult
-import ru.mail.sporttogether.net.models.Task
+import ru.mail.sporttogether.net.models.yandex.maps.GeoObject
 import ru.mail.sporttogether.net.responses.CategoriesResponse
 import ru.mail.sporttogether.net.responses.Response
 import ru.mail.sporttogether.utils.DateUtils
@@ -30,6 +31,7 @@ class AddEventPresenterImpl(var view: IAddEventView?) : AddEventPresenter {
     @Inject lateinit var eventsApi: EventsAPI
     @Inject lateinit var categoriesApi: CategoriesAPI
     @Inject lateinit var eventsManager: EventsManager
+    @Inject lateinit var yandexApi: YandexMapsApi
 
     private var eventSubscribtion: Subscription? = null
     private var categoriesSubscribtion: Subscription? = null
@@ -38,6 +40,31 @@ class AddEventPresenterImpl(var view: IAddEventView?) : AddEventPresenter {
         App.injector.usePresenterComponent().inject(this)
     }
 
+
+    override fun onCreate(args: Bundle?, event: Event) {
+        super.onCreate(args, event)
+        yandexApi.getAddressByCoordinates(longlat = "" + event.lng + ',' + event.lat)
+                .retry(10)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(object :Subscriber<ArrayList<GeoObject>>(){
+                    override fun onError(e: Throwable) {
+
+                    }
+
+                    override fun onCompleted() {
+                    }
+
+                    override fun onNext(t: ArrayList<GeoObject>) {
+                        if (t.isNotEmpty()){
+                            view?.updateAddress(t[0].textAddress)
+                            event.address = t[0].textAddress
+                        }
+                    }
+
+                })
+
+    }
 
     override fun onDestroy() {
         view = null
@@ -49,34 +76,16 @@ class AddEventPresenterImpl(var view: IAddEventView?) : AddEventPresenter {
 
     }
 
-    override fun addEventClicked(name: String,
-                                 categoryName: String,
-                                 date: Date,
-                                 lat: Double,
-                                 lng: Double,
-                                 description: String,
-                                 maxPeople: Int,
-                                 tasks: ArrayList<Task>,
-                                 addMeNow: Boolean
-    ) {
-        val sb = StringBuilder(categoryName)
+    override fun addEventClicked(event: Event, addMeNow: Boolean) {
+        val sb = StringBuilder(event.category.name)
         sb.append(", ")
-                .append(DateUtils.DateUtils.toXLongDateString(date))
+                .append(DateUtils.DateUtils.toXLongDateString(Date(event.date)))
                 .append(". ")
-                .append(maxPeople)
+                .append(event.maxPeople)
                 .append(" человек(а)")
         val nameEvent = sb.toString()
         Log.d("#MY ", "generated name : " + nameEvent)
-
-        val event = Event(
-                name = nameEvent,
-                category = Category(null, categoryName),
-                lat = lat,
-                lng = lng,
-                description = description,
-                maxPeople = maxPeople,
-                tasks = tasks,
-                date = date.time)
+        event.name = nameEvent
 
         eventSubscribtion = eventsApi.createEvent(event)
                 .subscribeOn(Schedulers.io())
@@ -89,11 +98,11 @@ class AddEventPresenterImpl(var view: IAddEventView?) : AddEventPresenter {
                     override fun onNext(response: Response<Event>) {
                         if (response.code == 0) {
                             eventsManager.addEvent(response.data)
-                            view?.onEventAdded(response.data.name)
-
                             if (addMeNow == true) {
                                 join(response.data.id)
                             }
+                            response.data.address = event.address
+                            view?.onEventAdded(response.data)
                         }
                     }
 

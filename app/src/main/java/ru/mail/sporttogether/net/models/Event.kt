@@ -17,7 +17,7 @@ data class Event(var name: String = "",
                  var tasks: ArrayList<Task>? = null,
                  @SerializedName("latitude") var lat: Double = 0.0,
                  @SerializedName("longtitude") var lng: Double = 0.0,
-                 var id: Long = 0,
+                 var id: Long = -1,
                  var maxPeople: Int = 5,
                  var description: String = "",
                  var result: String? = null,
@@ -94,9 +94,9 @@ data class Event(var name: String = "",
             } else return "0/0"
         }
 
-        @JvmStatic
-        val CREATOR = createParcel(::Event)
-    }
+        @JvmField
+        val CREATOR: Parcelable.Creator<Event> = createParcel(::Event)
 
+    }
 
 }

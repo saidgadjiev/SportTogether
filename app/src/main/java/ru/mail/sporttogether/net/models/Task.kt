@@ -36,6 +36,7 @@ data class Task(
     }
 
     companion object {
+        @JvmField
         val CREATOR = createParcel(::Task)
     }
 }

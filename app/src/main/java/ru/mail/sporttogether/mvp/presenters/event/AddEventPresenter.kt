@@ -1,8 +1,8 @@
 package ru.mail.sporttogether.mvp.presenters.event
 
+import android.os.Bundle
 import ru.mail.sporttogether.mvp.presenters.IPresenter
-import ru.mail.sporttogether.net.models.Task
-import java.util.*
+import ru.mail.sporttogether.net.models.Event
 
 /**
  * Created by bagrusss on 07.10.16.
@@ -10,16 +10,7 @@ import java.util.*
  */
 interface AddEventPresenter : IPresenter {
 
-    fun addEventClicked(name: String,
-                        categoryName: String,
-                        date: Date,
-                        lat: Double,
-                        lng: Double,
-                        description: String = "",
-                        maxPeople: Int,
-                        tasks: ArrayList<Task>,
-                        addMeNow: Boolean
-    )
+    fun addEventClicked(event: Event, addMeNow: Boolean)
 
     fun searchCategory(category: String)
 
@@ -28,5 +19,9 @@ interface AddEventPresenter : IPresenter {
     fun loadCategoriesBySubname(subname: String)
 
     fun sendResult(id: Long, result: String)
+
+    fun onCreate(args: Bundle?, event: Event) {
+        super.onCreate(args)
+    }
 
 }

@@ -34,7 +34,7 @@ data class User(
     override fun describeContents() = 0
 
     companion object {
-        @JvmStatic
+        @JvmField
         val CREATOR = createParcel(::User)
     }
 

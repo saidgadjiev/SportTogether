@@ -204,8 +204,9 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
                 })
     }
 
-    override fun loadTasks() {
-        api.getTasksByEventId(lastEvent.id)
+    override fun loadTasks(event: Event) {
+        lastEvent = event
+        api.getTasksByEventId(event.id)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(object : Subscriber<Response<ArrayList<Task>>>() {

@@ -8,8 +8,7 @@ import android.databinding.ObservableField
  *
  */
 class EventData {
-    val lat = ObservableField<String>()
-    val lng = ObservableField<String>()
     val resultVisibility = ObservableBoolean(false)
     val mainDataVisibility = ObservableBoolean(true)
+    val address = ObservableField<String>()
 }

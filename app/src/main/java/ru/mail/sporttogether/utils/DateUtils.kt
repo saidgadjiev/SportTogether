@@ -5,14 +5,14 @@ import java.util.*
 
 
 /**
- * Created by Ivan on 15.11.2016.
+ * Created by Ivan on 15.11.2016
  */
 class DateUtils {
     companion object DateUtils {
         fun toLongDateString(calendar: GregorianCalendar): String {
             val fmt = SimpleDateFormat("dd MMM yyyy HH:mm", Locale.getDefault())
-            fmt.setCalendar(calendar)
-            val dateFormatted = fmt.format(calendar.getTime())
+            fmt.calendar = calendar
+            val dateFormatted = fmt.format(calendar.time)
             return dateFormatted
         }
 

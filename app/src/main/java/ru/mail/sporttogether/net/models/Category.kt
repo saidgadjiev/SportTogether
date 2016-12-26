@@ -28,7 +28,7 @@ data class Category(
 
     companion object {
 
-        @JvmStatic
+        @JvmField
         val CREATOR = createParcel(::Category)
     }
 }
