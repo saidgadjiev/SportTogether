@@ -47,7 +47,7 @@ class AddEventPresenterImpl(var view: IAddEventView?) : AddEventPresenter {
                 .retry(10)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object :Subscriber<ArrayList<GeoObject>>(){
+                .subscribe(object : Subscriber<ArrayList<GeoObject>>() {
                     override fun onError(e: Throwable) {
 
                     }
@@ -56,7 +56,7 @@ class AddEventPresenterImpl(var view: IAddEventView?) : AddEventPresenter {
                     }
 
                     override fun onNext(t: ArrayList<GeoObject>) {
-                        if (t.isNotEmpty()){
+                        if (t.isNotEmpty()) {
                             view?.updateAddress(t[0].textAddress)
                             event.address = t[0].textAddress
                         }
@@ -99,10 +99,13 @@ class AddEventPresenterImpl(var view: IAddEventView?) : AddEventPresenter {
                         if (response.code == 0) {
                             eventsManager.addEvent(response.data)
                             if (addMeNow == true) {
+                                ++event.nowPeople
                                 join(response.data.id)
                             }
-                            response.data.address = event.address
-                            view?.onEventAdded(response.data)
+                            val data = response.data
+                            event.id = data.id
+                            event.user = data.user
+                            view?.onEventAdded(event)
                         }
                     }
 

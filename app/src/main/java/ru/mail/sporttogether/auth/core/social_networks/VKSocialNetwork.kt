@@ -137,7 +137,7 @@ class VKSocialNetwork(activity: Activity) : ISocialNetwork {
             onRequestSocialPersonCompleteListener.onError(SocialNetworkError("Please loggin first", -1))
         }
 
-        val request = VKApi.users().get(VKParameters.from(VKApiConst.FIELDS, "id,first_name,last_name,photo_50"))
+        val request = VKApi.users().get(VKParameters.from(VKApiConst.FIELDS, "id,first_name,last_name,photo_100"))
 
         request.useSystemLanguage = true
         request.executeWithListener(object : VKRequest.VKRequestListener() {
@@ -179,7 +179,7 @@ class VKSocialNetwork(activity: Activity) : ISocialNetwork {
             socialPerson.email = user.getString("email")
         }
         if (user.has("photo_50")) {
-            socialPerson.avatarURL = user.getString("photo_50")
+            socialPerson.avatarURL = user.getString("photo_100")
         }
         return socialPerson
     }
