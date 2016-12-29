@@ -55,15 +55,16 @@ android {
         dev {
             multiDexEnabled true
             minSdkVersion 21 //не трогать
-            buildConfigField "boolean", "ALLOW_SELF_SINGED_SSL", "false"
+            resValue "integer", "com_vk_sdk_AppId", "5800446"
         }
 
         prod {
+
             minSdkVersion 16
 //            multiDexEnabled false
             proguardFile 'proguard.pro'
 
-            buildConfigField "boolean", "ALLOW_SELF_SINGED_SSL", "false"
+            resValue "integer", "com_vk_sdk_AppId", "5794277"
         }
     }
 
@@ -72,13 +73,12 @@ android {
         release {
             minifyEnabled true
             shrinkResources true
-            debuggable false
+            debuggable true
             signingConfig signingConfigs.key
             proguardFile 'proguard.pro'
         }
 
         debug {
-            versionNameSuffix "_dev"
             debuggable true
             applicationIdSuffix '.debug'
             versionNameSuffix '-DEBUG'
