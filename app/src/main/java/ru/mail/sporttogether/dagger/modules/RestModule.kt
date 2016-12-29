@@ -30,12 +30,12 @@ class RestModule {
 
     @Singleton
     @Provides
-    fun provideYandexApi(@Named("yandexmaps") retrofit: Retrofit): YandexMapsApi =
+    fun provideYandexApi(@Named("no_auth") retrofit: Retrofit): YandexMapsApi =
             retrofit.create(YandexMapsApi::class.java)
 
     @Singleton
     @Provides
-    fun provideServiceApi(retrofit: Retrofit): ServiceApi =
+    fun provideServiceApi( retrofit: Retrofit): ServiceApi =
             retrofit.create(ServiceApi::class.java)
 
 }

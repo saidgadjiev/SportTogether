@@ -2,8 +2,11 @@ package ru.mail.sporttogether.app
 
 import android.content.Context
 import android.support.multidex.MultiDexApplication
+import com.crashlytics.android.Crashlytics
+import com.crashlytics.android.answers.Answers
 import com.facebook.stetho.Stetho
 import com.vk.sdk.VKSdk
+import io.fabric.sdk.android.Fabric
 import ru.mail.sporttogether.BuildConfig
 import ru.mail.sporttogether.dagger.components.AppMainComponent
 import ru.mail.sporttogether.dagger.components.DaggerAppMainComponent
@@ -29,5 +32,8 @@ class App : MultiDexApplication() {
                 .build()
         if (BuildConfig.DEBUG)
             Stetho.initializeWithDefaults(this)
+        else {
+            Fabric.with(this, Crashlytics(), Answers())
+        }
     }
 }

@@ -66,7 +66,7 @@ class RetrofitModule {
 
     @Singleton
     @Provides
-    @Named("yandexmaps")
+    @Named("no_auth")
     fun provideYandexRetrofit(gson: Gson): Retrofit {
         val logInterceptor = HttpLoggingInterceptor()
         logInterceptor.level = if (BuildConfig.DEBUG)

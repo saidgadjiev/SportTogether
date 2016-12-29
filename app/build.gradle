@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'com.getkeepsafe.dexcount'
+apply plugin: 'io.fabric'
 
 android {
     compileSdkVersion 25
@@ -15,6 +16,7 @@ android {
 
     repositories {
         maven { url "https://jitpack.io" }
+        maven { url 'https://maven.fabric.io/public' }
     }
 
     dataBinding {
@@ -152,6 +154,10 @@ dependencies {
 
 
     compile 'com.android.support:multidex:1.0.1'
+
+    compile('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
+        transitive = true;
+    }
 }
 
 apply plugin: 'com.google.gms.google-services'
