@@ -23,7 +23,7 @@ class NotificationManager {
 
         builder.setContentTitle(title)
         builder.setContentText(msg)
-        builder.setSmallIcon(R.mipmap.ic_launcher)
+        builder.setSmallIcon(R.drawable.ic_racing_flag)
 
         return builder
     }
