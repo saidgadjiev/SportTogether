@@ -6,8 +6,8 @@
 #-ignorewarnings
 
 # print mapping
--printmapping proguard-mapping.txt
-
+#-printmapping proguard-mapping.txt
+-printmapping build/outputs/mapping/release/mapping.txt
 #-optimizations !field/removal/writeonly,!field/marking/private,!code/allocation/variable
 -optimizationpasses 2
 
@@ -67,15 +67,6 @@
 
 ## Support library
 -dontwarn android.support.v7.**
-#-keep class android.support.v7.** { *; }
-#-keep interface android.support.v7.** { *; }
-
-#-keep class android.support.v4.** { *; }
-#-dontwarn android.support.v4.**
-#-keep class android.support.v4.** { *; }
-#-keep interface android.support.v4.app.** { *; }
-#-keep public class * extends android.support.v4.**
-#-keep public class * extends android.app.Fragment
 
 # support design
 -dontwarn android.support.design.**
@@ -85,13 +76,13 @@
 
 -dontwarn org.slf4j.**
 
--keep public class * extends android.app.Activity
--keep public class * extends android.app.Application
--keep class * extends android.view.View
+#-keep public class * extends android.app.Activity
+#-keep public class * extends android.app.Application
+#-keep class * extends android.view.View
 -keep public class * extends android.content.ContentProvider
--keep public class * extends android.app.Service
+#-keep public class * extends android.app.Service
 -keep public class * implements android.os.IInterface
--keep class * extends android.content.BroadcastReceiver
+#-keep class * extends android.content.BroadcastReceiver
 -keepattributes *Annotation*
 
 
@@ -117,13 +108,25 @@
 # rxjava
 -dontwarn sun.misc.Unsafe
 -dontwarn rx.**
--dontwarn com.squareup.okhttp.*
 
 #retrofit
+-dontwarn retrofit2.**
+-keep class retrofit2.** { *; }
+-keepattributes Signature
+-keepattributes Exceptions
 
--keep class com.squareup.okhttp.** { *; }
-#-keep class retrofit.** { *; }
--keep interface com.squareup.okhttp.** { *; }
+-keepclasseswithmembers class * {
+    @retrofit2.http.* <methods>;
+}
+
+-keep class ru.mail.sporttogether.net.models.** { *; }
+
+-keepattributes Signature
+-keepattributes *Annotation*
+-keep class okhttp3.** { *; }
+-keep interface okhttp3.** { *; }
+-dontwarn okhttp3.**
+
 -keep class com.google.appengine.api.urlfetch.** { *; }
 -dontwarn com.google.appengine.api.urlfetch.*
 -dontwarn org.codehaus.mojo.**
@@ -131,23 +134,17 @@
 
 -keep class com.google.android.gms.** { *; }
 
--keepclasseswithmembers class * {
-    @retrofit.http.* <methods>;
-}
-
 #-dontwarn com.google.android.gms.iid.InstanceID
 #-dontwarn com.google.android.gms.gcm.GoogleCloudMessaging
 
 # If in your rest service interface you use methods with Callback argument.
--keepattributes Exceptions
 
 # If your rest service methods throw custom exceptions, because you've defined an ErrorHandler.
--keepattributes Signature
 
--keepattributes *Annotation*,Signature
+-keepattributes *Annotation*, Signature
 
--dontnote junit.framework.**
--dontnote junit.runner.**
+#-dontnote junit.framework.**
+#-dontnote junit.runner.**
 
 #-dontwarn android.test.**
 #-dontwarn android.support.test.**
@@ -155,9 +152,6 @@
 #-dontwarn org.hamcrest.**
 
 
-#Rx
--keep interface rx.observers.Subscribers.**  { *; }
--keep class rx.observers.Subscribers.**  { *; }
 
 -dontwarn sun.misc.**
 
