@@ -3,6 +3,7 @@ package ru.mail.sporttogether.managers.events
 import android.util.LongSparseArray
 import ru.mail.sporttogether.net.models.Event
 import rx.subjects.BehaviorSubject
+import rx.subjects.PublishSubject
 import java.util.*
 
 /**
@@ -13,7 +14,7 @@ class EventsManagerImpl : EventsManager {
 
     private val eventsMap = LongSparseArray<Event>()
 
-    private val eventsUpdate: BehaviorSubject<EventsManager.NewData<*>> = BehaviorSubject.create()
+    private val eventsUpdate: PublishSubject<EventsManager.NewData<*>> = PublishSubject.create()
 
     override fun addEvent(e: Event) {
         eventsMap.put(e.id, e)
