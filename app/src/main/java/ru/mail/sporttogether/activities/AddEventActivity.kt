@@ -244,7 +244,6 @@ class AddEventActivity :
             return
         }
 
-//        val name = binding.eventName.text.toString()
         val nameCategory: String = binding.categoryAutocomplete.text.toString()
         Log.d("#MY " + javaClass.simpleName, "category name : " + nameCategory)
 
@@ -267,6 +266,7 @@ class AddEventActivity :
         event.maxPeople = maxPeople
         event.tasks = addTasksDialog!!.tasks
         event.category.name = nameCategory
+        event.isJoined = binding.addMeNow.isChecked
 
         presenter.addEventClicked(event, binding.addMeNow.isChecked)
 
