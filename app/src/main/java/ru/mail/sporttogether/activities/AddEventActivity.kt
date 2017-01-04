@@ -1,6 +1,5 @@
 package ru.mail.sporttogether.activities
 
-//import android.widget.`@+id/category_header`
 import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
@@ -213,7 +212,6 @@ class AddEventActivity :
         super.onStart()
         binding.listener = this
         binding.tasksListener = addTasksDialog?.binding?.listener
-
     }
 
     override fun onStop() {
@@ -221,7 +219,6 @@ class AddEventActivity :
         subscription?.unsubscribe()
         binding.listener = null
         binding.tasksListener = null
-
     }
 
     override fun onPause() {
