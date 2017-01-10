@@ -1,0 +1,33 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/activity_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="56dp" />
+
+        <eu.long1.spacetablayout.SpaceTabLayout
+            android:id="@+id/space_tab_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:button_color="@color/colorAccent"
+            app:layout_behavior="eu.long1.spacetablayout.SpaceTabLayoutBehavior"
+            app:number_of_tabs="three"
+            app:starting_position="one"
+            app:tab_color="@color/colorPrimary"
+            app:text_one="Action 1"
+            app:text_three="Action 3"
+            app:text_two="Action 2" />
+
+    </android.support.design.widget.CoordinatorLayout>
+</layout>

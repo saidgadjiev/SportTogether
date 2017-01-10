@@ -2,6 +2,7 @@ package ru.mail.sporttogether.managers.events
 
 import ru.mail.sporttogether.net.models.Event
 import rx.subjects.BehaviorSubject
+import rx.subjects.PublishSubject
 import java.util.*
 
 /**
@@ -31,5 +32,5 @@ interface EventsManager {
     fun addEvent(e: Event)
 
     //used for subscribe on events changes
-    fun getObservable(): BehaviorSubject<NewData<*>>
+    fun getObservable(): PublishSubject<NewData<*>>
 }

@@ -1,6 +1,5 @@
 package ru.mail.sporttogether.activities
 
-//import android.widget.`@+id/category_header`
 import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
@@ -213,7 +212,6 @@ class AddEventActivity :
         super.onStart()
         binding.listener = this
         binding.tasksListener = addTasksDialog?.binding?.listener
-
     }
 
     override fun onStop() {
@@ -221,7 +219,6 @@ class AddEventActivity :
         subscription?.unsubscribe()
         binding.listener = null
         binding.tasksListener = null
-
     }
 
     override fun onPause() {
@@ -244,7 +241,6 @@ class AddEventActivity :
             return
         }
 
-//        val name = binding.eventName.text.toString()
         val nameCategory: String = binding.categoryAutocomplete.text.toString()
         Log.d("#MY " + javaClass.simpleName, "category name : " + nameCategory)
 
@@ -267,6 +263,7 @@ class AddEventActivity :
         event.maxPeople = maxPeople
         event.tasks = addTasksDialog!!.tasks
         event.category.name = nameCategory
+        event.isJoined = binding.addMeNow.isChecked
 
         presenter.addEventClicked(event, binding.addMeNow.isChecked)
 

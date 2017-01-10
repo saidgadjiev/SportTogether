@@ -85,6 +85,7 @@ class EventsMapFragment :
         mapView = binding.mapview
         mapView.onCreate(savedInstanceState)
         presenter = MapPresenterImpl(this)
+        presenter.onCreate(savedInstanceState)
         mapView.getMapAsync(presenter)
         binding.data = data
         eventDedailsBottomSheet = BottomSheetBehavior.from(binding.bottomSheet)

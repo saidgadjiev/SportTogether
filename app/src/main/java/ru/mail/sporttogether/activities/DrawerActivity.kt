@@ -18,6 +18,7 @@ import ru.mail.sporttogether.R
 import ru.mail.sporttogether.auth.core.SocialNetworkManager
 import ru.mail.sporttogether.databinding.ActivityDrawerBinding
 import ru.mail.sporttogether.fragments.events.EventsMapFragment
+import ru.mail.sporttogether.fragments.events.EventsTabFragment
 import ru.mail.sporttogether.fragments.events.MyEventsFragment
 import ru.mail.sporttogether.mvp.presenters.drawer.DrawerPresenterImpl
 import ru.mail.sporttogether.mvp.presenters.drawer.IDrawerPresenter
@@ -92,7 +93,7 @@ class DrawerActivity : IDrawerView,
                     false
                 },
                 PrimaryDrawerItem().withName(R.string.my_events).withIcon(R.drawable.ic_location).withIconTintingEnabled(true).withOnDrawerItemClickListener { view, i, iDrawerItem ->
-                    swapFragment(MyEventsFragment.newInstance())
+                    swapFragment(EventsTabFragment.newInstance())
                     title = getString(R.string.my_events)
                     false
                 },

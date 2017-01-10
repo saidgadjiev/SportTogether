@@ -6,10 +6,16 @@
 #-ignorewarnings
 
 # print mapping
--printmapping proguard-mapping.txt
-
+#-printmapping proguard-mapping.txt
+-printmapping build/outputs/mapping/release/mapping.txt
 #-optimizations !field/removal/writeonly,!field/marking/private,!code/allocation/variable
--optimizationpasses 2
+
+-optimizationpasses 5
+-dontusemixedcaseclassnames
+-dontskipnonpubliclibraryclasses
+-dontpreverify
+-verbose
+-optimizations !code/simplification/arithmetic,!field/*, !class/merging/*
 
 #-keepattributes SourceFile, LineNumberTable, EnclosingMethod, InnerClasses
 #-keep,allowshrinking,allowoptimization class * { <methods>; }
@@ -29,25 +35,11 @@
 -keep class sun.misc.Unsafe { *; }
 
 
--keep enum * {
-	*;
-}
+-keep enum * { *; }
 
--keep class * implements android.os.Parcelable {
-	*;
-}
--keep class * implements java.io.Serializable {
-	*;
-}
-
--keep class * implements Parcelable {
-    *;
-}
-
-
--keepnames class * implements android.os.Parcelable {
- public static final ** CREATOR;
-}
+-keep class * implements android.os.Parcelable { *; }
+-keep class * implements java.io.Serializable { *; }
+-keep class * implements Parcelable { *; }
 
 -keep class * extends java.util.ListResourceBundle {
  protected Object[][] getContents();
@@ -57,25 +49,16 @@
  public static final *** NULL;
 }
 
--keepnames class * implements android.os.Parcelable {
- public static final ** CREATOR;
-}
 
 -keepclassmembers class * implements android.os.Parcelable {
  android.os.Parcelable$Creator CREATOR;
 }
 
+ -keep class * implements android.os.Parcelable {
+   public static final android.os.Parcelable$Creator *;
+ }
 ## Support library
 -dontwarn android.support.v7.**
-#-keep class android.support.v7.** { *; }
-#-keep interface android.support.v7.** { *; }
-
-#-keep class android.support.v4.** { *; }
-#-dontwarn android.support.v4.**
-#-keep class android.support.v4.** { *; }
-#-keep interface android.support.v4.app.** { *; }
-#-keep public class * extends android.support.v4.**
-#-keep public class * extends android.app.Fragment
 
 # support design
 -dontwarn android.support.design.**
@@ -85,13 +68,13 @@
 
 -dontwarn org.slf4j.**
 
--keep public class * extends android.app.Activity
--keep public class * extends android.app.Application
--keep class * extends android.view.View
+#-keep public class * extends android.app.Activity
+#-keep public class * extends android.app.Application
+#-keep class * extends android.view.View
 -keep public class * extends android.content.ContentProvider
--keep public class * extends android.app.Service
+#-keep public class * extends android.app.Service
 -keep public class * implements android.os.IInterface
--keep class * extends android.content.BroadcastReceiver
+#-keep class * extends android.content.BroadcastReceiver
 -keepattributes *Annotation*
 
 
@@ -117,13 +100,25 @@
 # rxjava
 -dontwarn sun.misc.Unsafe
 -dontwarn rx.**
--dontwarn com.squareup.okhttp.*
 
 #retrofit
+-dontwarn retrofit2.**
+-keep class retrofit2.** { *; }
+-keepattributes Signature
+-keepattributes Exceptions
 
--keep class com.squareup.okhttp.** { *; }
-#-keep class retrofit.** { *; }
--keep interface com.squareup.okhttp.** { *; }
+-keepclasseswithmembers class * {
+    @retrofit2.http.* <methods>;
+}
+
+-keep class ru.mail.sporttogether.net.** { *; }
+
+-keepattributes Signature
+-keepattributes *Annotation*
+-keep class okhttp3.** { *; }
+-keep interface okhttp3.** { *; }
+-dontwarn okhttp3.**
+
 -keep class com.google.appengine.api.urlfetch.** { *; }
 -dontwarn com.google.appengine.api.urlfetch.*
 -dontwarn org.codehaus.mojo.**
@@ -131,23 +126,17 @@
 
 -keep class com.google.android.gms.** { *; }
 
--keepclasseswithmembers class * {
-    @retrofit.http.* <methods>;
-}
-
 #-dontwarn com.google.android.gms.iid.InstanceID
 #-dontwarn com.google.android.gms.gcm.GoogleCloudMessaging
 
 # If in your rest service interface you use methods with Callback argument.
--keepattributes Exceptions
 
 # If your rest service methods throw custom exceptions, because you've defined an ErrorHandler.
--keepattributes Signature
 
--keepattributes *Annotation*,Signature
+-keepattributes *Annotation*, Signature
 
--dontnote junit.framework.**
--dontnote junit.runner.**
+#-dontnote junit.framework.**
+#-dontnote junit.runner.**
 
 #-dontwarn android.test.**
 #-dontwarn android.support.test.**
@@ -155,9 +144,6 @@
 #-dontwarn org.hamcrest.**
 
 
-#Rx
--keep interface rx.observers.Subscribers.**  { *; }
--keep class rx.observers.Subscribers.**  { *; }
 
 -dontwarn sun.misc.**
 
@@ -180,17 +166,9 @@
   public *;
 }
 
-
--dontwarn android.databinding.**
--keep class android.databinding.** { *; }
-
 -keep class com.google.android.gms.flags.impl.** { *; }
 -keep class kotlin.io.** { *; }
 
--keep class android.support.v4.app.** { *; }
--keep class android.support.v4.view.** { *; }
--keep class android.support.v4.media.** { *; }
--keep class android.support.v7.widget.** { *; }
 -keep class kotlin.text.** { *; }
 
 -keep class rx.observers.** { *; }
@@ -203,9 +181,13 @@
 -keep interface rx.functions.Action*
 
 
--keepclasseswithmembers class * {
-    @retrofit.http.* <methods>;
-}
+-dontwarn android.databinding.**
+-keep class android.databinding.** { *; }
+
+-keep class android.support.v4.app.** { *; }
+-keep class android.support.v4.view.** { *; }
+-keep class android.support.v4.media.** { *; }
+-keep class android.support.v7.widget.** { *; }
 
 -keep class android.support.v4.animation.ValueAnimatorCompat
 -keep class android.support.v4.content.Loader
@@ -216,6 +198,45 @@
 -keep class okio.Sink
 -keep class com.google.android.gms.internal.** { *; }
 -keep class android.content.Context,com.google.android.gms.common.** { *; }
+
+-keep public class * extends android.app.Activity
+-keep public class * extends android.app.Application
+-keep public class * extends android.app.Service
+-keep public class * extends android.content.BroadcastReceiver
+-keep public class * extends android.content.ContentProvider
+-keep public class * extends android.app.backup.BackupAgentHelper
+-keep public class * extends android.preference.Preference
+-keep public class com.android.vending.licensing.ILicensingService
+
+ #keep all classes that might be used in XML layouts
+ -keep public class * extends android.view.View
+ -keep public class * extends android.support.v4.Fragment
+
+
+ #keep all public and protected methods that could be used by java reflection
+ -keepclassmembernames class * {
+     public protected <methods>;
+ }
+
+ -keepclasseswithmembernames class * {
+     native <methods>;
+ }
+
+ -keepclasseswithmembernames class * {
+     public <init>(android.content.Context, android.util.AttributeSet);
+ }
+
+ -keepclasseswithmembernames class * {
+     public <init>(android.content.Context, android.util.AttributeSet, int);
+ }
+
+
+ -keepclassmembers enum * {
+     public static **[] values();
+     public static ** valueOf(java.lang.String);
+ }
+
+ -dontwarn org.htmlcleaner.*
 
 
 -keep class rx.** { *; }
