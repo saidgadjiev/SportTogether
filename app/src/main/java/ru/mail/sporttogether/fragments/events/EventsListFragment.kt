@@ -42,4 +42,6 @@ class EventsListFragment : PresenterFragment<EventsListPresenter>(), IListEventV
     override fun addEvent(event: Event) {
         adapter.addEvent(event)
     }
+
+
 }
