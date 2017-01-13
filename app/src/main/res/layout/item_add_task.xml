@@ -18,11 +18,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageButton
+            style="?android:attr/borderlessButtonStyle"
             android:id="@+id/item_add_task_close_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:src="@drawable/ic_add"/>
+            android:src="@drawable/ic_remove"/>
 
         <TextView
             android:id="@+id/item_add_task_message"
