@@ -23,18 +23,18 @@ class TaskAdapter(private val tasks: ArrayList<Task>, private val checkingTasks:
     }
 
     override fun onBindViewHolder(holder: TaskAdapter.ViewHolder?, position: Int) {
-        Log.d("#MY " + javaClass.simpleName, "on bind viewholder. position = " + position)
+        Log.d(TAG, "on bind viewholder. position = " + position)
         val observableChecked = holder?.onBind(tasks[position], myId)
         observableChecked!!
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : Subscriber<Task>() {
                     override fun onError(e: Throwable) {
-                        Log.e("#MY " + javaClass.simpleName, e.message)
+                        Log.e(TAG, e.message)
                     }
 
                     override fun onNext(task: Task) {
-                        Log.d("#MY " + javaClass.simpleName, "on next checked : " + task.toString())
+                        Log.d(TAG, "on next checked : " + task.toString())
                         if (task.user == null) {
                             checkingTasks.checkTask(task)
                         } else {
@@ -51,7 +51,7 @@ class TaskAdapter(private val tasks: ArrayList<Task>, private val checkingTasks:
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskAdapter.ViewHolder {
-        Log.d("#MY " + javaClass.simpleName, "on create viewholder.")
+        Log.d(TAG, "on create viewholder.")
         val inflater = LayoutInflater.from(parent.context)
         val binding: ItemTaskBinding = ItemTaskBinding.inflate(inflater, parent, false)
         return ViewHolder(binding.root)
@@ -70,16 +70,16 @@ class TaskAdapter(private val tasks: ArrayList<Task>, private val checkingTasks:
         }
 
         fun onBind(task: Task, myId: Long): Observable<Task> {
-            Log.d("#MY " + javaClass.simpleName, "task id : $task.id")
-            Log.d("#MY " + javaClass.simpleName, "task user : $task.user")
-            Log.d("#MY " + javaClass.simpleName, "task user id : $task.user.id")
-            Log.d("#MY " + javaClass.simpleName, "my id : " + myId)
+            Log.d(TAG, "task id : $task.id")
+            Log.d(TAG, "task user : $task.user")
+            Log.d(TAG, "task user id : $task.user.id")
+            Log.d(TAG, "my id : " + myId)
             data.id.set(task.id.toString())
             data.message.set(task.message)
             if (task.user == null) {
                 data.username.set("задача никем не закрыта")
             } else {
-                Log.d("#MY ", "rendering username : " + task.user)
+                Log.d(TAG, "rendering username : " + task.user)
                 data.username.set(task.user?.name)
             }
             data.isChecked.set(task.user != null)
@@ -92,6 +92,10 @@ class TaskAdapter(private val tasks: ArrayList<Task>, private val checkingTasks:
             })
             return clickEventObservable
         }
+    }
+
+    companion object {
+        val TAG = "#MY " + TaskAdapter::class.java.simpleName
     }
 
 }

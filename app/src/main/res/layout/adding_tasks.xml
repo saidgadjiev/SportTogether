@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/tasks_text_list"
             android:layout_below="@id/tasks_header"
-            android:text="@{data.tasks}"
+            android:text="qweqweqwe"
             />
         <EditText
             android:layout_width="match_parent"
@@ -49,7 +49,6 @@
             android:layout_below="@id/add_tasks_edit">
 
             <Button
-                style="@style/FlatButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/tasks_add_btn"
@@ -57,7 +56,6 @@
                 android:onClick="@{() -> listener.onAddTaskClicked()}"
                 android:text="@string/add"/>
             <Button
-                style="@style/FlatButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/tasks_remove_btn"
@@ -66,7 +64,6 @@
                 android:text="@string/reduce"/>
         </LinearLayout>
         <Button
-            style="@style/FlatButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/tasks_ok_btn"

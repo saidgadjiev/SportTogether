@@ -60,62 +60,62 @@ class AddEventActivity :
     var subscription: Subscription? = null
 
 
-    inner class AddTasksDialog(val context: Context) : AddTasksListener {
-        var dialog: AlertDialog = AlertDialog.Builder(context).create()
-        var binding: AddingTasksBinding = AddingTasksBinding.inflate(layoutInflater, null, false)
-        val tasks = ArrayList<Task>()
-
-        init {
-            this.dialog.setView(this.binding.root)
-            this.binding.listener = this
-            this.binding.data = AddTasksData()
-        }
-
-        override fun onOpenTasksClicked() {
-            Log.d("#MY " + javaClass.simpleName, "open tasks clicked!")
-            this.dialog.show()
-        }
-
-        override fun onCloseTasksClicked() {
-            this.dialog.hide()
-        }
-
-        override fun onAddTaskClicked() {
-            Log.d("#MY " + javaClass.simpleName, "add task clicked!")
-            val taskMessage = this.binding.addTasksEdit.text.toString()
-            if (taskMessage.length < 3 && taskMessage.length > 31) {
-                showToast("Введенная задача некорректна")
-                return
-            }
-            tasks.add(Task(0, taskMessage, null, 0))
-            this.binding.data.tasks.set(toTasksString())
-            this.binding.addTasksEdit.text.clear()
-        }
-
-        override fun onRemoveTaskClicked() {
-            if (tasks.isNotEmpty()) {
-                tasks.removeAt(tasks.size - 1)
-            } else {
-                showToast("список задач пуст")
-            }
-            this.binding.data.tasks.set(toTasksString())
-        }
-
-        fun toTasksString(): String {
-            val sb = StringBuilder("")
-            var i = 1
-            tasks.forEach {
-                sb.append(i).append(". ").append(it.message).append('\n')
-                i++
-            }
-            val finalString = sb.toString()
-            if (finalString.isNotEmpty())
-                return finalString.substring(0, finalString.length - 1)
-            else
-                return ""//убираю конечный перевод строки
-        }
-
-    }
+//    inner class AddTasksDialog(val context: Context) : AddTasksListener {
+//        var dialog: AlertDialog = AlertDialog.Builder(context).create()
+//        var binding: AddingTasksBinding = AddingTasksBinding.inflate(layoutInflater, null, false)
+//        val tasks = ArrayList<Task>()
+//
+//        init {
+//            this.dialog.setView(this.binding.root)
+//            this.binding.listener = this
+//            this.binding.data = AddTasksData()
+//        }
+//
+//        override fun onOpenTasksClicked() {
+//            Log.d("#MY " + javaClass.simpleName, "open tasks clicked!")
+//            this.dialog.show()
+//        }
+//
+//        override fun onCloseTasksClicked() {
+//            this.dialog.hide()
+//        }
+//
+//        override fun onAddTaskClicked() {
+//            Log.d("#MY " + javaClass.simpleName, "add task clicked!")
+//            val taskMessage = this.binding.addTasksEdit.text.toString()
+//            if (taskMessage.length < 3 && taskMessage.length > 31) {
+//                showToast("Введенная задача некорректна")
+//                return
+//            }
+//            tasks.add(Task(0, taskMessage, null, 0))
+//            this.binding.data.tasks.set(toTasksString())
+//            this.binding.addTasksEdit.text.clear()
+//        }
+//
+//        override fun onRemoveTaskClicked() {
+//            if (tasks.isNotEmpty()) {
+//                tasks.removeAt(tasks.size - 1)
+//            } else {
+//                showToast("список задач пуст")
+//            }
+//            this.binding.data.tasks.set(toTasksString())
+//        }
+//
+//        fun toTasksString(): String {
+//            val sb = StringBuilder("")
+//            var i = 1
+//            tasks.forEach {
+//                sb.append(i).append(". ").append(it.message).append('\n')
+//                i++
+//            }
+//            val finalString = sb.toString()
+//            if (finalString.isNotEmpty())
+//                return finalString.substring(0, finalString.length - 1)
+//            else
+//                return ""//убираю конечный перевод строки
+//        }
+//
+//    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -242,12 +242,11 @@ class AddEventActivity :
         }
 
         val nameCategory: String = binding.categoryAutocomplete.text.toString()
-        Log.d("#MY " + javaClass.simpleName, "category name : " + nameCategory)
-
         if (nameCategory == "") {
             Toast.makeText(this, "Вид спорта не задан", Toast.LENGTH_SHORT).show()
             return
         }
+
         val maxPeople: Int
         try {
             maxPeople = Integer.parseInt(binding.eventMaxPeople.text.toString())
@@ -255,8 +254,6 @@ class AddEventActivity :
             Toast.makeText(this, "Количество людей не задано", Toast.LENGTH_SHORT).show()
             return
         }
-        Log.d("#MY " + javaClass.simpleName, "max people : " + maxPeople)
-        Log.d("#MY " + javaClass.simpleName, "tasks count : " + addTasksDialog?.tasks?.size)
 
         event.date = settedDate?.time?.time ?: 0
         event.description = binding.description.text.toString()

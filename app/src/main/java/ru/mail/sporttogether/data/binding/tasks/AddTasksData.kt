@@ -7,4 +7,5 @@ import android.databinding.ObservableField
  */
 class AddTasksData {
     val tasks = ObservableField<String>()
+    val message = ObservableField<String>()
 }
