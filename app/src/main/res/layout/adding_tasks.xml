@@ -8,6 +8,7 @@
     <!--</data>-->
 
     <android.support.constraint.ConstraintLayout
+        android:paddingBottom="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
@@ -33,16 +34,13 @@
             app:layout_constraintRight_toRightOf="parent"
             android:layout_marginStart="16dp"
             app:layout_constraintLeft_toLeftOf="parent" />
-        <ImageButton
+        <Button
             android:id="@+id/adding_tasks_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_check"
-            android:layout_below="@id/adding_tasks_recycler_view"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintRight_toRightOf="parent"
+            android:text="@string/add"
             app:layout_constraintTop_toBottomOf="@+id/adding_tasks_recycler_view"
+            app:layout_constraintRight_toRightOf="@+id/adding_tasks_recycler_view"
             android:layout_marginTop="16dp" />
         <EditText
             android:id="@+id/adding_tasks_edit_field"

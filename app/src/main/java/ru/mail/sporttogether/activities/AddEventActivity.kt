@@ -61,7 +61,7 @@ class AddEventActivity :
     var subscription: Subscription? = null
 
 
-    inner class AddingTasksDialog(val context: Context): OpenTasksListener {
+    inner class AddingTasksDialog(val context: AddEventActivity): OpenTasksListener {
         var dialog: AlertDialog = AlertDialog.Builder(context).create()
         var binding: AddingTasksBinding = AddingTasksBinding.inflate(layoutInflater, null, false)
         val addTaskAdapter: AddTaskAdapter = AddTaskAdapter()
@@ -72,8 +72,13 @@ class AddEventActivity :
             binding.addingTasksRecyclerView.adapter = addTaskAdapter
             binding.addingTasksRecyclerView.layoutManager = LinearLayoutManager(context)
             binding.addingTasksBtn.setOnClickListener {
-                binding.addingTasksEditField.text.toString()
-                addTaskAdapter.addTask(binding.addingTasksEditField.text.toString())
+                if (addTaskAdapter.itemCount >= 5) {
+                    context.showToast("максимум 5 задач у одного события")
+                } else {
+                    val editField = binding.addingTasksEditField
+                    addTaskAdapter.addTask(editField.text.toString())
+                    editField.text.clear()
+                }
             }
         }
 
