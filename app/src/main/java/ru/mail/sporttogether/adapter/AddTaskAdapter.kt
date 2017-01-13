@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import ru.mail.sporttogether.data.binding.tasks.AddTasksData
 import ru.mail.sporttogether.databinding.ItemAddTaskBinding
+import ru.mail.sporttogether.net.models.Task
 import java.util.*
 
 /**
@@ -20,11 +21,20 @@ class AddTaskAdapter(): RecyclerView.Adapter<AddTaskAdapter.ViewHolder>() {
         return tasks.size
     }
 
+    fun getTasks(): List<Task> {
+        return tasks.map { str -> Task(0, str, null, 0) }
+    }
+
+    fun addTask(msg: String) {
+        tasks.add(msg)
+        notifyItemInserted(tasks.size - 1)
+    }
+
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
         holder?.onBind(tasks[position])
         holder?.binding!!.itemAddTaskCloseBtn.setOnClickListener {
             tasks.removeAt(position)
-            notifyItemRemoved(position)
+            notifyDataSetChanged()
         }
     }
 

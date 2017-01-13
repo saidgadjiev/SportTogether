@@ -6,6 +6,7 @@ import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.os.Handler
 import android.support.v7.app.AlertDialog
+import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -16,11 +17,11 @@ import android.widget.Toast
 import com.jakewharton.rxbinding.widget.RxTextView
 import com.mikepenz.materialdrawer.util.KeyboardUtil
 import ru.mail.sporttogether.R
+import ru.mail.sporttogether.adapter.AddTaskAdapter
 import ru.mail.sporttogether.adapter.CategoriesAdapter
 import ru.mail.sporttogether.data.binding.event.ButtonListener
 import ru.mail.sporttogether.data.binding.event.EventData
-import ru.mail.sporttogether.data.binding.tasks.AddTasksData
-import ru.mail.sporttogether.data.binding.tasks.AddTasksListener
+import ru.mail.sporttogether.data.binding.tasks.OpenTasksListener
 import ru.mail.sporttogether.databinding.ActivityAddEventBinding
 import ru.mail.sporttogether.databinding.AddingTasksBinding
 import ru.mail.sporttogether.databinding.DateTimePickerBinding
@@ -51,7 +52,7 @@ class AddEventActivity :
     private lateinit var pickDateText: TextView
     private lateinit var event: Event
 
-    private var addTasksDialog: AddTasksDialog? = null
+    private var addingTasksDialog: AddingTasksDialog? = null
 
     private lateinit var categoryAutocomplete: AutoCompleteTextView
     private var categoriesArray: ArrayList<Category> = ArrayList()
@@ -60,62 +61,26 @@ class AddEventActivity :
     var subscription: Subscription? = null
 
 
-//    inner class AddTasksDialog(val context: Context) : AddTasksListener {
-//        var dialog: AlertDialog = AlertDialog.Builder(context).create()
-//        var binding: AddingTasksBinding = AddingTasksBinding.inflate(layoutInflater, null, false)
-//        val tasks = ArrayList<Task>()
-//
-//        init {
-//            this.dialog.setView(this.binding.root)
-//            this.binding.listener = this
-//            this.binding.data = AddTasksData()
-//        }
-//
-//        override fun onOpenTasksClicked() {
-//            Log.d("#MY " + javaClass.simpleName, "open tasks clicked!")
-//            this.dialog.show()
-//        }
-//
-//        override fun onCloseTasksClicked() {
-//            this.dialog.hide()
-//        }
-//
-//        override fun onAddTaskClicked() {
-//            Log.d("#MY " + javaClass.simpleName, "add task clicked!")
-//            val taskMessage = this.binding.addTasksEdit.text.toString()
-//            if (taskMessage.length < 3 && taskMessage.length > 31) {
-//                showToast("Введенная задача некорректна")
-//                return
-//            }
-//            tasks.add(Task(0, taskMessage, null, 0))
-//            this.binding.data.tasks.set(toTasksString())
-//            this.binding.addTasksEdit.text.clear()
-//        }
-//
-//        override fun onRemoveTaskClicked() {
-//            if (tasks.isNotEmpty()) {
-//                tasks.removeAt(tasks.size - 1)
-//            } else {
-//                showToast("список задач пуст")
-//            }
-//            this.binding.data.tasks.set(toTasksString())
-//        }
-//
-//        fun toTasksString(): String {
-//            val sb = StringBuilder("")
-//            var i = 1
-//            tasks.forEach {
-//                sb.append(i).append(". ").append(it.message).append('\n')
-//                i++
-//            }
-//            val finalString = sb.toString()
-//            if (finalString.isNotEmpty())
-//                return finalString.substring(0, finalString.length - 1)
-//            else
-//                return ""//убираю конечный перевод строки
-//        }
-//
-//    }
+    inner class AddingTasksDialog(val context: Context): OpenTasksListener {
+        var dialog: AlertDialog = AlertDialog.Builder(context).create()
+        var binding: AddingTasksBinding = AddingTasksBinding.inflate(layoutInflater, null, false)
+        val addTaskAdapter: AddTaskAdapter = AddTaskAdapter()
+
+        init {
+            this.dialog.setView(this.binding.root)
+
+            binding.addingTasksRecyclerView.adapter = addTaskAdapter
+            binding.addingTasksRecyclerView.layoutManager = LinearLayoutManager(context)
+            binding.addingTasksBtn.setOnClickListener {
+                binding.addingTasksEditField.text.toString()
+                addTaskAdapter.addTask(binding.addingTasksEditField.text.toString())
+            }
+        }
+
+        override fun openTasks() {
+            this.dialog.show()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -139,7 +104,8 @@ class AddEventActivity :
         pickDateText = binding.pickDateText
         initPickDate()
 
-        addTasksDialog = AddTasksDialog(this)
+        addingTasksDialog = AddingTasksDialog(this)
+        binding.openTasksListener = addingTasksDialog!!
 
         categoriesAdapter = CategoriesAdapter(this, android.R.layout.select_dialog_item, categoriesArray)
         categoryAutocomplete = binding.categoryAutocomplete
@@ -211,14 +177,16 @@ class AddEventActivity :
     override fun onStart() {
         super.onStart()
         binding.listener = this
-        binding.tasksListener = addTasksDialog?.binding?.listener
+        binding.openTasksListener = addingTasksDialog!!
+//        binding.tasksListener = addingTasksDialog?.binding?.listener
     }
 
     override fun onStop() {
         super.onStop()
         subscription?.unsubscribe()
         binding.listener = null
-        binding.tasksListener = null
+        binding.openTasksListener = null
+//        binding.tasksListener = null
     }
 
     override fun onPause() {
@@ -258,7 +226,7 @@ class AddEventActivity :
         event.date = settedDate?.time?.time ?: 0
         event.description = binding.description.text.toString()
         event.maxPeople = maxPeople
-        event.tasks = addTasksDialog!!.tasks
+        event.tasks = addingTasksDialog!!.addTaskAdapter.getTasks() as ArrayList<Task>
         event.category.name = nameCategory
         event.isJoined = binding.addMeNow.isChecked
 
