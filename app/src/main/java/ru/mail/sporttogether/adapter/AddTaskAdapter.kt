@@ -25,6 +25,10 @@ class AddTaskAdapter(): RecyclerView.Adapter<AddTaskAdapter.ViewHolder>() {
         return tasks.map { str -> Task(0, str, null, 0) }
     }
 
+    fun clearTasks() {
+        tasks.clear()
+    }
+
     fun addTask(msg: String) {
         tasks.add(msg)
         notifyItemInserted(tasks.size - 1)

@@ -62,7 +62,15 @@ class AddEventActivity :
 
 
     inner class AddingTasksDialog(val context: AddEventActivity): OpenTasksListener {
-        var dialog: AlertDialog = AlertDialog.Builder(context).create()
+        var dialog: AlertDialog = AlertDialog.Builder(context)
+                .setNegativeButton("Отмена", { dialogInterface, i ->
+                    clearTasks()
+                    dialogInterface.cancel()
+                })
+                .setPositiveButton("Сохранить", {
+                    dialogInterface, i -> dialogInterface.cancel()
+                })
+                .create()
         var binding: AddingTasksBinding = AddingTasksBinding.inflate(layoutInflater, null, false)
         val addTaskAdapter: AddTaskAdapter = AddTaskAdapter()
 
@@ -84,6 +92,10 @@ class AddEventActivity :
 
         override fun openTasks() {
             this.dialog.show()
+        }
+
+        fun clearTasks() {
+            addTaskAdapter.clearTasks()
         }
     }
 
