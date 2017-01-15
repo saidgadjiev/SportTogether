@@ -15,6 +15,12 @@ import ru.mail.sporttogether.auth.core.persons.SocialPerson
  */
 
 class GoogleSocialNetwork(private val activity: Activity, private val appId: String) : ISocialNetwork {
+    override val id: Int
+        get() = 10
+
+    override val token: String
+        get() = ""
+
     override fun tryAutoLogin(onLoginCompleteListener: OnLoginCompleteListener): Boolean {
         return false
     }
@@ -73,10 +79,4 @@ class GoogleSocialNetwork(private val activity: Activity, private val appId: Str
     override fun requestPerson(onRequestSocialPersonCompleteListener: OnRequestSocialPersonCompleteListener) {
 
     }
-
-    override val id: Int
-        get() = 10
-
-    override val token: String
-        get() = ""
 }

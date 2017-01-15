@@ -350,7 +350,7 @@ class EventsMapFragment :
         val tasksBinding: ShowingTasksBinding = ShowingTasksBinding.inflate(LayoutInflater.from(this.context), null, false)
         val dialog: AlertDialog = AlertDialog.Builder(this.context).create()
         val myId = SocialNetworkManager.instance.activeUser.id
-        val taskAdapter = TaskAdapter(tasks, this, myId) // TODO inject manager
+        val taskAdapter = TaskAdapter(tasks, this, myId, activity) // TODO inject manager
         tasksBinding.tasksRecyclerView.adapter = taskAdapter
         tasksBinding.tasksRecyclerView.layoutManager = LinearLayoutManager(this.context)
         tasksDialog = TasksDialog(tasksBinding, taskAdapter, dialog)

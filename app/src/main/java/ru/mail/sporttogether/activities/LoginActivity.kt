@@ -33,6 +33,8 @@ class LoginActivity: PresenterActivity<ILoginPresenter>(), ILoginView {
         vk.setOnClickListener(loginClick)
         facebook.setOnClickListener(loginClick)
 
+        supportActionBar?.setDisplayHomeAsUpEnabled(false)
+
         presenter = LoginPresenterImpl(this)
         presenter.onCreate(savedInstanceState)
 

@@ -1,11 +1,14 @@
 package ru.mail.sporttogether.adapter
 
+import android.content.Context
 import android.databinding.DataBindingUtil
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.bumptech.glide.Glide
+import ru.mail.sporttogether.R
 import ru.mail.sporttogether.data.binding.tasks.TaskData
 import ru.mail.sporttogether.databinding.ItemTaskBinding
 import ru.mail.sporttogether.fragments.CheckingTasks
@@ -16,7 +19,26 @@ import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import java.util.*
 
-class TaskAdapter(private val tasks: ArrayList<Task>, private val checkingTasks: CheckingTasks, val myId: Long) : RecyclerView.Adapter<TaskAdapter.ViewHolder>() {
+class TaskAdapter(
+        private val tasks: ArrayList<Task>,
+        private val checkingTasks: CheckingTasks,
+        val myId: Long,
+        val context: Context
+) : RecyclerView.Adapter<TaskAdapter.ViewHolder>() {
+
+    init {
+        tasks.sort { t1, t2 ->
+            val iMayChecked1 = t1.user == null || t1.user?.id == myId
+            val iMayChecked2 = t2.user == null || t2.user?.id == myId
+            if (!(iMayChecked1 xor iMayChecked2)) {
+                return@sort 0
+            }
+            if (iMayChecked1) {
+                return@sort -1
+            }
+            1
+        }
+    }
 
     override fun getItemCount(): Int {
         return tasks.size
@@ -24,7 +46,7 @@ class TaskAdapter(private val tasks: ArrayList<Task>, private val checkingTasks:
 
     override fun onBindViewHolder(holder: TaskAdapter.ViewHolder?, position: Int) {
         Log.d(TAG, "on bind viewholder. position = " + position)
-        val observableChecked = holder?.onBind(tasks[position], myId)
+        val observableChecked = holder?.onBind(tasks[position], myId, context)
         observableChecked!!
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -54,6 +76,7 @@ class TaskAdapter(private val tasks: ArrayList<Task>, private val checkingTasks:
         Log.d(TAG, "on create viewholder.")
         val inflater = LayoutInflater.from(parent.context)
         val binding: ItemTaskBinding = ItemTaskBinding.inflate(inflater, parent, false)
+        context
         return ViewHolder(binding.root)
     }
 
@@ -69,27 +92,40 @@ class TaskAdapter(private val tasks: ArrayList<Task>, private val checkingTasks:
             binding.data = data
         }
 
-        fun onBind(task: Task, myId: Long): Observable<Task> {
-            Log.d(TAG, "task id : $task.id")
-            Log.d(TAG, "task user : $task.user")
-            Log.d(TAG, "task user id : $task.user.id")
-            Log.d(TAG, "my id : " + myId)
+        fun onBind(task: Task, myId: Long, context: Context): Observable<Task> {
             data.id.set(task.id.toString())
             data.message.set(task.message)
+            val iMayChecked = task.user == null || task.user?.id == myId
             if (task.user == null) {
-                data.username.set("задача никем не закрыта")
+                data.username.set("")
             } else {
-                Log.d(TAG, "rendering username : " + task.user)
-                data.username.set(task.user?.name)
+                if (iMayChecked) {
+                    data.username.set("задача закрыта вами")
+                } else {
+                    data.username.set(task.user?.name)
+                }
             }
             data.isChecked.set(task.user != null)
-            data.iMayChecked.set(task.user == null || task.user?.id == myId) //можно закрыть таск только если он не закрыт или его закрыл я
+            data.iMayChecked.set(iMayChecked) //можно закрыть таск только если он не закрыт или его закрыл я
+
+            if (!iMayChecked) {
+                val taskAvatar = binding.taskAvatar
+                Glide.with(context).load(task.user?.avatar).placeholder(R.drawable.ic_people).into(taskAvatar)
+
+                //TODO некликабельность чекбокса не всегда срабатывает, если этого не будет, чекбокс всегда будет кликаться
+                taskAvatar.setOnClickListener {
+                    Log.d(TAG, "clicked")
+                }
+
+            }
+
             val clickEventObservable = Observable.create(Observable.OnSubscribe<Task> { subscriber ->
                 binding.taskCheckbox.setOnClickListener(View.OnClickListener { v ->
                     if (subscriber.isUnsubscribed) return@OnClickListener
                     subscriber.onNext(task)
                 })
             })
+
             return clickEventObservable
         }
     }
