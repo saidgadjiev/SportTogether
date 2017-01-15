@@ -82,12 +82,8 @@ class EventsMapFragment :
                 .inject(this)
 
         binding = EventsMapBinding.inflate(inflater, container, false)
-        mapView = binding.mapview
-        mapView.onCreate(savedInstanceState)
-        presenter = MapPresenterImpl(this)
-        presenter.onCreate(savedInstanceState)
-        mapView.getMapAsync(presenter)
         binding.data = data
+        mapView = binding.mapview
         eventDedailsBottomSheet = BottomSheetBehavior.from(binding.bottomSheet)
         eventDedailsBottomSheet.isHideable = true
         eventDedailsBottomSheet.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
@@ -110,6 +106,11 @@ class EventsMapFragment :
         eventsListView = binding.eventsListRecyclerView
         eventsListView.layoutManager = LinearLayoutManager(context)
         eventsListView.adapter = adapter
+
+        mapView.onCreate(savedInstanceState)
+        presenter = MapPresenterImpl(this)
+        presenter.onCreate(savedInstanceState)
+        mapView.getMapAsync(presenter)
 
         hideInfo()
         setHasOptionsMenu(true)
@@ -172,6 +173,8 @@ class EventsMapFragment :
         mapView.onStart()
         binding.listener = this
         binding.addListener = this
+        binding.zoomListener = presenter
+
     }
 
     override fun onStop() {
@@ -179,6 +182,7 @@ class EventsMapFragment :
         mapView.onStop()
         binding.listener = null
         binding.addListener = null
+        binding.zoomListener = null
     }
 
     override fun onResume() {

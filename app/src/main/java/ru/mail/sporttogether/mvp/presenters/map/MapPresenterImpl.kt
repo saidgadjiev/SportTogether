@@ -140,6 +140,14 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
         map?.setOnCameraIdleListener(view)
     }
 
+    override fun zoomInClicked() {
+        map?.animateCamera(CameraUpdateFactory.zoomIn())
+    }
+
+    override fun zoomOutClicked() {
+        map?.animateCamera(CameraUpdateFactory.zoomOut())
+    }
+
     override fun loadEvents() {
 
     }
