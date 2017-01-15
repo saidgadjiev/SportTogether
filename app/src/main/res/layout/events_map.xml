@@ -102,26 +102,31 @@
                 android:id="@+id/zoom_up"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
                 android:background="@drawable/circle_white"
                 android:clickable="true"
                 android:focusable="true"
                 android:gravity="center"
                 android:onClick="@{() -> zoomListener.zoomInClicked()}"
                 android:text="+"
-                android:textSize="20sp" />
+                android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <TextView
                 android:id="@+id/zoom_down"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
+                android:layout_marginBottom="16dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
                 android:background="@drawable/circle_white"
                 android:clickable="true"
                 android:focusable="true"
                 android:gravity="center"
                 android:onClick="@{() -> zoomListener.zoomOutClicked()}"
                 android:text="-"
+                android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textSize="20sp" />
         </LinearLayout>
 
