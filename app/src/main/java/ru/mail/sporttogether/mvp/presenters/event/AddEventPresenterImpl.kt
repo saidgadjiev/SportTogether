@@ -79,7 +79,7 @@ class AddEventPresenterImpl(var view: IAddEventView?) : AddEventPresenter {
     override fun addEventClicked(event: Event, addMeNow: Boolean) {
         val sb = StringBuilder(event.category.name)
         sb.append(", ")
-                .append(DateUtils.DateUtils.toXLongDateString(Date(event.date)))
+                .append(DateUtils.toXLongDateString(Date(event.date)))
                 .append(". ")
                 .append(event.maxPeople)
                 .append(" человек(а)")

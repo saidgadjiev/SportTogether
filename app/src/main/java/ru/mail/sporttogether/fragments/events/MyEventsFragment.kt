@@ -7,13 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import ru.mail.sporttogether.activities.AddEventActivity
-import ru.mail.sporttogether.adapter.events.MyEventsAdapter
+import ru.mail.sporttogether.adapter.events.adapters.MyEventsAdapter
 import ru.mail.sporttogether.databinding.FragmentMyEventsBinding
 import ru.mail.sporttogether.fragments.PresenterFragment
 import ru.mail.sporttogether.mvp.presenters.event.MyEventsPresenter
 import ru.mail.sporttogether.mvp.presenters.event.MyEventsPresenterImpl
 import ru.mail.sporttogether.mvp.views.event.IMyEventsView
-import ru.mail.sporttogether.net.models.Event
+import ru.mail.sporttogether.net.responses.EventsResponse
 
 class MyEventsFragment : PresenterFragment<MyEventsPresenter>(), IMyEventsView {
 
@@ -27,7 +27,7 @@ class MyEventsFragment : PresenterFragment<MyEventsPresenter>(), IMyEventsView {
 
         eventsListView = binding.myEventsRecyclerView
         eventsListView.layoutManager = LinearLayoutManager(activity)
-        adapter = MyEventsAdapter(presenter)
+        adapter = MyEventsAdapter()
         eventsListView.adapter = adapter
 
         presenter.getMyEvents()
@@ -35,21 +35,10 @@ class MyEventsFragment : PresenterFragment<MyEventsPresenter>(), IMyEventsView {
         return binding.root
     }
 
-    override fun addOrganizedEvents(events: MutableList<Event>) {
-        adapter.addOrganizedEvents(events)
+    override fun updateEvents(events: EventsResponse) {
+        adapter.swap(events)
     }
 
-    override fun addEndedEvents(events: MutableList<Event>) {
-        adapter.addEndedEvents(events)
-    }
-
-    override fun addMyEvents(events: MutableList<Event>) {
-        adapter.addMyEvents(events)
-    }
-
-    override fun clearEvents() {
-        adapter.clear()
-    }
 
     override fun openEditActivity(id: Long) {
         AddEventActivity.startForResultEvent(activity, id)

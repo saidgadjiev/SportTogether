@@ -1,6 +1,5 @@
 package ru.mail.sporttogether.mvp.presenters.event
 
-import android.util.Log
 import ru.mail.sporttogether.app.App
 import ru.mail.sporttogether.auth.core.SocialNetworkManager
 import ru.mail.sporttogether.mvp.views.event.IMyEventsView
@@ -8,8 +7,9 @@ import ru.mail.sporttogether.net.api.EventsAPI
 import ru.mail.sporttogether.net.models.Event
 import ru.mail.sporttogether.net.models.User
 import ru.mail.sporttogether.net.responses.EventsResponse
-import rx.Observable
+import ru.mail.sporttogether.net.responses.Response
 import rx.Subscriber
+import rx.Subscription
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import javax.inject.Inject
@@ -23,6 +23,8 @@ class MyEventsPresenterImpl(private var view: IMyEventsView?) : MyEventsPresente
     private var socialNetworkManager: SocialNetworkManager
     private val user: User
 
+    private var eventsSubscription: Subscription? = null
+
     init {
         App.injector
                 .usePresenterComponent()
@@ -33,63 +35,24 @@ class MyEventsPresenterImpl(private var view: IMyEventsView?) : MyEventsPresente
     }
 
     override fun getMyEvents() {
-        var myEvents: EventsResponse? = null
-        eventsApi.getAllEvents()
-                .subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.computation())
-                .flatMap { response ->
-                    Observable.from(response.data)
-                }
-                .filter { //события которые создал пользователь
-                    it.user.id === user.id
-                }
-                .toList()
-                .subscribeOn(Schedulers.io())
-                .flatMap { list ->
-                    view?.clearEvents()
-                    if (list.size > 0) {
-                        list.add(0, Event(id = -1, name = "Организованные"))
-                        view?.addOrganizedEvents(list)
-                    }
-                    eventsApi.getMyEvents()
-                }
-                .subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.computation())
-                .flatMap { response ->
-                    myEvents = response.data
-                    Observable.from(myEvents)
-                }
-                .filter { item -> //события которые завершились
-                    item.isEnded == true
-                }
-                .toList()
-                .flatMap { list ->
-                    if (list.size > 0) {
-                        list.add(0, Event(id = -1, name = "Завершились"))
-                        view?.addEndedEvents(list)
-                    }
-                    Observable.from(myEvents)
-                }
-                .filter { item -> //события которые не завершились
-                    item.isEnded == false
-                }
-                .toList()
+        eventsSubscription = eventsApi.getMyEvents()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : Subscriber<MutableList<Event>>() {
-                    override fun onNext(list: MutableList<Event>) {
-                        if (list.size > 0) {
-                            list.add(0, Event(id = -1, name = "Подписки"))
-                            view?.addMyEvents(list)
-                        }
+                .subscribeOn(Schedulers.io())
+                .subscribe(object : Subscriber<Response<EventsResponse>>() {
+                    override fun onError(e: Throwable) {
+                        view?.showToast("Не удалось загрузить список моиз событий")
                     }
 
-                    override fun onError(e: Throwable) {
-                        Log.e("#MY ", e.message, e)
+                    override fun onNext(t: Response<EventsResponse>) {
+                        if (t.code == 0) {
+                            view?.updateEvents(t.data)
+                        }
                     }
 
                     override fun onCompleted() {
 
                     }
+
                 })
     }
 
@@ -101,5 +64,6 @@ class MyEventsPresenterImpl(private var view: IMyEventsView?) : MyEventsPresente
     override fun onDestroy() {
         super.onDestroy()
         view = null
+        eventsSubscription?.unsubscribe()
     }
 }

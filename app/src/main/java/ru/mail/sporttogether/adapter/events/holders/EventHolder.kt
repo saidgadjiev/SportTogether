@@ -1,6 +1,7 @@
-package ru.mail.sporttogether.adapter.events
+package ru.mail.sporttogether.adapter.events.holders
 
 import android.view.View
+import ru.mail.sporttogether.adapter.events.EventWrapper
 import ru.mail.sporttogether.data.binding.event.EventDetailsData
 import ru.mail.sporttogether.data.binding.event.ItemClickListener
 import ru.mail.sporttogether.databinding.ItemEventBinding
@@ -13,11 +14,10 @@ import java.util.*
  */
 class EventHolder(v: View, clickListener: ItemClickListener?) : AbstractEventHolder(v) {
 
-    private val binding: ItemEventBinding
+    private val binding: ItemEventBinding = ItemEventBinding.bind(v)
     private val data = EventDetailsData()
 
     init {
-        binding = ItemEventBinding.bind(v)
         binding.data = data
         binding.listener = clickListener
     }

@@ -78,7 +78,6 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
     }
 
 
-
     override fun onCreate(args: Bundle?) {
         eventsSubscribion = eventsManager.getObservable()
                 .observeOn(AndroidSchedulers.mainThread())

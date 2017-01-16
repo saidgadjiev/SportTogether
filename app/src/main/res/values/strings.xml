@@ -39,5 +39,7 @@
     <string name="people">Участники</string>
     <string name="add_to_event">Присоединиться к событию</string>
     <string name="want_angry">Пожаловаться на событие?</string>
+    <string name="organized_events">Я создал</string>
+    <string name="resulted">Завершены</string>
 
 </resources>

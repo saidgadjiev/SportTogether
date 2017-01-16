@@ -21,13 +21,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:button_color="@color/colorAccent"
+            app:icon_three="@drawable/ic_orginized"
             app:layout_behavior="eu.long1.spacetablayout.SpaceTabLayoutBehavior"
             app:number_of_tabs="three"
             app:starting_position="one"
             app:tab_color="@color/colorPrimary"
-            app:text_one="Action 1"
-            app:text_three="Action 3"
-            app:text_two="Action 2" />
+            app:text_one="@string/my_events"
+            app:text_three="@string/organized_events"
+            app:text_two="@string/resulted" />
 
     </android.support.design.widget.CoordinatorLayout>
 </layout>

@@ -1,6 +1,7 @@
-package ru.mail.sporttogether.adapter.events
+package ru.mail.sporttogether.adapter.events.holders
 
 import android.view.View
+import ru.mail.sporttogether.adapter.events.EventWrapper
 import ru.mail.sporttogether.data.binding.myevents.SeparatorData
 import ru.mail.sporttogether.databinding.ItemEventSeparetorBinding
 
@@ -10,11 +11,10 @@ import ru.mail.sporttogether.databinding.ItemEventSeparetorBinding
  */
 class SeparatorHolder(v: View) : AbstractEventHolder(v) {
 
-    val binding: ItemEventSeparetorBinding
+    val binding: ItemEventSeparetorBinding = ItemEventSeparetorBinding.bind(v)
     val data = SeparatorData()
 
     init {
-        binding = ItemEventSeparetorBinding.bind(v)
         binding.data = data
     }
 

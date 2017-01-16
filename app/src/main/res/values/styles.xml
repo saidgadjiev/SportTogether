@@ -72,8 +72,14 @@
 
     <style name="IconButton" parent="Widget.AppCompat.Button.Borderless">
         <item name="android:textColor">@color/primary</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:focusable">true</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
+
+        <item name="android:clickable">true</item>
         <item name="android:drawablePadding">@dimen/offset_medium</item>
-        <item name="android:background">@drawable/raised_button_background_white</item>
+       <!-- <item name="android:background">@drawable/raised_button_background_white</item>-->
 
     </style>
 
