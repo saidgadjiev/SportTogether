@@ -15,6 +15,7 @@ class MyEventHolder(v: View) : AbstractTwoActionHolder(v) {
     init {
         data.action1Text.set(itemView.context.getString(R.string.angry).toUpperCase())
         data.action2Text.set(itemView.context.getString(R.string.share).toUpperCase())
+        binding.rightPart.minimumHeight = v.height
     }
 
     override fun action1Clicked() {
