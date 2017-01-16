@@ -26,7 +26,7 @@ class MyEventsFragment : PresenterFragment<MyEventsPresenter>(), IMyEventsView {
         presenter = MyEventsPresenterImpl(this)
 
         eventsListView = binding.myEventsRecyclerView
-        eventsListView.layoutManager = LinearLayoutManager(activity)
+        eventsListView.layoutManager = LinearLayoutManager(context)
         adapter = MyEventsAdapter()
         eventsListView.adapter = adapter
 
