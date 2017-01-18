@@ -44,10 +44,10 @@ class TaskAdapter(
         return tasks.size
     }
 
-    override fun onBindViewHolder(holder: TaskAdapter.ViewHolder?, position: Int) {
+    override fun onBindViewHolder(holder: TaskAdapter.ViewHolder, position: Int) {
         Log.d(TAG, "on bind viewholder. position = " + position)
-        val observableChecked = holder?.onBind(tasks[position], myId, context)
-        observableChecked!!
+        val observableChecked = holder.onBind(tasks[position], myId, context)
+        observableChecked
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : Subscriber<Task>() {
@@ -84,7 +84,7 @@ class TaskAdapter(
         notifyDataSetChanged()
     }
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val binding: ItemTaskBinding = DataBindingUtil.bind(itemView)
         val data = TaskData()
 
@@ -92,7 +92,7 @@ class TaskAdapter(
             binding.data = data
         }
 
-        fun onBind(task: Task, myId: Long, context: Context): Observable<Task> {
+        fun onBind(task: Task, myId: Long): Observable<Task> {
             data.id.set(task.id.toString())
             data.message.set(task.message)
             val iMayChecked = task.user == null || task.user?.id == myId
@@ -110,7 +110,7 @@ class TaskAdapter(
 
             if (!iMayChecked) {
                 val taskAvatar = binding.taskAvatar
-                Glide.with(context).load(task.user?.avatar).placeholder(R.drawable.ic_people).into(taskAvatar)
+                Glide.with(itemView.context).load(task.user?.avatar).placeholder(R.drawable.ic_people).into(taskAvatar)
 
                 //TODO некликабельность чекбокса не всегда срабатывает, если этого не будет, чекбокс всегда будет кликаться
                 taskAvatar.setOnClickListener {
