@@ -1,7 +1,7 @@
-package ru.mail.sporttogether.adapter.events.adapters
+package ru.mail.sporttogether.fragments.events.adapters
 
 import android.support.v7.widget.RecyclerView
-import ru.mail.sporttogether.adapter.events.holders.AbstractTwoActionHolder
+import ru.mail.sporttogether.fragments.events.adapters.holders.AbstractTwoActionHolder
 import ru.mail.sporttogether.net.models.Event
 
 /**
@@ -18,6 +18,9 @@ abstract class AbstractEventAdapter<VH : AbstractTwoActionHolder> : RecyclerView
         }
     }
 
-    abstract fun swap(events: MutableList<Event>)
+    fun swap(events: MutableList<Event>) {
+        items = events
+        notifyDataSetChanged()
+    }
 
 }

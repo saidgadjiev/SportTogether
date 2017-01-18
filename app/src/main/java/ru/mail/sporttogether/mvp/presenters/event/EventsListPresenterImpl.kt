@@ -2,6 +2,7 @@ package ru.mail.sporttogether.mvp.presenters.event
 
 import ru.mail.sporttogether.app.App
 import ru.mail.sporttogether.managers.events.EventsManager
+import ru.mail.sporttogether.mvp.presenters.IPresenter
 import ru.mail.sporttogether.mvp.views.event.IListEventView
 import ru.mail.sporttogether.net.api.EventsAPI
 import ru.mail.sporttogether.net.models.Event
@@ -11,10 +12,9 @@ import rx.android.schedulers.AndroidSchedulers
 import javax.inject.Inject
 
 /**
- * Created by bagrusss on 15.10.16.
- *
+ * Created by bagrusss on 15.10.16
  */
-class EventsListPresenterImpl(var view: IListEventView?) : EventsListPresenter {
+class EventsListPresenterImpl(var view: IListEventView?) : IPresenter {
     @Inject lateinit var api: EventsAPI
     @Inject lateinit var eventsManager: EventsManager
 
@@ -25,11 +25,6 @@ class EventsListPresenterImpl(var view: IListEventView?) : EventsListPresenter {
                 .usePresenterComponent()
                 .inject(this)
         subscribeToEventManager()
-    }
-
-    override fun onStart() {
-        super.onStart()
-        loadEvents()
     }
 
     private fun subscribeToEventManager() {
@@ -60,13 +55,6 @@ class EventsListPresenterImpl(var view: IListEventView?) : EventsListPresenter {
 
                     }
                 })
-    }
-
-    override fun loadEvents() {
-        val events = eventsManager.getEvents()
-        if (events.size > 0) {
-            view?.loadEvents(events)
-        }
     }
 
     override fun onDestroy() {

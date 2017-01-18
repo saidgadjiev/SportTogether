@@ -23,6 +23,7 @@
     <string name="cant_load_position">Не удалось загрузить местоположение</string>
     <string name="angryAlready">Вы пожаловались</string>
     <string name="share">Поделиться</string>
+    <string name="edit">Редактировать</string>
     <string name="ok">ОК</string>
     <string name="cancel_event">отменить</string>
     <string name="datetime_picker_btn_set">Установить</string>

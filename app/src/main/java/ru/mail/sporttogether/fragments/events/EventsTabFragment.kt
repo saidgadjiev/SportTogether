@@ -9,6 +9,9 @@ import android.view.ViewGroup
 import eu.long1.spacetablayout.SpaceTabLayout
 import ru.mail.sporttogether.databinding.FragmentEventsTabBinding
 import ru.mail.sporttogether.fragments.PresenterFragment
+import ru.mail.sporttogether.fragments.events.lists.EndedListFragment
+import ru.mail.sporttogether.fragments.events.lists.MyEventsFragment
+import ru.mail.sporttogether.fragments.events.lists.OrginizedEventsListFragment
 import ru.mail.sporttogether.mvp.presenters.event.EventsTabPresenter
 import java.util.*
 
@@ -28,9 +31,9 @@ class EventsTabFragment : PresenterFragment<EventsTabPresenter>() {
         tabLayout = binding.spaceTabLayout
         viewPager = binding.viewPager
 
-        fragments.add(MyEventsFragment.newInstance())
-        fragments.add(EventsListFragment())
+        fragments.add(MyEventsFragment())
         fragments.add(Fragment())
+        fragments.add(OrginizedEventsListFragment())
 
 
         tabLayout.initialize(viewPager, childFragmentManager, fragments, savedInstanceState)

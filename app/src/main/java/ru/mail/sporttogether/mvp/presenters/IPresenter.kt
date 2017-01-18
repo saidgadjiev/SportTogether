@@ -11,6 +11,7 @@ interface IPresenter {
 
 
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+
     }
 
     fun onCreate(args: Bundle?){}

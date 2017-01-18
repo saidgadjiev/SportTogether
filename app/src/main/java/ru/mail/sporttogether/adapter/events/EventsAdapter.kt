@@ -12,8 +12,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 /**
- * Created by Ivan on 20.10.2016.
- *
+ * Created by Ivan on 20.10.2016
  */
 class EventsAdapter : RecyclerView.Adapter<EventsAdapter.ViewHolder>() {
     private var events: MutableList<Event>? = null

@@ -30,7 +30,7 @@ class TaskAdapter(private val tasks: ArrayList<Task>, private val checkingTasks:
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : Subscriber<Task>() {
                     override fun onError(e: Throwable) {
-                        Log.e("#MY " + javaClass.simpleName, e.message)
+                        Log.e("#MY " + javaClass.simpleName, e.message, e)
                     }
 
                     override fun onNext(task: Task) {

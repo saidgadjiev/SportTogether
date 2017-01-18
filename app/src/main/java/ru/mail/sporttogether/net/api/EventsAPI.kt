@@ -55,4 +55,7 @@ interface EventsAPI {
     @GET("event")
     fun getEventsByCategory(@Query("events:category:name") category: String): Observable<Response<EventsResponse>>
 
+    @GET("event/user")
+    fun getOrginizedEvents(): Observable<Response<EventsResponse>>
+
 }

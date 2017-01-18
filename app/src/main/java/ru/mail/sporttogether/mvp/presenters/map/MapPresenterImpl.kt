@@ -145,6 +145,7 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : Subscriber<IpResponse>() {
                     override fun onError(e: Throwable) {
+                        unsubscribe()
                         view?.showToast(R.string.cant_load_position)
                     }
 
@@ -153,6 +154,7 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
                     }
 
                     override fun onNext(t: IpResponse) {
+                        unsubscribe()
                         map.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(t.lat, t.lon), 15f))
                     }
 
@@ -197,10 +199,12 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
                         if (t.isNotEmpty()) {
                             view?.updateAddress(t[0].textAddress)
                         }
+                        unsubscribe()
                     }
 
                     override fun onError(e: Throwable) {
                         Log.e("yandex", e.message, e)
+                        unsubscribe()
                     }
 
                     override fun onCompleted() {

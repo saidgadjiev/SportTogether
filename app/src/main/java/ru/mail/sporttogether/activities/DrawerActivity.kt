@@ -19,7 +19,7 @@ import ru.mail.sporttogether.auth.core.SocialNetworkManager
 import ru.mail.sporttogether.databinding.ActivityDrawerBinding
 import ru.mail.sporttogether.fragments.events.EventsMapFragment
 import ru.mail.sporttogether.fragments.events.EventsTabFragment
-import ru.mail.sporttogether.fragments.events.MyEventsFragment
+import ru.mail.sporttogether.fragments.events.lists.MyEventsFragment
 import ru.mail.sporttogether.mvp.presenters.drawer.DrawerPresenterImpl
 import ru.mail.sporttogether.mvp.presenters.drawer.IDrawerPresenter
 import ru.mail.sporttogether.mvp.views.drawer.IDrawerView
