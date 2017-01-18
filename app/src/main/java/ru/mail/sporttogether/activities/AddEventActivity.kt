@@ -149,7 +149,6 @@ class AddEventActivity :
         val mPickDateBtn = binding.pickDateButton
 
         mPickDateBtn.setOnClickListener {
-            Log.d("#MY " + javaClass.simpleName, "on pick date btn click")
             val alertDialog = AlertDialog.Builder(this).create()
             val datepickerDialogViewBinding = DateTimePickerBinding.inflate(LayoutInflater.from(this))
             val datepickerDialogView = datepickerDialogViewBinding.root
@@ -157,18 +156,25 @@ class AddEventActivity :
             val pickDateText = binding.pickDateText
 
             datePickerSetBtn.setOnClickListener {
-                Log.d("#MY " + javaClass.simpleName, "on set btn click")
                 val datepicker = datepickerDialogViewBinding.datePicker
                 val timepicker = datepickerDialogViewBinding.timePicker
+                datepicker.minDate = Date().time
                 settedDate = GregorianCalendar(
                         datepicker.year,
                         datepicker.month,
                         datepicker.dayOfMonth,
                         timepicker.currentHour,
                         timepicker.currentMinute)
-                pickDateText.text = DateUtils.toLongDateString(settedDate!!)
+                val nowTime = Date().time
+                val settedTime = settedDate!!.timeInMillis
+                Log.d("#MY " + javaClass.simpleName, "now $nowTime, setted $settedTime")
 
-                alertDialog.hide()
+                if (settedTime > nowTime) {
+                    pickDateText.text = DateUtils.toLongDateString(settedDate!!)
+                    alertDialog.hide()
+                } else {
+                    showToast("Событие в прошлом нельзя создать")
+                }
             }
             alertDialog.setView(datepickerDialogView)
             alertDialog.show()
