@@ -347,13 +347,15 @@ class EventsMapFragment :
     }
 
     fun initTasks(tasks: ArrayList<Task>) {
-        val tasksBinding: ShowingTasksBinding = ShowingTasksBinding.inflate(LayoutInflater.from(this.context), null, false)
-        val dialog: AlertDialog = AlertDialog.Builder(this.context).create()
         val myId = SocialNetworkManager.instance.activeUser.id
         val taskAdapter = TaskAdapter(tasks, this, myId, activity) // TODO inject manager
-        tasksBinding.tasksRecyclerView.adapter = taskAdapter
-        tasksBinding.tasksRecyclerView.layoutManager = LinearLayoutManager(this.context)
-        tasksDialog = TasksDialog(tasksBinding, taskAdapter, dialog)
+        binding.include.tasksListRecyclerView.adapter = taskAdapter
+        binding.include.tasksListRecyclerView.layoutManager = LinearLayoutManager(this.context)
+
+//        val tasksBinding: ShowingTasksBinding = ShowingTasksBinding.inflate(LayoutInflater.from(this.context), null, false)
+//        val dialog: AlertDialog = AlertDialog.Builder(this.context).create()
+//        tasksBinding.tasksRecyclerView.adapter = taskAdapter
+//        tasksDialog = TasksDialog(tasksBinding, taskAdapter, dialog)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
