@@ -27,17 +27,7 @@ class TaskAdapter(
 ) : RecyclerView.Adapter<TaskAdapter.ViewHolder>() {
 
     init {
-        tasks.sort { t1, t2 ->
-            val iMayChecked1 = t1.user == null || t1.user?.id == myId
-            val iMayChecked2 = t2.user == null || t2.user?.id == myId
-            if (!(iMayChecked1 xor iMayChecked2)) {
-                return@sort 0
-            }
-            if (iMayChecked1) {
-                return@sort -1
-            }
-            1
-        }
+        tasks.sortBy { item -> !(item.user == null || item.user?.id == myId) }
     }
 
     override fun getItemCount(): Int {
@@ -45,7 +35,6 @@ class TaskAdapter(
     }
 
     override fun onBindViewHolder(holder: TaskAdapter.ViewHolder?, position: Int) {
-        Log.d(TAG, "on bind viewholder. position = " + position)
         val observableChecked = holder?.onBind(tasks[position], myId, context)
         observableChecked!!
                 .subscribeOn(Schedulers.io())
@@ -73,7 +62,6 @@ class TaskAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskAdapter.ViewHolder {
-        Log.d(TAG, "on create viewholder.")
         val inflater = LayoutInflater.from(parent.context)
         val binding: ItemTaskBinding = ItemTaskBinding.inflate(inflater, parent, false)
         context
