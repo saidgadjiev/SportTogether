@@ -6,4 +6,5 @@ package ru.mail.sporttogether.data.binding.items
 interface TwoActionsListener {
     fun action1Clicked()
     fun action2Clicked()
+    fun onBodyClicked()
 }

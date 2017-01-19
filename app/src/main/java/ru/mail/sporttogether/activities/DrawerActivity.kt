@@ -31,6 +31,7 @@ class DrawerActivity : IDrawerView,
     private lateinit var toolbar: Toolbar
     private lateinit var mDrawer: Drawer
     private lateinit var socialNetworkManager: SocialNetworkManager
+    private var lastPoss = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,19 +44,19 @@ class DrawerActivity : IDrawerView,
         setupToolbar(toolbar)
         buildDrawer()
         socialNetworkManager = SocialNetworkManager.instance
-        swapFragment(EventsMapFragment.newInstance(0))
+        swapFragment(EventsMapFragment.newInstance(0), lastPoss + 1)
     }
 
     private fun buildDrawer() {
         val drawerBuilder: DrawerBuilder = DrawerBuilder()
                 .withActivity(this)
-                .withAccountHeader(buildAccountHeader(this))
+                .withAccountHeader(buildAccountHeader())
                 .withToolbar(toolbar)
         setDrawerItems(drawerBuilder)
         mDrawer = drawerBuilder.build()
     }
 
-    private fun buildAccountHeader(activity: DrawerActivity): AccountHeader {
+    private fun buildAccountHeader(): AccountHeader {
         DrawerImageLoader.init(MyDrawerImageLoader())
         var avatar = SocialNetworkManager.instance.activeUser.avatar
         var name = SocialNetworkManager.instance.activeUser.name
@@ -64,7 +65,7 @@ class DrawerActivity : IDrawerView,
         if (avatar.isNullOrEmpty())
             avatar = "https://scontent-amt2-1.xx.fbcdn.net/v/t1.0-9/14225377_107564209701561_5320272900042567420_n.jpg?oh=efa955d0b647185a747f44f6ce54d390&oe=58B58ED2"
         val header = AccountHeaderBuilder()
-                .withActivity(activity)
+                .withActivity(this)
                 //.withCompactStyle(true)
                 .withHeaderBackground(R.drawable.navigation_header)
                 .addProfiles(
@@ -87,12 +88,12 @@ class DrawerActivity : IDrawerView,
         drawerBuilder.addDrawerItems(
                 //TODO add icons
                 PrimaryDrawerItem().withName(R.string.map).withIcon(R.drawable.ic_map).withIconTintingEnabled(true).withOnDrawerItemClickListener { view, i, iDrawerItem ->
-                    swapFragment(EventsMapFragment.newInstance(0))
+                    swapFragment(EventsMapFragment.newInstance(0), i)
                     toolbar.title = getString(R.string.events_map)
                     false
                 },
                 PrimaryDrawerItem().withName(R.string.my_events).withIcon(R.drawable.ic_location).withIconTintingEnabled(true).withOnDrawerItemClickListener { view, i, iDrawerItem ->
-                    swapFragment(EventsTabFragment.newInstance())
+                    swapFragment(EventsTabFragment.newInstance(), i)
                     toolbar.title = getString(R.string.my_events)
                     false
                 },
@@ -117,25 +118,14 @@ class DrawerActivity : IDrawerView,
         }
     }
 
-    private fun swapFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction()
-                .replace(R.id.drawer_container, fragment)
-                .commit()
+    private fun swapFragment(fragment: Fragment, newPos: Int) {
+        if (lastPoss != newPos) {
+            supportFragmentManager.beginTransaction()
+                    .replace(R.id.drawer_container, fragment)
+                    .commit()
+            lastPoss = newPos
+        }
     }
-
-    /*override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.main, menu)
-
-        val searchItem = menu.findItem(R.id.action_search)
-
-        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
-
-        val searchView = searchItem.actionView as SearchView
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName))
-
-        return super.onCreateOptionsMenu(menu)
-    }*/
-
 
     override fun startLoginActivity() {
         LoginActivity.startActivity(this, true)
