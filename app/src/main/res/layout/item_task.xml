@@ -4,7 +4,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
-
         <variable
             name="data"
             type="ru.mail.sporttogether.data.binding.tasks.TaskData" />
@@ -13,6 +12,7 @@
             name="listener"
             type="ru.mail.sporttogether.data.binding.tasks.TaskItemListener" />
 
+        <import type="android.view.View" />
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -24,6 +24,7 @@
             android:buttonTint="@{data.iMayChecked ? @color/colorAccent : @color/gray}"
             android:checked="@{data.isChecked}"
             android:clickable="@{data.iMayChecked}"
+            android:visibility="@{data.iMayChecked ? View.VISIBLE : View.INVISIBLE}"
             android:id="@+id/task_checkbox"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"

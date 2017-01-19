@@ -34,12 +34,16 @@
             app:layout_constraintRight_toRightOf="parent"
             android:layout_marginStart="16dp"
             app:layout_constraintLeft_toLeftOf="parent" />
-        <Button
+        <!--style="?android:attr/borderlessButtonStyle"-->
+        <!--android:text="@string/add"-->
+        <!--android:textColor="@color/colorPrimary"-->
+
+        <ImageButton
             style="?android:attr/borderlessButtonStyle"
             android:id="@+id/adding_tasks_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/add"
+            android:src="@drawable/ic_add"
             app:layout_constraintTop_toBottomOf="@+id/adding_tasks_recycler_view"
             app:layout_constraintRight_toRightOf="@+id/adding_tasks_recycler_view"
             android:layout_marginTop="16dp" />

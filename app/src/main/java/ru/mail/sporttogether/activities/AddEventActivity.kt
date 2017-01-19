@@ -65,9 +65,9 @@ class AddEventActivity :
         var dialog: AlertDialog = AlertDialog.Builder(context)
                 .setNegativeButton("Очистить", { dialogInterface, i ->
                     clearTasks()
-                    dialogInterface.cancel()
+//                    dialogInterface.cancel()
                 })
-                .setPositiveButton("Сохранить", {
+                .setPositiveButton("Готово", {
                     dialogInterface, i -> dialogInterface.cancel()
                 })
                 .setCancelable(false)
@@ -80,13 +80,16 @@ class AddEventActivity :
 
             binding.addingTasksRecyclerView.adapter = addTaskAdapter
             binding.addingTasksRecyclerView.layoutManager = LinearLayoutManager(context)
-            binding.addingTasksBtn.setOnClickListener {
+            val addingTasksBtn = binding.addingTasksBtn
+            addingTasksBtn.setOnClickListener {
                 if (addTaskAdapter.itemCount >= 5) {
                     context.showToast("максимум 5 задач у одного события")
                 } else {
                     val editField = binding.addingTasksEditField
-                    addTaskAdapter.addTask(editField.text.toString())
-                    editField.text.clear()
+                    if (editField.text.toString().isNotBlank()) {
+                        addTaskAdapter.addTask(editField.text.toString())
+                        editField.text.clear()
+                    }
                 }
             }
         }
@@ -167,13 +170,12 @@ class AddEventActivity :
                         timepicker.currentMinute)
                 val nowTime = Date().time
                 val settedTime = settedDate!!.timeInMillis
-                Log.d("#MY " + javaClass.simpleName, "now $nowTime, setted $settedTime")
 
                 if (settedTime > nowTime) {
                     pickDateText.text = DateUtils.toLongDateString(settedDate!!)
                     alertDialog.hide()
                 } else {
-                    showToast("Событие в прошлом нельзя создать")
+                    showToast(getString(R.string.cant_create_event_in_past))
                 }
             }
             alertDialog.setView(datepickerDialogView)

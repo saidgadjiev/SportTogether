@@ -36,13 +36,12 @@ class CustomFirebaseMessagingService : FirebaseMessagingService() {
             Log.e("#MY " + javaClass.simpleName, "title or message is null")
             return
         }
-        val notificationMessage2 = NotificationMessage(
+        val event = remoteMessage.data["object"]
+        val notificationMessage: NotificationMessage = NotificationMessage(
                 type,
                 title,
                 message
         )
-        val notificationMessage1 = notificationMessage2
-        val notificationMessage: NotificationMessage = notificationMessage1
         if (notificationMessage.isValid()) {
             val notification = NotificationCompat.Builder(this)
                     .setContentTitle(notificationMessage.title)
