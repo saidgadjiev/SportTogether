@@ -11,8 +11,8 @@ import ru.mail.sporttogether.R
 class OrginizedEventHolder(v: View) : AbstractTwoActionHolder(v) {
 
     init {
-        data.action1Text.set(itemView.context.getString(R.string.share))
-        data.action2Text.set(itemView.context.getString(R.string.edit))
+        data.action2Text.set(itemView.context.getString(R.string.share).toUpperCase())
+        data.action1Text.set(itemView.context.getString(R.string.edit).toUpperCase())
     }
 
     override fun action1Clicked() {
@@ -24,9 +24,10 @@ class OrginizedEventHolder(v: View) : AbstractTwoActionHolder(v) {
     }
 
     override fun getAction1Drawable(): Drawable
-            = ContextCompat.getDrawable(itemView.context, R.drawable.ic_share)
+            = ContextCompat.getDrawable(itemView.context, R.drawable.ic_edit)
 
     override fun getAction2Drawable(): Drawable
-            = ContextCompat.getDrawable(itemView.context, R.drawable.ic_edit)
+            = ContextCompat.getDrawable(itemView.context, R.drawable.ic_share)
+
 
 }

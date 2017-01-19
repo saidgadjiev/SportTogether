@@ -10,6 +10,7 @@ import rx.Subscriber
 import rx.Subscription
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 /**
@@ -23,17 +24,20 @@ abstract class EventsListPresenter(protected var view: IEventListView?) : IPrese
     abstract fun getApiObservable(): Observable<Response<EventsResponse>>
 
     fun getEvents() {
+        view?.showCatAnimation()
         apiSubscription = getApiObservable().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : Subscriber<Response<EventsResponse>>() {
                     override fun onError(e: Throwable) {
-                        view?.showToast("Не удалось загрузить список моиз событий")
+                        view?.hideCatAnimation()
+                        view?.showToast("Не удалось загрузить список событий")
                     }
 
                     override fun onNext(t: Response<EventsResponse>) {
                         if (t.code == 0) {
                             view?.swapEvents(t.data)
                         }
+                        view?.hideCatAnimation()
                     }
 
                     override fun onCompleted() {

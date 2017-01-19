@@ -6,12 +6,13 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import ru.mail.sporttogether.fragments.events.adapters.AbstractEventAdapter
 import ru.mail.sporttogether.databinding.FragmentEventsListBinding
 import ru.mail.sporttogether.fragments.PresenterFragment
+import ru.mail.sporttogether.fragments.events.adapters.AbstractEventAdapter
 import ru.mail.sporttogether.mvp.presenters.event.lists.EventsListPresenter
 import ru.mail.sporttogether.mvp.views.event.IEventListView
 import ru.mail.sporttogether.net.models.Event
+import ru.mail.sporttogether.widgets.CatProgressDialog
 
 /**
  * Created by bagrusss on 18.01.17
@@ -46,6 +47,14 @@ abstract class AbstractEventsListFragment<PR : EventsListPresenter, out T : Abst
 
     override fun swapEvents(events: MutableList<Event>) {
         adapter.swap(events)
+    }
+
+    override fun showCatAnimation() {
+        CatProgressDialog.showDialog(fragmentManager)
+    }
+
+    override fun hideCatAnimation() {
+        CatProgressDialog.hide(fragmentManager)
     }
 
 }
