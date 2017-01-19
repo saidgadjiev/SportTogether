@@ -32,9 +32,8 @@ class EventsTabFragment : PresenterFragment<EventsTabPresenter>() {
         viewPager = binding.viewPager
 
         fragments.add(MyEventsFragment())
-        fragments.add(Fragment())
+        fragments.add(EndedListFragment())
         fragments.add(OrginizedEventsListFragment())
-
 
         tabLayout.initialize(viewPager, childFragmentManager, fragments, savedInstanceState)
 

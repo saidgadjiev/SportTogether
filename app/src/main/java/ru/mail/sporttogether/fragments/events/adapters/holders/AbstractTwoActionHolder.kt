@@ -29,8 +29,16 @@ abstract class AbstractTwoActionHolder(v: View) : RecyclerView.ViewHolder(v), Tw
         data.dateText.set(DateUtils.longToDateTime(event.date))
     }
 
-    abstract fun getAction1Drawable(): Drawable
-    abstract fun getAction2Drawable(): Drawable
+    abstract fun getAction1Drawable(): Drawable?
+    abstract fun getAction2Drawable(): Drawable?
+
+    override fun action1Clicked() {
+
+    }
+
+    override fun action2Clicked() {
+
+    }
 
 
 }

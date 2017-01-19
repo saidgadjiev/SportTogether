@@ -20,10 +20,6 @@ class MyEventHolder(v: View) : AbstractTwoActionHolder(v) {
 
     }
 
-    override fun action2Clicked() {
-
-    }
-
     override fun getAction1Drawable(): Drawable = ContextCompat.getDrawable(itemView.context, R.drawable.ic_report)
 
     override fun getAction2Drawable(): Drawable = ContextCompat.getDrawable(itemView.context, R.drawable.ic_share)

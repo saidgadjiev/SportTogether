@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import ru.mail.sporttogether.databinding.FragmentEventsListBinding
 import ru.mail.sporttogether.fragments.PresenterFragment
 import ru.mail.sporttogether.fragments.events.adapters.AbstractEventAdapter
-import ru.mail.sporttogether.mvp.presenters.event.lists.EventsListPresenter
+import ru.mail.sporttogether.mvp.presenters.event.lists.AbstractEventsListPresenter
 import ru.mail.sporttogether.mvp.views.event.IEventListView
 import ru.mail.sporttogether.net.models.Event
 import ru.mail.sporttogether.widgets.CatProgressDialog
@@ -17,7 +17,7 @@ import ru.mail.sporttogether.widgets.CatProgressDialog
 /**
  * Created by bagrusss on 18.01.17
  */
-abstract class AbstractEventsListFragment<PR : EventsListPresenter, out T : AbstractEventAdapter<*>> :
+abstract class AbstractEventsListFragment<PR : AbstractEventsListPresenter, out T : AbstractEventAdapter<*>> :
         PresenterFragment<PR>(),
         IEventListView {
 

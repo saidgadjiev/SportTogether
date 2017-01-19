@@ -1,5 +1,6 @@
 package ru.mail.sporttogether.mvp.presenters.event.lists
 
+import ru.mail.sporttogether.app.App
 import ru.mail.sporttogether.mvp.presenters.IPresenter
 import ru.mail.sporttogether.mvp.views.event.IEventListView
 import ru.mail.sporttogether.net.api.EventsAPI
@@ -10,18 +11,23 @@ import rx.Subscriber
 import rx.Subscription
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 /**
  * Created by bagrusss on 15.10.16
  */
-abstract class EventsListPresenter(protected var view: IEventListView?) : IPresenter {
+abstract class AbstractEventsListPresenter(protected var view: IEventListView?) : IPresenter {
 
     @Inject lateinit var eventsApi: EventsAPI
     private var apiSubscription: Subscription? = null
 
     abstract fun getApiObservable(): Observable<Response<EventsResponse>>
+
+    init {
+        App.injector
+                .usePresenterComponent()
+                .inject(this)
+    }
 
     fun getEvents() {
         view?.showCatAnimation()

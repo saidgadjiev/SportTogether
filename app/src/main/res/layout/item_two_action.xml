@@ -41,7 +41,7 @@
                 android:orientation="horizontal">
 
                 <LinearLayout
-                    android:id="@+id/action_2"
+                    android:id="@+id/button_panel_1"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:background="?attr/selectableItemBackground"
@@ -68,6 +68,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/button_panel_2"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:background="?attr/selectableItemBackground"

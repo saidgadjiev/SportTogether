@@ -6,13 +6,7 @@ import ru.mail.sporttogether.mvp.views.event.IEventListView
 /**
  * Created by bagrusss on 15.10.16
  */
-class MyEventsPresenterImpl(view: IEventListView?) : EventsListPresenter(view) {
-
-    init {
-        App.injector
-                .usePresenterComponent()
-                .inject(this)
-    }
+class MyEventsPresenterImpl(view: IEventListView?) : AbstractEventsListPresenter(view) {
 
     override fun getApiObservable() = eventsApi.getMyEvents()
 }

@@ -11,15 +11,11 @@ import ru.mail.sporttogether.R
 class OrginizedEventHolder(v: View) : AbstractTwoActionHolder(v) {
 
     init {
-        data.action2Text.set(itemView.context.getString(R.string.share).toUpperCase())
         data.action1Text.set(itemView.context.getString(R.string.edit).toUpperCase())
+        data.action2Text.set(itemView.context.getString(R.string.share).toUpperCase())
     }
 
     override fun action1Clicked() {
-
-    }
-
-    override fun action2Clicked() {
 
     }
 
