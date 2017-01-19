@@ -333,7 +333,7 @@ class EventsMapFragment :
 
     fun initTasks(tasks: ArrayList<Task>) {
         val myId = SocialNetworkManager.instance.activeUser.id // TODO inject manager
-        tasksAdapter = TaskAdapter(tasks, this, myId, activity)
+        tasksAdapter = TaskAdapter(tasks, this, myId)
         binding.include.tasksListRecyclerView.adapter = tasksAdapter
         binding.include.tasksListRecyclerView.layoutManager = LinearLayoutManager(this.context)
     }
