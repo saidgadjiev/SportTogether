@@ -3,7 +3,9 @@ package ru.mail.sporttogether.fragments.events
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Point
+import android.os.Build
 import android.os.Bundle
 import android.support.design.widget.BottomSheetBehavior
 import android.support.v4.view.MenuItemCompat
@@ -110,7 +112,6 @@ class EventsMapFragment :
         mapView.onCreate(savedInstanceState)
         presenter = MapPresenterImpl(this)
         presenter.onCreate(savedInstanceState)
-        presenter.checkLocation(context)
         mapView.getMapAsync(presenter)
 
         hideInfo()
@@ -224,10 +225,33 @@ class EventsMapFragment :
             }
             REQUEST_LOCATION_CODE -> {
                 if (resultCode == 0) {
-                    presenter.checkLocation(context)
+                    presenter.onLocationEnabled()
                 }
             }
+            REQUEST_PERMISSIONS_CODE -> {
+
+            }
         }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        if (requestCode == REQUEST_PERMISSIONS_CODE) {
+            var isEverythingAllowed = true
+            for (result in grantResults) {
+                isEverythingAllowed = isEverythingAllowed and (result == PackageManager.PERMISSION_GRANTED)
+            }
+
+            if (isEverythingAllowed) {
+                presenter.onPermissionsGranted(requestCode)
+            } else {
+                presenter.onPermissionNotGranted(requestCode)
+            }
+        }
+    }
+
+    override fun checkLocationPermissions(permissions: Array<String>) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            requestPermissions(permissions, REQUEST_PERMISSIONS_CODE)
     }
 
     override fun onAngryButtonClicked() {
@@ -434,6 +458,7 @@ class EventsMapFragment :
         @JvmStatic val TAB_HEIGHT_KEY = "TAB_HEIGHT"
         @JvmStatic val REQUEST_CODE = 1092
         @JvmStatic val REQUEST_LOCATION_CODE = 1093
+        @JvmStatic val REQUEST_PERMISSIONS_CODE = 1094
 
         @JvmStatic fun newInstance(tabHeight: Int): EventsMapFragment {
             val args = Bundle()

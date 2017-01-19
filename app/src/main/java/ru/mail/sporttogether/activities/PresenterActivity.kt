@@ -1,8 +1,6 @@
 package ru.mail.sporttogether.activities
 
-import android.content.pm.PackageManager
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.support.annotation.CallSuper
 import android.support.annotation.StringRes
@@ -12,12 +10,7 @@ import android.view.MenuItem
 import android.widget.Toast
 import com.facebook.share.model.ShareLinkContent
 import com.facebook.share.widget.ShareDialog
-import org.greenrobot.eventbus.EventBus
-import org.greenrobot.eventbus.Subscribe
-import org.greenrobot.eventbus.ThreadMode
 import ru.mail.sporttogether.app.App
-import ru.mail.sporttogether.eventbus.PermissionGrantedMessage
-import ru.mail.sporttogether.eventbus.PermissionMessage
 import ru.mail.sporttogether.mvp.presenters.IPresenter
 import ru.mail.sporttogether.mvp.views.IView
 import ru.mail.sporttogether.widgets.ProgressDialogFragment
@@ -105,13 +98,11 @@ abstract class PresenterActivity<T : IPresenter> : AppCompatActivity(), IView {
 
     override fun onStart() {
         super.onStart()
-        EventBus.getDefault().register(this)
         presenter.onStart()
     }
 
     override fun onStop() {
         super.onStop()
-        EventBus.getDefault().unregister(this)
         presenter.onStop()
     }
 
@@ -143,30 +134,6 @@ abstract class PresenterActivity<T : IPresenter> : AppCompatActivity(), IView {
     override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
         super.onRestoreInstanceState(savedInstanceState)
         presenter.onRestoreInstanceState(savedInstanceState)
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onEvent(msg: PermissionMessage) {
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M)
-            requestPermissions(msg.permissionsList.toTypedArray(), msg.reqCode)
-    }
-
-    // сука, ебучий гугл, у вложенныех фрагментов не вызывается onRequestPermissionsResult
-    // костыль, по пока что так
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-
-        var isEverythingAllowed = true
-        for (result in grantResults) {
-            isEverythingAllowed = isEverythingAllowed and (result == PackageManager.PERMISSION_GRANTED)
-        }
-
-        if (isEverythingAllowed) {
-            presenter.onPermissionsGranted(requestCode)
-            EventBus.getDefault().post(PermissionGrantedMessage(requestCode))
-        } else {
-            presenter.onPermissionNotGranted(requestCode)
-        }
     }
 
 

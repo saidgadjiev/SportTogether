@@ -32,4 +32,6 @@ interface IMapView : IView, GoogleMap.OnCameraIdleListener {
     fun updateAddress(address: String)
 
     fun onLocationNotChecked()
+
+    fun checkLocationPermissions(permissions: Array<String>)
 }

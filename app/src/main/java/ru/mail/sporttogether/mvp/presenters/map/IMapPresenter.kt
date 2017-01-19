@@ -20,7 +20,7 @@ interface IMapPresenter :
         GoogleMap.OnMarkerClickListener,
         ZoomListener {
 
-    fun checkLocation(context: Context)
+    fun onLocationEnabled()
 
     fun onCameraIdle(x: Int, y: Int)
 

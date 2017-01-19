@@ -13,14 +13,9 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.iid.FirebaseInstanceId
-import org.greenrobot.eventbus.EventBus
-import org.greenrobot.eventbus.Subscribe
-import org.greenrobot.eventbus.ThreadMode
 import ru.mail.sporttogether.R
 import ru.mail.sporttogether.app.App
 import ru.mail.sporttogether.auth.core.SocialNetworkManager
-import ru.mail.sporttogether.eventbus.PermissionGrantedMessage
-import ru.mail.sporttogether.eventbus.PermissionMessage
 import ru.mail.sporttogether.managers.LocationManager
 import ru.mail.sporttogether.managers.events.EventsManager
 import ru.mail.sporttogether.mvp.views.map.IMapView
@@ -64,6 +59,7 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
     @Inject lateinit var locationManager: LocationManager
     @Inject lateinit var yandexApi: YandexMapsApi
     @Inject lateinit var serviceApi: ServiceApi
+    @Inject lateinit var context: Context
 
     private val userId: Long = SocialNetworkManager.instance.activeUser.id
 
@@ -91,48 +87,9 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
                 }
     }
 
-    override fun onStart() {
-        EventBus.getDefault().register(this)
-    }
-
     override fun onStop() {
-        EventBus.getDefault().unregister(this)
         if (userPositionFound)
             locationSubscription?.unsubscribe()
-    }
-
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onEvent(msg: PermissionGrantedMessage) {
-        if (msg.reqCode === REQUEST_CODE) {
-            locationManager.update(false)
-        }
-    }
-
-    override fun checkLocation(context: Context) {
-        if (!locationManager.checkLocationEnabled(context)) {
-            serviceApi.getLocationByIP()
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(object : Subscriber<IpResponse>() {
-                        override fun onError(e: Throwable) {
-                            unsubscribe()
-                            view?.onLocationNotChecked()
-                        }
-
-                        override fun onCompleted() {
-
-                        }
-
-                        override fun onNext(t: IpResponse) {
-                            unsubscribe()
-                            map?.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(t.lat, t.lon), 15f))
-                            view?.onLocationNotChecked()
-                        }
-
-                    })
-        } else locationManager.update()
-
     }
 
     override fun onPause() {
@@ -161,6 +118,44 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
             }
         }
         map = null
+        locationManager.endLocationUpdate()
+    }
+
+
+    private fun initMap() {
+        if (!locationManager.checkLocationEnabled(context)) {
+            serviceApi.getLocationByIP()
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(object : Subscriber<IpResponse>() {
+                        override fun onError(e: Throwable) {
+                            unsubscribe()
+                            view?.onLocationNotChecked()
+                        }
+
+                        override fun onCompleted() {
+
+                        }
+
+                        override fun onNext(t: IpResponse) {
+                            unsubscribe()
+                            map?.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(t.lat, t.lon), 15f))
+                            view?.onLocationNotChecked()
+                        }
+
+                    })
+        } else {
+            locationManager.getLocation()?.let {
+                showMe(it)
+            }
+            locationManager.update(false)
+            map?.isMyLocationEnabled = true
+        }
+    }
+
+
+    override fun onLocationEnabled() {
+        initMap()
     }
 
     override fun onMapReady(map: GoogleMap) {
@@ -174,13 +169,10 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
             onLocationUpdated(location)
         }
         if (!locationManager.checkForPermissions()) {
-            val permissions = Arrays.asList(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
-            EventBus.getDefault().post(PermissionMessage(reqCode = REQUEST_CODE, permissionsList = permissions))
+            val permissions = arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
+            view?.checkLocationPermissions(permissions)
         } else {
-            locationManager.getLocation()?.let {
-                showMe(it)
-            }
-            locationManager.update(false)
+            initMap()
         }
     }
 
@@ -572,13 +564,10 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
     }
 
     override fun onPermissionsGranted(requestCode: Int) {
-        if (requestCode === REQUEST_CODE) {
-            locationManager.update(false)
-        }
+        initMap()
     }
 
     companion object {
-        @JvmStatic private val REQUEST_CODE = 1002
 
         @JvmStatic private val MAX_ZOOM = 17f
         @JvmStatic private val MIN_ZOOM = 10f

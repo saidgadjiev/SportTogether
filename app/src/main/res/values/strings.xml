@@ -49,6 +49,6 @@
 
     <string name="title_location_access">Доступ к местоположению</string>
     <string name="cannot_find_you">Без доступа к местоположению мы не можем показать ближайшие события</string>
-    <string name="location_disabled_message">Местоположение отключено.\nДля показа событий радом с Вами\nнеобходимо включить доступ к местоплложению.\nОткрыть настройки?</string>
+    <string name="location_disabled_message">Местоположение отключено.\nДля показа событий рядом с Вами необходимо включить доступ к местоплложению.\nОткрыть настройки?</string>
 
 </resources>
