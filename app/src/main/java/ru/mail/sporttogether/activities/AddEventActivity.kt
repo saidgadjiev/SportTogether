@@ -64,11 +64,13 @@ class AddEventActivity :
     inner class AddingTasksDialog(val context: AddEventActivity): OpenTasksListener {
         var dialog: AlertDialog = AlertDialog.Builder(context)
                 .setNegativeButton("Очистить", { dialogInterface, i ->
+                    context.binding.addingTasksCount.text = "0"
                     clearTasks()
-//                    dialogInterface.cancel()
+                    dialogInterface.cancel()
                 })
-                .setPositiveButton("Готово", {
-                    dialogInterface, i -> dialogInterface.cancel()
+                .setPositiveButton("Готово", { dialogInterface, i ->
+                    context.binding.addingTasksCount.text = Integer.toString(addTaskAdapter.getTasks().size)
+                    dialogInterface.cancel()
                 })
                 .setCancelable(false)
                 .create()
