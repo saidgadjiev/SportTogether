@@ -25,7 +25,6 @@ import ru.mail.sporttogether.data.binding.event.ButtonListener
 import ru.mail.sporttogether.data.binding.event.EventDetailsData
 import ru.mail.sporttogether.data.binding.event.EventDetailsListener
 import ru.mail.sporttogether.databinding.EventsMapBinding
-import ru.mail.sporttogether.databinding.ShowingTasksBinding
 import ru.mail.sporttogether.fragments.CheckingTasks
 import ru.mail.sporttogether.fragments.PresenterFragment
 import ru.mail.sporttogether.mvp.presenters.map.IMapPresenter
@@ -54,7 +53,7 @@ class EventsMapFragment :
     private lateinit var binding: EventsMapBinding
     private lateinit var eventDedailsBottomSheet: BottomSheetBehavior<View>
     private val data = EventDetailsData()
-    private var tasksDialog: TasksDialog? = null
+    private var tasksAdapter: TaskAdapter? = null
     private lateinit var resultsContainer: FrameLayout
 
     private lateinit var eventsListView: RecyclerView
@@ -66,15 +65,6 @@ class EventsMapFragment :
     private var markerDownX = 0
     private var markerDownY = 0
     private var tabHeight = 0
-
-    inner class TasksDialog(
-            val binding: ShowingTasksBinding,
-            val taskAdapter: TaskAdapter,
-            val dialog: AlertDialog) {
-        init {
-            this.dialog.setView(this.binding.root)
-        }
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         App.injector
@@ -204,7 +194,7 @@ class EventsMapFragment :
     override fun onDestroyView() {
         super.onDestroyView()
         mapView.onDestroy()
-        tasksDialog = null
+        tasksAdapter = null
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -266,7 +256,6 @@ class EventsMapFragment :
 
     override fun hideInfo() {
         eventDedailsBottomSheet.state = BottomSheetBehavior.STATE_HIDDEN
-        tasksDialog = null
     }
 
     override fun onButtonClicked() {
@@ -319,7 +308,7 @@ class EventsMapFragment :
             } else {
                 data.tasksMessage.set("")
             }
-            tasksDialog?.taskAdapter?.swapTasks()
+            tasksAdapter?.swapTasks()
         } else {
             data.tasksMessage.set("идет загрузка задач")
             data.withTasks.set(false)
@@ -331,10 +320,6 @@ class EventsMapFragment :
     override fun onFinishLoadTasks(tasks: ArrayList<Task>?) {
         if (tasks != null) {
             initTasks(tasks)
-            binding.include.tasksText.setOnClickListener {
-                if (data.isTasksCanBeChanged.get())
-                    tasksDialog!!.dialog.show()
-            }
         }
     }
 
@@ -347,15 +332,10 @@ class EventsMapFragment :
     }
 
     fun initTasks(tasks: ArrayList<Task>) {
-        val myId = SocialNetworkManager.instance.activeUser.id
-        val taskAdapter = TaskAdapter(tasks, this, myId, activity) // TODO inject manager
-        binding.include.tasksListRecyclerView.adapter = taskAdapter
+        val myId = SocialNetworkManager.instance.activeUser.id // TODO inject manager
+        tasksAdapter = TaskAdapter(tasks, this, myId, activity)
+        binding.include.tasksListRecyclerView.adapter = tasksAdapter
         binding.include.tasksListRecyclerView.layoutManager = LinearLayoutManager(this.context)
-
-//        val tasksBinding: ShowingTasksBinding = ShowingTasksBinding.inflate(LayoutInflater.from(this.context), null, false)
-//        val dialog: AlertDialog = AlertDialog.Builder(this.context).create()
-//        tasksBinding.tasksRecyclerView.adapter = taskAdapter
-//        tasksDialog = TasksDialog(tasksBinding, taskAdapter, dialog)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
