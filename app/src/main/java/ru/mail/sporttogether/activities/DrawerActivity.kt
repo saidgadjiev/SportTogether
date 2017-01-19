@@ -88,19 +88,19 @@ class DrawerActivity : IDrawerView,
                 //TODO add icons
                 PrimaryDrawerItem().withName(R.string.map).withIcon(R.drawable.ic_map).withIconTintingEnabled(true).withOnDrawerItemClickListener { view, i, iDrawerItem ->
                     swapFragment(EventsMapFragment.newInstance(0))
-                    title = getString(R.string.events_map)
+                    toolbar.title = getString(R.string.events_map)
                     false
                 },
                 PrimaryDrawerItem().withName(R.string.my_events).withIcon(R.drawable.ic_location).withIconTintingEnabled(true).withOnDrawerItemClickListener { view, i, iDrawerItem ->
                     swapFragment(EventsTabFragment.newInstance())
-                    title = getString(R.string.my_events)
+                    toolbar.title = getString(R.string.my_events)
                     false
                 },
-                PrimaryDrawerItem().withName("Настройки").withIcon(R.drawable.ic_settings).withIconTintingEnabled(true).withOnDrawerItemClickListener { view, i, iDrawerItem ->
-                    title = "Настройки"
+                PrimaryDrawerItem().withName(R.string.settings).withIcon(R.drawable.ic_settings).withIconTintingEnabled(true).withOnDrawerItemClickListener { view, i, iDrawerItem ->
+                    toolbar.title = getString(R.string.settings)
                     false
                 },
-                PrimaryDrawerItem().withName("Выход").withOnDrawerItemClickListener { view, i, iDrawerItem ->
+                PrimaryDrawerItem().withName(R.string.exit).withIcon(R.drawable.ic_exit).withIconTintingEnabled(true).withOnDrawerItemClickListener { view, i, iDrawerItem ->
                     logout()
                     true
                 }

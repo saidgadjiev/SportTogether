@@ -8,7 +8,6 @@ import android.support.annotation.CallSuper
 import android.support.annotation.StringRes
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
-import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import com.facebook.share.model.ShareLinkContent
@@ -16,21 +15,21 @@ import com.facebook.share.widget.ShareDialog
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
-import ru.mail.sporttogether.R
 import ru.mail.sporttogether.app.App
 import ru.mail.sporttogether.eventbus.PermissionGrantedMessage
 import ru.mail.sporttogether.eventbus.PermissionMessage
 import ru.mail.sporttogether.mvp.presenters.IPresenter
 import ru.mail.sporttogether.mvp.views.IView
+import ru.mail.sporttogether.widgets.ProgressDialogFragment
 
 /**
- * Created by bagrusss on 30.09.16.
- *
+ * Created by bagrusss on 30.09.16
  */
 abstract class PresenterActivity<T : IPresenter> : AppCompatActivity(), IView {
 
     protected lateinit var presenter: T
     protected val injector = App.injector.useViewComponent()
+    private var dialogSpinner: ProgressDialogFragment? = null
 
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,12 +46,28 @@ abstract class PresenterActivity<T : IPresenter> : AppCompatActivity(), IView {
 
     }
 
-    override fun showProgressDialog() {
+    override fun showProgressDialog(@StringRes messageStringRes: Int) {
+        try {
+            supportFragmentManager?.let {
+                if (dialogSpinner == null) {
+                    dialogSpinner = ProgressDialogFragment.newInstance(messageStringRes)
+                    dialogSpinner!!.show(it, null)
+                }
+            }
+        } catch (t: Throwable) {
 
+        }
     }
 
     override fun hideProgressDialog() {
+        try {
+            dialogSpinner?.let {
+                dialogSpinner!!.dismissAllowingStateLoss()
+                dialogSpinner = null
+            }
+        } catch (t: Throwable) {
 
+        }
     }
 
     override fun showSnackbar(message: String, duration: Int) {

@@ -12,8 +12,7 @@ import ru.mail.sporttogether.mvp.presenters.IPresenter
 import ru.mail.sporttogether.mvp.views.IView
 
 /**
- * Created by bagrusss on 08.10.16.
- *
+ * Created by bagrusss on 08.10.16
  */
 abstract class PresenterFragment<T : IPresenter> : Fragment(), IView {
 
@@ -44,12 +43,19 @@ abstract class PresenterFragment<T : IPresenter> : Fragment(), IView {
         return super.onOptionsItemSelected(item)
     }
 
-    override fun showProgressDialog() {
+    override fun showProgressDialog(@StringRes messageStringRes: Int) {
+        val activity = activity
+        if (activity is PresenterActivity<*>) {
+            activity.showProgressDialog()
+        }
 
     }
 
     override fun hideProgressDialog() {
-
+        val activity = activity
+        if (activity is PresenterActivity<*>) {
+            activity.hideProgressDialog()
+        }
     }
 
     override fun showSnackbar(message: String, duration: Int) {

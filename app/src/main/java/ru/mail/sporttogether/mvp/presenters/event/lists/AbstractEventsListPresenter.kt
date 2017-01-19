@@ -30,20 +30,22 @@ abstract class AbstractEventsListPresenter(protected var view: IEventListView?) 
     }
 
     fun getEvents() {
-        view?.showCatAnimation()
+        view?.showProgressDialog()
         apiSubscription = getApiObservable().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : Subscriber<Response<EventsResponse>>() {
                     override fun onError(e: Throwable) {
-                        view?.hideCatAnimation()
-                        view?.showToast("Не удалось загрузить список событий")
+                        view?.let {
+                            it.hideProgressDialog()
+                            it.showToast("Не удалось загрузить список событий")
+                        }
                     }
 
                     override fun onNext(t: Response<EventsResponse>) {
                         if (t.code == 0) {
                             view?.swapEvents(t.data)
                         }
-                        view?.hideCatAnimation()
+                        view?.hideProgressDialog()
                     }
 
                     override fun onCompleted() {

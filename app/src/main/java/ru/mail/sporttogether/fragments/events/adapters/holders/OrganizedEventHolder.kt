@@ -8,7 +8,7 @@ import ru.mail.sporttogether.R
 /**
  * Created by bagrusss on 18.01.17
  */
-class OrginizedEventHolder(v: View) : AbstractTwoActionHolder(v) {
+class OrganizedEventHolder(v: View) : AbstractTwoActionHolder(v) {
 
     init {
         data.action1Text.set(itemView.context.getString(R.string.edit).toUpperCase())

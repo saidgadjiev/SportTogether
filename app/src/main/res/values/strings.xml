@@ -9,6 +9,9 @@
     <string name="map">Карта</string>
     <string name="events_list">Список событий</string>
     <string name="my_events">Мои события</string>
+    <string name="settings">Настройки</string>
+    <string name="exit">Выход</string>
+    <string name="please_wait">Загрузка</string>
     <string name="preferences">CREDENTIALS</string>
 
     <string name="cant_get_events">Не удалось получить список событий</string>

@@ -49,12 +49,4 @@ abstract class AbstractEventsListFragment<PR : AbstractEventsListPresenter, out 
         adapter.swap(events)
     }
 
-    override fun showCatAnimation() {
-        CatProgressDialog.showDialog(fragmentManager)
-    }
-
-    override fun hideCatAnimation() {
-        CatProgressDialog.hide(fragmentManager)
-    }
-
 }

@@ -1,6 +1,5 @@
 package ru.mail.sporttogether.mvp.presenters.event.lists
 
-import ru.mail.sporttogether.app.App
 import ru.mail.sporttogether.mvp.views.event.IEventListView
 
 /**

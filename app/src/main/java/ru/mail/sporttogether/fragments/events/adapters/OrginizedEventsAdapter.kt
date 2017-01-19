@@ -3,16 +3,16 @@ package ru.mail.sporttogether.fragments.events.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import ru.mail.sporttogether.R
-import ru.mail.sporttogether.fragments.events.adapters.holders.OrginizedEventHolder
+import ru.mail.sporttogether.fragments.events.adapters.holders.OrganizedEventHolder
 
 /**
  * Created by bagrusss on 18.01.17
  */
 
-class OrginizedEventsAdapter : AbstractEventAdapter<OrginizedEventHolder>() {
+class OrginizedEventsAdapter : AbstractEventAdapter<OrganizedEventHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
-            = OrginizedEventHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_two_action, parent, false))
+            = OrganizedEventHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_two_action, parent, false))
 
 
 }

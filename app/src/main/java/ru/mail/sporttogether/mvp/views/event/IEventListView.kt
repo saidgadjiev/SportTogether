@@ -8,8 +8,4 @@ import ru.mail.sporttogether.net.models.Event
  */
 interface IEventListView : IView {
     fun swapEvents(events: MutableList<Event>)
-
-    fun showCatAnimation()
-
-    fun hideCatAnimation()
 }
