@@ -27,6 +27,7 @@
     <string name="angryAlready">Вы пожаловались</string>
     <string name="share">Поделиться</string>
     <string name="edit">Редактировать</string>
+    <string name="result">Результат</string>
     <string name="ok">ОК</string>
     <string name="cancel_event">отменить</string>
     <string name="datetime_picker_btn_set">Установить</string>
@@ -45,5 +46,9 @@
     <string name="want_angry">Пожаловаться на событие?</string>
     <string name="organized_events">Я создал</string>
     <string name="resulted">Завершены</string>
+
+    <string name="title_location_access">Доступ к местоположению</string>
+    <string name="cannot_find_you">Без доступа к местоположению мы не можем показать ближайшие события</string>
+    <string name="location_disabled_message">Местоположение отключено.\nДля показа событий радом с Вами\nнеобходимо включить доступ к местоплложению.\nОткрыть настройки?</string>
 
 </resources>

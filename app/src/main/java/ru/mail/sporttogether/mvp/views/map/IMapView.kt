@@ -30,4 +30,6 @@ interface IMapView : IView, GoogleMap.OnCameraIdleListener {
     fun onFinishLoadTasks(tasks: ArrayList<Task>?)
 
     fun updateAddress(address: String)
+
+    fun onLocationNotChecked()
 }

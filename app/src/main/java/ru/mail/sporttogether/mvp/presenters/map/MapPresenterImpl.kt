@@ -1,6 +1,7 @@
 package ru.mail.sporttogether.mvp.presenters.map
 
 import android.Manifest
+import android.content.Context
 import android.graphics.Point
 import android.location.Location
 import android.os.Bundle
@@ -70,6 +71,7 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
     private var locationSubscription: Subscription? = null
 
     private var eventsSubscribion: Subscription? = null
+    private var userPositionFound = false
 
     init {
         App.injector
@@ -95,6 +97,8 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
 
     override fun onStop() {
         EventBus.getDefault().unregister(this)
+        if (userPositionFound)
+            locationSubscription?.unsubscribe()
     }
 
 
@@ -103,6 +107,32 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
         if (msg.reqCode === REQUEST_CODE) {
             locationManager.update(false)
         }
+    }
+
+    override fun checkLocation(context: Context) {
+        if (!locationManager.checkLocationEnabled(context)) {
+            serviceApi.getLocationByIP()
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(object : Subscriber<IpResponse>() {
+                        override fun onError(e: Throwable) {
+                            unsubscribe()
+                            view?.onLocationNotChecked()
+                        }
+
+                        override fun onCompleted() {
+
+                        }
+
+                        override fun onNext(t: IpResponse) {
+                            unsubscribe()
+                            map?.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(t.lat, t.lon), 15f))
+                            view?.onLocationNotChecked()
+                        }
+
+                    })
+        } else locationManager.update()
+
     }
 
     override fun onPause() {
@@ -139,26 +169,6 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
         map.setOnMapClickListener(this)
         map.setOnMarkerClickListener(this)
         map.setOnCameraIdleListener(view)
-
-        serviceApi.getLocationByIP()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : Subscriber<IpResponse>() {
-                    override fun onError(e: Throwable) {
-                        unsubscribe()
-                        view?.showToast(R.string.cant_load_position)
-                    }
-
-                    override fun onCompleted() {
-
-                    }
-
-                    override fun onNext(t: IpResponse) {
-                        unsubscribe()
-                        map.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(t.lat, t.lon), 15f))
-                    }
-
-                })
 
         locationSubscription = locationManager.locationUpdate.subscribe { location ->
             onLocationUpdated(location)
@@ -344,7 +354,6 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
         }
     }
 
-    //будем брать по ширине экрана дистанцию
     fun calculateScale(latlng: LatLng, distance: Int): Observable<Double> {
         val res = map?.let {
             val kmPerPixel = 156.54303392 * Math.cos(latlng.latitude * Math.PI / 180) / Math.pow(2.0, it.cameraPosition.zoom.toDouble())
@@ -359,6 +368,7 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
 
     private fun showMe(location: Location) {
         map?.let {
+            userPositionFound = true
             lastPos = LatLng(location.latitude, location.longitude)
             it.moveCamera(CameraUpdateFactory.newLatLngZoom(lastPos, 15f))
             locationSubscription?.unsubscribe()

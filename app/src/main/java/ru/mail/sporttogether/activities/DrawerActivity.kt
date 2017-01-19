@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.Toolbar
-import android.util.Log
 import com.bumptech.glide.Glide
 import com.mikepenz.materialdrawer.AccountHeader
 import com.mikepenz.materialdrawer.AccountHeaderBuilder
@@ -35,7 +34,6 @@ class DrawerActivity : IDrawerView,
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d("#MY " + this.javaClass.simpleName, "in on create")
 
         presenter = DrawerPresenterImpl(this)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_drawer)
@@ -44,6 +42,7 @@ class DrawerActivity : IDrawerView,
         setupToolbar(toolbar)
         buildDrawer()
         socialNetworkManager = SocialNetworkManager.instance
+        toolbar.title = getString(R.string.events_map)
         swapFragment(EventsMapFragment.newInstance(0), lastPoss + 1)
     }
 

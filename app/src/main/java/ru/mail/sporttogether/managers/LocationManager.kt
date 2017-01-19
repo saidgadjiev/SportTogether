@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
+import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
@@ -169,5 +170,20 @@ class LocationManager(val context: Context) : GoogleApiClient.OnConnectionFailed
             }
         }
     }
+
+    fun checkGPSLocation(context: Context) =
+            checkLocationByProvider(context, LocationManager.GPS_PROVIDER)
+
+    fun checkNetLocation(context: Context) =
+            checkLocationByProvider(context, LocationManager.NETWORK_PROVIDER)
+
+    fun checkLocationEnabled(context: Context)
+            = checkGPSLocation(context) || checkNetLocation(context)
+
+    private fun checkLocationByProvider(context: Context, provider: String): Boolean {
+        val lm = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        return lm.isProviderEnabled(provider)
+    }
+
 
 }

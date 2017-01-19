@@ -1,5 +1,6 @@
 package ru.mail.sporttogether.mvp.presenters.map
 
+import android.content.Context
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import ru.mail.sporttogether.data.binding.ZoomListener
@@ -17,7 +18,9 @@ interface IMapPresenter :
         CheckingTasks,
         GoogleMap.OnMapClickListener,
         GoogleMap.OnMarkerClickListener,
-        ZoomListener{
+        ZoomListener {
+
+    fun checkLocation(context: Context)
 
     fun onCameraIdle(x: Int, y: Int)
 
@@ -34,5 +37,6 @@ interface IMapPresenter :
     fun doJoin()
 
     fun doAngry()
+
 
 }
