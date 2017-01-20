@@ -479,6 +479,12 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
                         if (t.code === 0) {
                             lastEvent.nowPeople -= 1
                             lastEvent.isJoined = false
+                            //после отсоединения от события обнуляем все задачи, отмеченные нами
+                            lastEventTasks?.forEach { task ->
+                                if (task.user?.id == userId) {
+                                    task.user = null
+                                }
+                            }
                             view?.showToast(android.R.string.ok)
                             render()
                         } else view?.showToast(t.message)

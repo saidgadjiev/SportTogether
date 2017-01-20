@@ -11,6 +11,7 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SearchView
+import android.util.Log
 import android.view.*
 import android.widget.FrameLayout
 import com.google.android.gms.maps.MapView
@@ -200,7 +201,9 @@ class EventsMapFragment :
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK)
             data?.let {
-                it.getParcelableExtra<Event>(AddEventActivity.KEY_EVENT)?.let {showInfo(it, true, it.tasks)
+                it.getParcelableExtra<Event>(AddEventActivity.KEY_EVENT)?.let {
+                    setBottomSheetCollapsed()
+                    showInfo(it, true, it.tasks)
                 }
             }
     }
@@ -310,6 +313,8 @@ class EventsMapFragment :
             } else {
                 data.tasksMessage.set("")
             }
+            Log.d(TAG, "task message is " + data.tasksMessage.get())
+            Log.d(TAG, "tasks can be changed " + data.isTasksCanBeChanged.get())
             tasksAdapter?.swapTasks()
         } else {
             data.tasksMessage.set("идет загрузка задач")
@@ -386,6 +391,8 @@ class EventsMapFragment :
     companion object {
         @JvmStatic val TAB_HEIGHT_KEY = "TAB_HEIGHT"
         @JvmStatic val REQUEST_CODE = 1092
+
+        val TAG = "#MY " + EventsMapFragment::class.java.simpleName
 
         @JvmStatic fun newInstance(tabHeight: Int): EventsMapFragment {
             val args = Bundle()

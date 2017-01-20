@@ -1,5 +1,7 @@
 //TODO баг с исчезновением адреса в детализации
 //TODO баг с отпиской событий карты после открытия детализации
+//TODO отображение результата в детализации
+//TODO task recyclerview scrollable
 
 package ru.mail.sporttogether.app
 
