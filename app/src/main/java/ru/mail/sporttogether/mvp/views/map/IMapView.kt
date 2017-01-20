@@ -21,6 +21,8 @@ interface IMapView : IView, GoogleMap.OnCameraIdleListener {
 
     fun render(event: Event, isCancelable: Boolean, tasks: ArrayList<Task>?)
 
+    fun setBottomSheetCollapsed()
+
     fun shareResults()
 
     fun loadEvents(events: MutableList<Event>)

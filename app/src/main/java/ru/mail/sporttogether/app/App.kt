@@ -1,3 +1,6 @@
+//TODO баг с исчезновением адреса в детализации
+//TODO баг с отпиской событий карты после открытия детализации
+
 package ru.mail.sporttogether.app
 
 import android.content.Context

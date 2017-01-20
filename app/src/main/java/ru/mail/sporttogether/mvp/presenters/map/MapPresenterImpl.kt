@@ -397,6 +397,7 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
             loadAddressFromYandex(event.lat, event.lng)
             map?.animateCamera(CameraUpdateFactory.newLatLng(LatLng(event.lat, event.lng)))
             view?.showInfo(lastEvent, isCancelable, lastEventTasks)
+            view?.setBottomSheetCollapsed()
         }
     }
 

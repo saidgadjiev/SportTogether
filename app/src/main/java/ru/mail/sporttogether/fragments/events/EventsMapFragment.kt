@@ -200,8 +200,7 @@ class EventsMapFragment :
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK)
             data?.let {
-                it.getParcelableExtra<Event>(AddEventActivity.KEY_EVENT)?.let {
-                    showInfo(it, true, it.tasks)
+                it.getParcelableExtra<Event>(AddEventActivity.KEY_EVENT)?.let {showInfo(it, true, it.tasks)
                 }
             }
     }
@@ -267,6 +266,9 @@ class EventsMapFragment :
         renderResult(event)
         data.showCancelButton.set(isCancelable)
         renderTasks(event, tasks)
+    }
+
+    override fun setBottomSheetCollapsed() {
         eventDedailsBottomSheet.peekHeight = binding.include.cardviewHeader.height + binding.include.frameLayout.height
         eventDedailsBottomSheet.state = BottomSheetBehavior.STATE_COLLAPSED
     }
@@ -318,9 +320,7 @@ class EventsMapFragment :
     }
 
     override fun onFinishLoadTasks(tasks: ArrayList<Task>?) {
-        if (tasks != null) {
-            initTasks(tasks)
-        }
+        initTasks(tasks ?: ArrayList(5))
     }
 
     override fun checkTask(task: Task) {
