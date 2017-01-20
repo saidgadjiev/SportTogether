@@ -7,6 +7,7 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.widget.Toolbar
 import android.util.Log
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.mikepenz.materialdrawer.AccountHeader
 import com.mikepenz.materialdrawer.AccountHeaderBuilder
 import com.mikepenz.materialdrawer.Drawer
@@ -19,7 +20,6 @@ import ru.mail.sporttogether.auth.core.SocialNetworkManager
 import ru.mail.sporttogether.databinding.ActivityDrawerBinding
 import ru.mail.sporttogether.fragments.events.EventsMapFragment
 import ru.mail.sporttogether.fragments.events.EventsTabFragment
-import ru.mail.sporttogether.fragments.events.MyEventsFragment
 import ru.mail.sporttogether.mvp.presenters.drawer.DrawerPresenterImpl
 import ru.mail.sporttogether.mvp.presenters.drawer.IDrawerPresenter
 import ru.mail.sporttogether.mvp.views.drawer.IDrawerView
@@ -66,7 +66,6 @@ class DrawerActivity : IDrawerView,
             avatar = "https://scontent-amt2-1.xx.fbcdn.net/v/t1.0-9/14225377_107564209701561_5320272900042567420_n.jpg?oh=efa955d0b647185a747f44f6ce54d390&oe=58B58ED2"
         val header = AccountHeaderBuilder()
                 .withActivity(activity)
-                //.withCompactStyle(true)
                 .withHeaderBackground(R.drawable.navigation_header)
                 .addProfiles(
                         ProfileDrawerItem().withName(name).withIcon(avatar).withTextColor(ContextCompat.getColor(this, R.color.colorPrimary))
@@ -78,6 +77,8 @@ class DrawerActivity : IDrawerView,
 
         Glide.with(this)
                 .load(R.drawable.navigation_header)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true)
                 .into(header.headerBackgroundView)
 
         return header

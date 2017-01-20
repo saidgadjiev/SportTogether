@@ -22,7 +22,8 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp">
 
         <android.support.v7.widget.CardView
             android:id="@+id/cardview_header"
@@ -246,6 +247,7 @@
             android:textColor="@color/app_secondary_text"
             android:textSize="@dimen/font_medium"
             android:text="@string/tasks_header"
+            android:visibility="@{data.withTasks ? View.VISIBLE : View.GONE}"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="@+id/description_icon"
             app:layout_constraintRight_toRightOf="parent"
@@ -256,6 +258,7 @@
             android:id="@+id/tasks_list_recycler_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:visibility="@{data.withTasks ? View.VISIBLE : View.GONE}"
             android:layout_below="@+id/tasks_header"
             app:layout_constraintTop_toBottomOf="@+id/tasks_text"
             app:layout_constraintLeft_toLeftOf="@+id/tasks_text"

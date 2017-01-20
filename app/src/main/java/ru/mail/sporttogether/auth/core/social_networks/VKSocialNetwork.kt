@@ -178,7 +178,7 @@ class VKSocialNetwork(activity: Activity) : ISocialNetwork {
         if (user.has("email")) {
             socialPerson.email = user.getString("email")
         }
-        if (user.has("photo_50")) {
+        if (user.has("photo_100")) {
             socialPerson.avatarURL = user.getString("photo_100")
         }
         return socialPerson
