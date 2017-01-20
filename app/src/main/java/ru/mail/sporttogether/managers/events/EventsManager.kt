@@ -6,8 +6,7 @@ import rx.subjects.PublishSubject
 import java.util.*
 
 /**
- * Created by bagrusss on 20.10.16.
- *
+ * Created by bagrusss on 20.10.16
  */
 interface EventsManager {
 
@@ -15,7 +14,8 @@ interface EventsManager {
         ADD,
         UPDATE,
         NEW_LIST,
-        FINISHED
+        RESULTED,
+        DELETED
     }
 
     data class NewData<out T>(

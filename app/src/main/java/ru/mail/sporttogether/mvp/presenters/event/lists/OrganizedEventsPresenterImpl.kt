@@ -7,6 +7,6 @@ import ru.mail.sporttogether.mvp.views.event.IEventListView
  */
 class OrganizedEventsPresenterImpl(view: IEventListView?) : AbstractEventsListPresenter(view) {
 
-    override fun getApiObservable() = eventsApi.getOrginizedEvents()
+    override fun getApiObservable() = eventsApi.getOrganizedEvents()
 
 }
