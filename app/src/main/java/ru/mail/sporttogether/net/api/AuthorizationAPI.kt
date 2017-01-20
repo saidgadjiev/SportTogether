@@ -10,8 +10,7 @@ import ru.mail.sporttogether.net.responses.Response
 import rx.Observable
 
 /**
- * Created by bagrusss on 29.09.16.
- *
+ * Created by bagrusss on 29.09.16
  */
 interface AuthorizationAPI {
 

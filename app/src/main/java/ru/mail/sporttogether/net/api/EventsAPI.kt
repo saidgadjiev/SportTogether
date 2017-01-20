@@ -10,8 +10,7 @@ import rx.Observable
 import java.util.*
 
 /**
- * Created by bagrusss on 09.10.16.
- *
+ * Created by bagrusss on 09.10.16
  */
 interface EventsAPI {
 
@@ -44,15 +43,25 @@ interface EventsAPI {
     fun checkTask(@Body task: Task): Observable<Response<Any>>
 
     @GET("event/{id}/join")
-    fun joinToEvent(@Path("id") id: Long, @Query("token") token: String?): Observable<Response<Any>>
+    fun joinToEvent(@Path("id") id: Long,
+                    @Query("token") token: String?): Observable<Response<Any>>
 
     @DELETE("event/{id}/join")
     fun unjoinFromEvent(@Path("id") id: Long): Observable<Response<Any>>
 
     @GET("event/distance/{dis}")
-    fun getEventsByDistanceAndPosition(@Path("dis") distance: Double, @Query("latitude") latitude: Double, @Query("longtitude") longitude: Double): Observable<Response<EventsResponse>>
+    fun getEventsByDistanceAndPosition(@Path("dis") distance: Double,
+                                       @Query("latitude") latitude: Double,
+                                       @Query("longtitude") longitude: Double): Observable<Response<EventsResponse>>
 
     @GET("event")
     fun getEventsByCategory(@Query("events:category:name") category: String): Observable<Response<EventsResponse>>
+
+    @GET("event/user")
+    fun getOrganizedEvents(): Observable<Response<EventsResponse>>
+
+    @GET("event/user")
+    fun getResultedEvents(@Query("events:isEnded") isEnded: Boolean = true): Observable<Response<EventsResponse>>
+
 
 }

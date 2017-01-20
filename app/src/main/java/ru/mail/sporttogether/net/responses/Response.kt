@@ -2,11 +2,11 @@ package ru.mail.sporttogether.net.responses
 
 import ru.mail.sporttogether.net.models.Category
 import ru.mail.sporttogether.net.models.Event
+import ru.mail.sporttogether.net.models.Task
 import java.util.*
 
 /**
- * Created by bagrusss on 29.09.16.
- *
+ * Created by bagrusss on 29.09.16
  */
 data class Response<out T>(
         val code: Int,
@@ -16,6 +16,6 @@ data class Response<out T>(
 
 class EventsResponse : ArrayList<Event>()
 
-class TasksResponse : ArrayList<Event>()
+class TasksResponse : ArrayList<Task>()
 
 class CategoriesResponse : ArrayList<Category>()

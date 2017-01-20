@@ -37,6 +37,18 @@ class EventsManagerImpl : EventsManager {
         }
     }
 
+    override fun resultEvent(event: Event) {
+        eventsMap[event.id]?.let {
+            it.isEnded = true
+            eventsUpdate.onNext(EventsManager.NewData(type = EventsManager.UpdateType.RESULTED, data = event))
+        }
+    }
+
+    override fun deleteEvent(event: Event) {
+        eventsMap.delete(event.id)
+        eventsUpdate.onNext(EventsManager.NewData(type = EventsManager.UpdateType.DELETED, data = event))
+    }
+
     override fun getEvents(): ArrayList<Event> {
         val size = eventsMap.size()
         val list = ArrayList<Event>(size)

@@ -7,8 +7,7 @@ import ru.mail.sporttogether.net.utils.createParcel
 import java.util.*
 
 /**
- * Created by bagrusss on 29.09.16.
- *
+ * Created by bagrusss on 29.09.16
  */
 data class Event(var name: String = "",
                  var address: String = "",
@@ -40,9 +39,9 @@ data class Event(var name: String = "",
         nowPeople = parcel.readInt()
         description = parcel.readString()
         result = parcel.readString()
-        isEnded = if (parcel.readByte() > 0) true else false
-        isJoined = if (parcel.readByte() > 0) true else false
-        isReported = if (parcel.readByte() > 0) true else false
+        isEnded = parcel.readByte() > 0
+        isJoined = parcel.readByte() > 0
+        isReported = parcel.readByte() > 0
         category = parcel.readParcelable(Category::class.java.classLoader)
         user = parcel.readParcelable(User::class.java.classLoader)
         tasks = parcel.createTypedArrayList(Task.CREATOR)

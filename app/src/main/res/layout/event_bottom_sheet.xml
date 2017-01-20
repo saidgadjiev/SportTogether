@@ -124,12 +124,10 @@
                     style="@style/IconButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:drawableTop="@{!data.isReported? @drawable/ic_report_btn : @drawable/ic_report_btn_disabled}"
                     android:gravity="center"
                     android:onClick="@{() -> listener.onAngryButtonClicked()}"
-                    android:text="@{!data.isReported? @string/angry : @string/angryAlready}"
-                    android:textSize="14sp" />
+                    android:text="@{!data.isReported? @string/angry : @string/angryAlready}" />
 
 
                 <Button
@@ -137,12 +135,10 @@
                     style="@style/IconButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:drawableTop="@{!data.isJoined? @drawable/ic_person_add_btn : @drawable/ic_person_outline_btn}"
                     android:gravity="center"
                     android:onClick="@{() -> listener.onJoinButtonClicked()}"
-                    android:text="@{!data.isJoined? @string/join : @string/joinAlready}"
-                    android:textSize="14sp" />
+                    android:text="@{!data.isJoined? @string/join : @string/joinAlready}" />
 
 
                 <Button
@@ -150,12 +146,10 @@
                     style="@style/IconButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:drawableTop="@drawable/ic_delete_btn"
                     android:gravity="center"
                     android:onClick="@{() -> listener.onCancelButtonClicked()}"
                     android:text="@string/cancel_event"
-                    android:textSize="14sp"
                     android:visibility="@{data.showCancelButton? View.VISIBLE : View.GONE}" />
             </LinearLayout>
         </FrameLayout>

@@ -9,6 +9,9 @@
     <string name="map">Карта</string>
     <string name="events_list">Список событий</string>
     <string name="my_events">Мои события</string>
+    <string name="settings">Настройки</string>
+    <string name="exit">Выход</string>
+    <string name="please_wait">Загрузка</string>
     <string name="preferences">CREDENTIALS</string>
 
     <string name="cant_get_events">Не удалось получить список событий</string>
@@ -23,6 +26,8 @@
     <string name="cant_load_position">Не удалось загрузить местоположение</string>
     <string name="angryAlready">Вы пожаловались</string>
     <string name="share">Поделиться</string>
+    <string name="edit">Редактировать</string>
+    <string name="result">Результат</string>
     <string name="ok">ОК</string>
     <string name="cancel_event">отменить</string>
     <string name="datetime_picker_btn_set">Установить</string>
@@ -40,5 +45,11 @@
     <string name="add_to_event">Присоединиться к событию</string>
     <string name="want_angry">Пожаловаться на событие?</string>
     <string name="cant_create_event_in_past">Событие в прошлом нельзя создать</string>
+    <string name="organized_events">Я создал</string>
+    <string name="resulted">Завершены</string>
+
+    <string name="title_location_access">Доступ к местоположению</string>
+    <string name="cannot_find_you">Без доступа к местоположению мы не можем показать ближайшие события</string>
+    <string name="location_disabled_message">Местоположение отключено.\nДля показа событий рядом с Вами необходимо включить доступ к местоплложению.\nОткрыть настройки?</string>
 
 </resources>

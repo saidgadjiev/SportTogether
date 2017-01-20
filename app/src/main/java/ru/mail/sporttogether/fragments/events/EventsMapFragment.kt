@@ -3,7 +3,9 @@ package ru.mail.sporttogether.fragments.events
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Point
+import android.os.Build
 import android.os.Bundle
 import android.support.design.widget.BottomSheetBehavior
 import android.support.v4.view.MenuItemCompat
@@ -14,6 +16,7 @@ import android.support.v7.widget.SearchView
 import android.util.Log
 import android.view.*
 import android.widget.FrameLayout
+import android.widget.Toast
 import com.google.android.gms.maps.MapView
 import ru.mail.sporttogether.R
 import ru.mail.sporttogether.activities.AddEventActivity
@@ -38,8 +41,7 @@ import java.util.*
 
 
 /**
- * Created by bagrusss on 08.10.16.
- * здесь будут вкладки
+ * Created by bagrusss on 08.10.16
  */
 class EventsMapFragment :
         PresenterFragment<IMapPresenter>(),
@@ -73,12 +75,8 @@ class EventsMapFragment :
                 .inject(this)
 
         binding = EventsMapBinding.inflate(inflater, container, false)
-        mapView = binding.mapview
-        mapView.onCreate(savedInstanceState)
-        presenter = MapPresenterImpl(this)
-        presenter.onCreate(savedInstanceState)
-        mapView.getMapAsync(presenter)
         binding.data = data
+        mapView = binding.mapview
         eventDedailsBottomSheet = BottomSheetBehavior.from(binding.bottomSheet)
         eventDedailsBottomSheet.isHideable = true
         eventDedailsBottomSheet.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
@@ -101,6 +99,11 @@ class EventsMapFragment :
         eventsListView = binding.eventsListRecyclerView
         eventsListView.layoutManager = LinearLayoutManager(context)
         eventsListView.adapter = adapter
+
+        mapView.onCreate(savedInstanceState)
+        presenter = MapPresenterImpl(this)
+        presenter.onCreate(savedInstanceState)
+        mapView.getMapAsync(presenter)
 
         hideInfo()
         setHasOptionsMenu(true)
@@ -163,6 +166,8 @@ class EventsMapFragment :
         mapView.onStart()
         binding.listener = this
         binding.addListener = this
+        binding.zoomListener = presenter
+
     }
 
     override fun onStop() {
@@ -170,6 +175,7 @@ class EventsMapFragment :
         mapView.onStop()
         binding.listener = null
         binding.addListener = null
+        binding.zoomListener = null
     }
 
     override fun onResume() {
@@ -199,13 +205,45 @@ class EventsMapFragment :
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK)
-            data?.let {
-                it.getParcelableExtra<Event>(AddEventActivity.KEY_EVENT)?.let {
-                    setBottomSheetCollapsed()
-                    showInfo(it, true, it.tasks)
+        when (requestCode) {
+            REQUEST_CODE -> {
+                if (resultCode == Activity.RESULT_OK)
+                    data?.let {
+                        it.getParcelableExtra<Event>(AddEventActivity.KEY_EVENT)?.let {
+                            setBottomSheetCollapsed()
+                            showInfo(it, true, it.tasks)
+                        }
+                    }
+            }
+            REQUEST_LOCATION_CODE -> {
+                if (resultCode == 0) {
+                    presenter.onLocationEnabled()
                 }
             }
+            REQUEST_PERMISSIONS_CODE -> {
+
+            }
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        if (requestCode == REQUEST_PERMISSIONS_CODE) {
+            var isEverythingAllowed = true
+            for (result in grantResults) {
+                isEverythingAllowed = isEverythingAllowed and (result == PackageManager.PERMISSION_GRANTED)
+            }
+
+            if (isEverythingAllowed) {
+                presenter.onPermissionsGranted(requestCode)
+            } else {
+                presenter.onPermissionNotGranted(requestCode)
+            }
+        }
+    }
+
+    override fun checkLocationPermissions(permissions: Array<String>) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            requestPermissions(permissions, REQUEST_PERMISSIONS_CODE)
     }
 
     override fun onAngryButtonClicked() {
@@ -388,9 +426,26 @@ class EventsMapFragment :
         animator.start()
     }
 
+    override fun onLocationNotChecked() {
+        val dialog = AlertDialog.Builder(context)
+                .setMessage(R.string.location_disabled_message)
+                .setTitle(R.string.title_location_access)
+                .setCancelable(false)
+                .setPositiveButton(android.R.string.ok, { dialog, which ->
+                    startActivityForResult(Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS), REQUEST_LOCATION_CODE)
+                })
+                .setNegativeButton(android.R.string.cancel, { dialog, which ->
+                    Toast.makeText(context, R.string.cannot_find_you, Toast.LENGTH_LONG).show()
+                })
+                .create()
+        dialog.show()
+    }
+
     companion object {
         @JvmStatic val TAB_HEIGHT_KEY = "TAB_HEIGHT"
         @JvmStatic val REQUEST_CODE = 1092
+        @JvmStatic val REQUEST_LOCATION_CODE = 1093
+        @JvmStatic val REQUEST_PERMISSIONS_CODE = 1094
 
         val TAG = "#MY " + EventsMapFragment::class.java.simpleName
 

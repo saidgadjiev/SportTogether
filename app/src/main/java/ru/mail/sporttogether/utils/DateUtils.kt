@@ -7,19 +7,20 @@ import java.util.*
 /**
  * Created by Ivan on 15.11.2016
  */
-class DateUtils {
-    companion object DateUtils {
-        fun toLongDateString(calendar: GregorianCalendar): String {
-            val fmt = SimpleDateFormat("dd MMM yyyy HH:mm", Locale.getDefault())
-            fmt.calendar = calendar
-            val dateFormatted = fmt.format(calendar.time)
-            return dateFormatted
-        }
-
-        fun toXLongDateString(date: Date): String {
-            val fmt = SimpleDateFormat("dd MMMM yyyy HH:mm", Locale.getDefault())
-            val dateFormatted = fmt.format(date)
-            return dateFormatted
-        }
+object DateUtils {
+    fun toLongDateString(calendar: GregorianCalendar): String {
+        val fmt = SimpleDateFormat("dd MMM yyyy HH:mm", Locale.getDefault())
+        fmt.calendar = calendar
+        val dateFormatted = fmt.format(calendar.time)
+        return dateFormatted
     }
+
+    fun toXLongDateString(date: Date): String {
+        val fmt = SimpleDateFormat("dd MMMM yyyy HH:mm", Locale.getDefault())
+        val dateFormatted = fmt.format(date)
+        return dateFormatted
+    }
+
+    fun longToDateTime(date: Long)
+            = SimpleDateFormat("dd MMMM yyyy HH:mm", Locale.getDefault()).format(Date(date))
 }
