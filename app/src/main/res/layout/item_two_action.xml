@@ -4,6 +4,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="data"
             type="ru.mail.sporttogether.data.binding.items.TwoActionsItemData" />
@@ -49,7 +51,8 @@
                     android:onClick="@{() -> listener.action1Clicked()}"
                     android:orientation="vertical"
                     android:paddingLeft="8dp"
-                    android:paddingRight="8dp">
+                    android:paddingRight="8dp"
+                    android:visibility="@{data.action1Drawable != null? View.VISIBLE : View.GONE}">
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -76,7 +79,8 @@
                     android:onClick="@{() -> listener.action2Clicked()}"
                     android:orientation="vertical"
                     android:paddingLeft="8dp"
-                    android:paddingRight="8dp">
+                    android:paddingRight="8dp"
+                    android:visibility="@{data.action2Drawable != null? View.VISIBLE : View.GONE}">
 
                     <ImageView
                         android:layout_width="wrap_content"

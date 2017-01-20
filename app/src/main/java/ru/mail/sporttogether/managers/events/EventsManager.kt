@@ -23,14 +23,19 @@ interface EventsManager {
             val data: T
     )
 
-    fun swapEvents(events: MutableList<Event>)
-
-    fun updateEvent(event: Event)
-
-    fun getEvents(): ArrayList<Event>
 
     fun addEvent(e: Event)
 
-    //used for subscribe on events changes
+    fun updateEvent(event: Event)
+
+    fun swapEvents(events: MutableList<Event>)
+
+    fun resultEvent(event: Event)
+
+    fun deleteEvent(event: Event)
+
+    fun getEvents(): ArrayList<Event>
+
+
     fun getObservable(): PublishSubject<NewData<*>>
 }

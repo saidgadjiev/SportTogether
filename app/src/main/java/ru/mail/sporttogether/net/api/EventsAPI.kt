@@ -61,7 +61,7 @@ interface EventsAPI {
     fun getOrganizedEvents(): Observable<Response<EventsResponse>>
 
     @GET("event/user")
-    fun getResultedEvents(@Query("events:isEnded") isEnded: Int = 1): Observable<Response<EventsResponse>>
+    fun getResultedEvents(@Query("events:isEnded") isEnded: Boolean = true): Observable<Response<EventsResponse>>
 
 
 }

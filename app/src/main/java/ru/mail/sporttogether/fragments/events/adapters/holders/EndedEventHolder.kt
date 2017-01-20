@@ -12,9 +12,9 @@ import ru.mail.sporttogether.R
 class EndedEventHolder(v: View) : AbstractTwoActionHolder(v) {
 
     init {
-        data.action2Text.set(itemView.context.getString(R.string.share).toUpperCase())
-        val layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT)
-        binding.buttonPanel1.layoutParams = layoutParams
+        data.action2Text.set(v.context.getString(R.string.share).toUpperCase())
+        /*val layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT)
+        binding.buttonPanel1.layoutParams = layoutParams*/
     }
 
     override fun action1Clicked() {
