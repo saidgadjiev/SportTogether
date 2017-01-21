@@ -1,5 +1,6 @@
 package ru.mail.sporttogether.mvp.presenters.auth
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -18,6 +19,7 @@ import ru.mail.sporttogether.net.api.AuthorizationAPI
 import ru.mail.sporttogether.net.models.Profile
 import ru.mail.sporttogether.net.models.User
 import ru.mail.sporttogether.net.responses.Response
+import ru.mail.sporttogether.services.UnjoinIntentService
 import rx.Subscriber
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
@@ -29,6 +31,7 @@ class LoginPresenterImpl(view: ILoginView) : ILoginPresenter, OnLoginCompleteLis
     private lateinit var socialNetworkManager: SocialNetworkManager
     @Inject lateinit var headerManager: HeaderManagerImpl
     @Inject lateinit var authApi: AuthorizationAPI
+    @Inject lateinit var context: Context
 
     init {
         App.injector.usePresenterComponent().inject(this)
@@ -45,6 +48,16 @@ class LoginPresenterImpl(view: ILoginView) : ILoginPresenter, OnLoginCompleteLis
     override fun onComplete(person: SocialPerson, ID: Int) {
         headerManager.clientId = person.id
         headerManager.token = socialNetworkManager.getSocialNetwork(ID)!!.token
+        val sharedPreferences = context.getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
+        sharedPreferences.edit()
+                .putString(TOKEN_KEY, headerManager.token)
+                .putString(CLIENT_ID_KEY, headerManager.clientId)
+                .apply()
+
+        val token = sharedPreferences.getString(LoginPresenterImpl.TOKEN_KEY, "")
+        val clientId = sharedPreferences.getString(LoginPresenterImpl.CLIENT_ID_KEY, "")
+        Log.d(UnjoinIntentService.TAG, "when put token and client id in shared preferences $token, $clientId")
+
         authApi.updateAuthorization(Profile(person.avatarURL, person.name))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -106,6 +119,12 @@ class LoginPresenterImpl(view: ILoginView) : ILoginPresenter, OnLoginCompleteLis
 
                     }
                 })
+    }
+
+    companion object {
+        val SHARED_PREFERENCES_NAME = "auth_data"
+        val TOKEN_KEY = "Token"
+        val CLIENT_ID_KEY = "ClientId"
     }
 
 }

@@ -13,7 +13,6 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SearchView
-import android.util.Log
 import android.view.*
 import android.widget.FrameLayout
 import android.widget.Toast
@@ -351,8 +350,6 @@ class EventsMapFragment :
             } else {
                 data.tasksMessage.set("")
             }
-            Log.d(TAG, "task message is " + data.tasksMessage.get())
-            Log.d(TAG, "tasks can be changed " + data.isTasksCanBeChanged.get())
             tasksAdapter?.swapTasks()
         } else {
             data.tasksMessage.set("идет загрузка задач")
