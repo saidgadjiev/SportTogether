@@ -13,14 +13,18 @@ import ru.mail.sporttogether.utils.DateUtils
 /**
  * Created by bagrusss on 15.01.17
  */
-abstract class AbstractTwoActionHolder<PR : TwoActionsHolderPresenter>(v: View) : RecyclerView.ViewHolder(v), TwoActionsListener {
+abstract class AbstractTwoActionHolder<PR : TwoActionsHolderPresenter>(v: View) :
+        RecyclerView.ViewHolder(v),
+        TwoActionsListener {
 
     protected val binding: ItemTwoActionBinding = ItemTwoActionBinding.bind(v)
     protected val data = TwoActionsItemData()
     protected lateinit var presenter: PR
+    private lateinit var event: Event
 
     init {
         binding.data = data
+        binding.listener = this
         data.action1Drawable.set(getAction1Drawable())
         data.action2Drawable.set(getAction2Drawable())
     }
@@ -29,13 +33,14 @@ abstract class AbstractTwoActionHolder<PR : TwoActionsHolderPresenter>(v: View) 
         data.eventText.set(event.name)
         data.categoryText.set(event.category.name)
         data.dateText.set(DateUtils.longToDateTime(event.date))
+        this.event = event
     }
 
     abstract fun getAction1Drawable(): Drawable?
     abstract fun getAction2Drawable(): Drawable?
 
     override fun onBodyClicked() {
-
+        presenter.itemClicked(event)
     }
 
     override fun action1Clicked() {

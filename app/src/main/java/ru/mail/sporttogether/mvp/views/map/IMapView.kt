@@ -36,4 +36,6 @@ interface IMapView : IView, GoogleMap.OnCameraIdleListener {
     fun onLocationNotChecked()
 
     fun checkLocationPermissions(permissions: Array<String>)
+    
+    fun showMap()
 }

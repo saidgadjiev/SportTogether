@@ -10,6 +10,7 @@ import com.mikepenz.materialdrawer.AccountHeader
 import com.mikepenz.materialdrawer.AccountHeaderBuilder
 import com.mikepenz.materialdrawer.Drawer
 import com.mikepenz.materialdrawer.DrawerBuilder
+import com.mikepenz.materialdrawer.model.DividerDrawerItem
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem
 import com.mikepenz.materialdrawer.util.DrawerImageLoader
@@ -29,7 +30,7 @@ class DrawerActivity : IDrawerView,
         PresenterActivity<IDrawerPresenter>() {
     private lateinit var binding: ActivityDrawerBinding
     private lateinit var toolbar: Toolbar
-    private lateinit var mDrawer: Drawer
+    private lateinit var drawer: Drawer
     private lateinit var socialNetworkManager: SocialNetworkManager
     private var lastPoss = 0
     private val drawerData = DrawerData()
@@ -55,7 +56,7 @@ class DrawerActivity : IDrawerView,
                 .withAccountHeader(buildAccountHeader())
                 .withToolbar(toolbar)
         setDrawerItems(drawerBuilder)
-        mDrawer = drawerBuilder.build()
+        drawer = drawerBuilder.build()
     }
 
     private fun buildAccountHeader(): AccountHeader {
@@ -105,6 +106,7 @@ class DrawerActivity : IDrawerView,
                     toolbar.title = getString(R.string.settings)
                     false
                 },
+                DividerDrawerItem(),
                 PrimaryDrawerItem().withName(R.string.exit).withIcon(R.drawable.ic_exit).withIconTintingEnabled(true).withOnDrawerItemClickListener { view, i, iDrawerItem ->
                     logout()
                     true
@@ -132,7 +134,7 @@ class DrawerActivity : IDrawerView,
         }
     }
 
-    private fun showMap() {
+    fun showMap() {
         if (lastPoss != 0) {
             drawerData.mapActive.set(true)
             val fragment = supportFragmentManager.findFragmentById(R.id.drawer_container)
@@ -140,6 +142,7 @@ class DrawerActivity : IDrawerView,
                     .remove(fragment)
                     .commit()
             lastPoss = 0
+            drawer.setSelection(lastPoss.toLong(), true)
         }
     }
 

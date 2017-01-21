@@ -21,6 +21,7 @@ import android.widget.Toast
 import com.google.android.gms.maps.MapView
 import ru.mail.sporttogether.R
 import ru.mail.sporttogether.activities.AddEventActivity
+import ru.mail.sporttogether.activities.DrawerActivity
 import ru.mail.sporttogether.activities.PresenterActivity
 import ru.mail.sporttogether.adapter.TaskAdapter
 import ru.mail.sporttogether.adapter.events.EventsAdapter
@@ -153,6 +154,8 @@ class EventsMapFragment :
 
     override fun showInfo(event: Event, isCancelable: Boolean, tasks: ArrayList<Task>?) {
         render(event, isCancelable, tasks)
+        eventDedailsBottomSheet.peekHeight = binding.include.cardviewHeader.height + binding.include.frameLayout.height
+        eventDedailsBottomSheet.state = BottomSheetBehavior.STATE_COLLAPSED
         presenter.loadTasks(event)
 
     }
@@ -202,6 +205,13 @@ class EventsMapFragment :
         super.onDestroyView()
         mapView.onDestroy()
         tasksAdapter = null
+    }
+
+    override fun showMap() {
+        val activity = activity
+        if (isAdded && activity is DrawerActivity) {
+            activity.showMap()
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

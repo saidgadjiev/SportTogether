@@ -1,6 +1,7 @@
 package ru.mail.sporttogether.dagger.subcomponents
 
 import dagger.Subcomponent
+import ru.mail.sporttogether.fragments.events.adapters.presenters.TwoActionsHolderPresenter
 import ru.mail.sporttogether.mvp.presenters.auth.LoginPresenterImpl
 import ru.mail.sporttogether.mvp.presenters.drawer.DrawerPresenterImpl
 import ru.mail.sporttogether.mvp.presenters.event.AddEventPresenterImpl
@@ -27,4 +28,6 @@ interface PresenterSubcomponent {
     fun inject(presenter: LoginPresenterImpl)
 
     fun inject(presenter: AbstractEventsListPresenter)
+
+    fun inject(presenter: TwoActionsHolderPresenter)
 }

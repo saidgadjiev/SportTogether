@@ -6,6 +6,7 @@ import ru.mail.sporttogether.fragments.events.EventsMapFragment
 
 /**
  * Created by said on 15.10.16.
+ *
  */
 @Subcomponent
 interface ViewSubComponent {

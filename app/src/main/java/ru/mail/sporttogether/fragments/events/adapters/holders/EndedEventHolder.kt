@@ -5,16 +5,18 @@ import android.support.v4.content.ContextCompat
 import android.view.View
 import ru.mail.sporttogether.R
 import ru.mail.sporttogether.fragments.events.adapters.presenters.EndedHolderPresenter
+import ru.mail.sporttogether.fragments.events.adapters.views.EndedEventsView
 
 /**
  * Created by bagrusss on 19.01.17
  */
-class EndedEventHolder(v: View) : AbstractTwoActionHolder<EndedHolderPresenter>(v) {
+class EndedEventHolder(v: View) :
+        AbstractTwoActionHolder<EndedHolderPresenter>(v),
+        EndedEventsView {
 
     init {
         data.action2Text.set(v.context.getString(R.string.share).toUpperCase())
-        /*val layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT)
-        binding.buttonPanel1.layoutParams = layoutParams*/
+        presenter = EndedHolderPresenter(this)
     }
 
     override fun action1Clicked() {
