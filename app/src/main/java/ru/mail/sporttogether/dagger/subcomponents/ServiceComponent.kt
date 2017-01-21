@@ -2,6 +2,7 @@ package ru.mail.sporttogether.dagger.subcomponents
 
 import dagger.Subcomponent
 import ru.mail.sporttogether.fcm.CustomFirebaseMessagingService
+import ru.mail.sporttogether.services.ShowEventIntentService
 import ru.mail.sporttogether.services.UnjoinIntentService
 
 /**
@@ -13,4 +14,5 @@ import ru.mail.sporttogether.services.UnjoinIntentService
 interface ServiceComponent {
     fun inject(service: CustomFirebaseMessagingService)
     fun inject(service: UnjoinIntentService)
+    fun inject(service: ShowEventIntentService)
 }

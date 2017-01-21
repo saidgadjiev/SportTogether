@@ -44,6 +44,19 @@ class CustomFirebaseMessagingService : FirebaseMessagingService() {
         Log.d(TAG, "new version $type")
         val event = remoteMessage.data["object"]
         val notificationBuilder = NotificationCompat.Builder(this)
+        val notificationMessage: NotificationMessage = NotificationMessage(
+                type,
+                title,
+                message
+        )
+        if (!notificationMessage.isValid()) {
+            Log.e("#MY " + javaClass.simpleName, "notification is not valid : " + notificationMessage)
+            return
+        }
+        notificationBuilder
+                .setContentTitle(notificationMessage.title)
+                .setContentText(notificationMessage.message)
+                .setSmallIcon(R.drawable.ic_racing_flag)
         var currentNotificationId = 0
         if (event != null) {
             val json = gson.fromJson(event, JsonObject::class.java)
@@ -62,21 +75,9 @@ class CustomFirebaseMessagingService : FirebaseMessagingService() {
                 }
             }
         }
-        val notificationMessage: NotificationMessage = NotificationMessage(
-                type,
-                title,
-                message
-        )
-        if (notificationMessage.isValid()) {
-            notificationBuilder
-                    .setContentTitle(notificationMessage.title)
-                    .setContentText(notificationMessage.message)
-                    .setSmallIcon(R.drawable.ic_racing_flag)
-            val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            manager.notify(currentNotificationId, notificationBuilder.build())
-        } else {
-            Log.e("#MY " + javaClass.simpleName, "notification is not valid : " + notificationMessage)
-        }
+
+        val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        manager.notify(currentNotificationId, notificationBuilder.build())
     }
 
     companion object {

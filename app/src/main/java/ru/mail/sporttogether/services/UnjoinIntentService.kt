@@ -9,9 +9,11 @@ import android.widget.Toast
 import ru.mail.sporttogether.app.App
 import ru.mail.sporttogether.fcm.CustomFirebaseMessagingService.Companion.ID_EVENT_KEY
 import ru.mail.sporttogether.fcm.CustomFirebaseMessagingService.Companion.UNJOIN_ID
+import ru.mail.sporttogether.managers.events.EventsManager
 import ru.mail.sporttogether.managers.headers.HeaderManagerImpl
 import ru.mail.sporttogether.mvp.presenters.auth.LoginPresenterImpl
 import ru.mail.sporttogether.net.api.EventsAPI
+import ru.mail.sporttogether.net.models.Event
 import ru.mail.sporttogether.net.responses.Response
 import rx.Subscriber
 import rx.android.schedulers.AndroidSchedulers
@@ -26,6 +28,7 @@ class UnjoinIntentService : IntentService(NAME) {
 
     @Inject lateinit var eventsApi: EventsAPI
     @Inject lateinit var headerManager: HeaderManagerImpl
+    @Inject lateinit var eventsManager: EventsManager
 
     override fun onCreate() {
         super.onCreate()
@@ -52,6 +55,9 @@ class UnjoinIntentService : IntentService(NAME) {
                         override fun onNext(t: Response<Any>) {
                             if (t.code == 0) {
                                 Toast.makeText(this@UnjoinIntentService,"Вы покинули событие", Toast.LENGTH_SHORT).show()
+                                val event = Event()
+                                event.id = id.toLong()
+                                eventsManager.deleteEvent(event)
                             } else {
                                 Log.e(TAG, t.message)
                             }
