@@ -10,7 +10,6 @@ import ru.mail.sporttogether.managers.data.IDataManager
 import ru.mail.sporttogether.managers.events.EventsManager
 import ru.mail.sporttogether.managers.events.EventsManagerImpl
 import ru.mail.sporttogether.managers.headers.HeaderManagerImpl
-import ru.mail.sporttogether.managers.notification.NotificationManager
 import javax.inject.Singleton
 
 /**
@@ -34,12 +33,12 @@ class ManagersModule {
     @Provides
     fun provideHeaderManager(): HeaderManagerImpl
             = HeaderManagerImpl()
-
-    @Provides
-    @Singleton
-    fun provideNotificationManager()
-            = NotificationManager()
-
+//
+//    @Provides
+//    @Singleton
+//    fun provideNotificationManager()
+//            = NotificationManager()
+//
 
     @Provides
     @Singleton
