@@ -4,6 +4,7 @@ import android.graphics.drawable.Drawable
 import android.support.v4.content.ContextCompat
 import android.view.View
 import ru.mail.sporttogether.R
+import ru.mail.sporttogether.fragments.events.adapters.holders.AbstractTwoActionHolder
 
 /**
  * Created by bagrusss on 18.01.17

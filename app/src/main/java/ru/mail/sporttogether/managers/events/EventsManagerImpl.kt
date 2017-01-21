@@ -2,13 +2,11 @@ package ru.mail.sporttogether.managers.events
 
 import android.util.LongSparseArray
 import ru.mail.sporttogether.net.models.Event
-import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.util.*
 
 /**
- * Created by bagrusss on 20.10.16.
- *
+ * Created by bagrusss on 20.10.16
  */
 class EventsManagerImpl : EventsManager {
 

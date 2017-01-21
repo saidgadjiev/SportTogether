@@ -7,7 +7,7 @@ import ru.mail.sporttogether.net.models.Event
 /**
  * Created by bagrusss on 15.01.17
  */
-abstract class AbstractEventAdapter<VH : AbstractTwoActionHolder> : RecyclerView.Adapter<VH>() {
+abstract class AbstractEventAdapter<VH : AbstractTwoActionHolder<*>> : RecyclerView.Adapter<VH>() {
     protected var items: MutableList<Event>? = null
 
     override fun getItemCount() = items?.size ?: 0

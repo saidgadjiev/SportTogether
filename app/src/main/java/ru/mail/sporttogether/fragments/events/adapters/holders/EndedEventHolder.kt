@@ -3,13 +3,13 @@ package ru.mail.sporttogether.fragments.events.adapters.holders
 import android.graphics.drawable.Drawable
 import android.support.v4.content.ContextCompat
 import android.view.View
-import android.widget.LinearLayout
 import ru.mail.sporttogether.R
+import ru.mail.sporttogether.fragments.events.adapters.presenters.EndedHolderPresenter
 
 /**
  * Created by bagrusss on 19.01.17
  */
-class EndedEventHolder(v: View) : AbstractTwoActionHolder(v) {
+class EndedEventHolder(v: View) : AbstractTwoActionHolder<EndedHolderPresenter>(v) {
 
     init {
         data.action2Text.set(v.context.getString(R.string.share).toUpperCase())

@@ -36,6 +36,7 @@ interface EventsManager {
 
     fun getEvents(): ArrayList<Event>
 
-
     fun getObservable(): PublishSubject<NewData<*>>
+
+
 }
