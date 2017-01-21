@@ -49,14 +49,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <include
-                layout="@layout/events_map"
+            <fragment
+                android:id="@+id/map"
+                android:name="ru.mail.sporttogether.fragments.events.EventsMapFragment"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:addListener="@{addListener}"
-                app:data="@{data}"
-                app:listener="@{listener}"
-                app:zoomListener="@{zoomListener}" />
+                android:layout_height="match_parent" />
 
             <FrameLayout
                 android:id="@+id/drawer_container"

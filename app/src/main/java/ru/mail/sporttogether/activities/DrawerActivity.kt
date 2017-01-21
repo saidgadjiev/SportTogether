@@ -133,12 +133,14 @@ class DrawerActivity : IDrawerView,
     }
 
     private fun showMap() {
-        lastPoss = 0
-        drawerData.mapActive.set(true)
-        val fragment = supportFragmentManager.findFragmentById(R.id.drawer_container)
-        supportFragmentManager.beginTransaction()
-                .remove(fragment)
-                .commit()
+        if (lastPoss != 0) {
+            drawerData.mapActive.set(true)
+            val fragment = supportFragmentManager.findFragmentById(R.id.drawer_container)
+            supportFragmentManager.beginTransaction()
+                    .remove(fragment)
+                    .commit()
+            lastPoss = 0
+        }
     }
 
     override fun startLoginActivity() {

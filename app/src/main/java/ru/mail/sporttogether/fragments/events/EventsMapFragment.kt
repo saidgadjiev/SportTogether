@@ -127,8 +127,6 @@ class EventsMapFragment :
         val array: IntArray = IntArray(2)
         val view = binding.userPoint
         view.getLocationOnScreen(array)
-        tabHeight = arguments.getInt(TAB_HEIGHT_KEY)
-        //markerDownX = array[0] + view.width / 2 //center X
 
         //костыль, но ширирна определяется правильно
         val display = (context.getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay
