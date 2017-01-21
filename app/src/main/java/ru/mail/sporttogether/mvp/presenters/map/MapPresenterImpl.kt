@@ -80,9 +80,19 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
         eventsSubscribion = eventsManager.getObservable()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { newState ->
-                    if (newState.type == EventsManager.UpdateType.ADD) {
-                        val event = newState.data as Event
-                        addMarker(LatLng(event.lat, event.lng))
+                    when (newState.type) {
+                        EventsManager.UpdateType.ADD -> {
+                            val event = newState.data as Event
+                            addMarker(LatLng(event.lat, event.lng))
+                        }
+                        EventsManager.UpdateType.NEED_SHOW -> {
+                            val event = newState.data as Event
+                            map?.animateCamera(CameraUpdateFactory.newLatLng(LatLng(event.lat, event.lng)))
+                            view?.showMap()
+                            lastEvent = event
+                            val isCancelable = (userId == event.user.id) and !event.isEnded
+                            view?.showInfo(lastEvent, isCancelable, null)
+                        }
                     }
                 }
     }
@@ -119,6 +129,12 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
         }
         map = null
         locationManager.endLocationUpdate()
+    }
+
+    override fun checkLocation() {
+        if (!locationManager.checkLocationEnabled(context)) {
+            view?.onLocationNotChecked()
+        }
     }
 
 
@@ -265,7 +281,7 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
                     }
 
                     override fun onNext(resp: Response<ArrayList<Task>>) {
-                        if (resp.code === 0) {
+                        if (resp.code == 0) {
                             lastEventTasks = resp.data
                             view?.onFinishLoadTasks(lastEventTasks)
                             render()
@@ -409,12 +425,11 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
             loadAddressFromYandex(event.lat, event.lng)
             map?.animateCamera(CameraUpdateFactory.newLatLng(LatLng(event.lat, event.lng)))
             view?.showInfo(lastEvent, isCancelable, lastEventTasks)
-            view?.setBottomSheetCollapsed()
         }
     }
 
     private fun render() {
-        val isCancelable = (userId === lastEvent.user.id) and !lastEvent.isEnded
+        val isCancelable = (userId == lastEvent.user.id) and !lastEvent.isEnded
         view?.render(lastEvent, isCancelable, lastEventTasks)
     }
 
@@ -436,7 +451,7 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
                     }
 
                     override fun onNext(t: Response<Any>) {
-                        if (t.code === 0) {
+                        if (t.code == 0) {
                             lastEvent.reports += 1
                             lastEvent.isReported = true
                             view?.showToast(android.R.string.ok)

@@ -2,13 +2,11 @@ package ru.mail.sporttogether.managers.events
 
 import android.util.LongSparseArray
 import ru.mail.sporttogether.net.models.Event
-import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.util.*
 
 /**
- * Created by bagrusss on 20.10.16.
- *
+ * Created by bagrusss on 20.10.16
  */
 class EventsManagerImpl : EventsManager {
 
@@ -47,6 +45,10 @@ class EventsManagerImpl : EventsManager {
     override fun deleteEvent(event: Event) {
         eventsMap.delete(event.id)
         eventsUpdate.onNext(EventsManager.NewData(type = EventsManager.UpdateType.DELETED, data = event))
+    }
+
+    override fun showEvent(event: Event) {
+        eventsUpdate.onNext(EventsManager.NewData(type = EventsManager.UpdateType.NEED_SHOW, data = event))
     }
 
     override fun getEvents(): ArrayList<Event> {

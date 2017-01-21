@@ -1,7 +1,6 @@
 package ru.mail.sporttogether.managers.events
 
 import ru.mail.sporttogether.net.models.Event
-import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.util.*
 
@@ -15,7 +14,8 @@ interface EventsManager {
         UPDATE,
         NEW_LIST,
         RESULTED,
-        DELETED
+        DELETED,
+        NEED_SHOW
     }
 
     data class NewData<out T>(
@@ -34,8 +34,11 @@ interface EventsManager {
 
     fun deleteEvent(event: Event)
 
+    fun showEvent(event: Event)
+
     fun getEvents(): ArrayList<Event>
 
-
     fun getObservable(): PublishSubject<NewData<*>>
+
+
 }

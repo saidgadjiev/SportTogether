@@ -26,7 +26,7 @@
     <string name="cant_load_position">Не удалось загрузить местоположение</string>
     <string name="angryAlready">Вы пожаловались</string>
     <string name="share">Поделиться</string>
-    <string name="edit">Редактировать</string>
+    <string name="edit">Правка</string>
     <string name="result">Результат</string>
     <string name="ok">ОК</string>
     <string name="cancel_event">отменить</string>
