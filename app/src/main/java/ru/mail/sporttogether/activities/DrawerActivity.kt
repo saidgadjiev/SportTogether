@@ -34,6 +34,7 @@ class DrawerActivity : IDrawerView,
     private lateinit var socialNetworkManager: SocialNetworkManager
     private var lastPoss = 0
     private val drawerData = DrawerData()
+    private lateinit var mapItem: PrimaryDrawerItem
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +48,6 @@ class DrawerActivity : IDrawerView,
         buildDrawer()
         socialNetworkManager = SocialNetworkManager.instance
         toolbar.title = getString(R.string.events_map)
-        //swapFragment(EventsMapFragment.newInstance(0), lastPoss + 1)
     }
 
     private fun buildDrawer() {
@@ -89,14 +89,15 @@ class DrawerActivity : IDrawerView,
     }
 
     private fun setDrawerItems(drawerBuilder: DrawerBuilder) {
+        mapItem = PrimaryDrawerItem().withName(R.string.map).withIcon(R.drawable.ic_map).withIconTintingEnabled(true).withOnDrawerItemClickListener { view, i, iDrawerItem ->
+            //swapFragment(EventsMapFragment.newInstance(0), i)
+            showMap()
+            toolbar.title = getString(R.string.events_map)
+            false
+        }
         drawerBuilder.addDrawerItems(
                 //TODO add icons
-                PrimaryDrawerItem().withName(R.string.map).withIcon(R.drawable.ic_map).withIconTintingEnabled(true).withOnDrawerItemClickListener { view, i, iDrawerItem ->
-                    //swapFragment(EventsMapFragment.newInstance(0), i)
-                    showMap()
-                    toolbar.title = getString(R.string.events_map)
-                    false
-                },
+                mapItem,
                 PrimaryDrawerItem().withName(R.string.my_events).withIcon(R.drawable.ic_location).withIconTintingEnabled(true).withOnDrawerItemClickListener { view, i, iDrawerItem ->
                     swapFragment(EventsTabFragment.newInstance(), i)
                     toolbar.title = getString(R.string.my_events)
@@ -142,7 +143,7 @@ class DrawerActivity : IDrawerView,
                     .remove(fragment)
                     .commit()
             lastPoss = 0
-            drawer.setSelection(lastPoss.toLong(), true)
+            drawer.setSelection(mapItem)
         }
     }
 
