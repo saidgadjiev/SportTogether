@@ -2,7 +2,6 @@ package ru.mail.sporttogether.activities
 
 import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.Toolbar
 import com.bumptech.glide.Glide
@@ -16,8 +15,9 @@ import com.mikepenz.materialdrawer.model.ProfileDrawerItem
 import com.mikepenz.materialdrawer.util.DrawerImageLoader
 import ru.mail.sporttogether.R
 import ru.mail.sporttogether.auth.core.SocialNetworkManager
+import ru.mail.sporttogether.data.binding.DrawerData
 import ru.mail.sporttogether.databinding.ActivityDrawerBinding
-import ru.mail.sporttogether.fragments.events.EventsMapFragment
+import ru.mail.sporttogether.fragments.PresenterFragment
 import ru.mail.sporttogether.fragments.events.EventsTabFragment
 import ru.mail.sporttogether.mvp.presenters.drawer.DrawerPresenterImpl
 import ru.mail.sporttogether.mvp.presenters.drawer.IDrawerPresenter
@@ -32,6 +32,7 @@ class DrawerActivity : IDrawerView,
     private lateinit var mDrawer: Drawer
     private lateinit var socialNetworkManager: SocialNetworkManager
     private var lastPoss = 0
+    private val drawerData = DrawerData()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,12 +40,13 @@ class DrawerActivity : IDrawerView,
         presenter = DrawerPresenterImpl(this)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_drawer)
         toolbar = binding.drawerToolbar
+        binding.drawerData = drawerData
         setSupportActionBar(toolbar)
         setupToolbar(toolbar)
         buildDrawer()
         socialNetworkManager = SocialNetworkManager.instance
         toolbar.title = getString(R.string.events_map)
-        swapFragment(EventsMapFragment.newInstance(0), lastPoss + 1)
+        //swapFragment(EventsMapFragment.newInstance(0), lastPoss + 1)
     }
 
     private fun buildDrawer() {
@@ -89,7 +91,8 @@ class DrawerActivity : IDrawerView,
         drawerBuilder.addDrawerItems(
                 //TODO add icons
                 PrimaryDrawerItem().withName(R.string.map).withIcon(R.drawable.ic_map).withIconTintingEnabled(true).withOnDrawerItemClickListener { view, i, iDrawerItem ->
-                    swapFragment(EventsMapFragment.newInstance(0), i)
+                    //swapFragment(EventsMapFragment.newInstance(0), i)
+                    showMap()
                     toolbar.title = getString(R.string.events_map)
                     false
                 },
@@ -119,16 +122,30 @@ class DrawerActivity : IDrawerView,
         }
     }
 
-    private fun swapFragment(fragment: Fragment, newPos: Int) {
+    private fun swapFragment(fragment: PresenterFragment<*>, newPos: Int) {
         if (lastPoss != newPos) {
             supportFragmentManager.beginTransaction()
                     .replace(R.id.drawer_container, fragment)
                     .commit()
             lastPoss = newPos
+            drawerData.mapActive.set(false)
         }
+    }
+
+    private fun showMap() {
+        lastPoss = 0
+        drawerData.mapActive.set(true)
+        val fragment = supportFragmentManager.findFragmentById(R.id.drawer_container)
+        supportFragmentManager.beginTransaction()
+                .remove(fragment)
+                .commit()
     }
 
     override fun startLoginActivity() {
         LoginActivity.startActivity(this, true)
+    }
+
+    companion object {
+        @JvmStatic val TAG = "DrawerActivity"
     }
 }

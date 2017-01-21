@@ -33,7 +33,7 @@ abstract class AbstractTwoActionHolder(v: View) : RecyclerView.ViewHolder(v), Tw
     abstract fun getAction2Drawable(): Drawable?
 
     override fun onBodyClicked() {
-        
+
     }
 
     override fun action1Clicked() {
