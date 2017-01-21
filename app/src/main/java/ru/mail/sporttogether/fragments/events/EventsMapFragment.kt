@@ -1,6 +1,7 @@
 package ru.mail.sporttogether.fragments.events
 
 import android.app.Activity
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -68,6 +69,7 @@ class EventsMapFragment :
     private var markerDownX = 0
     private var markerDownY = 0
     private var tabHeight = 0
+    private var locationDialog: Dialog? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         App.injector
@@ -165,7 +167,6 @@ class EventsMapFragment :
         binding.listener = this
         binding.addListener = this
         binding.zoomListener = presenter
-
     }
 
     override fun onStop() {
@@ -179,6 +180,7 @@ class EventsMapFragment :
     override fun onResume() {
         super.onResume()
         mapView.onResume()
+        presenter.checkLocation()
     }
 
     override fun onPause() {
@@ -372,6 +374,7 @@ class EventsMapFragment :
         presenter.uncheckTask(task)
     }
 
+    //TODO исправить !!!
     fun initTasks(tasks: ArrayList<Task>) {
         val myId = SocialNetworkManager.instance.activeUser.id // TODO inject manager
         tasksAdapter = TaskAdapter(tasks, this, myId)
@@ -425,34 +428,29 @@ class EventsMapFragment :
     }
 
     override fun onLocationNotChecked() {
-        val dialog = AlertDialog.Builder(context)
-                .setMessage(R.string.location_disabled_message)
-                .setTitle(R.string.title_location_access)
-                .setCancelable(false)
-                .setPositiveButton(android.R.string.ok, { dialog, which ->
-                    startActivityForResult(Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS), REQUEST_LOCATION_CODE)
-                })
-                .setNegativeButton(android.R.string.cancel, { dialog, which ->
-                    Toast.makeText(context, R.string.cannot_find_you, Toast.LENGTH_LONG).show()
-                })
-                .create()
-        dialog.show()
+        if (locationDialog == null) {
+            locationDialog = AlertDialog.Builder(context)
+                    .setMessage(R.string.location_disabled_message)
+                    .setTitle(R.string.title_location_access)
+                    .setCancelable(false)
+                    .setPositiveButton(android.R.string.ok, { dialog, which ->
+                        startActivityForResult(Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS), REQUEST_LOCATION_CODE)
+                        locationDialog = null
+                    })
+                    .setNegativeButton(android.R.string.cancel, { dialog, which ->
+                        Toast.makeText(context, R.string.cannot_find_you, Toast.LENGTH_LONG).show()
+                        locationDialog = null
+                    })
+                    .create()
+            locationDialog!!.show()
+        }
     }
 
     companion object {
-        @JvmStatic val TAB_HEIGHT_KEY = "TAB_HEIGHT"
         @JvmStatic val REQUEST_CODE = 1092
         @JvmStatic val REQUEST_LOCATION_CODE = 1093
         @JvmStatic val REQUEST_PERMISSIONS_CODE = 1094
 
         val TAG = "#MY " + EventsMapFragment::class.java.simpleName
-
-        @JvmStatic fun newInstance(tabHeight: Int): EventsMapFragment {
-            val args = Bundle()
-            args.putInt(TAB_HEIGHT_KEY, tabHeight)
-            val fragment = EventsMapFragment()
-            fragment.arguments = args
-            return fragment
-        }
     }
 }

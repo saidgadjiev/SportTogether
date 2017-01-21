@@ -121,6 +121,12 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
         locationManager.endLocationUpdate()
     }
 
+    override fun checkLocation() {
+        if (!locationManager.checkLocationEnabled(context)) {
+            view?.onLocationNotChecked()
+        }
+    }
+
 
     private fun initMap() {
         if (!locationManager.checkLocationEnabled(context)) {
