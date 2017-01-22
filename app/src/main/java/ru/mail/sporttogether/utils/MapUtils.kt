@@ -9,7 +9,6 @@ import com.google.android.gms.maps.model.LatLng
  */
 object MapUtils {
 
-    @JvmStatic
     fun distanceBetweenPoints(p1: LatLng, p2: LatLng): Float {
         val results = FloatArray(1)
         Location.distanceBetween(p1.latitude, p1.longitude,

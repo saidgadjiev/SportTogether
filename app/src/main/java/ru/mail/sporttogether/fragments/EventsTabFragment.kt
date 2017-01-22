@@ -28,7 +28,7 @@ class EventsTabFragment : Fragment() {
 
         fragments.add(MyEventsFragment())
         fragments.add(EndedListFragment())
-        fragments.add(OrginizedEventsListFragment())
+        fragments.add(OrganizedEventsListFragment())
 
         tabLayout.initialize(viewPager, childFragmentManager, fragments, savedInstanceState)
 

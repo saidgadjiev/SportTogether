@@ -23,10 +23,6 @@ class EndedEventHolder(v: View) :
 
     }
 
-    override fun action2Clicked() {
-
-    }
-
     override fun getAction1Drawable() = null
 
     override fun getAction2Drawable(): Drawable = ContextCompat.getDrawable(itemView.context, R.drawable.ic_share)

@@ -1,11 +1,12 @@
 package ru.mail.sporttogether.fragments.presenter
 
 import ru.mail.sporttogether.app.App
-import ru.mail.sporttogether.mvp.IPresenter
 import ru.mail.sporttogether.fragments.adapter.views.EventListView
-import ru.mail.sporttogether.net.api.EventsAPI
+import ru.mail.sporttogether.managers.EventsManager
+import ru.mail.sporttogether.mvp.IPresenter
 import ru.mail.sporttogether.net.EventsResponse
 import ru.mail.sporttogether.net.Response
+import ru.mail.sporttogether.net.api.EventsAPI
 import rx.Observable
 import rx.Subscriber
 import rx.Subscription
@@ -16,10 +17,13 @@ import javax.inject.Inject
 /**
  * Created by bagrusss on 15.10.16
  */
-abstract class AbstractEventsListPresenter(protected var view: EventListView?) : IPresenter {
+abstract class AbstractEventsListPresenter(private var view: EventListView?) : IPresenter {
 
     @Inject lateinit var eventsApi: EventsAPI
-    private var apiSubscription: Subscription? = null
+    @Inject lateinit var eventsManager: EventsManager
+
+    protected var apiSubscription: Subscription? = null
+    protected var eventsSubscription: Subscription? = null
 
     abstract fun getApiObservable(): Observable<Response<EventsResponse>>
 

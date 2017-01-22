@@ -37,6 +37,7 @@ abstract class AbstractTwoActionHolder<PR : TwoActionsHolderPresenter>(v: View, 
         data.categoryText.set(event.category.name)
         data.dateText.set(DateUtils.longToDateTime(event.date))
         this.event = event
+        presenter.onBind(event)
     }
 
     abstract fun getAction1Drawable(): Drawable?

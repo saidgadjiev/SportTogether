@@ -46,14 +46,11 @@ class ResultDialogPresenterImpl(private var view: ResultView?) : ResultDialogPre
                         if (t.code == 0) {
                             event.result = result
                             eventManager.resultEvent(event)
-                            view?.let {
-                                it.hideProgressDialog()
-                                it.onResultSent()
-                            }
+                            view?.let(ResultView::onResultSent)
                         } else {
                             view?.showToast(R.string.error)
                         }
-
+                        view?.hideProgressDialog()
                     }
 
                     override fun onCompleted() {
