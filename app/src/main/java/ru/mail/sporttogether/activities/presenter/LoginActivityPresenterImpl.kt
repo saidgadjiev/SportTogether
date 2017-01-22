@@ -12,7 +12,7 @@ import ru.mail.sporttogether.auth.core.SocialNetworkError
 import ru.mail.sporttogether.auth.core.SocialNetworkManager
 import ru.mail.sporttogether.auth.core.listeners.OnLoginCompleteListener
 import ru.mail.sporttogether.auth.core.listeners.OnRequestSocialPersonCompleteListener
-import ru.mail.sporttogether.auth.core.persons.SocialPerson
+import ru.mail.sporttogether.auth.core.SocialPerson
 import ru.mail.sporttogether.managers.HeaderManagerImpl
 import ru.mail.sporttogether.activities.view.LoginView
 import ru.mail.sporttogether.net.api.AuthorizationAPI

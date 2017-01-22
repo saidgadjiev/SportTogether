@@ -19,7 +19,7 @@ import ru.mail.sporttogether.auth.core.SocialNetworkError
 import ru.mail.sporttogether.auth.core.SocialNetworkManager
 import ru.mail.sporttogether.auth.core.listeners.OnLoginCompleteListener
 import ru.mail.sporttogether.auth.core.listeners.OnRequestSocialPersonCompleteListener
-import ru.mail.sporttogether.auth.core.persons.SocialPerson
+import ru.mail.sporttogether.auth.core.SocialPerson
 
 
 /**
@@ -68,27 +68,7 @@ class FacebookSocialNetwork(private val activity: Activity) : ISocialNetwork {
 
     }
 
-    override fun onStart() {
-
-    }
-
-    override fun onPause() {
-
-    }
-
-    override fun onResume() {
-
-    }
-
-    override fun onStop() {
-
-    }
-
     override fun onDestroy() {
-
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
 
     }
 

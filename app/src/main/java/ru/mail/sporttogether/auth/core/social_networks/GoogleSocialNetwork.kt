@@ -7,7 +7,7 @@ import android.os.Bundle
 import ru.mail.sporttogether.auth.core.ISocialNetwork
 import ru.mail.sporttogether.auth.core.listeners.OnLoginCompleteListener
 import ru.mail.sporttogether.auth.core.listeners.OnRequestSocialPersonCompleteListener
-import ru.mail.sporttogether.auth.core.persons.SocialPerson
+import ru.mail.sporttogether.auth.core.SocialPerson
 
 
 /**
@@ -41,27 +41,7 @@ class GoogleSocialNetwork(private val activity: Activity, private val appId: Str
 
     }
 
-    override fun onStart() {
-
-    }
-
-    override fun onPause() {
-
-    }
-
-    override fun onResume() {
-
-    }
-
-    override fun onStop() {
-
-    }
-
     override fun onDestroy() {
-
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
 
     }
 

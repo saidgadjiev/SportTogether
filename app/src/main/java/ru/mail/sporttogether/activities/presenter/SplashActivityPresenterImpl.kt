@@ -8,7 +8,7 @@ import ru.mail.sporttogether.activities.SplashActivity
 import ru.mail.sporttogether.app.App
 import ru.mail.sporttogether.auth.core.SocialNetworkError
 import ru.mail.sporttogether.auth.core.SocialNetworkManager
-import ru.mail.sporttogether.auth.core.persons.SocialPerson
+import ru.mail.sporttogether.auth.core.SocialPerson
 import ru.mail.sporttogether.auth.core.social_networks.FacebookSocialNetwork
 import ru.mail.sporttogether.auth.core.social_networks.VKSocialNetwork
 import ru.mail.sporttogether.managers.HeaderManagerImpl

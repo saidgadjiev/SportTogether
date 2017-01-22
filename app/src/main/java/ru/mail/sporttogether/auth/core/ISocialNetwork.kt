@@ -6,7 +6,7 @@ import android.os.Bundle
 
 import ru.mail.sporttogether.auth.core.listeners.OnLoginCompleteListener
 import ru.mail.sporttogether.auth.core.listeners.OnRequestSocialPersonCompleteListener
-import ru.mail.sporttogether.auth.core.persons.SocialPerson
+import ru.mail.sporttogether.auth.core.SocialPerson
 
 
 /**
@@ -23,19 +23,9 @@ interface ISocialNetwork {
 
     fun login(activity: Activity, onLoginCompleteListener: OnLoginCompleteListener)
 
-    fun onStart()
-
-    fun onPause()
-
-    fun onResume()
-
-    fun onStop()
+    fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
 
     fun onDestroy()
-
-    fun onSaveInstanceState(outState: Bundle)
-
-    fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
 
     val isConnected: Boolean
 

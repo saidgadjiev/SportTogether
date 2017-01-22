@@ -1,4 +1,4 @@
-package ru.mail.sporttogether.auth.core.persons
+package ru.mail.sporttogether.auth.core
 
 import android.os.Parcel
 import android.os.Parcelable

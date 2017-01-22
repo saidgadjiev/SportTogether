@@ -43,10 +43,6 @@ class SocialNetworkManager private constructor() {
         return socialNetworksMap[ID]
     }
 
-
-    fun onResume() {
-    }
-
     fun setNetworkID(ID: Int) {
         networkID = ID
     }
