@@ -9,7 +9,7 @@ import ru.mail.sporttogether.fragments.adapter.holders.MyEventHolder
  * Created by Ivan on 20.10.2016
  * edited by bagrusss
  */
-class MyEventsAdapter : AbstractEventAdapter<MyEventHolder>() {
+class MyEventsAdapter : AbstractEventAdapter<MyEventHolder>(null) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
             = MyEventHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_two_action, parent, false))

@@ -8,10 +8,12 @@ import ru.mail.sporttogether.fragments.adapter.holders.EndedEventHolder
 /**
  * Created by bagrusss on 18.01.17
  */
-class EndedEventsAdapter : AbstractEventAdapter<EndedEventHolder>(){
+class EndedEventsAdapter : AbstractEventAdapter<EndedEventHolder>(null) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EndedEventHolder
-            = EndedEventHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_two_action, parent, false))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EndedEventHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_two_action, parent, false)
+        return EndedEventHolder(view)
+    }
 
 
 }

@@ -5,6 +5,7 @@
     <string name="max_people_event_hint">Участники</string>
     <string name="description">Описание(не обязательно)</string>
     <string name="event_added">Событие добавлено</string>
+    <string name="error">Произошла ошибка</string>
     <string name="events_map">Карта событий</string>
     <string name="map">Карта</string>
     <string name="events_list">Список событий</string>
@@ -28,6 +29,7 @@
     <string name="share">Поделиться</string>
     <string name="edit">Правка</string>
     <string name="result">Результат</string>
+    <string name="result_sent">Результат события отправлен</string>
     <string name="ok">ОК</string>
     <string name="cancel">Отменить</string>
     <string name="cancel_event">Отменить событие</string>

@@ -11,7 +11,7 @@ import ru.mail.sporttogether.fragments.adapter.views.EndedEventsView
  * Created by bagrusss on 19.01.17
  */
 class EndedEventHolder(v: View) :
-        AbstractTwoActionHolder<EndedHolderPresenter>(v),
+        AbstractTwoActionHolder<EndedHolderPresenter>(v, null),
         EndedEventsView {
 
     init {

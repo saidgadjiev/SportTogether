@@ -37,7 +37,6 @@ abstract class PresenterActivity<T : IPresenter> : AppCompatActivity(), IView {
 
     override fun showToast(@StringRes messageRes: Int, duration: Int) {
         Toast.makeText(this, messageRes, duration).show()
-
     }
 
     override fun showProgressDialog(@StringRes messageStringRes: Int) {

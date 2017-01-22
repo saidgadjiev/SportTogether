@@ -22,6 +22,7 @@ class EditEventActivity :
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_edit_event)
 
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         presenter = EditEventActivityPresenterImp(this)
     }
 

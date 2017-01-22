@@ -1,26 +1,29 @@
 package ru.mail.sporttogether.fragments.adapter.holders
 
 import android.graphics.drawable.Drawable
+import android.support.v4.app.FragmentManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
+import ru.mail.sporttogether.R
 import ru.mail.sporttogether.data.binding.items.TwoActionsItemData
 import ru.mail.sporttogether.data.binding.items.TwoActionsListener
 import ru.mail.sporttogether.databinding.ItemTwoActionBinding
 import ru.mail.sporttogether.fragments.adapter.presenters.TwoActionsHolderPresenter
 import ru.mail.sporttogether.net.models.Event
 import ru.mail.sporttogether.utils.DateUtils
+import ru.mail.sporttogether.utils.ShareUtils
 
 /**
  * Created by bagrusss on 15.01.17
  */
-abstract class AbstractTwoActionHolder<PR : TwoActionsHolderPresenter>(v: View) :
+abstract class AbstractTwoActionHolder<PR : TwoActionsHolderPresenter>(v: View, protected var fm: FragmentManager?) :
         RecyclerView.ViewHolder(v),
         TwoActionsListener {
 
     protected val binding: ItemTwoActionBinding = ItemTwoActionBinding.bind(v)
     protected val data = TwoActionsItemData()
     protected lateinit var presenter: PR
-    private lateinit var event: Event
+    protected lateinit var event: Event
 
     init {
         binding.data = data
@@ -48,7 +51,10 @@ abstract class AbstractTwoActionHolder<PR : TwoActionsHolderPresenter>(v: View) 
     }
 
     override fun action2Clicked() {
-
+        val context = itemView.context
+        ShareUtils.createShareIntent(event, context.getString(R.string.share))?.let {
+            context.startActivity(it)
+        }
     }
 
 

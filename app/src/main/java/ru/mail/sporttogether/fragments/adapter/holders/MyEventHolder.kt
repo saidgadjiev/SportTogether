@@ -10,7 +10,7 @@ import ru.mail.sporttogether.fragments.adapter.views.MyEventsView
 /**
  * Created by bagrusss on 15.01.17
  */
-class MyEventHolder(v: View) : AbstractTwoActionHolder<MyEventsHolderPresenter>(v), MyEventsView {
+class MyEventHolder(v: View) : AbstractTwoActionHolder<MyEventsHolderPresenter>(v, null), MyEventsView {
 
     init {
         data.action1Text.set(itemView.context.getString(R.string.angry).toUpperCase())
