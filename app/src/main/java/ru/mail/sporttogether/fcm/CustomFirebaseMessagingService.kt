@@ -89,9 +89,18 @@ class CustomFirebaseMessagingService : FirebaseMessagingService() {
                     }
                     showingIntent.putExtra("data", bundle)
                     showingIntent.putExtra(ID_NOTIFICATION_KEY, currentNotificationId)
-                    val unjoinPendingIntent: PendingIntent = PendingIntent.getService(this, currentNotificationId, unjoinIntent, PendingIntent.FLAG_UPDATE_CURRENT)
-                    val showingPendingIntent: PendingIntent = PendingIntent.getService(this, currentNotificationId + 1, showingIntent, PendingIntent.FLAG_UPDATE_CURRENT)
-//                    notificationBuilder.setContentIntent(showingPendingIntent)
+                    val unjoinPendingIntent: PendingIntent = PendingIntent.getService(
+                            this,
+                            currentNotificationId,
+                            unjoinIntent,
+                            PendingIntent.FLAG_UPDATE_CURRENT
+                    )
+                    val showingPendingIntent: PendingIntent = PendingIntent.getService(
+                            this,
+                            currentNotificationId + 1,
+                            showingIntent,
+                            PendingIntent.FLAG_UPDATE_CURRENT
+                    )
                     notificationBuilder.addAction(R.drawable.ic_people, "Я не приду", unjoinPendingIntent)
                     notificationBuilder.addAction(R.drawable.ic_map, "Подробнее", showingPendingIntent)
                     Log.d(TAG, "added pending intent of id event $id, notification id $currentNotificationId")
