@@ -22,7 +22,7 @@ import com.google.android.gms.maps.MapView
 import ru.mail.sporttogether.R
 import ru.mail.sporttogether.activities.AddEventActivity
 import ru.mail.sporttogether.activities.DrawerActivity
-import ru.mail.sporttogether.activities.PresenterActivity
+import ru.mail.sporttogether.mvp.PresenterActivity
 import ru.mail.sporttogether.adapter.TaskAdapter
 import ru.mail.sporttogether.adapter.events.EventsAdapter
 import ru.mail.sporttogether.app.App
@@ -34,6 +34,7 @@ import ru.mail.sporttogether.databinding.EventsMapBinding
 import ru.mail.sporttogether.fragments.presenter.EventsMapFragmentPresenter
 import ru.mail.sporttogether.fragments.presenter.EventsMapFragmentPresenterImpl
 import ru.mail.sporttogether.fragments.view.EventsMapView
+import ru.mail.sporttogether.mvp.PresenterFragment
 import ru.mail.sporttogether.net.models.Event
 import ru.mail.sporttogether.net.models.Task
 import ru.mail.sporttogether.utils.DateUtils

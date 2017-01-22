@@ -1,5 +1,6 @@
-package ru.mail.sporttogether.fragments
+package ru.mail.sporttogether.mvp
 
+import android.R
 import android.os.Bundle
 import android.support.annotation.CallSuper
 import android.support.annotation.StringRes
@@ -7,7 +8,7 @@ import android.support.v4.app.Fragment
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import android.widget.Toast
-import ru.mail.sporttogether.activities.PresenterActivity
+import ru.mail.sporttogether.mvp.PresenterActivity
 import ru.mail.sporttogether.mvp.IPresenter
 import ru.mail.sporttogether.mvp.IView
 
@@ -36,7 +37,7 @@ abstract class PresenterFragment<T : IPresenter> : Fragment(), IView {
 
     @CallSuper
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId === android.R.id.home) {
+        if (item.itemId === R.id.home) {
             activity.finish()
             return true
         }

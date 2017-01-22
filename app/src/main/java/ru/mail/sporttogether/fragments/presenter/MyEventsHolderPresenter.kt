@@ -1,5 +1,6 @@
-package ru.mail.sporttogether.fragments.adapter.presenters
+package ru.mail.sporttogether.fragments.presenter
 
+import ru.mail.sporttogether.fragments.adapter.presenters.TwoActionsHolderPresenter
 import ru.mail.sporttogether.fragments.adapter.views.MyEventsView
 
 /**

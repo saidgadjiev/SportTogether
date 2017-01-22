@@ -7,9 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import ru.mail.sporttogether.databinding.FragmentEventsListBinding
-import ru.mail.sporttogether.fragments.PresenterFragment
+import ru.mail.sporttogether.mvp.PresenterFragment
 import ru.mail.sporttogether.fragments.adapter.AbstractEventAdapter
-import ru.mail.sporttogether.fragments.adapter.presenters.AbstractEventsListPresenter
+import ru.mail.sporttogether.fragments.presenter.AbstractEventsListPresenter
 import ru.mail.sporttogether.fragments.adapter.views.EventListView
 import ru.mail.sporttogether.net.models.Event
 import ru.mail.sporttogether.widgets.CatProgressDialog

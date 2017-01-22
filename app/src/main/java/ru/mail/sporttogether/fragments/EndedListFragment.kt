@@ -1,8 +1,8 @@
 package ru.mail.sporttogether.fragments
 
 import ru.mail.sporttogether.fragments.adapter.EndedEventsAdapter
-import ru.mail.sporttogether.fragments.adapter.presenters.EndedEventsPresenterImpl
-import ru.mail.sporttogether.fragments.adapter.presenters.AbstractEventsListPresenter
+import ru.mail.sporttogether.fragments.presenter.EndedEventsPresenterImpl
+import ru.mail.sporttogether.fragments.presenter.AbstractEventsListPresenter
 
 /**
  * Created by bagrusss on 08.10.16

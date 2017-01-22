@@ -1,5 +1,6 @@
-package ru.mail.sporttogether.activities
+package ru.mail.sporttogether.mvp
 
+import android.R
 import android.net.Uri
 import android.os.Bundle
 import android.support.annotation.CallSuper
@@ -73,7 +74,7 @@ abstract class PresenterActivity<T : IPresenter> : AppCompatActivity(), IView {
 
     @CallSuper
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId === android.R.id.home) {
+        if (item.itemId === R.id.home) {
             finish()
             return true
         }
@@ -81,8 +82,7 @@ abstract class PresenterActivity<T : IPresenter> : AppCompatActivity(), IView {
     }
 
     fun shareToSocial(title: String, description: String) {
-        val content = ShareLinkContent
-                .Builder()
+        val content = ShareLinkContent.Builder()
                 .setContentUrl(Uri.parse("https://developers.facebook.com"))
                 .setContentTitle(title)
                 .setContentDescription(description)

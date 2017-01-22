@@ -23,6 +23,7 @@ import ru.mail.sporttogether.auth.core.SocialNetworkManager
 import ru.mail.sporttogether.data.binding.DrawerData
 import ru.mail.sporttogether.databinding.ActivityDrawerBinding
 import ru.mail.sporttogether.fragments.EventsTabFragment
+import ru.mail.sporttogether.mvp.PresenterActivity
 import ru.mail.sporttogether.utils.DrawerLoader
 
 

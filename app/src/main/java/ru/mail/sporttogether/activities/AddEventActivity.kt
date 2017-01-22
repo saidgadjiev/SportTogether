@@ -17,7 +17,7 @@ import android.widget.Toast
 import com.jakewharton.rxbinding.widget.RxTextView
 import com.mikepenz.materialdrawer.util.KeyboardUtil
 import ru.mail.sporttogether.R
-import ru.mail.sporttogether.activities.PresenterActivity
+import ru.mail.sporttogether.mvp.PresenterActivity
 import ru.mail.sporttogether.adapter.AddTaskAdapter
 import ru.mail.sporttogether.adapter.CategoriesAdapter
 import ru.mail.sporttogether.data.binding.event.ButtonListener
@@ -26,7 +26,7 @@ import ru.mail.sporttogether.data.binding.tasks.OpenTasksListener
 import ru.mail.sporttogether.databinding.ActivityAddEventBinding
 import ru.mail.sporttogether.databinding.AddingTasksBinding
 import ru.mail.sporttogether.databinding.DateTimePickerBinding
-import ru.mail.sporttogether.fragments.PresenterFragment
+import ru.mail.sporttogether.mvp.PresenterFragment
 import ru.mail.sporttogether.activities.presenter.AddEventPresenter
 import ru.mail.sporttogether.activities.presenter.AddEventPresenterImpl
 import ru.mail.sporttogether.activities.view.AddEventView

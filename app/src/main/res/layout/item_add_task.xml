@@ -12,26 +12,26 @@
             type="ru.mail.sporttogether.data.binding.tasks.TaskItemListener" />
 
     </data>
+
     <RelativeLayout
-        android:paddingTop="@dimen/offset_small"
-        android:paddingBottom="@dimen/offset_small"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <ImageButton
-            style="?android:attr/borderlessButtonStyle"
             android:id="@+id/item_add_task_close_btn"
+            style="?android:attr/borderlessButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:src="@drawable/ic_remove"/>
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_remove" />
 
         <TextView
             android:id="@+id/item_add_task_message"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{data.message}"
-            android:layout_centerVertical="true"
             android:layout_alignParentStart="true"
-            android:layout_toStartOf="@+id/item_add_task_close_btn" />
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/item_add_task_close_btn"
+            android:text="@{data.message}" />
     </RelativeLayout>
 </layout>

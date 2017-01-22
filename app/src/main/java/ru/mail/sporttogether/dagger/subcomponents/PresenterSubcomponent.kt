@@ -6,9 +6,9 @@ import ru.mail.sporttogether.activities.presenter.LoginActivityPresenterImpl
 import ru.mail.sporttogether.activities.presenter.DrawerActivityPresenterImpl
 import ru.mail.sporttogether.activities.presenter.AddEventPresenterImpl
 import ru.mail.sporttogether.fragments.adapter.presenters.MyEventsPresenterImpl
-import ru.mail.sporttogether.fragments.adapter.presenters.EndedEventsPresenterImpl
-import ru.mail.sporttogether.fragments.adapter.presenters.AbstractEventsListPresenter
-import ru.mail.sporttogether.fragments.adapter.presenters.OrganizedEventsPresenterImpl
+import ru.mail.sporttogether.fragments.presenter.EndedEventsPresenterImpl
+import ru.mail.sporttogether.fragments.presenter.AbstractEventsListPresenter
+import ru.mail.sporttogether.fragments.presenter.OrganizedEventsPresenterImpl
 import ru.mail.sporttogether.fragments.presenter.EventsMapFragmentPresenterImpl
 import ru.mail.sporttogether.activities.presenter.SplashActivityPresenterImpl
 

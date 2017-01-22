@@ -12,6 +12,7 @@ import ru.mail.sporttogether.managers.HeaderManagerImpl
 import ru.mail.sporttogether.activities.presenter.LoginActivityPresenter
 import ru.mail.sporttogether.activities.presenter.LoginActivityPresenterImpl
 import ru.mail.sporttogether.activities.view.LoginView
+import ru.mail.sporttogether.mvp.PresenterActivity
 import javax.inject.Inject
 
 

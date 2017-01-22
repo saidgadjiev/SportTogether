@@ -1,4 +1,4 @@
-package ru.mail.sporttogether.fragments.adapter.presenters
+package ru.mail.sporttogether.fragments.presenter
 
 import ru.mail.sporttogether.app.App
 import ru.mail.sporttogether.mvp.IPresenter

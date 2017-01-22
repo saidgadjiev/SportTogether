@@ -9,6 +9,7 @@ import ru.mail.sporttogether.activities.presenter.EditEventActivityPresenter
 import ru.mail.sporttogether.activities.presenter.EditEventActivityPresenterImp
 import ru.mail.sporttogether.activities.view.EditEventView
 import ru.mail.sporttogether.databinding.ActivityEditEventBinding
+import ru.mail.sporttogether.mvp.PresenterActivity
 import ru.mail.sporttogether.net.models.Event
 
 class EditEventActivity :

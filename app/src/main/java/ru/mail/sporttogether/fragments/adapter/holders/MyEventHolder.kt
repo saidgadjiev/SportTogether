@@ -4,7 +4,7 @@ import android.graphics.drawable.Drawable
 import android.support.v4.content.ContextCompat
 import android.view.View
 import ru.mail.sporttogether.R
-import ru.mail.sporttogether.fragments.adapter.presenters.MyEventsHolderPresenter
+import ru.mail.sporttogether.fragments.presenter.MyEventsHolderPresenter
 import ru.mail.sporttogether.fragments.adapter.views.MyEventsView
 
 /**
