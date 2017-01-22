@@ -20,12 +20,16 @@ import rx.subjects.BehaviorSubject
  * Created by bagrusss on 08.10.16.
  *
  */
-class LocationManager(val context: Context) : GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks, LocationListener {
+class LocationManager(val context: Context) :
+        GoogleApiClient.OnConnectionFailedListener,
+        GoogleApiClient.ConnectionCallbacks,
+        LocationListener {
+
     private var googleApiClient: GoogleApiClient? = null
-    private var locationUpdateRequest: LocationRequest
-    private var locationUpdating: Boolean = false
-    private var pendingAction: Boolean = false
-    private var pendingSingleEvent: Boolean = false
+    private var locationUpdateRequest: LocationRequest = LocationRequest()
+    private var locationUpdating = false
+    private var pendingAction = false
+    private var pendingSingleEvent = false
 
     private var lastLocation: Location? = null
     private var onLocationAction: ((Location) -> Unit)? = null
@@ -69,7 +73,6 @@ class LocationManager(val context: Context) : GoogleApiClient.OnConnectionFailed
 
         }
 
-        locationUpdateRequest = LocationRequest()
         locationUpdateRequest.interval = 15000
         locationUpdateRequest.fastestInterval = 5000
         locationUpdateRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY

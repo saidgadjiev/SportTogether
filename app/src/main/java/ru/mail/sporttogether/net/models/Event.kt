@@ -3,7 +3,7 @@ package ru.mail.sporttogether.net.models
 import android.os.Parcel
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import ru.mail.sporttogether.net.utils.createParcel
+import ru.mail.sporttogether.utils.createParcel
 import java.util.*
 
 /**

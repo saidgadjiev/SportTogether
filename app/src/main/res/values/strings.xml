@@ -2,7 +2,7 @@
     <string name="app_name">Забей стрелку</string>
     <string name="add">Добавить</string>
     <string name="name_event_hint">Название события</string>
-    <string name="max_people_event_hint">Максимум людей</string>
+    <string name="max_people_event_hint">Участники</string>
     <string name="description">Описание(не обязательно)</string>
     <string name="event_added">Событие добавлено</string>
     <string name="events_map">Карта событий</string>
@@ -26,12 +26,14 @@
     <string name="cant_load_position">Не удалось загрузить местоположение</string>
     <string name="angryAlready">Вы пожаловались</string>
     <string name="share">Поделиться</string>
-    <string name="edit">Редактировать</string>
+    <string name="edit">Правка</string>
     <string name="result">Результат</string>
     <string name="ok">ОК</string>
-    <string name="cancel_event">отменить</string>
+    <string name="cancel">Отменить</string>
+    <string name="cancel_event">Отменить событие</string>
     <string name="datetime_picker_btn_set">Установить</string>
     <string name="datetime_picker_header">Установить дату</string>
+    <string name="datetime">Дата и время</string>
     <string name="add_event_set_date_btn">задать</string>
     <string name="category">Вид спорта</string>
     <string name="description_header">Описание</string>
@@ -51,5 +53,10 @@
     <string name="title_location_access">Доступ к местоположению</string>
     <string name="cannot_find_you">Без доступа к местоположению мы не можем показать ближайшие события</string>
     <string name="location_disabled_message">Местоположение отключено.\nДля показа событий рядом с Вами необходимо включить доступ к местоплложению.\nОткрыть настройки?</string>
+    <string name="event_name">Название события</string>
+    <string name="play_in">Во что играем</string>
+    <string name="how_much_us">Сколько нас</string>
+    <string name="event_description">Описание события</string>
+    <string name="save">Сохранить</string>
 
 </resources>

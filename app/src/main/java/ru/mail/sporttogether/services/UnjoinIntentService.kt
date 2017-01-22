@@ -9,12 +9,16 @@ import android.widget.Toast
 import ru.mail.sporttogether.app.App
 import ru.mail.sporttogether.fcm.CustomFirebaseMessagingService.Companion.ID_EVENT_KEY
 import ru.mail.sporttogether.fcm.CustomFirebaseMessagingService.Companion.UNJOIN_ID
-import ru.mail.sporttogether.managers.events.EventsManager
-import ru.mail.sporttogether.managers.headers.HeaderManagerImpl
-import ru.mail.sporttogether.mvp.presenters.auth.LoginPresenterImpl
+//import ru.mail.sporttogether.managers.events.EventsManager
+//import ru.mail.sporttogether.managers.headers.HeaderManagerImpl
+//import ru.mail.sporttogether.mvp.presenters.auth.LoginPresenterImpl
 import ru.mail.sporttogether.net.api.EventsAPI
 import ru.mail.sporttogether.net.models.Event
-import ru.mail.sporttogether.net.responses.Response
+//import ru.mail.sporttogether.net.responses.Response
+import ru.mail.sporttogether.managers.HeaderManagerImpl
+import ru.mail.sporttogether.activities.presenter.LoginActivityPresenterImpl
+import ru.mail.sporttogether.managers.EventsManager
+import ru.mail.sporttogether.net.Response
 import rx.Subscriber
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
@@ -42,9 +46,9 @@ class UnjoinIntentService : IntentService(NAME) {
             val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             manager.cancel(UNJOIN_ID)
 
-            val sharedPreferences = getSharedPreferences(LoginPresenterImpl.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
-            val token = sharedPreferences.getString(LoginPresenterImpl.TOKEN_KEY, "")
-            val clientId = sharedPreferences.getString(LoginPresenterImpl.CLIENT_ID_KEY, "")
+            val sharedPreferences = getSharedPreferences(LoginActivityPresenterImpl.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
+            val token = sharedPreferences.getString(LoginActivityPresenterImpl.TOKEN_KEY, "")
+            val clientId = sharedPreferences.getString(LoginActivityPresenterImpl.CLIENT_ID_KEY, "")
             headerManager.token = token
             headerManager.clientId = clientId
 

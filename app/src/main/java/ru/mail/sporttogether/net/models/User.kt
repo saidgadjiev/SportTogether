@@ -2,7 +2,7 @@ package ru.mail.sporttogether.net.models
 
 import android.os.Parcel
 import android.os.Parcelable
-import ru.mail.sporttogether.net.utils.createParcel
+import ru.mail.sporttogether.utils.createParcel
 
 /**
  * Created by bagrusss on 30.09.16

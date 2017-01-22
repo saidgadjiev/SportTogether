@@ -6,14 +6,14 @@ import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import ru.mail.sporttogether.R
-import ru.mail.sporttogether.mvp.presenters.splash.SplashActivityPresenter
-import ru.mail.sporttogether.mvp.presenters.splash.SplashActivityPresenterImpl
-import ru.mail.sporttogether.mvp.views.ISplashView
-
+import ru.mail.sporttogether.activities.presenter.SplashActivityPresenter
+import ru.mail.sporttogether.activities.presenter.SplashActivityPresenterImpl
+import ru.mail.sporttogether.activities.view.SplashView
+import ru.mail.sporttogether.mvp.PresenterActivity
 
 class SplashActivity :
         PresenterActivity<SplashActivityPresenter>(),
-        ISplashView {
+        SplashView {
 
     override fun getActivity(): Activity {
         return this

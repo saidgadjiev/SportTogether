@@ -21,7 +21,7 @@ import ru.mail.sporttogether.auth.core.SocialNetworkError
 import ru.mail.sporttogether.auth.core.SocialNetworkManager
 import ru.mail.sporttogether.auth.core.listeners.OnLoginCompleteListener
 import ru.mail.sporttogether.auth.core.listeners.OnRequestSocialPersonCompleteListener
-import ru.mail.sporttogether.auth.core.persons.SocialPerson
+import ru.mail.sporttogether.auth.core.SocialPerson
 
 /**
  * Created by said on 17.11.16
@@ -73,28 +73,8 @@ class VKSocialNetwork(activity: Activity) : ISocialNetwork {
         VKSdk.login(activity, *scopes)
     }
 
-    override fun onStart() {
-
-    }
-
-    override fun onPause() {
-
-    }
-
-    override fun onResume() {
-
-    }
-
-    override fun onStop() {
-
-    }
-
     override fun onDestroy() {
         vkAccessTokenTracker.stopTracking()
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

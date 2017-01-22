@@ -6,7 +6,7 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import ru.mail.sporttogether.net.models.Profile
 import ru.mail.sporttogether.net.models.User
-import ru.mail.sporttogether.net.responses.Response
+import ru.mail.sporttogether.net.Response
 import rx.Observable
 
 /**

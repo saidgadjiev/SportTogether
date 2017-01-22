@@ -2,7 +2,7 @@ package ru.mail.sporttogether.net.interceptors
 
 import okhttp3.Interceptor
 import okhttp3.Response
-import ru.mail.sporttogether.managers.headers.HeaderManagerImpl
+import ru.mail.sporttogether.managers.HeaderManagerImpl
 
 
 /**

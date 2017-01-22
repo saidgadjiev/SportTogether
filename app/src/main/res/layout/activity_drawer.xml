@@ -3,6 +3,31 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="listener"
+            type="ru.mail.sporttogether.data.binding.event.EventDetailsListener" />
+
+        <variable
+            name="zoomListener"
+            type="ru.mail.sporttogether.data.binding.ZoomListener" />
+
+        <variable
+            name="addListener"
+            type="ru.mail.sporttogether.data.binding.event.ButtonListener" />
+
+        <variable
+            name="data"
+            type="ru.mail.sporttogether.data.binding.event.EventDetailsData" />
+
+        <variable
+            name="drawerData"
+            type="ru.mail.sporttogether.data.binding.DrawerData" />
+    </data>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -21,9 +46,23 @@
         </android.support.v7.widget.Toolbar>
 
         <FrameLayout
-            android:id="@+id/drawer_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent">
+
+            <fragment
+                android:id="@+id/map"
+                android:name="ru.mail.sporttogether.fragments.EventsMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <FrameLayout
+                android:id="@+id/drawer_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:visibility="@{drawerData.mapActive? View.GONE : View.VISIBLE}" />
+        </FrameLayout>
+
     </LinearLayout>
 
 </layout>

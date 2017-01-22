@@ -4,8 +4,8 @@ import retrofit2.http.*
 import ru.mail.sporttogether.net.models.Event
 import ru.mail.sporttogether.net.models.EventResult
 import ru.mail.sporttogether.net.models.Task
-import ru.mail.sporttogether.net.responses.EventsResponse
-import ru.mail.sporttogether.net.responses.Response
+import ru.mail.sporttogether.net.EventsResponse
+import ru.mail.sporttogether.net.Response
 import rx.Observable
 import java.util.*
 

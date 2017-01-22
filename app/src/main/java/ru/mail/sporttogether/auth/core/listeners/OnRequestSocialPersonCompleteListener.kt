@@ -1,7 +1,7 @@
 package ru.mail.sporttogether.auth.core.listeners
 
 import ru.mail.sporttogether.auth.core.SocialNetworkError
-import ru.mail.sporttogether.auth.core.persons.SocialPerson
+import ru.mail.sporttogether.auth.core.SocialPerson
 
 /**
  * Created by said on 21.11.16.
