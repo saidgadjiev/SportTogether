@@ -16,9 +16,11 @@ import com.google.firebase.iid.FirebaseInstanceId
 import ru.mail.sporttogether.R
 import ru.mail.sporttogether.app.App
 import ru.mail.sporttogether.auth.core.SocialNetworkManager
-import ru.mail.sporttogether.managers.LocationManager
-import ru.mail.sporttogether.managers.EventsManager
 import ru.mail.sporttogether.fragments.view.EventsMapView
+import ru.mail.sporttogether.managers.EventsManager
+import ru.mail.sporttogether.managers.LocationManager
+import ru.mail.sporttogether.net.EventsResponse
+import ru.mail.sporttogether.net.Response
 import ru.mail.sporttogether.net.api.EventsAPI
 import ru.mail.sporttogether.net.api.ServiceApi
 import ru.mail.sporttogether.net.api.YandexMapsApi
@@ -27,8 +29,6 @@ import ru.mail.sporttogether.net.models.IpResponse
 import ru.mail.sporttogether.net.models.Task
 import ru.mail.sporttogether.net.models.User
 import ru.mail.sporttogether.net.models.yandex.maps.GeoObject
-import ru.mail.sporttogether.net.EventsResponse
-import ru.mail.sporttogether.net.Response
 import rx.Observable
 import rx.Subscriber
 import rx.Subscription
@@ -93,6 +93,16 @@ class EventsMapFragmentPresenterImpl(var view: EventsMapView?) : EventsMapFragme
                             val isCancelable = (userId == event.user.id) and !event.isEnded
                             view?.showInfo(lastEvent, isCancelable, null)
                             loadAddressFromYandex(event.lat, event.lng)
+                        }
+
+                        EventsManager.UpdateType.NEED_SHOW_POSITION -> {
+                            val event = newState.data as Event
+                            map?.animateCamera(CameraUpdateFactory.newLatLng(LatLng(event.lat, event.lng)))
+                            view?.showMap()
+//                            lastEvent = event
+//                            val isCancelable = (userId == event.user.id) and !event.isEnded
+//                            view?.showInfo(lastEvent, isCancelable, null)
+//                            loadAddressFromYandex(event.lat, event.lng)
                         }
                     }
                 }
@@ -347,10 +357,12 @@ class EventsMapFragmentPresenterImpl(var view: EventsMapView?) : EventsMapFragme
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(object : Subscriber<Response<EventsResponse>>() {
                         override fun onError(e: Throwable) {
+                            Log.e("EventsMapPresenter", "events loaded error")
                             view?.showToast(R.string.cant_get_events)
                         }
 
                         override fun onNext(response: Response<EventsResponse>) {
+                            Log.d("EventsMapPresenter", "events loaded")
                             eventsManager.swapEvents(response.data)
                             addMarkers(response.data)
                         }

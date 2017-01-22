@@ -1,5 +1,6 @@
 package ru.mail.sporttogether.managers
 
+import android.util.Log
 import android.util.LongSparseArray
 import ru.mail.sporttogether.net.models.Event
 import rx.subjects.PublishSubject
@@ -21,6 +22,7 @@ class EventsManagerImpl : EventsManager {
 
 
     override fun swapEvents(events: MutableList<Event>) {
+        Log.d("EventsManager", "swap events")
         eventsMap.clear()
         events.forEach {
             eventsMap.put(it.id, it)
@@ -49,6 +51,10 @@ class EventsManagerImpl : EventsManager {
 
     override fun showEvent(event: Event) {
         eventsUpdate.onNext(EventsManager.NewData(type = EventsManager.UpdateType.NEED_SHOW, data = event))
+    }
+
+    override fun showEventPosition(event: Event) {
+        eventsUpdate.onNext(EventsManager.NewData(type = EventsManager.UpdateType.NEED_SHOW_POSITION, data = event))
     }
 
     override fun getEvents(): ArrayList<Event> {

@@ -3,17 +3,17 @@ package ru.mail.sporttogether.activities.presenter
 import android.os.Bundle
 import android.util.Log
 import com.google.firebase.iid.FirebaseInstanceId
+import ru.mail.sporttogether.activities.view.AddEventView
 import ru.mail.sporttogether.app.App
 import ru.mail.sporttogether.managers.EventsManager
-import ru.mail.sporttogether.activities.view.AddEventView
+import ru.mail.sporttogether.net.CategoriesResponse
+import ru.mail.sporttogether.net.Response
 import ru.mail.sporttogether.net.api.CategoriesAPI
 import ru.mail.sporttogether.net.api.EventsAPI
 import ru.mail.sporttogether.net.api.YandexMapsApi
 import ru.mail.sporttogether.net.models.Event
 import ru.mail.sporttogether.net.models.EventResult
 import ru.mail.sporttogether.net.models.yandex.maps.GeoObject
-import ru.mail.sporttogether.net.CategoriesResponse
-import ru.mail.sporttogether.net.Response
 import ru.mail.sporttogether.utils.DateUtils
 import rx.Subscriber
 import rx.Subscription
@@ -80,9 +80,9 @@ class AddEventPresenterImpl(var view: AddEventView?) : AddEventPresenter {
         val sb = StringBuilder(event.category.name)
         sb.append(", ")
                 .append(DateUtils.toXLongDateString(Date(event.date)))
-                .append("build/intermediates/exploded-aar/com.android.support/customtabs/25.0.0/res ")
+                .append(", ")
                 .append(event.maxPeople)
-                .append(" человек(а)")
+                .append(" чел.")
         val nameEvent = sb.toString()
         Log.d("#MY ", "generated name : " + nameEvent)
         event.name = nameEvent
