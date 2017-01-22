@@ -16,7 +16,7 @@ object ShareUtils {
                                        .append(event.category.name)
                                        .append('\n')
                                        .append('\n')
-                                       .append(event.description)
+                                       .append(event.result ?: event.description)
                                        .append('\n')
                                        .append('\n')
                                        .append(RetrofitModule.BASE_URL)
