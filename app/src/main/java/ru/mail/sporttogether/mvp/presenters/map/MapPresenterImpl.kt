@@ -92,6 +92,7 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
                             lastEvent = event
                             val isCancelable = (userId == event.user.id) and !event.isEnded
                             view?.showInfo(lastEvent, isCancelable, null)
+                            loadAddressFromYandex(event.lat, event.lng)
                         }
                     }
                 }
