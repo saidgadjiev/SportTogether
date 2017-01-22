@@ -60,50 +60,23 @@ class CustomFirebaseMessagingService : FirebaseMessagingService() {
                 .setContentText(notificationMessage.message)
                 .setSmallIcon(R.drawable.ic_racing_flag)
         var currentNotificationId = 0
-        if (event != null) {
-            val json = gson.fromJson(event, JsonObject::class.java)
-            val id = json.get("id").asInt
-            currentNotificationId = (System.currentTimeMillis() / 1000 % 10000).toInt()
-            when(type) {
-                0 -> {
-                    currentNotificationId = 0
-                    Log.d(TAG, "type is 0")
+
+        currentNotificationId = (System.currentTimeMillis() / 1000 % 10000).toInt()
+        when(type) {
+            0 -> {
+                currentNotificationId = 0
+                Log.d(TAG, "type is 0")
+            }
+            1 -> {
+                if (event != null) {
+                    currentNotificationId *= RESULT_KOEF
+                    resultNotificationLogic(currentNotificationId, notificationBuilder, event)
                 }
-                1 -> Log.d(TAG, "type is 1")
-                2 -> {
-                    Log.d(TAG, "type is 2")
+            }
+            2 -> {
+                if (event != null) {
                     currentNotificationId *= REMIND_KOEF
-                    val unjoinIntent = Intent(this, UnjoinIntentService::class.java)
-                    val showingIntent = Intent(this, ShowEventIntentService::class.java)
-                    unjoinIntent.putExtra(ID_EVENT_KEY, id)
-                    unjoinIntent.putExtra(ID_NOTIFICATION_KEY, currentNotificationId)
-                    val bundle = Bundle()
-                    bundle.putLong("id", id.toLong())
-                    val jsonLatitude: JsonElement? = json.get("latitude")
-                    val jsonLongtitude: JsonElement? = json.get("longtitude")
-                    if (jsonLatitude != null) {
-                        bundle.putDouble("latitude", jsonLatitude.asDouble)
-                    }
-                    if (jsonLongtitude != null) {
-                        bundle.putDouble("longtitude", jsonLongtitude.asDouble)
-                    }
-                    showingIntent.putExtra("data", bundle)
-                    showingIntent.putExtra(ID_NOTIFICATION_KEY, currentNotificationId)
-                    val unjoinPendingIntent: PendingIntent = PendingIntent.getService(
-                            this,
-                            currentNotificationId,
-                            unjoinIntent,
-                            PendingIntent.FLAG_UPDATE_CURRENT
-                    )
-                    val showingPendingIntent: PendingIntent = PendingIntent.getService(
-                            this,
-                            currentNotificationId + 1,
-                            showingIntent,
-                            PendingIntent.FLAG_UPDATE_CURRENT
-                    )
-                    notificationBuilder.addAction(R.drawable.ic_people, "Я не приду", unjoinPendingIntent)
-                    notificationBuilder.addAction(R.drawable.ic_map, "Подробнее", showingPendingIntent)
-                    Log.d(TAG, "added pending intent of id event $id, notification id $currentNotificationId")
+                    remindNotificationLogic(currentNotificationId, notificationBuilder, event)
                 }
             }
         }
@@ -112,8 +85,76 @@ class CustomFirebaseMessagingService : FirebaseMessagingService() {
         manager.notify(currentNotificationId, notificationBuilder.build())
     }
 
+    fun remindNotificationLogic(notifId: Int, builder: NotificationCompat.Builder, event: String) {
+        val json = gson.fromJson(event, JsonObject::class.java)
+        val id = json.get("id").asInt
+        Log.d(TAG, "type is 2")
+        val unjoinIntent = Intent(this, UnjoinIntentService::class.java)
+        val showingIntent = Intent(this, ShowEventIntentService::class.java)
+        unjoinIntent.putExtra(ID_EVENT_KEY, id)
+        unjoinIntent.putExtra(ID_NOTIFICATION_KEY, notifId)
+        val bundle = bundleFromJSON(json)
+        bundle.putLong("id", id.toLong())
+        showingIntent.putExtra("data", bundle)
+        showingIntent.putExtra(ID_NOTIFICATION_KEY, notifId)
+        val unjoinPendingIntent: PendingIntent = PendingIntent.getService(
+                this,
+                notifId,
+                unjoinIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT
+        )
+        val showingPendingIntent: PendingIntent = PendingIntent.getService(
+                this,
+                notifId + 1,
+                showingIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT
+        )
+        builder.addAction(R.drawable.ic_people, "Я не приду", unjoinPendingIntent)
+        builder.addAction(R.drawable.ic_map, "Подробнее", showingPendingIntent)
+        Log.d(TAG, "added pending intent of id event $id, notification id $notifId")
+    }
+
+    fun resultNotificationLogic(notifId: Int, builder: NotificationCompat.Builder, event: String) {
+        val json: JsonObject = gson.fromJson(event, JsonObject::class.java)
+        val id = json.get("id").asInt
+        Log.d(TAG, "type is 1")
+        val showingIntent = Intent(this, ShowEventIntentService::class.java)
+        val bundle = bundleFromJSON(json)
+        bundle.putLong("id", id.toLong())
+
+        //костыль, от сервера в поле заголовка отсутствует имя
+        val jsonName: JsonElement? = json.get("name")
+        if (jsonName != null) {
+            builder.setContentTitle(builder.mContentTitle.toString() + " " + jsonName.asString)
+        }
+        showingIntent.putExtra("data", bundle)
+        showingIntent.putExtra(ID_NOTIFICATION_KEY, notifId)
+        val showingPendingIntent: PendingIntent = PendingIntent.getService(
+                this,
+                notifId + 1,
+                showingIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT
+        )
+        builder.addAction(R.drawable.ic_map, "Подробнее", showingPendingIntent)
+        Log.d(TAG, "added pending intent of id event $id, notification id $notifId")
+    }
+
+    fun bundleFromJSON(json: JsonObject): Bundle {
+        val bundle = Bundle()
+        val jsonLatitude: JsonElement? = json.get("latitude")
+        val jsonLongtitude: JsonElement? = json.get("longtitude")
+        if (jsonLatitude != null) {
+            bundle.putDouble("latitude", jsonLatitude.asDouble)
+        }
+        if (jsonLongtitude != null) {
+            bundle.putDouble("longtitude", jsonLongtitude.asDouble)
+        }
+        return  bundle
+    }
+
     companion object {
         val REMIND_KOEF = 1
+        val RESULT_KOEF = 2
         val ID_EVENT_KEY = "idEvent"
         val ID_NOTIFICATION_KEY = "idNotification"
     }
