@@ -14,6 +14,7 @@ import java.util.*
 /**
  * Created by Ivan on 20.10.2016
  */
+@Deprecated("this adapter deprecated and will be deleted as soon as possible")
 class EventsAdapter : RecyclerView.Adapter<EventsAdapter.ViewHolder>() {
     private var events: MutableList<Event>? = null
 
@@ -36,6 +37,7 @@ class EventsAdapter : RecyclerView.Adapter<EventsAdapter.ViewHolder>() {
         }
     }
 
+    @Deprecated("deprecated")
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val binding: ItemEventBinding = DataBindingUtil.bind(itemView)
         val data = EventDetailsData()

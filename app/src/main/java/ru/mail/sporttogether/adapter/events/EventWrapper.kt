@@ -6,6 +6,7 @@ import ru.mail.sporttogether.net.models.Event
  * Created by bagrusss on 10.11.16.
  *
  */
+@Deprecated("deprecated")
 data class EventWrapper(
         val type: Int,
         val event: Event
