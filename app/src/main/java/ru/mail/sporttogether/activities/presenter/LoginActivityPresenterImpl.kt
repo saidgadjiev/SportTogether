@@ -2,7 +2,6 @@ package ru.mail.sporttogether.activities.presenter
 
 import android.content.Context
 import android.content.Intent
-import android.os.Bundle
 import android.util.Log
 import android.view.View
 import ru.mail.sporttogether.R
@@ -28,17 +27,13 @@ import javax.inject.Inject
 class LoginActivityPresenterImpl(view: LoginView) : LoginActivityPresenter, OnLoginCompleteListener, OnRequestSocialPersonCompleteListener {
 
     private var view: LoginView? = view
-    private lateinit var socialNetworkManager: SocialNetworkManager
+    @Inject lateinit var socialNetworkManager: SocialNetworkManager
     @Inject lateinit var headerManager: HeaderManagerImpl
     @Inject lateinit var authApi: AuthorizationAPI
     @Inject lateinit var context: Context
 
     init {
         App.injector.usePresenterComponent().inject(this)
-    }
-
-    override fun onCreate(args: Bundle?) {
-        socialNetworkManager = SocialNetworkManager.instance
     }
 
     override fun onResume() {

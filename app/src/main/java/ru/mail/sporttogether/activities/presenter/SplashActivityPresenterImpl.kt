@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import ru.mail.sporttogether.activities.SplashActivity
+import ru.mail.sporttogether.activities.view.SplashView
 import ru.mail.sporttogether.app.App
 import ru.mail.sporttogether.auth.core.SocialNetworkError
 import ru.mail.sporttogether.auth.core.SocialNetworkManager
@@ -12,11 +13,10 @@ import ru.mail.sporttogether.auth.core.SocialPerson
 import ru.mail.sporttogether.auth.core.social_networks.FacebookSocialNetwork
 import ru.mail.sporttogether.auth.core.social_networks.VKSocialNetwork
 import ru.mail.sporttogether.managers.HeaderManagerImpl
-import ru.mail.sporttogether.activities.view.SplashView
+import ru.mail.sporttogether.net.Response
 import ru.mail.sporttogether.net.api.AuthorizationAPI
 import ru.mail.sporttogether.net.models.Profile
 import ru.mail.sporttogether.net.models.User
-import ru.mail.sporttogether.net.Response
 import rx.Subscriber
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
@@ -33,15 +33,13 @@ class SplashActivityPresenterImpl(view: SplashView) : SplashActivityPresenter {
     @Inject lateinit var context: Context
     @Inject lateinit var headerManager: HeaderManagerImpl
 
-    private lateinit var socialNetworkManager: SocialNetworkManager
+    @Inject lateinit var socialNetworkManager: SocialNetworkManager
 
     init {
         App.injector.usePresenterComponent().inject(this)
     }
 
     override fun onCreate(args: Bundle?) {
-        socialNetworkManager = SocialNetworkManager.instance
-
         val networkFacebook = FacebookSocialNetwork(view as SplashActivity)
         val networkVK = VKSocialNetwork(view as SplashActivity)
 

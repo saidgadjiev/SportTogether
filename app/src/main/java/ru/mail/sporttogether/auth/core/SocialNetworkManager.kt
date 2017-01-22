@@ -12,7 +12,7 @@ import java.util.*
  * Created by said on 12.11.16
  */
 
-class SocialNetworkManager private constructor() {
+class SocialNetworkManager {
     private val socialNetworksMap = TreeMap<Int, ISocialNetwork>()
 //    private var onInitializationCompleteListener: OnInitializationCompleteListener? = null
     private var networkID: Int = -1

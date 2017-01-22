@@ -3,6 +3,7 @@ package ru.mail.sporttogether.dagger.modules
 import android.content.Context
 import dagger.Module
 import dagger.Provides
+import ru.mail.sporttogether.auth.core.SocialNetworkManager
 import ru.mail.sporttogether.managers.EventsManager
 import ru.mail.sporttogether.managers.EventsManagerImpl
 import ru.mail.sporttogether.managers.HeaderManagerImpl
@@ -25,13 +26,11 @@ class ManagersModule {
     @Provides
     fun provideHeaderManager(): HeaderManagerImpl
             = HeaderManagerImpl()
-//
-//    @Provides
-//    @Singleton
-//    fun provideNotificationManager()
-//            = NotificationManager()
-//
 
+    @Provides
+    @Singleton
+    fun provideSocialNetworkManager()
+            = SocialNetworkManager()
 
     @Singleton
     @Provides

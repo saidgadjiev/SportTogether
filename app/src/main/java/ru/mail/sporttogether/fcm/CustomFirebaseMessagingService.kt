@@ -115,18 +115,20 @@ class CustomFirebaseMessagingService : FirebaseMessagingService() {
     }
 
     fun resultNotificationLogic(notifId: Int, builder: NotificationCompat.Builder, event: String) {
+        Log.d(TAG, "type is 1")
+
         val json: JsonObject = gson.fromJson(event, JsonObject::class.java)
         val id = json.get("id").asInt
-        Log.d(TAG, "type is 1")
-        val showingIntent = Intent(this, ShowEventIntentService::class.java)
-        val bundle = bundleFromJSON(json)
-        bundle.putLong("id", id.toLong())
 
         //костыль, от сервера в поле заголовка отсутствует имя
         val jsonName: JsonElement? = json.get("name")
         if (jsonName != null) {
             builder.setContentTitle(builder.mContentTitle.toString() + " " + jsonName.asString)
         }
+
+        val showingIntent = Intent(this, ShowEventIntentService::class.java)
+        val bundle = bundleFromJSON(json)
+        bundle.putLong("id", id.toLong())
         showingIntent.putExtra("data", bundle)
         showingIntent.putExtra(ID_NOTIFICATION_KEY, notifId)
         val showingPendingIntent: PendingIntent = PendingIntent.getService(

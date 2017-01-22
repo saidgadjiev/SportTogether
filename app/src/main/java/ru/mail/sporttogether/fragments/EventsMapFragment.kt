@@ -25,7 +25,6 @@ import ru.mail.sporttogether.activities.DrawerActivity
 import ru.mail.sporttogether.adapter.TaskAdapter
 import ru.mail.sporttogether.adapter.events.EventsAdapter
 import ru.mail.sporttogether.app.App
-import ru.mail.sporttogether.auth.core.SocialNetworkManager
 import ru.mail.sporttogether.data.binding.event.ButtonListener
 import ru.mail.sporttogether.data.binding.event.EventDetailsData
 import ru.mail.sporttogether.data.binding.event.EventDetailsListener
@@ -58,7 +57,6 @@ class EventsMapFragment :
     private val data = EventDetailsData()
     private var tasksAdapter: TaskAdapter? = null
     private lateinit var resultsContainer: FrameLayout
-
     private lateinit var eventsListView: RecyclerView
     private val adapter = EventsAdapter()
     private var dialog: AlertDialog? = null
@@ -377,7 +375,7 @@ class EventsMapFragment :
 
     //TODO исправить !!!
     fun initTasks(tasks: ArrayList<Task>) {
-        val myId = SocialNetworkManager.instance.activeUser.id // TODO inject manager
+        val myId = presenter.getMyId() // TODO inject manager
         tasksAdapter = TaskAdapter(tasks, this, myId)
         binding.include.tasksListRecyclerView.adapter = tasksAdapter
         binding.include.tasksListRecyclerView.layoutManager = LinearLayoutManager(this.context)

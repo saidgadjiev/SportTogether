@@ -6,6 +6,7 @@ import android.os.Handler
 import android.util.Log
 import ru.mail.sporttogether.activities.view.DrawerView
 import ru.mail.sporttogether.app.App
+import ru.mail.sporttogether.auth.core.SocialNetworkManager
 import ru.mail.sporttogether.managers.EventsManager
 import ru.mail.sporttogether.managers.HeaderManagerImpl
 import ru.mail.sporttogether.net.api.AuthorizationAPI
@@ -23,6 +24,7 @@ class DrawerActivityPresenterImpl(view: DrawerView) : DrawerActivityPresenter {
     @Inject lateinit var context: Context
     @Inject lateinit var headerManager: HeaderManagerImpl
     @Inject lateinit var eventsManager: EventsManager
+    @Inject lateinit var socialNetworkManager: SocialNetworkManager
 //    private var eventsSubscribion: Subscription? = null
 
     override fun clickSignOut() {
@@ -67,6 +69,24 @@ class DrawerActivityPresenterImpl(view: DrawerView) : DrawerActivityPresenter {
     override fun onDestroy() {
         view = null
 //        eventsSubscribion = null
+    }
+
+    override fun logout() {
+        for (network in socialNetworkManager.initializedSocialNetworks) {
+            if (network.isConnected) {
+                network.logout()
+                view?.startLoginActivity()
+                break
+            }
+        }
+    }
+
+    override fun getProfileName(): String {
+        return socialNetworkManager.activeUser.name
+    }
+
+    override fun getAvatar(): String {
+        return socialNetworkManager.activeUser.avatar
     }
 
     init {

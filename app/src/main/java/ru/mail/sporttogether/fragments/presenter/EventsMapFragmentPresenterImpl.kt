@@ -57,11 +57,12 @@ class EventsMapFragmentPresenterImpl(var view: EventsMapView?) : EventsMapFragme
     @Inject lateinit var api: EventsAPI
     @Inject lateinit var eventsManager: EventsManager
     @Inject lateinit var locationManager: LocationManager
+    @Inject lateinit var socialNetworkManager: SocialNetworkManager
     @Inject lateinit var yandexApi: YandexMapsApi
     @Inject lateinit var serviceApi: ServiceApi
     @Inject lateinit var context: Context
 
-    private val userId: Long = SocialNetworkManager.instance.activeUser.id
+    private var userId: Long = 0
 
     private var apiSubscribtion: Subscription? = null
     private var locationSubscription: Subscription? = null
@@ -73,6 +74,7 @@ class EventsMapFragmentPresenterImpl(var view: EventsMapView?) : EventsMapFragme
         App.injector
                 .usePresenterComponent()
                 .inject(this)
+        userId = socialNetworkManager.activeUser.id
     }
 
 
@@ -289,6 +291,7 @@ class EventsMapFragmentPresenterImpl(var view: EventsMapView?) : EventsMapFragme
 
                     override fun onError(e: Throwable) {
                         view?.showToast("Произошла ошибка")
+                        Log.e(TAG, e.message, e)
                     }
 
                     override fun onNext(resp: Response<ArrayList<Task>>) {
@@ -373,6 +376,10 @@ class EventsMapFragmentPresenterImpl(var view: EventsMapView?) : EventsMapFragme
 
                     })
         }
+    }
+
+    override fun getMyId(): Long {
+        return socialNetworkManager.activeUser.id
     }
 
     fun calculateScale(latlng: LatLng, distance: Int): Observable<Double> {
@@ -461,6 +468,7 @@ class EventsMapFragmentPresenterImpl(var view: EventsMapView?) : EventsMapFragme
 
                     override fun onError(e: Throwable) {
                         view?.showToast("Произошла ошибка")
+                        Log.e(TAG, e.message, e)
                     }
 
                     override fun onNext(t: Response<Any>) {
@@ -550,6 +558,7 @@ class EventsMapFragmentPresenterImpl(var view: EventsMapView?) : EventsMapFragme
 
                     override fun onError(e: Throwable) {
                         view?.showToast("Произошла ошибка")
+                        Log.e(TAG, e.message, e)
                     }
 
                     override fun onNext(t: Response<Any>) {
@@ -560,7 +569,7 @@ class EventsMapFragmentPresenterImpl(var view: EventsMapView?) : EventsMapFragme
                             if (changedTask != null) {
                                 val index = tasks?.indexOf(changedTask)!!.or(0)
                                 tasks?.remove(changedTask)
-                                val activeUser = SocialNetworkManager.instance.activeUser
+                                val activeUser = socialNetworkManager.activeUser
                                 val newUser = User("", activeUser.id, 0, activeUser.name, activeUser.avatar)
                                 tasks?.add(index, changedTask.copy(user = newUser)) //TODO inject social network manager
                             }
@@ -580,6 +589,7 @@ class EventsMapFragmentPresenterImpl(var view: EventsMapView?) : EventsMapFragme
 
                     override fun onError(e: Throwable) {
                         view?.showToast("Произошла ошибка")
+                        Log.e(TAG, e.message, e)
                     }
 
                     override fun onNext(t: Response<Any>) {
@@ -603,6 +613,8 @@ class EventsMapFragmentPresenterImpl(var view: EventsMapView?) : EventsMapFragme
     }
 
     companion object {
+
+        val TAG = "#MY " + EventsMapFragmentPresenterImpl::class.java.simpleName.substring(0,18)
 
         @JvmStatic private val MAX_ZOOM = 17f
         @JvmStatic private val MIN_ZOOM = 10f

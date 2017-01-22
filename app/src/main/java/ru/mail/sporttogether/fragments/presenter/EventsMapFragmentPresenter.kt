@@ -39,5 +39,7 @@ interface EventsMapFragmentPresenter :
 
     fun doAngry()
 
+    fun getMyId(): Long
+
 
 }

@@ -10,5 +10,11 @@ import ru.mail.sporttogether.mvp.IPresenter
 interface DrawerActivityPresenter : IPresenter {
     fun clickSignOut()
 
+    fun logout()
+
+    fun getProfileName(): String
+
+    fun getAvatar(): String
+
     fun showEventOnMap(bundle: Bundle)
 }

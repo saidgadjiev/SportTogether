@@ -21,7 +21,6 @@ import ru.mail.sporttogether.R
 import ru.mail.sporttogether.activities.presenter.DrawerActivityPresenter
 import ru.mail.sporttogether.activities.presenter.DrawerActivityPresenterImpl
 import ru.mail.sporttogether.activities.view.DrawerView
-import ru.mail.sporttogether.auth.core.SocialNetworkManager
 import ru.mail.sporttogether.data.binding.DrawerData
 import ru.mail.sporttogether.databinding.ActivityDrawerBinding
 import ru.mail.sporttogether.fragments.EventsTabFragment
@@ -34,7 +33,6 @@ class DrawerActivity : DrawerView,
     private lateinit var binding: ActivityDrawerBinding
     private lateinit var toolbar: Toolbar
     private lateinit var drawer: Drawer
-    private lateinit var socialNetworkManager: SocialNetworkManager
     private var lastPoss = 0
     private val drawerData = DrawerData()
     private lateinit var mapItem: PrimaryDrawerItem
@@ -51,7 +49,6 @@ class DrawerActivity : DrawerView,
         setSupportActionBar(toolbar)
         setupToolbar(toolbar)
         buildDrawer()
-        socialNetworkManager = SocialNetworkManager.instance
         toolbar.title = getString(R.string.events_map)
         val bundle = intent.getBundleExtra("data")
         Log.d("#MY DrawerActivity", "bundle " + bundle)
@@ -85,8 +82,8 @@ class DrawerActivity : DrawerView,
 
     private fun buildAccountHeader(): AccountHeader {
         DrawerImageLoader.init(DrawerLoader())
-        var avatar = SocialNetworkManager.instance.activeUser.avatar
-        var name = SocialNetworkManager.instance.activeUser.name
+        var avatar = presenter.getProfileName()
+        var name = presenter.getAvatar()
         if (name.isNullOrEmpty())
             name = "No name"
         if (avatar.isNullOrEmpty())
@@ -140,13 +137,7 @@ class DrawerActivity : DrawerView,
     }
 
     fun logout() {
-        for (network in socialNetworkManager.initializedSocialNetworks) {
-            if (network.isConnected) {
-                network.logout()
-                startLoginActivity()
-                break
-            }
-        }
+        presenter.logout()
     }
 
     private fun swapFragment(fragment: Fragment, newPos: Int) {
