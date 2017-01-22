@@ -239,7 +239,7 @@ class MapPresenterImpl(var view: IMapView?) : IMapPresenter {
                 view?.startAddEventActivity(it.longitude, it.latitude)
             }
         } else {
-            view?.shareResults()
+            view?.shareResults(lastEvent)
         }
     }
 

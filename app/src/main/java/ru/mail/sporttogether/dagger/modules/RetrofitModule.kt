@@ -28,10 +28,13 @@ import javax.inject.Singleton
 @Module
 class RetrofitModule {
 
-    private val BASE_URL = "http://p30281.lab1.stud.tech-mail.ru/"
-    private val READ_TIMEOUT = 30L
-    private val WRITE_TIMEOUT = 30L
-    private val CONNECT_TIMEOUT = 30L
+    companion object {
+        @JvmStatic val BASE_URL = "http://p30281.lab1.stud.tech-mail.ru/"
+        @JvmStatic val READ_TIMEOUT = 30L
+        @JvmStatic val WRITE_TIMEOUT = 30L
+        @JvmStatic val CONNECT_TIMEOUT = 30L
+    }
+
 
     @Singleton
     @Provides

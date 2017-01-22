@@ -38,6 +38,7 @@ import ru.mail.sporttogether.mvp.views.map.IMapView
 import ru.mail.sporttogether.net.models.Event
 import ru.mail.sporttogether.net.models.Task
 import ru.mail.sporttogether.utils.DateUtils
+import ru.mail.sporttogether.utils.ShareUtils
 import java.util.*
 
 
@@ -140,15 +141,10 @@ class EventsMapFragment :
         markerDownY = array[1] + view.height - statusBarHeight - toolbarHeight - tabHeight
     }
 
-    override fun shareResults() {
-        val name = data.name.get()
-        val text = if (data.result.get() == null) data.description.get() else data.result.get()
-        socialNetworkManager.getSocialNetwork(socialNetworkManager.getNetworkID())?.sharePost(
-                activity,
-                name,
-                text,
-                "http://vk.com"
-        )
+    override fun shareResults(event: Event) {
+        ShareUtils.createShareIntent(event, getString(R.string.share))?.let {
+            startActivity(it)
+        }
     }
 
     override fun showInfo(event: Event, isCancelable: Boolean, tasks: ArrayList<Task>?) {
@@ -275,7 +271,7 @@ class EventsMapFragment :
     }
 
     override fun onShareButtonClicked() {
-        shareResults()
+
     }
 
     override fun onCancelButtonClicked() {

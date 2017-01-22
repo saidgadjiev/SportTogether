@@ -23,7 +23,7 @@ interface IMapView : IView, GoogleMap.OnCameraIdleListener {
 
     fun setBottomSheetCollapsed()
 
-    fun shareResults()
+    fun shareResults(event: Event)
 
     fun loadEvents(events: MutableList<Event>)
 

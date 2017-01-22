@@ -2,7 +2,7 @@ package ru.mail.sporttogether.auth.core.persons
 
 import android.os.Parcel
 import android.os.Parcelable
-import ru.mail.sporttogether.net.utils.createParcel
+import ru.mail.sporttogether.utils.createParcel
 
 /**
  * Created by said on 21.11.16

@@ -1,4 +1,4 @@
-package ru.mail.sporttogether.net.utils
+package ru.mail.sporttogether.utils
 
 import android.os.Parcel
 import android.os.Parcelable
