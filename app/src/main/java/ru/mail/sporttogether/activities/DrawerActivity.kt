@@ -3,6 +3,7 @@ package ru.mail.sporttogether.activities
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.os.Handler
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.Toolbar
@@ -39,6 +40,7 @@ class DrawerActivity : DrawerView,
     private val drawerData = DrawerData()
     private lateinit var mapItem: PrimaryDrawerItem
     private var item: MenuItem? = null
+    private val handler = Handler()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -151,13 +153,15 @@ class DrawerActivity : DrawerView,
     }
 
     private fun swapFragment(fragment: Fragment, newPos: Int) {
-        if (lastPoss != newPos) {
-            supportFragmentManager.beginTransaction()
-                    .replace(R.id.drawer_container, fragment)
-                    .commit()
-            lastPoss = newPos
-            drawerData.mapActive.set(false)
-        }
+        handler.postDelayed({
+            if (lastPoss != newPos) {
+                supportFragmentManager.beginTransaction()
+                        .replace(R.id.drawer_container, fragment)
+                        .commit()
+                lastPoss = newPos
+                drawerData.mapActive.set(false)
+            }
+        }, 100)
     }
 
     fun showMap() {

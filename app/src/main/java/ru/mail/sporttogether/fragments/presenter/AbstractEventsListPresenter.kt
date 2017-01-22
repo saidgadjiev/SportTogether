@@ -15,6 +15,7 @@ import rx.Subscriber
 import rx.Subscription
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 /**
@@ -53,7 +54,9 @@ abstract class AbstractEventsListPresenter(private var view: EventListView?) : I
 
     fun getEvents() {
         view?.showProgressDialog()
-        apiSubscription = getApiObservable().subscribeOn(Schedulers.io())
+        //TODO задержка костыль чтобы не было вспышки при быстром интернете
+        apiSubscription = getApiObservable().delay(500, TimeUnit.MILLISECONDS)
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : Subscriber<Response<EventsResponse>>() {
                     override fun onError(e: Throwable) {
