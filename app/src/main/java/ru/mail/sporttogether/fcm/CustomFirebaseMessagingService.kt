@@ -63,15 +63,20 @@ class CustomFirebaseMessagingService : FirebaseMessagingService() {
         if (event != null) {
             val json = gson.fromJson(event, JsonObject::class.java)
             val id = json.get("id").asInt
+            currentNotificationId = (System.currentTimeMillis() / 1000 % 10000).toInt()
             when(type) {
-                0 -> Log.d(TAG, "type is 0")
+                0 -> {
+                    currentNotificationId = 0
+                    Log.d(TAG, "type is 0")
+                }
                 1 -> Log.d(TAG, "type is 1")
                 2 -> {
                     Log.d(TAG, "type is 2")
-                    currentNotificationId = UNJOIN_ID
+                    currentNotificationId *= REMIND_KOEF
                     val unjoinIntent = Intent(this, UnjoinIntentService::class.java)
                     val showingIntent = Intent(this, ShowEventIntentService::class.java)
                     unjoinIntent.putExtra(ID_EVENT_KEY, id)
+                    unjoinIntent.putExtra(ID_NOTIFICATION_KEY, currentNotificationId)
                     val bundle = Bundle()
                     bundle.putLong("id", id.toLong())
                     val jsonLatitude: JsonElement? = json.get("latitude")
@@ -83,12 +88,13 @@ class CustomFirebaseMessagingService : FirebaseMessagingService() {
                         bundle.putDouble("longtitude", jsonLongtitude.asDouble)
                     }
                     showingIntent.putExtra("data", bundle)
-                    val unjoinPendingIntent: PendingIntent = PendingIntent.getService(this, 0, unjoinIntent, PendingIntent.FLAG_UPDATE_CURRENT)
-                    val showingPendingIntent: PendingIntent = PendingIntent.getService(this, 1, showingIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+                    showingIntent.putExtra(ID_NOTIFICATION_KEY, currentNotificationId)
+                    val unjoinPendingIntent: PendingIntent = PendingIntent.getService(this, currentNotificationId, unjoinIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+                    val showingPendingIntent: PendingIntent = PendingIntent.getService(this, currentNotificationId + 1, showingIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 //                    notificationBuilder.setContentIntent(showingPendingIntent)
                     notificationBuilder.addAction(R.drawable.ic_people, "Я не приду", unjoinPendingIntent)
                     notificationBuilder.addAction(R.drawable.ic_map, "Подробнее", showingPendingIntent)
-                    Log.d(TAG, "added pending intent of id event $id")
+                    Log.d(TAG, "added pending intent of id event $id, notification id $currentNotificationId")
                 }
             }
         }
@@ -98,7 +104,8 @@ class CustomFirebaseMessagingService : FirebaseMessagingService() {
     }
 
     companion object {
-        val UNJOIN_ID = 10
+        val REMIND_KOEF = 1
         val ID_EVENT_KEY = "idEvent"
+        val ID_NOTIFICATION_KEY = "idNotification"
     }
 }
