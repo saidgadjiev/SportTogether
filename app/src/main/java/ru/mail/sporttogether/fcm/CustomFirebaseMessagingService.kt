@@ -4,15 +4,18 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.os.Bundle
 import android.support.v7.app.NotificationCompat
 import android.util.Log
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.google.gson.Gson
+import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import ru.mail.sporttogether.R
 import ru.mail.sporttogether.app.App
 import ru.mail.sporttogether.net.models.NotificationMessage
+import ru.mail.sporttogether.services.ShowEventIntentService
 import ru.mail.sporttogether.services.UnjoinIntentService
 import javax.inject.Inject
 
@@ -41,7 +44,6 @@ class CustomFirebaseMessagingService : FirebaseMessagingService() {
             Log.e(TAG, "title or message is null")
             return
         }
-        Log.d(TAG, "new version $type")
         val event = remoteMessage.data["object"]
         val notificationBuilder = NotificationCompat.Builder(this)
         val notificationMessage: NotificationMessage = NotificationMessage(
@@ -68,9 +70,24 @@ class CustomFirebaseMessagingService : FirebaseMessagingService() {
                     Log.d(TAG, "type is 2")
                     currentNotificationId = UNJOIN_ID
                     val unjoinIntent = Intent(this, UnjoinIntentService::class.java)
+                    val showingIntent = Intent(this, ShowEventIntentService::class.java)
                     unjoinIntent.putExtra(ID_EVENT_KEY, id)
+                    val bundle = Bundle()
+                    bundle.putLong("id", id.toLong())
+                    val jsonLatitude: JsonElement? = json.get("latitude")
+                    val jsonLongtitude: JsonElement? = json.get("longtitude")
+                    if (jsonLatitude != null) {
+                        bundle.putDouble("latitude", jsonLatitude.asDouble)
+                    }
+                    if (jsonLongtitude != null) {
+                        bundle.putDouble("longtitude", jsonLongtitude.asDouble)
+                    }
+                    showingIntent.putExtra("data", bundle)
                     val unjoinPendingIntent: PendingIntent = PendingIntent.getService(this, 0, unjoinIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+                    val showingPendingIntent: PendingIntent = PendingIntent.getService(this, 1, showingIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+//                    notificationBuilder.setContentIntent(showingPendingIntent)
                     notificationBuilder.addAction(R.drawable.ic_people, "Я не приду", unjoinPendingIntent)
+                    notificationBuilder.addAction(R.drawable.ic_map, "Подробнее", showingPendingIntent)
                     Log.d(TAG, "added pending intent of id event $id")
                 }
             }

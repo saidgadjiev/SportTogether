@@ -30,6 +30,7 @@
             </intent-filter>
         </service>
         <service android:name=".services.UnjoinIntentService"/>
+        <service android:name=".services.ShowEventIntentService"/>
         <service
             android:name=".services.CustomFirebaseInstanceIdService"
             android:exported="false">
@@ -47,6 +48,7 @@
             android:name=".activities.DrawerActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
+            android:launchMode="singleTask"
             android:windowSoftInputMode="stateHidden|adjustPan" />
 
         <activity
