@@ -15,26 +15,29 @@ class SplashActivity :
         PresenterActivity<SplashActivityPresenter>(),
         SplashView {
 
+    private var bundle: Bundle? = null
+
     override fun getActivity(): Activity {
         return this
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d("#MY ", "on create in splash activity")
         setContentView(R.layout.activity_splash)
         presenter = SplashActivityPresenterImpl(this)
         presenter.onCreate(savedInstanceState)
-    }
-
-    override fun onNewIntent(intent: Intent?) {
-        super.onNewIntent(intent)
-        Log.d("#MY ", "on new intent in splash activity")
+        bundle = intent.getBundleExtra("data")
+        Log.d("#MY SplashActivity", "on create bundle " + bundle)
     }
 
     override fun startMainActivity() {
         finish()
-        startActivity(Intent(this, DrawerActivity::class.java))
+        val intent = Intent(this, DrawerActivity::class.java)
+        Log.d("#MY SplashActivity", "bundle " + bundle)
+        if (bundle != null) {
+            intent.putExtra("data", bundle)
+        }
+        startActivity(intent)
     }
 
     override fun startLoginActivity() {

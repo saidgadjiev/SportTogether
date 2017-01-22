@@ -53,6 +53,11 @@ class DrawerActivity : DrawerView,
         buildDrawer()
         socialNetworkManager = SocialNetworkManager.instance
         toolbar.title = getString(R.string.events_map)
+        val bundle = intent.getBundleExtra("data")
+        Log.d("#MY DrawerActivity", "bundle " + bundle)
+        if (bundle != null) {
+            presenter.showEventOnMap(bundle)
+        }
     }
 
     override fun onDestroy() {
@@ -63,6 +68,10 @@ class DrawerActivity : DrawerView,
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         Log.d("#MY ", "on new intent in drawer activity")
+        val bundle = intent?.getBundleExtra("data")
+        if (bundle != null) {
+            presenter.showEventOnMap(bundle)
+        }
     }
 
     private fun buildDrawer() {

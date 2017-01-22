@@ -1,5 +1,6 @@
 package ru.mail.sporttogether.activities.presenter
 
+import android.os.Bundle
 import ru.mail.sporttogether.mvp.IPresenter
 
 /**
@@ -8,4 +9,6 @@ import ru.mail.sporttogether.mvp.IPresenter
  */
 interface DrawerActivityPresenter : IPresenter {
     fun clickSignOut()
+
+    fun showEventOnMap(bundle: Bundle)
 }
