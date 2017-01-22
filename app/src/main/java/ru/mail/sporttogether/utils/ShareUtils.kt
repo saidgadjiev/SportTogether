@@ -19,6 +19,7 @@ object ShareUtils {
                                        .append('\n')
                                        .append('\n')
                                        .append(RetrofitModule.BASE_URL)
+                                       .append("event/")
                                        .append(event.id)
                                        .toString()
 
