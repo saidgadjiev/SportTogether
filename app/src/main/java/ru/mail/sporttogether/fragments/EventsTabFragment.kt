@@ -8,17 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import eu.long1.spacetablayout.SpaceTabLayout
 import ru.mail.sporttogether.databinding.FragmentEventsTabBinding
-import ru.mail.sporttogether.fragments.PresenterFragment
-import ru.mail.sporttogether.fragments.EndedListFragment
-import ru.mail.sporttogether.fragments.MyEventsFragment
-import ru.mail.sporttogether.fragments.OrginizedEventsListFragment
-import ru.mail.sporttogether.fragments.presenter.EventsTabPresenter
 import java.util.*
 
 /**
  * Created by bagrusss on 05.01.17
  */
-class EventsTabFragment : PresenterFragment<EventsTabPresenter>() {
+class EventsTabFragment : Fragment() {
 
     private lateinit var binding: FragmentEventsTabBinding
 
@@ -37,9 +32,6 @@ class EventsTabFragment : PresenterFragment<EventsTabPresenter>() {
 
         tabLayout.initialize(viewPager, childFragmentManager, fragments, savedInstanceState)
 
-        presenter = object : EventsTabPresenter {
-
-        }
         return binding.root
     }
 
@@ -47,7 +39,6 @@ class EventsTabFragment : PresenterFragment<EventsTabPresenter>() {
     companion object {
         @JvmStatic
         fun newInstance() = EventsTabFragment()
-
 
     }
 }

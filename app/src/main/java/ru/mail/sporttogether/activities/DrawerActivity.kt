@@ -2,6 +2,7 @@ package ru.mail.sporttogether.activities
 
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.Toolbar
 import com.bumptech.glide.Glide
@@ -15,15 +16,14 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem
 import com.mikepenz.materialdrawer.util.DrawerImageLoader
 import ru.mail.sporttogether.R
+import ru.mail.sporttogether.activities.presenter.DrawerActivityPresenter
+import ru.mail.sporttogether.activities.presenter.DrawerActivityPresenterImpl
+import ru.mail.sporttogether.activities.view.DrawerView
 import ru.mail.sporttogether.auth.core.SocialNetworkManager
 import ru.mail.sporttogether.data.binding.DrawerData
 import ru.mail.sporttogether.databinding.ActivityDrawerBinding
-import ru.mail.sporttogether.fragments.PresenterFragment
 import ru.mail.sporttogether.fragments.EventsTabFragment
-import ru.mail.sporttogether.activities.presenter.DrawerActivityPresenterImpl
-import ru.mail.sporttogether.activities.presenter.DrawerActivityPresenter
-import ru.mail.sporttogether.activities.view.DrawerView
-import ru.mail.sporttogether.utils.DrawerImageLoader
+import ru.mail.sporttogether.utils.DrawerLoader
 
 
 class DrawerActivity : DrawerView,
@@ -60,7 +60,7 @@ class DrawerActivity : DrawerView,
     }
 
     private fun buildAccountHeader(): AccountHeader {
-        DrawerImageLoader.init(ru.mail.sporttogether.utils.DrawerImageLoader())
+        DrawerImageLoader.init(DrawerLoader())
         var avatar = SocialNetworkManager.instance.activeUser.avatar
         var name = SocialNetworkManager.instance.activeUser.name
         if (name.isNullOrEmpty())
@@ -99,7 +99,7 @@ class DrawerActivity : DrawerView,
                 //TODO add icons
                 mapItem,
                 PrimaryDrawerItem().withName(R.string.my_events).withIcon(R.drawable.ic_location).withIconTintingEnabled(true).withOnDrawerItemClickListener { view, i, iDrawerItem ->
-                    swapFragment(EventsTabFragment.newInstance(), i)
+                    swapFragment(EventsTabFragment(), i)
                     toolbar.title = getString(R.string.my_events)
                     false
                 },
@@ -125,7 +125,7 @@ class DrawerActivity : DrawerView,
         }
     }
 
-    private fun swapFragment(fragment: PresenterFragment<*>, newPos: Int) {
+    private fun swapFragment(fragment: Fragment, newPos: Int) {
         if (lastPoss != newPos) {
             supportFragmentManager.beginTransaction()
                     .replace(R.id.drawer_container, fragment)

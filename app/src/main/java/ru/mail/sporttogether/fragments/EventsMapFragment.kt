@@ -51,8 +51,6 @@ class EventsMapFragment :
         ButtonListener,
         CheckingTasks {
 
-    private val socialNetworkManager = SocialNetworkManager.instance
-
     private lateinit var mapView: MapView
     private lateinit var binding: EventsMapBinding
     private lateinit var eventDedailsBottomSheet: BottomSheetBehavior<View>
