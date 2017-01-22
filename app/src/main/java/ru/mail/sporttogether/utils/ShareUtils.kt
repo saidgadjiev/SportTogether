@@ -9,6 +9,7 @@ import ru.mail.sporttogether.net.models.Event
  * Created by bagrusss on 22.01.17
  */
 object ShareUtils {
+
     fun buildShareString(event: Event)
             = StringBuilder(event.name).append('\n')
                                        .append('\n')

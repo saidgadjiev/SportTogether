@@ -109,12 +109,6 @@ dependencies {
 
     compile 'com.android.support:multidex:1.0.1'
 
-
-    //social
-    compile 'com.facebook.android:facebook-android-sdk:4.17.0'
-    compile 'com.vk:androidsdk:1.6.7'
-
-
     compile 'com.google.maps.android:android-maps-utils:0.4+'
 
     //google
@@ -134,8 +128,6 @@ dependencies {
     kapt 'com.google.dagger:dagger-compiler:2.8'
 
     compile 'com.google.code.gson:gson:2.7'
-    compile 'com.vk:androidsdk:1.6.6'
-    compile 'com.facebook.android:facebook-android-sdk:4.17.0'
 
     //rx java
     compile 'io.reactivex:rxandroid:1.2.1'
@@ -159,6 +151,11 @@ dependencies {
     //compile 'agency.tango.android:avatar-view:0.0.2'
     //compile 'agency.tango.android:avatar-view-bindings:0.0.2'
     //compile 'agency.tango.android:avatar-view-glide:0.0.2'
+
+
+    //social
+    compile 'com.facebook.android:facebook-android-sdk:4.17.0'
+    compile 'com.vk:androidsdk:1.6.7'
 
     //custom UI libs
     compile 'eu.long1:spacetablayout:1.0.4'

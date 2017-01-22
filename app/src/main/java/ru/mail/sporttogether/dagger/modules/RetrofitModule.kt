@@ -22,14 +22,15 @@ import javax.inject.Named
 import javax.inject.Singleton
 
 /**
- * Created by bagrusss on 09.10.16.
- *
+ * Created by bagrusss on 09.10.16
  */
 @Module
 class RetrofitModule {
 
     companion object {
         @JvmStatic val BASE_URL = "http://p30281.lab1.stud.tech-mail.ru/"
+        @JvmStatic val YANDEX_URL = "https://geocode-maps.yandex.ru/"
+
         @JvmStatic val READ_TIMEOUT = 30L
         @JvmStatic val WRITE_TIMEOUT = 30L
         @JvmStatic val CONNECT_TIMEOUT = 30L
@@ -87,7 +88,7 @@ class RetrofitModule {
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(okBuilder.build())
-                .baseUrl("https://geocode-maps.yandex.ru/")
+                .baseUrl(YANDEX_URL)
                 .build()
 
     }
