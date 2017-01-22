@@ -27,7 +27,7 @@ class OrganizedEventsListFragment :
         presenter.onCreate(savedInstanceState)
     }
 
-    override fun deleteEvent(e: Event) {
-        listAdapter.eventResulted(e)
+    override fun resultEvent(e: Event) {
+
     }
 }

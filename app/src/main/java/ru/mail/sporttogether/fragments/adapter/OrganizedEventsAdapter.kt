@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import ru.mail.sporttogether.R
 import ru.mail.sporttogether.fragments.adapter.holders.OrganizedEventHolder
-import ru.mail.sporttogether.net.models.Event
 
 /**
  * Created by bagrusss on 18.01.17
@@ -16,14 +15,6 @@ class OrganizedEventsAdapter(fm: FragmentManager) : AbstractEventAdapter<Organiz
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrganizedEventHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_two_action, parent, false)
         return OrganizedEventHolder(view, fm)
-    }
-
-    fun eventResulted(e: Event) {
-        itemIdToPosition[e.id]?.let {
-            items?.removeAt(it)
-            updatePositions()
-            notifyItemRemoved(it)
-        }
     }
 
 

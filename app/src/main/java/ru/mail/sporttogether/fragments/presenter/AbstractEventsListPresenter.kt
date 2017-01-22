@@ -48,6 +48,7 @@ abstract class AbstractEventsListPresenter(private var view: EventListView?) : I
         super.onDestroy()
         view = null
         apiSubscription?.unsubscribe()
+        eventsSubscription?.unsubscribe()
     }
 
     fun getEvents() {

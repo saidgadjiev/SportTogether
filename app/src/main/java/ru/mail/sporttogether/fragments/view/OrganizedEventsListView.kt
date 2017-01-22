@@ -7,5 +7,5 @@ import ru.mail.sporttogether.net.models.Event
  * Created by bagrusss on 22.01.17
  */
 interface OrganizedEventsListView : EventListView {
-    fun deleteEvent(e: Event)
+    fun resultEvent(e: Event)
 }

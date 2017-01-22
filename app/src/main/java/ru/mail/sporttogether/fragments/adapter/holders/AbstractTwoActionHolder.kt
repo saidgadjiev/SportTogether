@@ -37,6 +37,8 @@ abstract class AbstractTwoActionHolder<PR : TwoActionsHolderPresenter>(v: View, 
         data.categoryText.set(event.category.name)
         data.dateText.set(DateUtils.longToDateTime(event.date))
         this.event = event
+
+        //TODO а нужно ли?
         presenter.onBind(event)
     }
 

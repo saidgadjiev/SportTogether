@@ -29,6 +29,14 @@ abstract class AbstractEventAdapter<VH : AbstractTwoActionHolder<*>>(protected v
         notifyDataSetChanged()
     }
 
+    fun deleteEvent(e: Event) {
+        itemIdToPosition[e.id]?.let {
+            items?.removeAt(it)
+            updatePositions()
+            notifyItemRemoved(it)
+        }
+    }
+
     protected fun updatePositions() {
         itemIdToPosition.clear()
         items?.let {

@@ -13,7 +13,7 @@ import javax.inject.Inject
 open class TwoActionsHolderPresenter(protected var view: TwoActionView?) : IPresenter {
 
     @Inject lateinit var eventsManager: EventsManager
-    @Volatile lateinit var event: Event
+    @Volatile var event: Event? = null
 
     init {
         App.injector
@@ -26,9 +26,13 @@ open class TwoActionsHolderPresenter(protected var view: TwoActionView?) : IPres
     }
 
     open fun onBind(e: Event) {
-        synchronized(event) {
-            event = e
+        event?.let {
+            synchronized(it) {
+                event = e
+            }
+            return
         }
+        event = e
     }
 
     open fun action1Clicked() {
