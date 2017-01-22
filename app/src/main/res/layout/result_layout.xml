@@ -16,10 +16,11 @@
             android:id="@+id/resultEdit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:inputType="textMultiLine"
-            android:lines="4"
-            android:padding="32dp"
+            android:lines="2"
+            android:paddingTop="8dp"
             android:text="@={data.resultText}" />
     </FrameLayout>
 </layout>
