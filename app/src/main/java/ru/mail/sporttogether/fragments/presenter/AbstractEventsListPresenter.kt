@@ -1,5 +1,7 @@
 package ru.mail.sporttogether.fragments.presenter
 
+import android.os.Bundle
+import android.support.annotation.CallSuper
 import ru.mail.sporttogether.app.App
 import ru.mail.sporttogether.fragments.adapter.views.EventListView
 import ru.mail.sporttogether.managers.EventsManager
@@ -7,6 +9,7 @@ import ru.mail.sporttogether.mvp.IPresenter
 import ru.mail.sporttogether.net.EventsResponse
 import ru.mail.sporttogether.net.Response
 import ru.mail.sporttogether.net.api.EventsAPI
+import ru.mail.sporttogether.net.models.Event
 import rx.Observable
 import rx.Subscriber
 import rx.Subscription
@@ -25,12 +28,26 @@ abstract class AbstractEventsListPresenter(private var view: EventListView?) : I
     protected var apiSubscription: Subscription? = null
     protected var eventsSubscription: Subscription? = null
 
-    abstract fun getApiObservable(): Observable<Response<EventsResponse>>
 
     init {
         App.injector
                 .usePresenterComponent()
                 .inject(this)
+    }
+
+    abstract fun getApiObservable(): Observable<Response<EventsResponse>>
+
+    override fun onCreate(args: Bundle?) {
+        super.onCreate(args)
+        eventsSubscription = eventsManager.getObservable().subscribe { data ->
+            onEventChanges(data)
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        view = null
+        apiSubscription?.unsubscribe()
     }
 
     fun getEvents() {
@@ -59,10 +76,12 @@ abstract class AbstractEventsListPresenter(private var view: EventListView?) : I
                 })
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        view = null
-        apiSubscription?.unsubscribe()
+    @CallSuper
+    protected open fun onEventChanges(newData: EventsManager.NewData<*>) {
+        if (newData.type == EventsManager.UpdateType.DELETED) {
+            view?.deleteEvent(newData.data as Event)
+        }
     }
+
 
 }

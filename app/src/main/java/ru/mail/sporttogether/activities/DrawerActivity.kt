@@ -7,6 +7,8 @@ import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.Toolbar
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.mikepenz.materialdrawer.AccountHeader
@@ -36,6 +38,7 @@ class DrawerActivity : DrawerView,
     private var lastPoss = 0
     private val drawerData = DrawerData()
     private lateinit var mapItem: PrimaryDrawerItem
+    private var item: MenuItem? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -109,6 +112,13 @@ class DrawerActivity : DrawerView,
 
     }
 
+
+    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
+        super.onPrepareOptionsMenu(menu)
+        item = menu.findItem(R.id.action_search)
+        return true
+    }
+
     private fun setDrawerItems(drawerBuilder: DrawerBuilder) {
         mapItem = PrimaryDrawerItem().withName(R.string.map).withIcon(R.drawable.ic_map).withIconTintingEnabled(true).withOnDrawerItemClickListener { view, i, iDrawerItem ->
             //swapFragment(EventsMapFragment.newInstance(0), i)
@@ -159,6 +169,7 @@ class DrawerActivity : DrawerView,
                     .commit()
             lastPoss = 0
             drawer.setSelection(mapItem)
+            item?.isVisible = true
         }
     }
 
