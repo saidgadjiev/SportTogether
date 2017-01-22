@@ -82,8 +82,8 @@ class DrawerActivity : DrawerView,
 
     private fun buildAccountHeader(): AccountHeader {
         DrawerImageLoader.init(DrawerLoader())
-        var avatar = presenter.getProfileName()
-        var name = presenter.getAvatar()
+        var name = presenter.getProfileName()
+        var avatar = presenter.getAvatar()
         if (name.isNullOrEmpty())
             name = "No name"
         if (avatar.isNullOrEmpty())
