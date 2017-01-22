@@ -8,8 +8,8 @@ import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import android.widget.Toast
 import ru.mail.sporttogether.activities.PresenterActivity
-import ru.mail.sporttogether.mvp.presenters.IPresenter
-import ru.mail.sporttogether.mvp.views.IView
+import ru.mail.sporttogether.mvp.IPresenter
+import ru.mail.sporttogether.mvp.IView
 
 /**
  * Created by bagrusss on 08.10.16

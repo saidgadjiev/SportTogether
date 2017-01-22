@@ -19,15 +19,15 @@ import ru.mail.sporttogether.auth.core.SocialNetworkManager
 import ru.mail.sporttogether.data.binding.DrawerData
 import ru.mail.sporttogether.databinding.ActivityDrawerBinding
 import ru.mail.sporttogether.fragments.PresenterFragment
-import ru.mail.sporttogether.fragments.events.EventsTabFragment
-import ru.mail.sporttogether.mvp.presenters.drawer.DrawerPresenterImpl
-import ru.mail.sporttogether.mvp.presenters.drawer.IDrawerPresenter
-import ru.mail.sporttogether.mvp.views.drawer.IDrawerView
-import ru.mail.sporttogether.utils.MyDrawerImageLoader
+import ru.mail.sporttogether.fragments.EventsTabFragment
+import ru.mail.sporttogether.activities.presenter.DrawerActivityPresenterImpl
+import ru.mail.sporttogether.activities.presenter.DrawerActivityPresenter
+import ru.mail.sporttogether.activities.view.DrawerView
+import ru.mail.sporttogether.utils.DrawerImageLoader
 
 
-class DrawerActivity : IDrawerView,
-        PresenterActivity<IDrawerPresenter>() {
+class DrawerActivity : DrawerView,
+        PresenterActivity<DrawerActivityPresenter>() {
     private lateinit var binding: ActivityDrawerBinding
     private lateinit var toolbar: Toolbar
     private lateinit var drawer: Drawer
@@ -39,7 +39,7 @@ class DrawerActivity : IDrawerView,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        presenter = DrawerPresenterImpl(this)
+        presenter = DrawerActivityPresenterImpl(this)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_drawer)
         toolbar = binding.drawerToolbar
         binding.drawerData = drawerData
@@ -60,7 +60,7 @@ class DrawerActivity : IDrawerView,
     }
 
     private fun buildAccountHeader(): AccountHeader {
-        DrawerImageLoader.init(MyDrawerImageLoader())
+        DrawerImageLoader.init(ru.mail.sporttogether.utils.DrawerImageLoader())
         var avatar = SocialNetworkManager.instance.activeUser.avatar
         var name = SocialNetworkManager.instance.activeUser.name
         if (name.isNullOrEmpty())

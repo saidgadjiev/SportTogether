@@ -3,18 +3,14 @@ package ru.mail.sporttogether.dagger.modules
 import android.content.Context
 import dagger.Module
 import dagger.Provides
+import ru.mail.sporttogether.managers.EventsManager
+import ru.mail.sporttogether.managers.EventsManagerImpl
+import ru.mail.sporttogether.managers.HeaderManagerImpl
 import ru.mail.sporttogether.managers.LocationManager
-import ru.mail.sporttogether.managers.data.DataManagerImpl
-import ru.mail.sporttogether.managers.data.FcmTokenManager
-import ru.mail.sporttogether.managers.data.IDataManager
-import ru.mail.sporttogether.managers.events.EventsManager
-import ru.mail.sporttogether.managers.events.EventsManagerImpl
-import ru.mail.sporttogether.managers.headers.HeaderManagerImpl
 import javax.inject.Singleton
 
 /**
- * Created by bagrusss on 09.10.16.
- *
+ * Created by bagrusss on 09.10.16
  */
 @Module
 class ManagersModule {
@@ -24,10 +20,6 @@ class ManagersModule {
     fun provideLocationManager(context: Context)
             = LocationManager(context)
 
-    @Singleton
-    @Provides
-    fun provideDataManager(): IDataManager
-            = DataManagerImpl()
 
     @Singleton
     @Provides
@@ -40,10 +32,6 @@ class ManagersModule {
 //            = NotificationManager()
 //
 
-    @Provides
-    @Singleton
-    fun provideFCMTokenManager()
-            = FcmTokenManager()
 
     @Singleton
     @Provides

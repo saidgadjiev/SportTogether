@@ -51,7 +51,7 @@
 
             <fragment
                 android:id="@+id/map"
-                android:name="ru.mail.sporttogether.fragments.events.EventsMapFragment"
+                android:name="ru.mail.sporttogether.fragments.EventsMapFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 

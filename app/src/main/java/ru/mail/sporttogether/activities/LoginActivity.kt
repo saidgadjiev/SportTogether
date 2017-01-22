@@ -8,15 +8,15 @@ import android.view.View
 import android.widget.Button
 import ru.mail.sporttogether.R
 import ru.mail.sporttogether.databinding.ActivityLoginBinding
-import ru.mail.sporttogether.managers.headers.HeaderManagerImpl
-import ru.mail.sporttogether.mvp.presenters.auth.ILoginPresenter
-import ru.mail.sporttogether.mvp.presenters.auth.LoginPresenterImpl
-import ru.mail.sporttogether.mvp.views.login.ILoginView
+import ru.mail.sporttogether.managers.HeaderManagerImpl
+import ru.mail.sporttogether.activities.presenter.LoginActivityPresenter
+import ru.mail.sporttogether.activities.presenter.LoginActivityPresenterImpl
+import ru.mail.sporttogether.activities.view.LoginView
 import javax.inject.Inject
 
 
 
-class LoginActivity: PresenterActivity<ILoginPresenter>(), ILoginView {
+class LoginActivity: PresenterActivity<LoginActivityPresenter>(), LoginView {
 
     private lateinit var binding: ActivityLoginBinding
     private lateinit var vk: Button
@@ -35,7 +35,7 @@ class LoginActivity: PresenterActivity<ILoginPresenter>(), ILoginView {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(false)
 
-        presenter = LoginPresenterImpl(this)
+        presenter = LoginActivityPresenterImpl(this)
         presenter.onCreate(savedInstanceState)
 
         val withLogout = intent.extras[WITH_LOGOUT] as Boolean

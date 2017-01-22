@@ -11,8 +11,8 @@ import android.widget.Toast
 import com.facebook.share.model.ShareLinkContent
 import com.facebook.share.widget.ShareDialog
 import ru.mail.sporttogether.app.App
-import ru.mail.sporttogether.mvp.presenters.IPresenter
-import ru.mail.sporttogether.mvp.views.IView
+import ru.mail.sporttogether.mvp.IPresenter
+import ru.mail.sporttogether.mvp.IView
 import ru.mail.sporttogether.widgets.ProgressDialogFragment
 
 /**

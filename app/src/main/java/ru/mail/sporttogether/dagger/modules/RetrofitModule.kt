@@ -12,7 +12,7 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.mail.sporttogether.BuildConfig
-import ru.mail.sporttogether.managers.headers.HeaderManagerImpl
+import ru.mail.sporttogether.managers.HeaderManagerImpl
 import ru.mail.sporttogether.net.adapters.GeoObjectListAdapterDeserializer
 import ru.mail.sporttogether.net.interceptors.SportInterceptor
 import ru.mail.sporttogether.net.models.yandex.maps.GeoObject
