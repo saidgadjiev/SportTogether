@@ -84,8 +84,9 @@ class EventsMapFragment :
         eventDetailsBottomSheet = BottomSheetBehavior.from(binding.bottomSheet)
         eventDetailsBottomSheet.isHideable = true
         eventDetailsBottomSheet.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+            var needHideZoom = false
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                if (slideOffset > 0.9f) {
+                if (slideOffset > 0.9f && needHideZoom) {
                     zoomPanel.animate().scaleX(0f).scaleY(0f).setDuration(50L).start()
                 } else if (slideOffset > 0.75f) {
                     zoomPanel.animate().scaleX(1f).scaleY(1f).setDuration(50L).start()
@@ -93,10 +94,15 @@ class EventsMapFragment :
             }
 
             override fun onStateChanged(bottomSheet: View, newState: Int) {
-                if (newState == BottomSheetBehavior.STATE_HIDDEN)
-                    data.fabForBottomSheet.set(false)
-                else data.fabForBottomSheet.set(true)
-
+                needHideZoom = binding.bottomSheet.height / binding.root.height.toFloat() > 0.85
+                when (newState) {
+                    BottomSheetBehavior.STATE_HIDDEN -> {
+                        data.fabForBottomSheet.set(false)
+                    }
+                    else -> {
+                        data.fabForBottomSheet.set(true)
+                    }
+                }
             }
 
         })
