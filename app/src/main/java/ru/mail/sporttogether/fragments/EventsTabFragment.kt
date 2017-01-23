@@ -26,7 +26,7 @@ class EventsTabFragment : Fragment() {
         tabLayout = binding.spaceTabLayout
         viewPager = binding.viewPager
 
-        fragments.add(MyEventsFragment())
+        fragments.add(MyEventsListFragment())
         fragments.add(EndedListFragment())
         fragments.add(OrganizedEventsListFragment())
 

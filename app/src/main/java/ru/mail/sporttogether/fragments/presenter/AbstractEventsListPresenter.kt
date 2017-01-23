@@ -3,7 +3,7 @@ package ru.mail.sporttogether.fragments.presenter
 import android.os.Bundle
 import android.support.annotation.CallSuper
 import ru.mail.sporttogether.app.App
-import ru.mail.sporttogether.fragments.view.EventListView
+import ru.mail.sporttogether.fragments.view.EventsListView
 import ru.mail.sporttogether.managers.EventsManager
 import ru.mail.sporttogether.mvp.IPresenter
 import ru.mail.sporttogether.net.EventsResponse
@@ -21,7 +21,7 @@ import javax.inject.Inject
 /**
  * Created by bagrusss on 15.10.16
  */
-abstract class AbstractEventsListPresenter(private var view: EventListView?) : IPresenter {
+abstract class AbstractEventsListPresenter(private var view: EventsListView?) : IPresenter {
 
     @Inject lateinit var eventsApi: EventsAPI
     @Inject lateinit var eventsManager: EventsManager

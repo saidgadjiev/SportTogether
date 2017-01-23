@@ -1,7 +1,5 @@
 package ru.mail.sporttogether.fragments
 
-import android.os.Bundle
-import android.view.View
 import ru.mail.sporttogether.fragments.adapter.OrganizedEventsAdapter
 import ru.mail.sporttogether.fragments.presenter.OrganizedEventsPresenterImpl
 import ru.mail.sporttogether.fragments.view.OrganizedEventsListView
@@ -20,11 +18,6 @@ class OrganizedEventsListFragment :
     override fun getAdapter(): OrganizedEventsAdapter {
         val act = activity as PresenterActivity<*>
         return OrganizedEventsAdapter(act.supportFragmentManager)
-    }
-
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        presenter.onCreate(savedInstanceState)
     }
 
     override fun resultEvent(e: Event) {

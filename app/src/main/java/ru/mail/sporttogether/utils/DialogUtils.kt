@@ -1,6 +1,7 @@
 package ru.mail.sporttogether.utils
 
 import android.content.Context
+import android.content.DialogInterface
 import android.support.v7.app.AlertDialog
 import ru.mail.sporttogether.R
 
@@ -23,6 +24,17 @@ object DialogUtils {
                     })
                     .setMessage(R.string.want_angry)
                     .create()
+        } else {
+            with(angryDialog!!) {
+                getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
+                    okClicked()
+                    dismiss()
+                }
+                getButton(DialogInterface.BUTTON_NEGATIVE).setOnClickListener {
+                    cancelClicked()
+                    dismiss()
+                }
+            }
         }
         angryDialog!!.show()
     }

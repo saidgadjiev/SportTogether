@@ -11,6 +11,9 @@
     <string name="events_list">Список событий</string>
     <string name="my_events">Мои события</string>
     <string name="my">Мои</string>
+
+    <string name="network_error">Сетевое подключение отсутствует</string>
+
     <string name="settings">Настройки</string>
     <string name="exit">Выход</string>
     <string name="please_wait">Загрузка</string>
