@@ -5,7 +5,7 @@ import ru.mail.sporttogether.fragments.adapter.presenters.TwoActionsHolderPresen
 import ru.mail.sporttogether.activities.presenter.LoginActivityPresenterImpl
 import ru.mail.sporttogether.activities.presenter.DrawerActivityPresenterImpl
 import ru.mail.sporttogether.activities.presenter.AddEventPresenterImpl
-import ru.mail.sporttogether.fragments.adapter.presenters.MyEventsPresenterImpl
+import ru.mail.sporttogether.fragments.adapter.presenters.MyEventsHolderPresenterImpl
 import ru.mail.sporttogether.activities.presenter.SplashActivityPresenterImpl
 import ru.mail.sporttogether.fragments.presenter.*
 

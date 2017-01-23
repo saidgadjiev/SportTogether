@@ -5,7 +5,7 @@ import ru.mail.sporttogether.fragments.adapter.views.EndedEventsView
 /**
  * Created by bagrusss on 21.01.17
  */
-class EndedHolderPresenter(v: EndedEventsView) :
+class EndedEventsHolderPresenter(v: EndedEventsView) :
         TwoActionsHolderPresenter(v) {
 
 }

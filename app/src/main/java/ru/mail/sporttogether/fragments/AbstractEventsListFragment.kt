@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import ru.mail.sporttogether.R
 import ru.mail.sporttogether.databinding.FragmentEventsListBinding
 import ru.mail.sporttogether.fragments.adapter.AbstractEventAdapter
-import ru.mail.sporttogether.fragments.adapter.views.EventListView
+import ru.mail.sporttogether.fragments.view.EventListView
 import ru.mail.sporttogether.fragments.presenter.AbstractEventsListPresenter
 import ru.mail.sporttogether.mvp.PresenterFragment
 import ru.mail.sporttogether.net.models.Event

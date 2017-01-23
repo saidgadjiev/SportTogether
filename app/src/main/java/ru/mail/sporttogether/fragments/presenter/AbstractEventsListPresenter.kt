@@ -3,7 +3,7 @@ package ru.mail.sporttogether.fragments.presenter
 import android.os.Bundle
 import android.support.annotation.CallSuper
 import ru.mail.sporttogether.app.App
-import ru.mail.sporttogether.fragments.adapter.views.EventListView
+import ru.mail.sporttogether.fragments.view.EventListView
 import ru.mail.sporttogether.managers.EventsManager
 import ru.mail.sporttogether.mvp.IPresenter
 import ru.mail.sporttogether.net.EventsResponse
