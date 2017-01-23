@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager
 import android.support.v7.app.AlertDialog
 import android.view.LayoutInflater
 import android.widget.Toast
+import com.mikepenz.materialize.util.KeyboardUtil
 import ru.mail.sporttogether.R
 import ru.mail.sporttogether.data.binding.DialogResultData
 import ru.mail.sporttogether.databinding.ResultLayoutBinding
@@ -64,6 +65,7 @@ class ResultDialogFragment : PresenterDialogFragment<ResultDialogPresenter>(), R
     }
 
     override fun onResultSent() {
+        KeyboardUtil.hideKeyboard(activity)
         dismissAllowingStateLoss()
         Toast.makeText(context, R.string.result_sent, Toast.LENGTH_SHORT).show()
     }
