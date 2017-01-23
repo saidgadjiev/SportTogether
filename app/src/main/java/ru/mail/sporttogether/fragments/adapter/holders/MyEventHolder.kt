@@ -7,6 +7,7 @@ import ru.mail.sporttogether.R
 import ru.mail.sporttogether.fragments.adapter.views.MyEventsView
 import ru.mail.sporttogether.fragments.presenter.MyEventsHolderPresenter
 import ru.mail.sporttogether.net.models.Event
+import ru.mail.sporttogether.utils.DialogUtils
 
 /**
  * Created by bagrusss on 15.01.17
@@ -20,7 +21,7 @@ class MyEventHolder(v: View) : AbstractTwoActionHolder<MyEventsHolderPresenter>(
     }
 
     override fun action1Clicked() {
-
+        shodAngryDialog()
     }
 
     override fun getAction1Drawable(): Drawable
@@ -35,6 +36,14 @@ class MyEventHolder(v: View) : AbstractTwoActionHolder<MyEventsHolderPresenter>(
         if (event.isReported) {
             data.action1Enabled.set(false)
         }
+    }
+
+    fun shodAngryDialog() {
+        DialogUtils.showAngryDialog(itemView.context, {
+
+        }, {
+
+        })
     }
 
 

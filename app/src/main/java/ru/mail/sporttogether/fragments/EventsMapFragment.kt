@@ -39,6 +39,7 @@ import ru.mail.sporttogether.mvp.PresenterFragment
 import ru.mail.sporttogether.net.models.Event
 import ru.mail.sporttogether.net.models.Task
 import ru.mail.sporttogether.utils.DateUtils
+import ru.mail.sporttogether.utils.DialogUtils
 import ru.mail.sporttogether.utils.ShareUtils
 import java.util.*
 
@@ -271,18 +272,11 @@ class EventsMapFragment :
     }
 
     override fun onAngryButtonClicked() {
-        if (dialog == null)
-            dialog = AlertDialog.Builder(context)
-                    .setPositiveButton(android.R.string.yes, { dialog, which ->
-                        presenter.doAngry()
-                        dialog.dismiss()
-                    })
-                    .setNegativeButton(android.R.string.no, { dialog, which ->
-                        dialog.dismiss()
-                    })
-                    .setMessage(R.string.want_angry)
-                    .create()
-        else dialog!!.show()
+        DialogUtils.showAngryDialog(context, {
+            presenter.doAngry()
+        }, {
+
+        })
     }
 
     override fun onJoinButtonClicked() {

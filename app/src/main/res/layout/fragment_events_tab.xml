@@ -21,7 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:button_color="@color/colorAccent"
-            app:icon_three="@drawable/ic_orginized"
+            app:icon_three="@drawable/ic_organized"
             app:icon_two="@drawable/ic_racing_flag"
             app:layout_behavior="eu.long1.spacetablayout.SpaceTabLayoutBehavior"
             app:number_of_tabs="three"
