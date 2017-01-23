@@ -163,11 +163,13 @@ class EventsMapFragment :
         eventDetailsBottomSheet.state = BottomSheetBehavior.STATE_COLLAPSED
         presenter.loadTasks(event)
         hideResultsList()
-        val act = activity
-        if (act is DrawerActivity) {
-            val toolbar = act.findViewById(R.id.drawer_toolbar)
-            if (toolbar is Toolbar) {
-                toolbar.collapseActionView()
+        if (!searchView.isIconified) {
+            val act = activity
+            if (act is DrawerActivity) {
+                val toolbar = act.findViewById(R.id.drawer_toolbar)
+                if (toolbar is Toolbar) {
+                    toolbar.collapseActionView()
+                }
             }
         }
     }
