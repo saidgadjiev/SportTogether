@@ -17,6 +17,7 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SearchView
 import android.view.*
 import android.widget.FrameLayout
+import android.widget.LinearLayout
 import android.widget.Toast
 import com.google.android.gms.maps.MapView
 import kotlinx.android.synthetic.main.events_map.*
@@ -36,7 +37,6 @@ import ru.mail.sporttogether.fragments.view.EventsMapView
 import ru.mail.sporttogether.mvp.PresenterActivity
 import ru.mail.sporttogether.mvp.PresenterFragment
 import ru.mail.sporttogether.net.models.Event
-import ru.mail.sporttogether.net.models.SearchEvent
 import ru.mail.sporttogether.net.models.Task
 import ru.mail.sporttogether.utils.DateUtils
 import ru.mail.sporttogether.utils.ShareUtils
@@ -55,13 +55,17 @@ class EventsMapFragment :
 
     private lateinit var mapView: MapView
     private lateinit var binding: EventsMapBinding
-    private lateinit var eventDedailsBottomSheet: BottomSheetBehavior<View>
-    private val data = EventDetailsData()
-    private var tasksAdapter: TaskAdapter? = null
+    private lateinit var eventDetailsBottomSheet: BottomSheetBehavior<View>
+
     private lateinit var resultsContainer: FrameLayout
     private lateinit var eventsListView: RecyclerView
+    private lateinit var zoomPanel: LinearLayout
+
     private val adapter = EventsAdapter()
     private var dialog: AlertDialog? = null
+
+    private val data = EventDetailsData()
+    private var tasksAdapter: TaskAdapter? = null
 
     private var markerDownX = 0
     private var markerDownY = 0
@@ -75,18 +79,24 @@ class EventsMapFragment :
 
         binding = EventsMapBinding.inflate(inflater, container, false)
         binding.data = data
+        zoomPanel = binding.zoomPanel
         mapView = binding.mapview
-        eventDedailsBottomSheet = BottomSheetBehavior.from(binding.bottomSheet)
-        eventDedailsBottomSheet.isHideable = true
-        eventDedailsBottomSheet.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+        eventDetailsBottomSheet = BottomSheetBehavior.from(binding.bottomSheet)
+        eventDetailsBottomSheet.isHideable = true
+        eventDetailsBottomSheet.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
-
+                if (slideOffset > 0.9f) {
+                    zoomPanel.animate().scaleX(0f).scaleY(0f).setDuration(50L).start()
+                } else if (slideOffset > 0.75f) {
+                    zoomPanel.animate().scaleX(1f).scaleY(1f).setDuration(50L).start()
+                }
             }
 
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 if (newState == BottomSheetBehavior.STATE_HIDDEN)
                     data.fabForBottomSheet.set(false)
                 else data.fabForBottomSheet.set(true)
+
             }
 
         })
@@ -145,8 +155,8 @@ class EventsMapFragment :
 
     override fun showInfo(event: Event, isCancelable: Boolean, tasks: ArrayList<Task>?) {
         render(event, isCancelable, tasks)
-        eventDedailsBottomSheet.peekHeight = binding.include.cardviewHeader.height + binding.include.frameLayout.height
-        eventDedailsBottomSheet.state = BottomSheetBehavior.STATE_COLLAPSED
+        eventDetailsBottomSheet.peekHeight = binding.include.cardviewHeader.height + binding.include.frameLayout.height
+        eventDetailsBottomSheet.state = BottomSheetBehavior.STATE_COLLAPSED
         presenter.loadTasks(event)
 
     }
@@ -292,7 +302,7 @@ class EventsMapFragment :
     }
 
     override fun hideInfo() {
-        eventDedailsBottomSheet.state = BottomSheetBehavior.STATE_HIDDEN
+        eventDetailsBottomSheet.state = BottomSheetBehavior.STATE_HIDDEN
     }
 
     override fun onButtonClicked() {
@@ -307,8 +317,8 @@ class EventsMapFragment :
     }
 
     override fun setBottomSheetCollapsed() {
-        eventDedailsBottomSheet.peekHeight = binding.include.cardviewHeader.height + binding.include.frameLayout.height
-        eventDedailsBottomSheet.state = BottomSheetBehavior.STATE_COLLAPSED
+        eventDetailsBottomSheet.peekHeight = binding.include.cardviewHeader.height + binding.include.frameLayout.height
+        eventDetailsBottomSheet.state = BottomSheetBehavior.STATE_COLLAPSED
     }
 
     private fun renderBaseInfo(event: Event) {
