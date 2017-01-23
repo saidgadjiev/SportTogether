@@ -214,19 +214,21 @@
             app:layout_constraintRight_toRightOf="@+id/time_icon"
             app:layout_constraintTop_toBottomOf="@+id/date_time_text"
             app:srcCompat="@drawable/ic_more" />
+        <!--android:scrollbars="vertical"-->
 
         <TextView
             android:id="@+id/description_text"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:maxLines="5"
+            android:text="@{data.description}"
             android:layout_marginEnd="16dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginStart="16dp"
-            android:text="@{data.description}"
             app:layout_constraintLeft_toRightOf="@+id/description_icon"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/description_icon" />
+            app:layout_constraintTop_toTopOf="@+id/description_icon"/>
 
         <TextView
             android:id="@+id/tasks_text"
@@ -244,15 +246,28 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/description_text" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/tasks_list_recycler_view"
+        <ScrollView
+            android:id="@+id/tasks_list_recycler_view_scroll"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_height="168dp"
+            android:fillViewport="true"
             android:visibility="@{data.withTasks ? View.VISIBLE : View.GONE}"
             app:layout_constraintLeft_toLeftOf="@+id/tasks_text"
             app:layout_constraintRight_toRightOf="@+id/tasks_text"
-            app:layout_constraintTop_toBottomOf="@+id/tasks_text" />
+            app:layout_constraintTop_toBottomOf="@+id/tasks_text">
+            <LinearLayout
+                android:isScrollContainer="true"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/tasks_list_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:visibility="@{data.withTasks ? View.VISIBLE : View.GONE}"/>
+            </LinearLayout>
+        </ScrollView>
 
         <TextView
             android:id="@+id/tasks_mask"
@@ -265,9 +280,9 @@
             android:text="@{data.tasksMessage}"
             android:textColor="@color/white"
             android:visibility="@{data.isTasksCanBeChanged ? View.GONE : View.VISIBLE}"
-            app:layout_constraintBottom_toBottomOf="@+id/tasks_list_recycler_view"
-            app:layout_constraintLeft_toLeftOf="@+id/tasks_list_recycler_view"
-            app:layout_constraintRight_toRightOf="@+id/tasks_list_recycler_view"
+            app:layout_constraintBottom_toBottomOf="@+id/tasks_list_recycler_view_scroll"
+            app:layout_constraintLeft_toLeftOf="@+id/tasks_list_recycler_view_scroll"
+            app:layout_constraintRight_toRightOf="@+id/tasks_list_recycler_view_scroll"
             app:layout_constraintTop_toBottomOf="@+id/tasks_text"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintVertical_bias="0.0" />

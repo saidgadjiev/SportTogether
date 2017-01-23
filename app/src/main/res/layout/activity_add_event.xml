@@ -180,6 +180,7 @@
             android:gravity="top"
             android:hint="@{data.mainDataVisibility? @string/description : @string/result_header}"
             android:lines="3"
+            android:maxLength="127"
             app:layout_constraintTop_toBottomOf="@+id/address_view"
             android:layout_marginTop="16dp"
             app:layout_constraintRight_toRightOf="@+id/address_view"

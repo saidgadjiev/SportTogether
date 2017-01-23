@@ -16,6 +16,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SearchView
 import android.support.v7.widget.Toolbar
+import android.text.method.ScrollingMovementMethod
 import android.view.*
 import android.widget.FrameLayout
 import android.widget.LinearLayout
@@ -336,6 +337,7 @@ class EventsMapFragment :
         data.name.set(event.name)
         data.date.set(DateUtils.toXLongDateString(Date(event.date)))
         data.description.set(event.result ?: event.description)
+        binding.include.descriptionText.movementMethod = ScrollingMovementMethod()
         data.isReported.set(event.isReported)
         data.isJoined.set(event.isJoined)
         val people = getString(R.string.users, event.nowPeople, event.maxPeople)
