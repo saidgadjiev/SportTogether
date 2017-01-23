@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.util.Log
 import com.facebook.*
 import com.facebook.login.LoginManager
@@ -14,12 +15,13 @@ import com.facebook.share.model.ShareLinkContent
 import com.facebook.share.widget.ShareDialog
 import org.json.JSONException
 import org.json.JSONObject
+import ru.mail.sporttogether.R
 import ru.mail.sporttogether.auth.core.ISocialNetwork
 import ru.mail.sporttogether.auth.core.SocialNetworkError
 import ru.mail.sporttogether.auth.core.SocialNetworkManager
+import ru.mail.sporttogether.auth.core.SocialPerson
 import ru.mail.sporttogether.auth.core.listeners.OnLoginCompleteListener
 import ru.mail.sporttogether.auth.core.listeners.OnRequestSocialPersonCompleteListener
-import ru.mail.sporttogether.auth.core.SocialPerson
 
 
 /**
@@ -128,23 +130,29 @@ class FacebookSocialNetwork(private val activity: Activity) : ISocialNetwork {
         Log.d("#MY " + javaClass.simpleName, "fb request person started. current access token : " + currentAccessToken)
         val graphRequest =
                 GraphRequest.newMeRequest(currentAccessToken) { `object`, response ->
-            if (response.error != null && response.error.requestStatusCode == 400) {
-                Log.d("#MY " + javaClass.simpleName, "fb request person error")
-                onRequestSocialPersonCompleteListener.onError(SocialNetworkError("fb 400 error", -1))
-            } else {
-                Log.d("#MY " + javaClass.simpleName, `object`.toString())
-                socialPerson = SocialPerson()
-                try {
-                    getSocialPerson(socialPerson!!, `object`)
-                } catch (e: JSONException) {
-                    e.printStackTrace()
-                    onRequestSocialPersonCompleteListener.onError(SocialNetworkError(e.message!!, -1))
+                    if (response.error != null && response.error.requestStatusCode == 400) {
+                        Log.d("#MY " + javaClass.simpleName, "fb request person error")
+                        onRequestSocialPersonCompleteListener.onError(SocialNetworkError("fb 400 error", -1))
+                    } else {
+                        socialPerson = SocialPerson()
+                        try {
+                            getSocialPerson(socialPerson!!, `object`)
+                        } catch (e: Throwable) {
+                            AlertDialog.Builder(activity)
+                                    .setMessage(R.string.network_error)
+                                    .setPositiveButton(android.R.string.ok, { dialog, which ->
+
+                                    })
+                                    .create()
+                                    .show()
+                            return@newMeRequest
+                            //onRequestSocialPersonCompleteListener.onError(SocialNetworkError(e.message!!, -1))
+                        }
+
+                        onRequestSocialPersonCompleteListener.onComplete(socialPerson!!, ID)
+                    }
+
                 }
-
-                onRequestSocialPersonCompleteListener.onComplete(socialPerson!!, ID)
-            }
-
-        }
         val parameters = Bundle()
 
         parameters.putString("fields", "id,name,email")

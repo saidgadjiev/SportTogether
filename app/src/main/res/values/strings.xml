@@ -11,6 +11,9 @@
     <string name="events_list">Список событий</string>
     <string name="my_events">Мои события</string>
     <string name="my">Мои</string>
+
+    <string name="network_error">Сетевое подключение отсутствует</string>
+
     <string name="settings">Настройки</string>
     <string name="exit">Выход</string>
     <string name="please_wait">Загрузка</string>
@@ -29,11 +32,14 @@
     <string name="angryAlready">Вы пожаловались</string>
     <string name="share">Поделиться</string>
     <string name="edit">Правка</string>
+    <string name="edit_event">Редактирование события</string>
     <string name="result">Результат</string>
     <string name="result_sent">Результат события отправлен</string>
     <string name="ok">ОК</string>
     <string name="cancel">Отменить</string>
     <string name="cancel_event">Отменить событие</string>
+    <string name="event_canceled">Событие отменено</string>
+    <string name="event_edited">Событие отредактировано</string>
     <string name="datetime_picker_btn_set">Установить</string>
     <string name="datetime_picker_header">Установить дату</string>
     <string name="datetime">Дата и время</string>

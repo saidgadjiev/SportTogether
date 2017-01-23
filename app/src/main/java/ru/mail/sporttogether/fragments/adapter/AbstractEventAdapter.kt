@@ -37,6 +37,16 @@ abstract class AbstractEventAdapter<VH : AbstractTwoActionHolder<*>>(protected v
         }
     }
 
+    fun updateEvent(e: Event) {
+        items?.let { items ->
+            itemIdToPosition[e.id]?.let {
+                items[it] = e
+                notifyItemChanged(it)
+            }
+        }
+
+    }
+
     protected fun updatePositions() {
         itemIdToPosition.clear()
         items?.let {

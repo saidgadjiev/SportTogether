@@ -10,8 +10,8 @@ import android.view.ViewGroup
 import ru.mail.sporttogether.R
 import ru.mail.sporttogether.databinding.FragmentEventsListBinding
 import ru.mail.sporttogether.fragments.adapter.AbstractEventAdapter
-import ru.mail.sporttogether.fragments.view.EventListView
 import ru.mail.sporttogether.fragments.presenter.AbstractEventsListPresenter
+import ru.mail.sporttogether.fragments.view.EventsListView
 import ru.mail.sporttogether.mvp.PresenterFragment
 import ru.mail.sporttogether.net.models.Event
 
@@ -21,7 +21,7 @@ import ru.mail.sporttogether.net.models.Event
  */
 abstract class AbstractEventsListFragment<PR : AbstractEventsListPresenter, T : AbstractEventAdapter<*>> :
         PresenterFragment<PR>(),
-        EventListView {
+        EventsListView {
 
     private lateinit var binding: FragmentEventsListBinding
     protected lateinit var listAdapter: T
@@ -49,6 +49,11 @@ abstract class AbstractEventsListFragment<PR : AbstractEventsListPresenter, T : 
         return binding.root
     }
 
+    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        presenter.onCreate(savedInstanceState)
+    }
+
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
         val item = menu.findItem(R.id.action_search)
@@ -62,6 +67,10 @@ abstract class AbstractEventsListFragment<PR : AbstractEventsListPresenter, T : 
 
     override fun deleteEvent(e: Event) {
         listAdapter.deleteEvent(e)
+    }
+
+    override fun updateEvent(event: Event) {
+        listAdapter.updateEvent(event)
     }
 
 }

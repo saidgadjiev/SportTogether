@@ -16,7 +16,8 @@ interface EventsManager {
         RESULTED,
         DELETED,
         NEED_SHOW,
-        NEED_SHOW_POSITION
+        NEED_SHOW_POSITION,
+        ANGRY
     }
 
     data class NewData<out T>(
@@ -36,6 +37,8 @@ interface EventsManager {
     fun deleteEvent(event: Event)
 
     fun showEvent(event: Event)
+
+    fun angryEvent(event: Event)
 
     fun showEventPosition(event: Event)
 

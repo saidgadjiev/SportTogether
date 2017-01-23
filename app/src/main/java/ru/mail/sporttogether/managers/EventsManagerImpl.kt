@@ -64,6 +64,10 @@ class EventsManagerImpl : EventsManager {
         return list
     }
 
+    override fun angryEvent(event: Event) {
+        eventsUpdate.onNext(EventsManager.NewData(type = EventsManager.UpdateType.ANGRY, data = event))
+    }
+
     override fun getObservable() = eventsUpdate
 
 }

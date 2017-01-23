@@ -10,7 +10,7 @@ import javax.inject.Inject
 /**
  * Created by bagrusss on 21.01.17
  */
-open class TwoActionsHolderPresenter(protected var view: TwoActionView?) : IPresenter {
+open class TwoActionsHolderPresenter(private var view: TwoActionView?) : IPresenter {
 
     @Inject lateinit var eventsManager: EventsManager
     @Volatile var event: Event? = null

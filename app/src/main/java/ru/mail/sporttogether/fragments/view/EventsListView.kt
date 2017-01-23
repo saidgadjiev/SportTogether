@@ -6,7 +6,8 @@ import ru.mail.sporttogether.net.models.Event
 /**
  * Created by bagrusss on 18.01.17
  */
-interface EventListView : IView {
+interface EventsListView : IView {
     fun swapEvents(events: MutableList<Event>)
     fun deleteEvent(e: Event)
+    fun updateEvent(event: Event)
 }
