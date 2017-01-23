@@ -1,4 +1,4 @@
-package ru.mail.sporttogether.adapter.events
+package ru.mail.sporttogether.fragments.adapter
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -10,7 +10,7 @@ import ru.mail.sporttogether.net.models.Event
 /**
  * Created by Ivan on 20.10.2016
  */
-class EventsAdapter : RecyclerView.Adapter<SearchItemHolder>() {
+class EventsSearchAdapter : RecyclerView.Adapter<SearchItemHolder>() {
     private var events: MutableList<Event>? = null
 
     override fun getItemCount() = events?.size ?: 0

@@ -15,6 +15,7 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SearchView
+import android.support.v7.widget.Toolbar
 import android.view.*
 import android.widget.FrameLayout
 import android.widget.LinearLayout
@@ -25,12 +26,11 @@ import ru.mail.sporttogether.R
 import ru.mail.sporttogether.activities.AddEventActivity
 import ru.mail.sporttogether.activities.DrawerActivity
 import ru.mail.sporttogether.adapter.TaskAdapter
-import ru.mail.sporttogether.adapter.events.EventsAdapter
-import ru.mail.sporttogether.app.App
 import ru.mail.sporttogether.data.binding.event.ButtonListener
 import ru.mail.sporttogether.data.binding.event.EventDetailsData
 import ru.mail.sporttogether.data.binding.event.EventDetailsListener
 import ru.mail.sporttogether.databinding.EventsMapBinding
+import ru.mail.sporttogether.fragments.adapter.EventsSearchAdapter
 import ru.mail.sporttogether.fragments.presenter.EventsMapFragmentPresenter
 import ru.mail.sporttogether.fragments.presenter.EventsMapFragmentPresenterImpl
 import ru.mail.sporttogether.fragments.view.EventsMapView
@@ -60,8 +60,9 @@ class EventsMapFragment :
     private lateinit var resultsContainer: FrameLayout
     private lateinit var eventsListView: RecyclerView
     private lateinit var zoomPanel: LinearLayout
+    private lateinit var searchView: SearchView
 
-    private val adapter = EventsAdapter()
+    private val adapter = EventsSearchAdapter()
     private var dialog: AlertDialog? = null
 
     private val data = EventDetailsData()
@@ -73,9 +74,6 @@ class EventsMapFragment :
     private var locationDialog: Dialog? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        App.injector
-                .useViewComponent()
-                .inject(this)
 
         binding = EventsMapBinding.inflate(inflater, container, false)
         binding.data = data
@@ -164,7 +162,14 @@ class EventsMapFragment :
         eventDetailsBottomSheet.peekHeight = binding.include.cardviewHeader.height + binding.include.frameLayout.height
         eventDetailsBottomSheet.state = BottomSheetBehavior.STATE_COLLAPSED
         presenter.loadTasks(event)
-
+        hideResultsList()
+        val act = activity
+        if (act is DrawerActivity) {
+            val toolbar = act.findViewById(R.id.drawer_toolbar)
+            if (toolbar is Toolbar) {
+                toolbar.collapseActionView()
+            }
+        }
     }
 
     override fun updateAddress(address: String) {
@@ -280,10 +285,6 @@ class EventsMapFragment :
 
     override fun onJoinButtonClicked() {
         presenter.doJoin()
-    }
-
-    override fun onShareButtonClicked() {
-
     }
 
     override fun onCancelButtonClicked() {
@@ -405,7 +406,7 @@ class EventsMapFragment :
             }
 
         })
-        val searchView = myActionMenuItem.actionView as SearchView
+        searchView = myActionMenuItem.actionView as SearchView
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 presenter.searchByCategory(query)

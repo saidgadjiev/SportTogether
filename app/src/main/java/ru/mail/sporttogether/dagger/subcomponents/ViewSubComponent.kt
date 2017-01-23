@@ -1,8 +1,7 @@
 package ru.mail.sporttogether.dagger.subcomponents
 
 import dagger.Subcomponent
-import ru.mail.sporttogether.activities.DrawerActivity
-import ru.mail.sporttogether.fragments.EventsMapFragment
+import ru.mail.sporttogether.fragments.adapter.holders.SearchItemHolder
 
 /**
  * Created by said on 15.10.16.
@@ -10,6 +9,5 @@ import ru.mail.sporttogether.fragments.EventsMapFragment
  */
 @Subcomponent
 interface ViewSubComponent {
-    fun inject(view: DrawerActivity)
-    fun inject(view: EventsMapFragment)
+    fun inject(view: SearchItemHolder)
 }

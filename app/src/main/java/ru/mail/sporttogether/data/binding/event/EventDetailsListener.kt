@@ -10,7 +10,5 @@ interface EventDetailsListener {
 
     fun onJoinButtonClicked()
 
-    fun onShareButtonClicked()
-
     fun onCancelButtonClicked()
 }
