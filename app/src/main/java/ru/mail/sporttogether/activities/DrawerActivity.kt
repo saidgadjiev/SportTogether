@@ -27,6 +27,7 @@ import ru.mail.sporttogether.activities.view.DrawerView
 import ru.mail.sporttogether.data.binding.DrawerData
 import ru.mail.sporttogether.databinding.ActivityDrawerBinding
 import ru.mail.sporttogether.fragments.EventsTabFragment
+import ru.mail.sporttogether.fragments.SettingsFragment
 import ru.mail.sporttogether.mvp.PresenterActivity
 import ru.mail.sporttogether.utils.DrawerLoader
 
@@ -137,6 +138,7 @@ class DrawerActivity : DrawerView,
                     false
                 },
                 PrimaryDrawerItem().withName(R.string.settings).withIcon(R.drawable.ic_settings).withIconTintingEnabled(true).withOnDrawerItemClickListener { view, i, iDrawerItem ->
+                    swapFragment(SettingsFragment(), i)
                     toolbar.title = getString(R.string.settings)
                     false
                 },

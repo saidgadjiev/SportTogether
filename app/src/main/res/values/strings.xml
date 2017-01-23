@@ -61,4 +61,9 @@
     <string name="event_description">Описание события</string>
     <string name="save">Сохранить</string>
 
+    <string-array name="list_reminder_times">
+        <item>1 час</item>
+        <item>2 часа</item>
+        <item>3 часа</item>
+    </string-array>
 </resources>
