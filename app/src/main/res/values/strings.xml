@@ -32,6 +32,7 @@
     <string name="angryAlready">Вы пожаловались</string>
     <string name="share">Поделиться</string>
     <string name="edit">Правка</string>
+    <string name="edit_event">Редактирование события</string>
     <string name="result">Результат</string>
     <string name="result_sent">Результат события отправлен</string>
     <string name="ok">ОК</string>
