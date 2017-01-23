@@ -28,6 +28,6 @@ class OrganizedEventsListFragment :
     }
 
     override fun resultEvent(e: Event) {
-
+        listAdapter.resultEvent(e)
     }
 }

@@ -8,6 +8,7 @@ import ru.mail.sporttogether.R
 import ru.mail.sporttogether.fragments.ResultDialogFragment
 import ru.mail.sporttogether.fragments.adapter.presenters.OrganizedEventsHolderPresenter
 import ru.mail.sporttogether.fragments.adapter.views.OrganizedEventsView
+import ru.mail.sporttogether.net.models.Event
 
 /**
  * Created by bagrusss on 18.01.17
@@ -26,6 +27,11 @@ class OrganizedEventHolder(v: View, fm: FragmentManager?) :
         fm?.let {
             ResultDialogFragment.show(it, event)
         }
+    }
+
+    override fun onBind(pos: Int, event: Event) {
+        super.onBind(pos, event)
+        data.action1Enabled.set(event.result == null)
     }
 
     override fun getAction1Drawable(): Drawable

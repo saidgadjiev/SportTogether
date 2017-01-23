@@ -20,7 +20,7 @@ class OrganizedEventsPresenterImpl(private var view: OrganizedEventsListView?) :
     override fun onEventChanges(newData: EventsManager.NewData<*>) {
         super.onEventChanges(newData)
         if (newData.type == EventsManager.UpdateType.RESULTED) {
-            view?.deleteEvent(newData.data as Event)
+            view?.resultEvent(newData.data as Event)
         }
     }
 

@@ -48,6 +48,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:background="?attr/selectableItemBackground"
+                    android:enabled="@{data.action1Enabled}"
                     android:gravity="center"
                     android:onClick="@{() -> listener.action1Clicked()}"
                     android:orientation="vertical"
@@ -59,7 +60,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@{data.action1Drawable}"
-                        android:tint="?colorPrimary" />
+                        android:tint="@{data.action1Enabled? @color/colorPrimary: @color/app_secondary_text}" />
 
                     <TextView
                         android:id="@+id/action1"
@@ -67,7 +68,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
                         android:text="@{data.action1Text}"
-                        android:textColor="?colorPrimary"
+                        android:textColor="@{data.action1Enabled? @color/colorPrimary: @color/app_secondary_text}"
                         android:textSize="12sp" />
                 </LinearLayout>
 
@@ -76,6 +77,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:background="?attr/selectableItemBackground"
+                    android:enabled="@{data.action2Enabled}"
                     android:gravity="center"
                     android:onClick="@{() -> listener.action2Clicked()}"
                     android:orientation="vertical"
@@ -88,7 +90,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:src="@{data.action2Drawable}"
-                        android:tint="?colorPrimary" />
+                        android:tint="@{data.action2Enabled? @color/colorPrimary: @color/app_secondary_text}" />
 
                     <TextView
                         android:id="@+id/action2"
@@ -96,7 +98,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
                         android:text="@{data.action2Text}"
-                        android:textColor="?colorPrimary"
+                        android:textColor="@{data.action2Enabled? @color/colorPrimary: @color/app_secondary_text}"
                         android:textSize="12sp" />
                 </LinearLayout>
             </LinearLayout>

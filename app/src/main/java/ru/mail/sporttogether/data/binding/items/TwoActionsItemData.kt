@@ -1,5 +1,6 @@
 package ru.mail.sporttogether.data.binding.items
 
+import android.databinding.ObservableBoolean
 import android.databinding.ObservableField
 import android.graphics.drawable.Drawable
 
@@ -18,5 +19,8 @@ class TwoActionsItemData {
 
     val action1Drawable = ObservableField<Drawable>()
     val action2Drawable = ObservableField<Drawable>()
+
+    val action1Enabled = ObservableBoolean(true)
+    val action2Enabled = ObservableBoolean(true)
 
 }
