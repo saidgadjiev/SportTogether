@@ -23,4 +23,5 @@
     <color name="app_accent_text">#3F51B5</color>
     <color name="app_secondary_light">#828282</color>
     <color name="background_color">#e6e6e6</color>
+    <color name="light_gray">#9E9E9E</color>
 </resources>

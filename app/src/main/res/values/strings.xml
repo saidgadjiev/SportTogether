@@ -39,9 +39,9 @@
     <string name="add_event_set_date_btn">задать</string>
     <string name="category">Вид спорта</string>
     <string name="description_header">Описание</string>
-    <string name="tasks_header">список задач</string>
+    <string name="tasks_header">Cписок задач</string>
     <string name="reduce">убрать</string>
-    <string name="result_header">итог события</string>
+    <string name="result_header">Итог события</string>
     <string name="you_connected_msg">вы участвуете</string>
     <string name="add_event">Создать событие</string>
     <string name="add_result">Добавить итог</string>

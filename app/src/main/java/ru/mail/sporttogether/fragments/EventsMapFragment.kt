@@ -19,6 +19,7 @@ import android.view.*
 import android.widget.FrameLayout
 import android.widget.Toast
 import com.google.android.gms.maps.MapView
+import kotlinx.android.synthetic.main.events_map.*
 import ru.mail.sporttogether.R
 import ru.mail.sporttogether.activities.AddEventActivity
 import ru.mail.sporttogether.activities.DrawerActivity
@@ -35,6 +36,7 @@ import ru.mail.sporttogether.fragments.view.EventsMapView
 import ru.mail.sporttogether.mvp.PresenterActivity
 import ru.mail.sporttogether.mvp.PresenterFragment
 import ru.mail.sporttogether.net.models.Event
+import ru.mail.sporttogether.net.models.SearchEvent
 import ru.mail.sporttogether.net.models.Task
 import ru.mail.sporttogether.utils.DateUtils
 import ru.mail.sporttogether.utils.ShareUtils
@@ -60,8 +62,6 @@ class EventsMapFragment :
     private lateinit var eventsListView: RecyclerView
     private val adapter = EventsAdapter()
     private var dialog: AlertDialog? = null
-
-//    private val tasksDialog
 
     private var markerDownX = 0
     private var markerDownY = 0
@@ -278,10 +278,6 @@ class EventsMapFragment :
         adapter.swap(events)
     }
 
-    override fun addEvent(event: Event) {
-        //adapter.addEvent(event)
-    }
-
     override fun onCameraIdle() {
         presenter.onCameraIdle(markerDownX, markerDownY)
     }
@@ -321,7 +317,6 @@ class EventsMapFragment :
         data.name.set(event.name)
         data.date.set(DateUtils.toXLongDateString(Date(event.date)))
         data.description.set(event.result ?: event.description)
-        data.withDescription.set(event.description.isNotEmpty())
         data.isReported.set(event.isReported)
         data.isJoined.set(event.isJoined)
         val people = getString(R.string.users, event.nowPeople, event.maxPeople)
@@ -343,7 +338,6 @@ class EventsMapFragment :
             data.tasksInfo.set(Event.tasksInfo(tasks))
             val withTasks = tasks.size > 0
             data.withTasks.set(withTasks)
-            data.isTasksReady.set(true)
             data.isTasksCanBeChanged.set(withTasks && event.isJoined && !event.isEnded)
             if (event.isEnded) {
                 data.tasksMessage.set("событие уже завершено")
@@ -356,7 +350,6 @@ class EventsMapFragment :
         } else {
             data.tasksMessage.set("идет загрузка задач")
             data.withTasks.set(false)
-            data.isTasksReady.set(false)
             data.isTasksCanBeChanged.set(false)
         }
     }
@@ -417,12 +410,14 @@ class EventsMapFragment :
     private fun showResultsList() {
         resultsContainer.visibility = View.VISIBLE
         resultsContainer.animate().scaleY(1f).setDuration(300L).start()
+        fab.animate().scaleX(0f).scaleY(0f).setDuration(300L).start()
     }
 
     private fun hideResultsList() {
         val animator = resultsContainer.animate().scaleY(0f).setDuration(300L).withEndAction {
             resultsContainer.visibility = View.GONE
         }
+        fab.animate().scaleX(1f).scaleY(1f).setDuration(300L).start()
         animator.start()
     }
 

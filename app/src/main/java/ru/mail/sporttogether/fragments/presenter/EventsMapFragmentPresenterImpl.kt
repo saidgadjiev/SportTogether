@@ -29,6 +29,7 @@ import ru.mail.sporttogether.net.models.IpResponse
 import ru.mail.sporttogether.net.models.Task
 import ru.mail.sporttogether.net.models.User
 import ru.mail.sporttogether.net.models.yandex.maps.GeoObject
+import ru.mail.sporttogether.utils.MapUtils
 import rx.Observable
 import rx.Subscriber
 import rx.Subscription
@@ -36,7 +37,6 @@ import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import java.util.*
 import javax.inject.Inject
-import javax.inject.Named
 
 
 /**
@@ -48,6 +48,8 @@ class EventsMapFragmentPresenterImpl(var view: EventsMapView?) : EventsMapFragme
 
     private var lastMarker: Marker? = null
     private lateinit var lastPos: LatLng
+    private lateinit var userLocation: LatLng
+
     private val options = MarkerOptions()
 
     private lateinit var lastEvent: Event
@@ -169,13 +171,15 @@ class EventsMapFragmentPresenterImpl(var view: EventsMapView?) : EventsMapFragme
 
                         override fun onNext(t: IpResponse) {
                             unsubscribe()
-                            map?.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(t.lat, t.lon), 15f))
+                            userLocation = LatLng(t.lat, t.lon)
+                            map?.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 15f))
                             view?.onLocationNotChecked()
                         }
 
                     })
         } else {
             locationManager.getLocation()?.let {
+                userLocation = LatLng(it.latitude, it.longitude)
                 showMe(it)
             }
             locationManager.update(false)
@@ -196,6 +200,7 @@ class EventsMapFragmentPresenterImpl(var view: EventsMapView?) : EventsMapFragme
         map.setOnCameraIdleListener(view)
 
         locationSubscription = locationManager.locationUpdate.subscribe { location ->
+            userLocation = LatLng(location.latitude, location.longitude)
             onLocationUpdated(location)
         }
         if (!locationManager.checkForPermissions()) {
@@ -259,15 +264,28 @@ class EventsMapFragmentPresenterImpl(var view: EventsMapView?) : EventsMapFragme
     override fun searchByCategory(s: String) {
         apiSubscribtion?.unsubscribe()
         apiSubscribtion = api.getEventsByCategory(s)
-                .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(object : Subscriber<Response<EventsResponse>>() {
-                    override fun onNext(t: Response<EventsResponse>) {
-                        if (t.code == 0) {
-                            view?.loadEvents(t.data)
-                            eventsManager.swapEvents(t.data)
-                            addMarkers(t.data)
-                        }
+                .observeOn(Schedulers.computation())
+                .flatMap { resp ->
+                    val code = resp.code
+                    if (code == 0) {
+                        val list = resp.data
+                        for (i in 0..list.size - 1)
+                            list[i].distance = MapUtils.distanceBetweenPoints(userLocation, LatLng(list[i].lat, list[i].lng))
+
+                        Collections.sort(list, { o1, o2 ->
+                            return@sort if (o1.distance > o2.distance) 1 else if (o1.distance == o2.distance) 0 else -1
+                        })
+                        return@flatMap Observable.just(list)
+                    }
+                    throw RuntimeException("error code $code")
+                }
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(object : Subscriber<ArrayList<Event>>() {
+                    override fun onNext(t: ArrayList<Event>) {
+                        view?.loadEvents(t)
+                        eventsManager.swapEvents(t)
+                        addMarkers(t)
                     }
 
                     override fun onError(e: Throwable?) {
@@ -419,7 +437,7 @@ class EventsMapFragmentPresenterImpl(var view: EventsMapView?) : EventsMapFragme
                 markerIdEventMap.put(marker.id, event)
             }
             options.icon(null)
-            Log.v("EventsMapFragmentPresenter", "add events")
+            Log.v("EventsMapPresenter", "add events")
         }
     }
 
@@ -615,7 +633,7 @@ class EventsMapFragmentPresenterImpl(var view: EventsMapView?) : EventsMapFragme
 
     companion object {
 
-        val TAG = "#MY " + EventsMapFragmentPresenterImpl::class.java.simpleName.substring(0,18)
+        val TAG = "#MY " + EventsMapFragmentPresenterImpl::class.java.simpleName.substring(0, 18)
 
         @JvmStatic private val MAX_ZOOM = 17f
         @JvmStatic private val MIN_ZOOM = 10f

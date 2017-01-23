@@ -46,23 +46,6 @@
         </FrameLayout>
 
         <FrameLayout
-            android:id="@+id/events_list_sheet"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="bottom"
-            android:animateLayoutChanges="true"
-            android:background="@color/background_color"
-            android:visibility="gone"
-            app:layout_anchorGravity="bottom">
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/events_list_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scrollbars="vertical" />
-        </FrameLayout>
-
-        <FrameLayout
             android:id="@+id/bottom_sheet"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -129,6 +112,31 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textSize="20sp" />
         </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/events_list_sheet"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom"
+            android:animateLayoutChanges="true"
+            android:background="@color/background_color"
+            android:padding="8dp"
+            android:visibility="gone"
+            app:layout_anchorGravity="bottom">
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:cardCornerRadius="3dp">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/events_list_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="vertical" />
+            </android.support.v7.widget.CardView>
+
+        </FrameLayout>
 
     </android.support.design.widget.CoordinatorLayout>
 

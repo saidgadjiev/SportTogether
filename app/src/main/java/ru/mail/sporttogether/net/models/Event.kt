@@ -23,6 +23,7 @@ data class Event(var name: String = "",
                  var isEnded: Boolean = false,
                  var isJoined: Boolean = false,
                  var isReported: Boolean = false,
+                 var distance: Float = 0f,
                  var date: Long = 0,
                  var reports: Int = 0,
                  var nowPeople: Int = 0) : Parcelable {
@@ -38,6 +39,7 @@ data class Event(var name: String = "",
         reports = parcel.readInt()
         nowPeople = parcel.readInt()
         description = parcel.readString()
+        distance = parcel.readFloat()
         result = parcel.readString()
         isEnded = parcel.readByte() > 0
         isJoined = parcel.readByte() > 0
@@ -58,6 +60,7 @@ data class Event(var name: String = "",
         dest.writeInt(reports)
         dest.writeInt(nowPeople)
         dest.writeString(description)
+        dest.writeFloat(distance)
         dest.writeString(result)
         dest.writeByte(if (isEnded) 1 else 0)
         dest.writeByte(if (isJoined) 1 else 0)
