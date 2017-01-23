@@ -1,11 +1,11 @@
 package ru.mail.sporttogether.net.api
 
 import retrofit2.http.*
+import ru.mail.sporttogether.net.EventsResponse
+import ru.mail.sporttogether.net.Response
 import ru.mail.sporttogether.net.models.Event
 import ru.mail.sporttogether.net.models.EventResult
 import ru.mail.sporttogether.net.models.Task
-import ru.mail.sporttogether.net.EventsResponse
-import ru.mail.sporttogether.net.Response
 import rx.Observable
 import java.util.*
 
@@ -62,6 +62,9 @@ interface EventsAPI {
 
     @GET("event/user")
     fun getResultedEvents(@Query("events:isEnded") isEnded: Boolean = true): Observable<Response<EventsResponse>>
+
+    @PUT("event/{id}")
+    fun updateEvent(@Path("id") id: Long, @Body event: Event): Observable<Response<Any>>
 
 
 }

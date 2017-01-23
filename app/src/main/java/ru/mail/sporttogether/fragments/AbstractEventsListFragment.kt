@@ -10,8 +10,8 @@ import android.view.ViewGroup
 import ru.mail.sporttogether.R
 import ru.mail.sporttogether.databinding.FragmentEventsListBinding
 import ru.mail.sporttogether.fragments.adapter.AbstractEventAdapter
-import ru.mail.sporttogether.fragments.view.EventsListView
 import ru.mail.sporttogether.fragments.presenter.AbstractEventsListPresenter
+import ru.mail.sporttogether.fragments.view.EventsListView
 import ru.mail.sporttogether.mvp.PresenterFragment
 import ru.mail.sporttogether.net.models.Event
 
@@ -67,6 +67,10 @@ abstract class AbstractEventsListFragment<PR : AbstractEventsListPresenter, T : 
 
     override fun deleteEvent(e: Event) {
         listAdapter.deleteEvent(e)
+    }
+
+    override fun updateEvent(event: Event) {
+        listAdapter.updateEvent(event)
     }
 
 }

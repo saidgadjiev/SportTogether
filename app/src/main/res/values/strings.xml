@@ -38,6 +38,8 @@
     <string name="ok">ОК</string>
     <string name="cancel">Отменить</string>
     <string name="cancel_event">Отменить событие</string>
+    <string name="event_canceled">Событие отменено</string>
+    <string name="event_edited">Событие отредактировано</string>
     <string name="datetime_picker_btn_set">Установить</string>
     <string name="datetime_picker_header">Установить дату</string>
     <string name="datetime">Дата и время</string>

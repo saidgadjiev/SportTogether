@@ -69,6 +69,7 @@
             android:layout_marginTop="5dp"
             android:hint="@string/how_much_us"
             android:inputType="number"
+            android:maxLength="3"
             android:text="@={data.peopleCoint}"
             android:textSize="16sp"
             app:layout_constraintLeft_toLeftOf="@+id/textView4"

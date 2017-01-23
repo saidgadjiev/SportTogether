@@ -85,6 +85,10 @@ abstract class AbstractEventsListPresenter(private var view: EventsListView?) : 
         if (newData.type == EventsManager.UpdateType.DELETED) {
             view?.deleteEvent(newData.data as Event)
         }
+
+        if (newData.type == EventsManager.UpdateType.UPDATE) {
+            view?.updateEvent(newData.data as Event)
+        }
     }
 
 
