@@ -1,4 +1,4 @@
-package ru.mail.sporttogether.fragments.adapter.views
+package ru.mail.sporttogether.fragments.view
 
 import ru.mail.sporttogether.mvp.IView
 import ru.mail.sporttogether.net.models.Event

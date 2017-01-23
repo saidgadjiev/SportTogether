@@ -1,6 +1,6 @@
 package ru.mail.sporttogether.fragments.view
 
-import ru.mail.sporttogether.fragments.adapter.views.EventListView
+import ru.mail.sporttogether.fragments.view.EventListView
 import ru.mail.sporttogether.net.models.Event
 
 /**
