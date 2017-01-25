@@ -33,12 +33,13 @@ class ShowEventIntentService : IntentService(NAME) {
             Log.d(TAG, "drawer activity is created : $isCreated")
             val startingIntent: Intent
             if (isCreated) {
-                startingIntent = Intent(this, DrawerActivity::class.java)
+                startingIntent = Intent(applicationContext, DrawerActivity::class.java)
             } else {
-                startingIntent = Intent(this, SplashActivity::class.java)
+                startingIntent = Intent(applicationContext, SplashActivity::class.java)
+                startingIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             }
             startingIntent.putExtra("data", intent.getBundleExtra("data"))
-            startActivity(startingIntent)
+            startActivity(startingIntent) //TODO
         }
     }
     companion object {
