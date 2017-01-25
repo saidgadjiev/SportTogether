@@ -54,6 +54,10 @@ class DrawerActivityPresenterImpl(view: DrawerView) : DrawerActivityPresenter {
 
     override fun onCreate(args: Bundle?) {
         super.onCreate(args)
+
+        if (!socialNetworkManager.isActiveUserInited()) {
+            view?.startSplashActivity()
+        }
 //        eventsSubscribion = eventsManager.getObservable()
 //                .observeOn(AndroidSchedulers.mainThread())
 //                .subscribe { newState ->
@@ -82,11 +86,11 @@ class DrawerActivityPresenterImpl(view: DrawerView) : DrawerActivityPresenter {
     }
 
     override fun getProfileName(): String {
-        return socialNetworkManager.activeUser.name
+        return socialNetworkManager.activeUser!!.name
     }
 
     override fun getAvatar(): String {
-        return socialNetworkManager.activeUser.avatar
+        return socialNetworkManager.activeUser!!.avatar
     }
 
     init {

@@ -16,7 +16,7 @@ class SocialNetworkManager {
     private val socialNetworksMap = TreeMap<Int, ISocialNetwork>()
 //    private var onInitializationCompleteListener: OnInitializationCompleteListener? = null
     private var networkID: Int = -1
-    lateinit var activeUser: User
+    var activeUser: User? = null
 
     val facebookSocialNetwork: FacebookSocialNetwork
         get() = socialNetworksMap[FacebookSocialNetwork.ID] as FacebookSocialNetwork
@@ -26,6 +26,10 @@ class SocialNetworkManager {
 
     val initializedSocialNetworks: List<ISocialNetwork>
         get() = socialNetworksMap.values.toList()
+
+    fun isActiveUserInited(): Boolean {
+        return activeUser != null
+    }
 
     fun addSocialNetwork(network: ISocialNetwork) {
         socialNetworksMap.put(network.id, network)

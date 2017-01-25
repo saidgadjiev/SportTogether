@@ -183,6 +183,11 @@ class DrawerActivity : DrawerView,
         LoginActivity.startActivity(this, true)
     }
 
+    override fun startSplashActivity() {
+        finish()
+        SplashActivity.startActivity(this)
+    }
+
     companion object {
         var isCreated = false
         @JvmStatic val TAG = "DrawerActivity"

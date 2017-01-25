@@ -77,7 +77,7 @@ class EventsMapFragmentPresenterImpl(var view: EventsMapView?) : EventsMapFragme
         App.injector
                 .usePresenterComponent()
                 .inject(this)
-        userId = socialNetworkManager.activeUser.id
+        userId = socialNetworkManager.activeUser!!.id
     }
 
 
@@ -398,7 +398,7 @@ class EventsMapFragmentPresenterImpl(var view: EventsMapView?) : EventsMapFragme
     }
 
     override fun getMyId(): Long {
-        return socialNetworkManager.activeUser.id
+        return socialNetworkManager.activeUser!!.id
     }
 
     fun calculateScale(latlng: LatLng, distance: Int): Observable<Double> {
@@ -588,7 +588,7 @@ class EventsMapFragmentPresenterImpl(var view: EventsMapView?) : EventsMapFragme
                             if (changedTask != null) {
                                 val index = tasks?.indexOf(changedTask)!!.or(0)
                                 tasks?.remove(changedTask)
-                                val activeUser = socialNetworkManager.activeUser.copy()
+                                val activeUser = socialNetworkManager.activeUser!!.copy()
                                 val newUser = User("", activeUser.id, 0, activeUser.name, activeUser.avatar)
                                 tasks?.add(index, changedTask.copy(user = newUser))
                             }

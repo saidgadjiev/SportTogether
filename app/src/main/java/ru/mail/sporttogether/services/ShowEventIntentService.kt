@@ -36,8 +36,8 @@ class ShowEventIntentService : IntentService(NAME) {
                 startingIntent = Intent(applicationContext, DrawerActivity::class.java)
             } else {
                 startingIntent = Intent(applicationContext, SplashActivity::class.java)
-                startingIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             }
+            startingIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             startingIntent.putExtra("data", intent.getBundleExtra("data"))
             startActivity(startingIntent) //TODO
         }

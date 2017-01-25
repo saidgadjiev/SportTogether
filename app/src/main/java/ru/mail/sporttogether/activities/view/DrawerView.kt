@@ -7,4 +7,5 @@ import ru.mail.sporttogether.mvp.IView
  */
 interface DrawerView : IView {
     fun startLoginActivity()
+    fun startSplashActivity()
 }
