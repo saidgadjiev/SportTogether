@@ -77,12 +77,10 @@ class SplashActivityPresenterImpl(view: SplashView) : SplashActivityPresenter {
                     }
 
                     override fun onNext(resp: Response<User>) {
-                        Log.d("#MY " + javaClass.simpleName, "answer from server : " + person)
                         socialNetworkManager.setNetworkID(ID)
                         if (resp.code == 0) {
-                            //TODO костыль с сервера должен приходить обновленный объект пользователя
-                            resp.data.name = person.name
-                            socialNetworkManager.activeUser = resp.data
+                            Log.d("#MY " + javaClass.simpleName, "answer from server : " + resp.data)
+                            socialNetworkManager.activeUser = resp.data.copy(clientId = "")
                             view?.startMainActivity()
                         } else {
                             view?.showToast("error when authorize : " + resp.message)

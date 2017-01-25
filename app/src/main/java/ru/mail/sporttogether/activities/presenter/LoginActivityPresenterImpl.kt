@@ -18,7 +18,6 @@ import ru.mail.sporttogether.net.Response
 import ru.mail.sporttogether.net.api.AuthorizationAPI
 import ru.mail.sporttogether.net.models.Profile
 import ru.mail.sporttogether.net.models.User
-import ru.mail.sporttogether.services.UnjoinIntentService
 import rx.Subscriber
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
@@ -48,10 +47,6 @@ class LoginActivityPresenterImpl(view: LoginView) : LoginActivityPresenter, OnLo
                 .putString(TOKEN_KEY, headerManager.token)
                 .putString(CLIENT_ID_KEY, headerManager.clientId)
                 .apply()
-
-        val token = sharedPreferences.getString(TOKEN_KEY, "")
-        val clientId = sharedPreferences.getString(CLIENT_ID_KEY, "")
-        Log.d(UnjoinIntentService.TAG, "when put token and client id in shared preferences $token, $clientId")
 
         authApi.updateAuthorization(Profile(person.avatarURL, person.name))
                 .subscribeOn(Schedulers.io())

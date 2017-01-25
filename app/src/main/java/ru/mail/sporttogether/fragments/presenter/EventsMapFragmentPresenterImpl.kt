@@ -588,9 +588,9 @@ class EventsMapFragmentPresenterImpl(var view: EventsMapView?) : EventsMapFragme
                             if (changedTask != null) {
                                 val index = tasks?.indexOf(changedTask)!!.or(0)
                                 tasks?.remove(changedTask)
-                                val activeUser = socialNetworkManager.activeUser
+                                val activeUser = socialNetworkManager.activeUser.copy()
                                 val newUser = User("", activeUser.id, 0, activeUser.name, activeUser.avatar)
-                                tasks?.add(index, changedTask.copy(user = newUser)) //TODO inject social network manager
+                                tasks?.add(index, changedTask.copy(user = newUser))
                             }
                             render()
                         } else view?.showToast(t.message)
