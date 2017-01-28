@@ -52,12 +52,13 @@ class DrawerActivityPresenterImpl(view: DrawerView) : DrawerActivityPresenter {
 
     }
 
+    override fun checkIsUserInited(): Boolean {
+        Log.d(TAG, "checking is active user inited " + socialNetworkManager.isActiveUserInited())
+        return socialNetworkManager.isActiveUserInited()
+    }
+
     override fun onCreate(args: Bundle?) {
         super.onCreate(args)
-
-        if (!socialNetworkManager.isActiveUserInited()) {
-            view?.startSplashActivity()
-        }
 //        eventsSubscribion = eventsManager.getObservable()
 //                .observeOn(AndroidSchedulers.mainThread())
 //                .subscribe { newState ->

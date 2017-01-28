@@ -49,18 +49,23 @@ class DrawerActivity : DrawerView,
         isCreated = true
 
         presenter = DrawerActivityPresenterImpl(this)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_drawer)
-        toolbar = binding.drawerToolbar
-        binding.drawerData = drawerData
-        setSupportActionBar(toolbar)
-        setupToolbar(toolbar)
-        buildDrawer()
-        toolbar.title = getString(R.string.events_map)
-        val bundle = intent.getBundleExtra("data")
-        Log.d("#MY DrawerActivity", "bundle " + bundle)
-        if (bundle != null) {
-            presenter.showEventOnMap(bundle)
+        if (!presenter.checkIsUserInited()) {
+            startSplashActivity()
+        } else {
+            binding = DataBindingUtil.setContentView(this, R.layout.activity_drawer)
+            toolbar = binding.drawerToolbar
+            binding.drawerData = drawerData
+            setSupportActionBar(toolbar)
+            setupToolbar(toolbar)
+            buildDrawer()
+            toolbar.title = getString(R.string.events_map)
+            val bundle = intent.getBundleExtra("data")
+            Log.d("#MY DrawerActivity", "bundle " + bundle)
+            if (bundle != null) {
+                presenter.showEventOnMap(bundle)
+            }
         }
+
     }
 
     override fun onDestroy() {
@@ -184,6 +189,7 @@ class DrawerActivity : DrawerView,
     }
 
     override fun startSplashActivity() {
+        Log.d("#MY ", "started splash activity")
         finish()
         SplashActivity.startActivity(this)
     }

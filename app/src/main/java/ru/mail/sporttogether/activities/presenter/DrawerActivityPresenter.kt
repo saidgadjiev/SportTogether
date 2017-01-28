@@ -16,5 +16,7 @@ interface DrawerActivityPresenter : IPresenter {
 
     fun getAvatar(): String
 
+    fun checkIsUserInited(): Boolean
+
     fun showEventOnMap(bundle: Bundle)
 }
