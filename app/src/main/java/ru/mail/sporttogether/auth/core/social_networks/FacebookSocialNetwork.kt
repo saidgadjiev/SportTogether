@@ -22,6 +22,10 @@ import ru.mail.sporttogether.auth.core.SocialNetworkManager
 import ru.mail.sporttogether.auth.core.SocialPerson
 import ru.mail.sporttogether.auth.core.listeners.OnLoginCompleteListener
 import ru.mail.sporttogether.auth.core.listeners.OnRequestSocialPersonCompleteListener
+import com.crashlytics.android.answers.LoginEvent
+import com.crashlytics.android.answers.Answers
+
+
 
 
 /**
@@ -104,6 +108,7 @@ class FacebookSocialNetwork(private val activity: Activity) : ISocialNetwork {
                         .putString(ACCESS_TOKEN, result.accessToken.token)
                         .apply()
                 this@FacebookSocialNetwork.onLoginCompleteListener!!.onSuccess(ID)
+                Answers.getInstance().logLogin(LoginEvent().putMethod("Facebook").putSuccess(true))
             }
 
             override fun onCancel() {
