@@ -17,7 +17,9 @@ import android.widget.Toast
 import com.jakewharton.rxbinding.widget.RxTextView
 import com.mikepenz.materialdrawer.util.KeyboardUtil
 import ru.mail.sporttogether.R
-import ru.mail.sporttogether.mvp.PresenterActivity
+import ru.mail.sporttogether.activities.presenter.AddEventPresenter
+import ru.mail.sporttogether.activities.presenter.AddEventPresenterImpl
+import ru.mail.sporttogether.activities.view.AddEventView
 import ru.mail.sporttogether.adapter.AddTaskAdapter
 import ru.mail.sporttogether.adapter.CategoriesAdapter
 import ru.mail.sporttogether.data.binding.event.ButtonListener
@@ -26,10 +28,8 @@ import ru.mail.sporttogether.data.binding.tasks.OpenTasksListener
 import ru.mail.sporttogether.databinding.ActivityAddEventBinding
 import ru.mail.sporttogether.databinding.AddingTasksBinding
 import ru.mail.sporttogether.databinding.DateTimePickerBinding
+import ru.mail.sporttogether.mvp.PresenterActivity
 import ru.mail.sporttogether.mvp.PresenterFragment
-import ru.mail.sporttogether.activities.presenter.AddEventPresenter
-import ru.mail.sporttogether.activities.presenter.AddEventPresenterImpl
-import ru.mail.sporttogether.activities.view.AddEventView
 import ru.mail.sporttogether.net.models.Category
 import ru.mail.sporttogether.net.models.Event
 import ru.mail.sporttogether.net.models.Task
@@ -146,6 +146,7 @@ class AddEventActivity :
     }
 
     override fun updateAddress(textAddress: String) {
+        Log.d(TAG, "setted address : " + textAddress)
         data.address.set(textAddress)
     }
 
@@ -286,6 +287,7 @@ class AddEventActivity :
     }
 
     companion object {
+        val TAG = "#MY " + AddEventActivity::class.java.simpleName
 
         @JvmStatic
         fun startForResultEvent(c: Context, id: Long) {
