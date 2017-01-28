@@ -6,6 +6,8 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
+import com.crashlytics.android.answers.Answers
+import com.crashlytics.android.answers.LoginEvent
 import com.vk.sdk.VKAccessToken
 import com.vk.sdk.VKAccessTokenTracker
 import com.vk.sdk.VKCallback
@@ -81,6 +83,7 @@ class VKSocialNetwork(activity: Activity) : ISocialNetwork {
         VKSdk.onActivityResult(requestCode, resultCode, data, object : VKCallback<VKAccessToken> {
             override fun onResult(res: VKAccessToken) {
                 onLoginCompleteListener!!.onSuccess(ID)
+                Answers.getInstance().logLogin(LoginEvent().putMethod("VK").putSuccess(true))
             }
 
             override fun onError(error: VKError) {
