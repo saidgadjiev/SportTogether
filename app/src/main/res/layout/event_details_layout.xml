@@ -85,8 +85,8 @@
                             <ImageView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:src="@drawable/ic_people"
-                                android:tint="@android:color/white" />
+                                android:tint="@android:color/white"
+                                app:srcCompat="@drawable/ic_people" />
 
                             <TextView
                                 android:id="@+id/people_count"
