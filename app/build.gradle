@@ -3,7 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'com.getkeepsafe.dexcount'
-//apply plugin: 'io.fabric'
+apply plugin: 'io.fabric'
 
 android {
     compileSdkVersion 25
@@ -28,7 +28,7 @@ android {
         preDexLibraries true //use false if files not exists
         dexInProcess true
 //        jumboMode true
-        javaMaxHeapSize "2g" // Use gig increments depending on needs
+        javaMaxHeapSize "4g" // Use gig increments depending on needs
     }
     signingConfigs {
         key {
@@ -45,8 +45,8 @@ android {
         applicationId "ru.mail.sporttogether"
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
+        versionCode 3
+        versionName "1.0.1"
         vectorDrawables.useSupportLibrary = true
     }
 
@@ -73,7 +73,7 @@ android {
         release {
             minifyEnabled true
             shrinkResources true
-            debuggable true
+            debuggable false
             signingConfig signingConfigs.key
             proguardFile 'proguard.pro'
         }
@@ -165,7 +165,7 @@ dependencies {
 
 
 
-    compile('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
+    compile('com.crashlytics.sdk.android:crashlytics:2.6.6@aar') {
         transitive = true;
     }
 }
