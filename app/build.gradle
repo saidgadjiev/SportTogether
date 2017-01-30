@@ -28,7 +28,7 @@ android {
         preDexLibraries true //use false if files not exists
         dexInProcess true
 //        jumboMode true
-        javaMaxHeapSize "2g" // Use gig increments depending on needs
+        javaMaxHeapSize "4g" // Use gig increments depending on needs
     }
     signingConfigs {
         key {
@@ -45,8 +45,8 @@ android {
         applicationId "ru.mail.sporttogether"
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
+        versionCode 3
+        versionName "1.0.1"
         vectorDrawables.useSupportLibrary = true
     }
 
@@ -54,7 +54,7 @@ android {
         // https://developer.android.com/studio/build/multidex.html
         dev {
             multiDexEnabled true
-            minSdkVersion 21 //не трогать
+            minSdkVersion 17 //не трогать
             resValue "integer", "com_vk_sdk_AppId", "5800446"
         }
 
@@ -73,7 +73,7 @@ android {
         release {
             minifyEnabled true
             shrinkResources true
-            debuggable true
+            debuggable false
             signingConfig signingConfigs.key
             proguardFile 'proguard.pro'
         }
@@ -154,18 +154,20 @@ dependencies {
 
 
     //social
-    compile 'com.facebook.android:facebook-android-sdk:4.17.0'
+    compile 'com.facebook.android:facebook-android-sdk:4.+'
     compile 'com.vk:androidsdk:1.6.7'
 
     //custom UI libs
-    compile 'eu.long1:spacetablayout:1.0.4'
     compile('com.mikepenz:materialdrawer:5.8.1@aar') {
         transitive = true
     }
 
+    dependencies {
+        compile 'com.aurelhubert:ahbottomnavigation:2.0.4'
+    }
 
 
-    compile('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
+    compile('com.crashlytics.sdk.android:crashlytics:2.6.6@aar') {
         transitive = true;
     }
 }

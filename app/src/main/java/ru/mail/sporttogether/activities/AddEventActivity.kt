@@ -253,6 +253,11 @@ class AddEventActivity :
             return
         }
 
+        if (maxPeople < 2) {
+            Toast.makeText(this, "Минимум 2 человека в событии", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         event.date = settedDate?.time?.time ?: 0
         event.description = binding.description.text.toString()
         event.maxPeople = maxPeople

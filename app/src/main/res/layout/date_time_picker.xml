@@ -20,40 +20,43 @@
         android:layout_width="match_parent"
         android:paddingBottom="8dp"
         android:layout_height="wrap_content">
+
         <TextView
-            style="@style/TitleText"
             android:id="@+id/date_picker_header"
+            style="@style/TitleText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAlignment="center"
+            android:layout_marginTop="10dp"
             android:text="@string/datetime_picker_header"
-            android:layout_marginTop="10dp" />
+            android:textAlignment="center" />
 
-            <DatePicker
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="-50dp"
-                android:datePickerMode="spinner"
-                android:id="@+id/date_picker"
-                android:calendarViewShown="false"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@id/date_picker_header"
-                android:spinnersShown="true"
-                />
-            <TimePicker
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="-100dp"
-                android:id="@+id/time_picker"
-                android:timePickerMode="spinner"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@id/date_picker"
-                />
+        <DatePicker
+            android:id="@+id/date_picker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/date_picker_header"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="-50dp"
+            android:layout_marginStart="-50dp"
+            android:calendarViewShown="false"
+            android:datePickerMode="spinner"
+            android:spinnersShown="true" />
+
+        <TimePicker
+            android:id="@+id/time_picker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/date_picker"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="-100dp"
+            android:layout_marginStart="-100dp"
+            android:timePickerMode="spinner" />
+
         <Button
+            android:id="@+id/date_picker_set_btn"
             style="@style/FlatButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/date_picker_set_btn"
             android:layout_below="@id/time_picker"
             android:layout_centerHorizontal="true"
             android:text="@string/datetime_picker_btn_set"

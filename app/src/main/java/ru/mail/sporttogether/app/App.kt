@@ -7,6 +7,7 @@ package ru.mail.sporttogether.app
 
 import android.content.Context
 import android.support.multidex.MultiDexApplication
+import android.support.v7.app.AppCompatDelegate
 import com.crashlytics.android.Crashlytics
 import com.crashlytics.android.answers.Answers
 import com.facebook.stetho.Stetho
@@ -29,6 +30,8 @@ class App : MultiDexApplication() {
 
     override fun onCreate() {
         super.onCreate()
+
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
 
         VKSdk.initialize(this)
         context = this

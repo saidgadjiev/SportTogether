@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -28,31 +28,34 @@
 
         <TextView
             android:id="@+id/category_header"
-            android:textSize="13sp"
-            android:textColor="@color/app_secondary_text"
-            android:layout_width="379dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:text="вид спорта"
-            android:layout_marginTop="16dp"
-            app:layout_constraintTop_toTopOf="parent"
             android:layout_marginEnd="16dp"
-            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:layout_marginStart="16dp"
-            app:layout_constraintLeft_toLeftOf="parent" />
+            android:layout_marginTop="16dp"
+            android:gravity="center_vertical"
+            android:text="Вид спорта"
+            android:textColor="@color/app_secondary_text"
+            android:textSize="13sp"
+            app:layout_constraintHorizontal_bias="0.43"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <AutoCompleteTextView
             android:id="@+id/category_autocomplete"
-            android:layout_width="379dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:hint="@string/play_in"
             android:lines="1"
             android:maxLength="30"
-            android:hint="@string/play_in"
-            app:layout_constraintTop_toBottomOf="@+id/category_header"
-            app:layout_constraintRight_toRightOf="@+id/category_header"
-            app:layout_constraintLeft_toLeftOf="@+id/category_header"
             app:layout_constraintHorizontal_bias="0.0"
-            android:layout_marginTop="8dp">
+            app:layout_constraintLeft_toLeftOf="@+id/category_header"
+            app:layout_constraintRight_toRightOf="@+id/category_header"
+            app:layout_constraintTop_toBottomOf="@+id/category_header">
 
             <requestFocus />
         </AutoCompleteTextView>
@@ -78,109 +81,113 @@
 
         <TextView
             android:id="@+id/people_header"
-            android:textSize="13sp"
-            android:textColor="@color/app_secondary_text"
-            android:text="@string/max_people_event_hint"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
+            android:layout_marginEnd="8dp"
             android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@+id/category_autocomplete"
+            android:gravity="center_vertical"
+            android:text="@string/max_people_event_hint"
+            android:textColor="@color/app_secondary_text"
+            android:textSize="13sp"
             app:layout_constraintLeft_toLeftOf="@+id/category_autocomplete"
             app:layout_constraintRight_toLeftOf="@+id/guideline"
-            android:layout_marginEnd="8dp" />
+            app:layout_constraintTop_toBottomOf="@+id/category_autocomplete" />
 
         <EditText
             android:id="@+id/event_max_people"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:inputType="number"
-            android:hint="@string/how_much_us"
-            android:maxLength="3"
-            android:lines="1"
-            android:ems="3"
-            app:layout_constraintLeft_toLeftOf="@+id/people_header"
-            app:layout_constraintTop_toBottomOf="@+id/people_header"
+            android:layout_marginEnd="8dp"
             android:layout_marginTop="8dp"
+            android:ems="3"
+            android:gravity="center_horizontal"
+            android:hint="@string/how_much_us"
+            android:inputType="number"
+            android:lines="1"
+            android:maxLength="3"
+            app:layout_constraintLeft_toLeftOf="@+id/people_header"
             app:layout_constraintRight_toLeftOf="@+id/guideline"
-            android:layout_marginEnd="8dp" />
+            app:layout_constraintTop_toBottomOf="@+id/people_header" />
 
         <TextView
             android:id="@+id/date_header"
-            android:textSize="13sp"
-            android:textColor="@color/app_secondary_text"
-            android:text="@string/datetime"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
             android:gravity="center_vertical"
-            app:layout_constraintRight_toRightOf="@+id/category_header"
+            android:text="@string/datetime"
+            android:textColor="@color/app_secondary_text"
+            android:textSize="13sp"
             app:layout_constraintLeft_toLeftOf="@+id/guideline"
-            app:layout_constraintTop_toTopOf="@+id/people_header"
-            android:layout_marginStart="8dp" />
+            app:layout_constraintRight_toRightOf="@+id/category_header"
+            app:layout_constraintTop_toTopOf="@+id/people_header" />
 
         <ImageButton
             android:id="@+id/pick_date_button"
-            android:src="@drawable/ic_date"
-            android:background="?attr/selectableItemBackground"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:background="?attr/selectableItemBackground"
             android:text="@string/add_event_set_date_btn"
-            app:layout_constraintRight_toRightOf="@+id/date_header"
             app:layout_constraintBottom_toBottomOf="@+id/event_max_people"
-            app:layout_constraintTop_toTopOf="@+id/event_max_people" />
+            app:layout_constraintRight_toRightOf="@+id/date_header"
+            app:layout_constraintTop_toTopOf="@+id/event_max_people"
+            app:srcCompat="@drawable/ic_date" />
 
         <TextView
             android:id="@+id/pick_date_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
             android:gravity="center_vertical"
+            app:layout_constraintBottom_toBottomOf="@+id/pick_date_button"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="@+id/date_header"
             app:layout_constraintRight_toLeftOf="@+id/pick_date_button"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/pick_date_button"
-            app:layout_constraintTop_toTopOf="@+id/pick_date_button" />
+            app:layout_constraintTop_toTopOf="@+id/pick_date_button"
+            app:layout_constraintVertical_bias="0.6" />
 
         <TextView
             android:id="@+id/address_header"
-            android:textSize="13sp"
-            android:textColor="@color/app_secondary_text"
-            android:text="@string/address_header"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            app:layout_constraintRight_toRightOf="@+id/date_header"
-            app:layout_constraintLeft_toLeftOf="@+id/event_max_people"
-            app:layout_constraintHorizontal_bias="0.0"
             android:layout_marginTop="16dp"
+            android:gravity="center_vertical"
+            android:text="@string/address_header"
+            android:textColor="@color/app_secondary_text"
+            android:textSize="13sp"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="@+id/event_max_people"
+            app:layout_constraintRight_toRightOf="@+id/date_header"
             app:layout_constraintTop_toBottomOf="@+id/event_max_people" />
 
         <TextView
             android:id="@+id/address_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:gravity="center_vertical"
             android:lines="1"
             android:text="@{data.address}"
             android:textSize="14sp"
-            app:layout_constraintRight_toRightOf="@+id/address_header"
-            app:layout_constraintTop_toBottomOf="@+id/address_header"
             app:layout_constraintLeft_toLeftOf="@+id/address_header"
-            android:layout_marginTop="8dp" />
+            app:layout_constraintRight_toRightOf="@+id/address_header"
+            app:layout_constraintTop_toBottomOf="@+id/address_header" />
 
         <EditText
             android:id="@+id/description"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:gravity="top"
             android:hint="@string/event_description"
             android:lines="3"
             android:maxLength="127"
-            app:layout_constraintTop_toBottomOf="@+id/address_view"
             app:layout_constraintLeft_toLeftOf="@+id/address_header"
             app:layout_constraintRight_toRightOf="@+id/address_header"
-            android:layout_marginTop="16dp" />
+            app:layout_constraintTop_toBottomOf="@+id/address_view" />
 
         <Button
             android:id="@+id/open_tasks_button"
@@ -189,35 +196,41 @@
             android:layout_height="wrap_content"
             android:layout_gravity="start"
             android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
+            android:layout_marginRight="0dp"
             android:layout_marginTop="16dp"
-            android:text="@string/tasks_header"
             android:onClick="@{() -> openTasksListener.openTasks()}"
+            android:text="@string/tasks_header"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintLeft_toLeftOf="@+id/description"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/description"
-            app:layout_constraintLeft_toLeftOf="@+id/description" />
+            app:layout_constraintTop_toBottomOf="@+id/description" />
 
         <TextView
             android:id="@+id/adding_tasks_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
             android:text="0"
             android:textColor="@color/app_secondary_text"
             android:textSize="@dimen/font_small"
             app:layout_constraintBottom_toBottomOf="@+id/open_tasks_button"
-            app:layout_constraintTop_toTopOf="@+id/open_tasks_button"
             app:layout_constraintLeft_toRightOf="@+id/open_tasks_button"
-            android:layout_marginStart="16dp" />
+            app:layout_constraintTop_toTopOf="@+id/open_tasks_button" />
 
-        <CheckBox
+        <android.support.v7.widget.AppCompatCheckBox
             android:id="@+id/add_me_now"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="0dp"
             android:layout_marginTop="16dp"
-            android:buttonTint="@color/colorAccent"
             android:checked="true"
             android:text="@string/add_to_event"
+            app:buttonTint="@color/colorAccent"
             app:layout_constraintLeft_toLeftOf="@+id/description"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/open_tasks_button" />
 
         <Button
@@ -225,14 +238,14 @@
             style="@style/FlatButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:onClick="@{()->listener.onButtonClicked()}"
             android:text="@string/add_event"
-            app:layout_constraintTop_toBottomOf="@+id/add_me_now"
             app:layout_constraintLeft_toLeftOf="@+id/add_me_now"
             app:layout_constraintRight_toRightOf="@+id/description"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp" />
+            app:layout_constraintTop_toBottomOf="@+id/add_me_now" />
 
     </android.support.constraint.ConstraintLayout>
 

@@ -31,7 +31,8 @@
             android:visibility="@{data.iMayChecked ? View.VISIBLE : View.INVISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginLeft="16dp" />
 
         <TextView
             android:id="@+id/task_message"
@@ -41,7 +42,8 @@
             android:lines="1"
             android:text="@{data.message}"
             app:layout_constraintLeft_toRightOf="@+id/task_checkbox"
-            app:layout_constraintTop_toTopOf="@+id/task_avatar" />
+            app:layout_constraintTop_toTopOf="@+id/task_avatar"
+            android:layout_marginLeft="16dp" />
 
 
         <TextView
@@ -53,7 +55,8 @@
             android:lines="1"
             android:text="@{data.username}"
             app:layout_constraintBottom_toBottomOf="@+id/task_avatar"
-            app:layout_constraintLeft_toRightOf="@+id/task_checkbox" />
+            app:layout_constraintLeft_toRightOf="@+id/task_checkbox"
+            android:layout_marginLeft="16dp" />
 
         <TextView
             android:id="@+id/task_id"

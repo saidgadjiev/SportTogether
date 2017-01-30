@@ -8,6 +8,8 @@ import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.util.Log
+import com.crashlytics.android.answers.Answers
+import com.crashlytics.android.answers.LoginEvent
 import com.facebook.*
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
@@ -15,6 +17,7 @@ import com.facebook.share.model.ShareLinkContent
 import com.facebook.share.widget.ShareDialog
 import org.json.JSONException
 import org.json.JSONObject
+import ru.mail.sporttogether.BuildConfig
 import ru.mail.sporttogether.R
 import ru.mail.sporttogether.auth.core.ISocialNetwork
 import ru.mail.sporttogether.auth.core.SocialNetworkError
@@ -22,10 +25,6 @@ import ru.mail.sporttogether.auth.core.SocialNetworkManager
 import ru.mail.sporttogether.auth.core.SocialPerson
 import ru.mail.sporttogether.auth.core.listeners.OnLoginCompleteListener
 import ru.mail.sporttogether.auth.core.listeners.OnRequestSocialPersonCompleteListener
-import com.crashlytics.android.answers.LoginEvent
-import com.crashlytics.android.answers.Answers
-
-
 
 
 /**
@@ -108,7 +107,8 @@ class FacebookSocialNetwork(private val activity: Activity) : ISocialNetwork {
                         .putString(ACCESS_TOKEN, result.accessToken.token)
                         .apply()
                 this@FacebookSocialNetwork.onLoginCompleteListener!!.onSuccess(ID)
-                Answers.getInstance().logLogin(LoginEvent().putMethod("Facebook").putSuccess(true))
+                if (!BuildConfig.DEBUG)
+                    Answers.getInstance().logLogin(LoginEvent().putMethod("Facebook").putSuccess(true))
             }
 
             override fun onCancel() {
