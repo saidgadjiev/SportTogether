@@ -28,7 +28,7 @@
 
         <TextView
             android:id="@+id/category_header"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:layout_marginLeft="16dp"
@@ -46,7 +46,7 @@
 
         <AutoCompleteTextView
             android:id="@+id/category_autocomplete"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:hint="@string/play_in"
@@ -63,11 +63,11 @@
         <android.support.constraint.Guideline
             android:id="@+id/guideline"
             android:layout_width="wrap_content"
-            android:layout_height="603dp"
+            android:layout_height="0dp"
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.35766423"
-            tools:layout_editor_absoluteX="147dp"
-            tools:layout_editor_absoluteY="0dp" />
+            tools:layout_editor_absoluteX="129dp"
+            tools:layout_editor_absoluteY="81dp" />
 
         <ProgressBar
             android:id="@+id/category_autocomplete_progress_bar"
@@ -84,6 +84,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
             android:layout_marginTop="16dp"
             android:gravity="center_vertical"
             android:text="@string/max_people_event_hint"
@@ -98,6 +99,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
             android:ems="3"
             android:gravity="center_horizontal"
@@ -184,23 +186,26 @@
             android:gravity="top"
             android:hint="@string/event_description"
             android:lines="3"
-            android:maxLength="127"
+            android:maxLength="250"
             app:layout_constraintLeft_toLeftOf="@+id/address_header"
             app:layout_constraintRight_toRightOf="@+id/address_header"
             app:layout_constraintTop_toBottomOf="@+id/address_view" />
 
         <Button
             android:id="@+id/open_tasks_button"
-            style="@style/FlatButton"
+            style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
             android:layout_marginEnd="16dp"
-            android:layout_marginRight="0dp"
+            android:layout_marginRight="16dp"
             android:layout_marginTop="16dp"
+            android:background="?colorPrimary"
             android:onClick="@{() -> openTasksListener.openTasks()}"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
             android:text="@string/tasks_header"
-            app:layout_constraintHorizontal_bias="0.5"
+            android:textColor="@color/white"
             app:layout_constraintLeft_toLeftOf="@+id/description"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/description" />
@@ -222,9 +227,8 @@
             android:id="@+id/add_me_now"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="0dp"
+            android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
-            android:layout_marginStart="0dp"
             android:layout_marginTop="16dp"
             android:checked="true"
             android:text="@string/add_to_event"
@@ -235,15 +239,19 @@
 
         <Button
             android:id="@+id/add_button"
-            style="@style/FlatButton"
+            style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
+            android:background="?colorPrimary"
             android:onClick="@{()->listener.onButtonClicked()}"
             android:text="@string/add_event"
-            app:layout_constraintLeft_toLeftOf="@+id/add_me_now"
+            android:textColor="@color/white"
+            app:layout_constraintLeft_toLeftOf="@+id/description"
             app:layout_constraintRight_toRightOf="@+id/description"
             app:layout_constraintTop_toBottomOf="@+id/add_me_now" />
 
