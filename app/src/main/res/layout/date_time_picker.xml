@@ -53,13 +53,17 @@
 
         <Button
             android:id="@+id/date_picker_set_btn"
-            style="@style/FlatButton"
+            style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/time_picker"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="@dimen/offset_medium"
-            android:text="@string/datetime_picker_btn_set" />
+            android:background="?colorPrimary"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:text="@string/datetime_picker_btn_set"
+            android:textColor="@color/white" />
     </RelativeLayout>
 
 </layout>
