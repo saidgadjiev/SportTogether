@@ -161,21 +161,21 @@ class AddEventActivity :
             val datepickerDialogView = datepickerDialogViewBinding.root
             val datePickerSetBtn = datepickerDialogViewBinding.datePickerSetBtn
             val pickDateText = binding.pickDateText
+            datepickerDialogViewBinding.datePicker.minDate = Date().time - DateUtils.ONE_MINUTE
 
             datePickerSetBtn.setOnClickListener {
                 val datepicker = datepickerDialogViewBinding.datePicker
                 val timepicker = datepickerDialogViewBinding.timePicker
-                datepicker.minDate = Date().time
+                GregorianCalendar.getInstance().timeInMillis
+//                datepicker.minDate = nowTime - DateUtils.ONE_MINUTE
                 settedDate = GregorianCalendar(
                         datepicker.year,
                         datepicker.month,
                         datepicker.dayOfMonth,
                         timepicker.currentHour,
                         timepicker.currentMinute)
-                val nowTime = Date().time
                 val settedTime = settedDate!!.timeInMillis
-
-                if (settedTime > nowTime) {
+                if (settedTime > Date().time) {
                     pickDateText.text = DateUtils.toLongDateString(settedDate!!)
                     alertDialog.hide()
                 } else {

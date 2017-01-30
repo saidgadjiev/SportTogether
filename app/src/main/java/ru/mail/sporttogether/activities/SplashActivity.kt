@@ -37,6 +37,7 @@ class SplashActivity :
         Log.d("#MY SplashActivity", "bundle " + bundle)
         if (bundle != null) {
             intent.putExtra("data", bundle)
+            bundle = null
         }
         startActivity(intent)
     }

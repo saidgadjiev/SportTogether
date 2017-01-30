@@ -16,7 +16,9 @@
     </data>
 
     <RelativeLayout
-        android:orientation="vertical" android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:paddingBottom="8dp"
         android:layout_height="wrap_content">
         <TextView
             style="@style/TitleText"
@@ -55,10 +57,9 @@
             android:layout_below="@id/time_picker"
             android:layout_centerHorizontal="true"
             android:text="@string/datetime_picker_btn_set"
-            android:layout_marginBottom="@dimen/offset_medium"
+            android:layout_marginBottom="16dp"
             />
     </RelativeLayout>
-
 </layout>
 
 

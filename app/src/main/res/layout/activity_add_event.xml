@@ -60,7 +60,7 @@
         <android.support.constraint.Guideline
             android:id="@+id/guideline"
             android:layout_width="wrap_content"
-            android:layout_height="603dp"
+            android:layout_height="0dp"
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.35766423"
             tools:layout_editor_absoluteX="147dp"
@@ -159,7 +159,7 @@
         <TextView
             android:id="@+id/address_view"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:lines="1"
             android:text="@{data.address}"
