@@ -25,18 +25,18 @@
 
     <string name="users">%1$d&#47;%2$d</string>
     <string name="leave">Покинуть</string>
-    <string name="join">Войти</string>
-    <string name="joinAlready">Выйти</string>
-    <string name="angry">Жалоба</string>
+    <string name="join">ВОЙТИ</string>
+    <string name="joinAlready">ВЫЙТИ</string>
+    <string name="angry">ЖАЛОБА</string>
     <string name="cant_load_position">Не удалось загрузить местоположение</string>
-    <string name="angryAlready">Вы пожаловались</string>
+    <string name="angryAlready">ВЫ ПОЖАЛОВАЛИСЬ</string>
     <string name="share">Поделиться</string>
     <string name="edit">Правка</string>
     <string name="edit_event">Редактирование события</string>
     <string name="result">Результат</string>
     <string name="result_sent">Результат события отправлен</string>
     <string name="ok">ОК</string>
-    <string name="cancel">Отменить</string>
+    <string name="cancel">ОТМЕНИТЬ</string>
     <string name="cancel_event">Отменить событие</string>
     <string name="event_canceled">Событие отменено</string>
     <string name="event_edited">Событие отредактировано</string>

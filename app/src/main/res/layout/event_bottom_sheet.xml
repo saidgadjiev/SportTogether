@@ -115,41 +115,88 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/offset_small"
                 android:orientation="horizontal"
-                android:paddingLeft="@dimen/material_padding"
-                android:paddingRight="@dimen/material_padding">
+                android:padding="@dimen/material_padding">
 
-                <Button
-                    android:id="@+id/angry_button"
-                    style="@style/IconButton"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:drawableTop="@{!data.isReported? @drawable/ic_report_btn : @drawable/ic_report_btn_disabled}"
+                    android:layout_weight="1"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="@{!data.isReported}"
                     android:gravity="center"
                     android:onClick="@{() -> listener.onAngryButtonClicked()}"
-                    android:text="@{!data.isReported? @string/angry : @string/angryAlready}" />
+                    android:orientation="vertical">
 
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:tint="@{!data.isReported? @color/primary : @color/gray}"
+                        app:srcCompat="@drawable/ic_report_btn" />
 
-                <Button
-                    android:id="@+id/detail_connect_button"
-                    style="@style/IconButton"
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@{!data.isReported? @string/angry : @string/angryAlready}"
+                        android:textColor="@{!data.isReported? @color/primary : @color/gray}"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:drawableTop="@{!data.isJoined? @drawable/ic_person_add_btn : @drawable/ic_person_outline_btn}"
+                    android:layout_weight="1"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
                     android:gravity="center"
                     android:onClick="@{() -> listener.onJoinButtonClicked()}"
-                    android:text="@{!data.isJoined? @string/join : @string/joinAlready}" />
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:tint="@color/primary"
+                        app:srcCompat="@{!data.isJoined? @drawable/ic_person_add_btn : @drawable/ic_person_outline_btn}" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@{!data.isJoined? @string/join : @string/joinAlready}"
+                        android:textColor="?colorPrimary"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
 
 
-                <Button
-                    android:id="@+id/delete_button"
-                    style="@style/IconButton"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:drawableTop="@drawable/ic_delete_btn"
+                    android:layout_weight="1"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
                     android:gravity="center"
                     android:onClick="@{() -> listener.onCancelButtonClicked()}"
-                    android:text="@string/cancel"
-                    android:visibility="@{data.showCancelButton? View.VISIBLE : View.GONE}" />
+                    android:orientation="vertical"
+                    android:visibility="@{data.showCancelButton? View.VISIBLE : View.GONE}">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:tint="@color/primary"
+                        app:srcCompat="@drawable/ic_delete_btn" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/cancel"
+                        android:textColor="?colorPrimary"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
             </LinearLayout>
         </FrameLayout>
 
@@ -218,17 +265,17 @@
 
         <TextView
             android:id="@+id/description_text"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:maxLines="5"
-            android:text="@{data.description}"
             android:layout_marginEnd="16dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginStart="16dp"
+            android:maxLines="5"
+            android:text="@{data.description}"
             app:layout_constraintLeft_toRightOf="@+id/description_icon"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/description_icon"/>
+            app:layout_constraintTop_toTopOf="@+id/description_icon" />
 
         <TextView
             android:id="@+id/tasks_text"
@@ -255,17 +302,19 @@
             app:layout_constraintLeft_toLeftOf="@+id/tasks_text"
             app:layout_constraintRight_toRightOf="@+id/tasks_text"
             app:layout_constraintTop_toBottomOf="@+id/tasks_text">
+
             <LinearLayout
-                android:isScrollContainer="true"
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:isScrollContainer="true"
+                android:orientation="vertical">
+
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/tasks_list_recycler_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:visibility="@{data.withTasks ? View.VISIBLE : View.GONE}"/>
+                    android:visibility="@{data.withTasks ? View.VISIBLE : View.GONE}" />
             </LinearLayout>
         </ScrollView>
 
@@ -281,10 +330,10 @@
             android:textColor="@color/white"
             android:visibility="@{data.isTasksCanBeChanged ? View.GONE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="@+id/tasks_list_recycler_view_scroll"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="@+id/tasks_list_recycler_view_scroll"
             app:layout_constraintRight_toRightOf="@+id/tasks_list_recycler_view_scroll"
             app:layout_constraintTop_toBottomOf="@+id/tasks_text"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintVertical_bias="0.0" />
 
     </android.support.constraint.ConstraintLayout>

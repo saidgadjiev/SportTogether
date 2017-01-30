@@ -1,5 +1,4 @@
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
 
@@ -13,23 +12,13 @@
         <android.support.v4.view.ViewPager
             android:id="@+id/view_pager"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="56dp" />
+            android:layout_height="wrap_content" />
 
-        <eu.long1.spacetablayout.SpaceTabLayout
-            android:id="@+id/space_tab_layout"
-            android:layout_width="wrap_content"
+        <com.aurelhubert.ahbottomnavigation.AHBottomNavigation
+            android:id="@+id/bottom_navigation"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:button_color="@color/colorAccent"
-            app:icon_three="@drawable/ic_organized"
-            app:icon_two="@drawable/ic_racing_flag"
-            app:layout_behavior="eu.long1.spacetablayout.SpaceTabLayoutBehavior"
-            app:number_of_tabs="three"
-            app:starting_position="one"
-            app:tab_color="@color/colorPrimary"
-            app:text_one="@string/my"
-            app:text_three="@string/organized_events"
-            app:text_two="@string/resulted" />
+            android:layout_gravity="bottom" />
 
     </android.support.design.widget.CoordinatorLayout>
 </layout>

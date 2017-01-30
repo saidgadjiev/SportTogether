@@ -4,10 +4,10 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.os.Bundle
 import android.util.Log
 import com.crashlytics.android.answers.Answers
 import com.crashlytics.android.answers.LoginEvent
+import com.facebook.BuildConfig
 import com.vk.sdk.VKAccessToken
 import com.vk.sdk.VKAccessTokenTracker
 import com.vk.sdk.VKCallback
@@ -21,9 +21,9 @@ import org.json.JSONObject
 import ru.mail.sporttogether.auth.core.ISocialNetwork
 import ru.mail.sporttogether.auth.core.SocialNetworkError
 import ru.mail.sporttogether.auth.core.SocialNetworkManager
+import ru.mail.sporttogether.auth.core.SocialPerson
 import ru.mail.sporttogether.auth.core.listeners.OnLoginCompleteListener
 import ru.mail.sporttogether.auth.core.listeners.OnRequestSocialPersonCompleteListener
-import ru.mail.sporttogether.auth.core.SocialPerson
 
 /**
  * Created by said on 17.11.16
@@ -83,7 +83,8 @@ class VKSocialNetwork(activity: Activity) : ISocialNetwork {
         VKSdk.onActivityResult(requestCode, resultCode, data, object : VKCallback<VKAccessToken> {
             override fun onResult(res: VKAccessToken) {
                 onLoginCompleteListener!!.onSuccess(ID)
-                Answers.getInstance().logLogin(LoginEvent().putMethod("VK").putSuccess(true))
+                if (!BuildConfig.DEBUG)
+                    Answers.getInstance().logLogin(LoginEvent().putMethod("VK").putSuccess(true))
             }
 
             override fun onError(error: VKError) {
