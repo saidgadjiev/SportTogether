@@ -167,6 +167,7 @@ class DrawerActivity : DrawerView,
                         .commit()
                 lastPoss = newPos
                 drawerData.mapActive.set(false)
+                item?.isVisible = false
             }
         }, 100)
     }
