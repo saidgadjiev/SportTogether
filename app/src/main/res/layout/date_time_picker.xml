@@ -18,7 +18,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingBottom="8dp">
 
         <TextView
             android:id="@+id/date_picker_header"
@@ -65,7 +66,6 @@
             android:text="@string/datetime_picker_btn_set"
             android:textColor="@color/white" />
     </RelativeLayout>
-
 </layout>
 
 
