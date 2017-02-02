@@ -23,6 +23,7 @@ import ru.mail.sporttogether.activities.view.AddEventView
 import ru.mail.sporttogether.adapter.AddTaskAdapter
 import ru.mail.sporttogether.adapter.CategoriesAdapter
 import ru.mail.sporttogether.data.binding.event.ButtonListener
+import ru.mail.sporttogether.data.binding.event.DatePickerListener
 import ru.mail.sporttogether.data.binding.event.EventData
 import ru.mail.sporttogether.data.binding.tasks.OpenTasksListener
 import ru.mail.sporttogether.databinding.ActivityAddEventBinding
@@ -41,7 +42,8 @@ import java.util.*
 class AddEventActivity :
         PresenterActivity<AddEventPresenter>(),
         AddEventView,
-        ButtonListener {
+        ButtonListener,
+        DatePickerListener {
 
     private lateinit var binding: ActivityAddEventBinding
 
@@ -54,6 +56,8 @@ class AddEventActivity :
     private lateinit var event: Event
 
     private var addingTasksDialog: AddingTasksDialog? = null
+    private var datePickerDialog: AlertDialog? = null
+    private var datepickerDialogViewBinding: DateTimePickerBinding? = null
 
     private lateinit var categoryAutocomplete: AutoCompleteTextView
     private var categoriesArray: ArrayList<Category> = ArrayList()
@@ -127,6 +131,7 @@ class AddEventActivity :
 
         pickDateText = binding.pickDateText
         initPickDate()
+        binding.datePickerListener = this
 
         addingTasksDialog = AddingTasksDialog(this)
         binding.openTasksListener = addingTasksDialog!!
@@ -145,6 +150,13 @@ class AddEventActivity :
                 }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        binding.datePickerListener = null
+        binding.openTasksListener = null
+        binding.listener = null
+    }
+
     override fun updateAddress(textAddress: String) {
         Log.d(TAG, "setted address : " + textAddress)
         data.address.set(textAddress)
@@ -155,36 +167,39 @@ class AddEventActivity :
 
         val mPickDateBtn = binding.pickDateButton
 
-        mPickDateBtn.setOnClickListener {
-            val alertDialog = AlertDialog.Builder(this).create()
-            val datepickerDialogViewBinding = DateTimePickerBinding.inflate(LayoutInflater.from(this))
-            val datepickerDialogView = datepickerDialogViewBinding.root
-            val datePickerSetBtn = datepickerDialogViewBinding.datePickerSetBtn
-            val pickDateText = binding.pickDateText
-            datepickerDialogViewBinding.datePicker.minDate = Date().time - DateUtils.ONE_MINUTE
+//        mPickDateBtn.setOnClickListener {
+//        }
+    }
 
-            datePickerSetBtn.setOnClickListener {
-                val datepicker = datepickerDialogViewBinding.datePicker
-                val timepicker = datepickerDialogViewBinding.timePicker
-                GregorianCalendar.getInstance().timeInMillis
-//                datepicker.minDate = nowTime - DateUtils.ONE_MINUTE
-                settedDate = GregorianCalendar(
-                        datepicker.year,
-                        datepicker.month,
-                        datepicker.dayOfMonth,
-                        timepicker.currentHour,
-                        timepicker.currentMinute)
-                val settedTime = settedDate!!.timeInMillis
-                if (settedTime > Date().time) {
-                    pickDateText.text = DateUtils.toLongDateString(settedDate!!)
-                    alertDialog.hide()
-                } else {
-                    showToast(getString(R.string.cant_create_event_in_past))
-                }
+    override fun openDatePicker() {
+        val alertDialog = AlertDialog.Builder(this).create()
+        datepickerDialogViewBinding = DateTimePickerBinding.inflate(LayoutInflater.from(this))
+        val datepickerDialogView = datepickerDialogViewBinding!!.root
+        val datePickerSetBtn = datepickerDialogViewBinding!!.datePickerSetBtn
+        val pickDateText = binding.pickDateText
+        datepickerDialogViewBinding!!.datePicker.minDate = Date().time - DateUtils.ONE_MINUTE
+
+        datePickerSetBtn.setOnClickListener {
+            val datepicker = datepickerDialogViewBinding!!.datePicker
+            val timepicker = datepickerDialogViewBinding!!.timePicker
+            GregorianCalendar.getInstance().timeInMillis
+            settedDate = GregorianCalendar(
+                    datepicker.year,
+                    datepicker.month,
+                    datepicker.dayOfMonth,
+                    timepicker.currentHour,
+                    timepicker.currentMinute)
+            val settedTime = settedDate!!.timeInMillis
+            if (settedTime > Date().time) {
+                pickDateText.text = DateUtils.toLongDateString(settedDate!!)
+                alertDialog.hide()
+            } else {
+                showToast(getString(R.string.cant_create_event_in_past))
             }
-            alertDialog.setView(datepickerDialogView)
-            alertDialog.show()
         }
+        alertDialog.setView(datepickerDialogView)
+        alertDialog.show()
+
     }
 
     override fun onCategoriesReady(categories: ArrayList<Category>) {

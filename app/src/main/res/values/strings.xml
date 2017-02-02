@@ -68,6 +68,7 @@
     <string name="event_description">Описание события</string>
     <string name="save">Сохранить</string>
     <string name="address_header">место</string>
+    <string name="need_set_date_and_time">Задайте дату и время</string>
 
     <string-array name="list_reminder_times">
         <item>1 час</item>
