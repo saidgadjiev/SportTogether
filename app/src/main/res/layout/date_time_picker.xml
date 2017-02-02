@@ -38,7 +38,6 @@
             android:layout_centerHorizontal="true"
             android:layout_marginLeft="-50dp"
             android:layout_marginStart="-50dp"
-            android:calendarViewShown="false"
             android:datePickerMode="spinner"
             android:spinnersShown="true" />
 
