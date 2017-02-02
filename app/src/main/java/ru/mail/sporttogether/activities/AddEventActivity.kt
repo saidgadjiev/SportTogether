@@ -178,6 +178,7 @@ class AddEventActivity :
         val datePickerSetBtn = datepickerDialogViewBinding!!.datePickerSetBtn
         val pickDateText = binding.pickDateText
         datepickerDialogViewBinding!!.datePicker.minDate = Date().time - DateUtils.ONE_MINUTE
+        datepickerDialogViewBinding!!.datePicker.maxDate = Date().time + DateUtils.ONE_MONTH
 
         datePickerSetBtn.setOnClickListener {
             val datepicker = datepickerDialogViewBinding!!.datePicker

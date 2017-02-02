@@ -9,6 +9,7 @@ import java.util.*
  */
 object DateUtils {
     val ONE_MINUTE: Long = 60000L
+    val ONE_MONTH: Long = 31 * 24 * 60 * 60000L
 
     fun toLongDateString(calendar: GregorianCalendar): String {
         val fmt = SimpleDateFormat("dd MMM yyyy HH:mm", Locale.getDefault())
