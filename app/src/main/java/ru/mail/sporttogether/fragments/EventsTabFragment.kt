@@ -1,5 +1,6 @@
 package ru.mail.sporttogether.fragments
 
+import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.support.v4.app.Fragment
@@ -47,7 +48,7 @@ class EventsTabFragment : Fragment() {
 
         val item1 = AHBottomNavigationItem(getString(R.string.my), myDrawable, myColor)
         val item2 = AHBottomNavigationItem(R.string.resulted, R.mipmap.ic_launcher, R.color.gray)
-        val item3 = AHBottomNavigationItem(getString(R.string.organized_events), organizedDrawable, organizedColor)
+        val item3 = AHBottomNavigationItem(getString(R.string.organized_events), organizedDrawable, Color.parseColor("#8BC34A"))
 
         tabs.addItem(item1)
         tabs.addItem(item2)
