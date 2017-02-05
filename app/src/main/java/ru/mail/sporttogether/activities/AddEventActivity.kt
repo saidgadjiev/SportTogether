@@ -1,6 +1,5 @@
 package ru.mail.sporttogether.activities
 
-import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
@@ -130,7 +129,6 @@ class AddEventActivity :
         setupCoordinates()
 
         pickDateText = binding.pickDateText
-        initPickDate()
         binding.datePickerListener = this
 
         addingTasksDialog = AddingTasksDialog(this)
@@ -162,19 +160,10 @@ class AddEventActivity :
         data.address.set(textAddress)
     }
 
-    private fun initPickDate() {
-//        pickDateText.text = DateUtils.toLongDateString(settedDate)
-
-        val mPickDateBtn = binding.pickDateButton
-
-//        mPickDateBtn.setOnClickListener {
-//        }
-    }
-
     override fun openDatePicker() {
         val alertDialog = AlertDialog.Builder(this).create()
         datepickerDialogViewBinding = DateTimePickerBinding.inflate(LayoutInflater.from(this))
-        val datepickerDialogView = datepickerDialogViewBinding!!.root
+        val datePickerDialogView = datepickerDialogViewBinding!!.root
         val datePickerSetBtn = datepickerDialogViewBinding!!.datePickerSetBtn
         val pickDateText = binding.pickDateText
         datepickerDialogViewBinding!!.datePicker.minDate = Date().time - DateUtils.ONE_MINUTE
@@ -198,7 +187,7 @@ class AddEventActivity :
                 showToast(getString(R.string.cant_create_event_in_past))
             }
         }
-        alertDialog.setView(datepickerDialogView)
+        alertDialog.setView(datePickerDialogView)
         alertDialog.show()
 
     }
@@ -246,11 +235,6 @@ class AddEventActivity :
 
     override fun onButtonClicked() {
         binding.addButton.isClickable = false
-
-        if (data.resultVisibility.get()) {
-            presenter.sendResult(eventId, binding.description.text.toString())
-            return
-        }
 
         val nameCategory: String = binding.categoryAutocomplete.text.toString()
         if (nameCategory == "") {
@@ -317,12 +301,12 @@ class AddEventActivity :
     companion object {
         val TAG = "#MY " + AddEventActivity::class.java.simpleName
 
-        @JvmStatic
-        fun startForResultEvent(c: Context, id: Long) {
-            val intent = Intent(c, AddEventActivity::class.java)
-            intent.putExtra(KEY_ID, id)
-            c.startActivity(intent)
-        }
+//        @JvmStatic
+//        fun startForResultEvent(c: Context, id: Long) {
+//            val intent = Intent(c, AddEventActivity::class.java)
+//            intent.putExtra(KEY_ID, id)
+//            c.startActivity(intent)
+//        }
 
         @JvmStatic
         fun startForResult(f: PresenterFragment<*>, event: Event, code: Int) {
