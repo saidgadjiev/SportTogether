@@ -38,4 +38,9 @@ class RestModule {
     fun provideServiceApi(retrofit: Retrofit): ServiceApi =
             retrofit.create(ServiceApi::class.java)
 
+    @Singleton
+    @Provides
+    fun provideTemplatesApi(retrofit: Retrofit): TemplatesApi =
+            retrofit.create(TemplatesApi::class.java)
+
 }

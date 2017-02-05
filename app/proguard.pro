@@ -1,21 +1,21 @@
 -target 1.7
 
 -dontobfuscate
-#-dontoptimize
+-dontoptimize
 -verbose
 #-ignorewarnings
 
 # print mapping
 #-printmapping proguard-mapping.txt
 -printmapping build/outputs/mapping/release/mapping.txt
-#-optimizations !field/removal/writeonly,!field/marking/private,!code/allocation/variable
+-optimizations !field/removal/writeonly,!field/marking/private,!code/allocaadtion/variable
 
--optimizationpasses 5
--dontusemixedcaseclassnames
--dontskipnonpubliclibraryclasses
--dontpreverify
+#-optimizationpasses 5
+#-dontusemixedcaseclassnames
+#-dontskipnonpubliclibraryclasses
+#-dontpreverify
 -verbose
--optimizations !code/simplification/arithmetic,!field/*, !class/merging/*
+#-optimizations !code/simplification/arithmetic,!field/*, !class/merging/*
 
 #-keepattributes SourceFile, LineNumberTable, EnclosingMethod, InnerClasses
 #-keep,allowshrinking,allowoptimization class * { <methods>; }

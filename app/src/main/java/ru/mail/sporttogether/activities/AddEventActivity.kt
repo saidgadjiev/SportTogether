@@ -245,6 +245,8 @@ class AddEventActivity :
     }
 
     override fun onButtonClicked() {
+        binding.addButton.isClickable = false
+
         if (settedDate == null) {
             Toast.makeText(this, "Дата события не задана", Toast.LENGTH_SHORT).show()
             return
@@ -270,7 +272,7 @@ class AddEventActivity :
         }
 
         if (maxPeople < 2) {
-            Toast.makeText(this, "Минимум 2 человека в событии", Toast.LENGTH_SHORT).show()
+            unsuccessAddition("Количество людей должно быть больше двух")
             return
         }
 
@@ -283,6 +285,11 @@ class AddEventActivity :
 
         presenter.addEventClicked(event, binding.addMeNow.isChecked)
 
+    }
+
+    private fun unsuccessAddition(msg: String) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+        binding.addButton.isClickable = true
     }
 
     override fun onEventAdded(event: Event) {

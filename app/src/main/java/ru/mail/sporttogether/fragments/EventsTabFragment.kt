@@ -1,6 +1,8 @@
 package ru.mail.sporttogether.fragments
 
+import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
@@ -26,6 +28,7 @@ class EventsTabFragment : Fragment() {
     private val fragments = ArrayList<Fragment>(3)
     private lateinit var tabs: AHBottomNavigation
     private lateinit var tabsAdapter: TabsAdapter
+    private val handler = Handler()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentEventsTabBinding.inflate(inflater)
@@ -45,7 +48,7 @@ class EventsTabFragment : Fragment() {
 
         val item1 = AHBottomNavigationItem(getString(R.string.my), myDrawable, myColor)
         val item2 = AHBottomNavigationItem(R.string.resulted, R.mipmap.ic_launcher, R.color.gray)
-        val item3 = AHBottomNavigationItem(getString(R.string.organized_events), organizedDrawable, organizedColor)
+        val item3 = AHBottomNavigationItem(getString(R.string.organized_events), organizedDrawable, Color.parseColor("#8BC34A"))
 
         tabs.addItem(item1)
         tabs.addItem(item2)
@@ -56,7 +59,9 @@ class EventsTabFragment : Fragment() {
         tabs.isColored = true
 
         tabs.setOnTabSelectedListener({ position, wasSelected ->
-            viewPager.currentItem = position
+            handler.post {
+                viewPager.currentItem = position
+            }
             true
         })
         tabs.setOnNavigationPositionListener({
