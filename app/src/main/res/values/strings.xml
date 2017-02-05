@@ -10,6 +10,7 @@
     <string name="map">Карта</string>
     <string name="events_list">Список событий</string>
     <string name="my_events">Мои события</string>
+    <string name="templates">Шаблоны событий</string>
     <string name="my">Мои</string>
 
     <string name="network_error">Сетевое подключение отсутствует</string>

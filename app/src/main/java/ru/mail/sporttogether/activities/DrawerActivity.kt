@@ -28,6 +28,7 @@ import ru.mail.sporttogether.data.binding.DrawerData
 import ru.mail.sporttogether.databinding.ActivityDrawerBinding
 import ru.mail.sporttogether.fragments.EventsTabFragment
 import ru.mail.sporttogether.fragments.SettingsFragment
+import ru.mail.sporttogether.fragments.TemplatesFragment
 import ru.mail.sporttogether.mvp.PresenterActivity
 import ru.mail.sporttogether.utils.DrawerLoader
 
@@ -135,11 +136,15 @@ class DrawerActivity : DrawerView,
             false
         }
         drawerBuilder.addDrawerItems(
-                //TODO add icons
                 mapItem,
                 PrimaryDrawerItem().withName(R.string.my_events).withIcon(R.drawable.ic_location).withIconTintingEnabled(true).withOnDrawerItemClickListener { view, i, iDrawerItem ->
                     swapFragment(EventsTabFragment(), i)
                     toolbar.title = getString(R.string.my_events)
+                    false
+                },
+                PrimaryDrawerItem().withName(R.string.templates).withIcon(R.drawable.ic_templates).withIconTintingEnabled(true).withOnDrawerItemClickListener { view, i, iDrawerItem ->
+                    swapFragment(TemplatesFragment(), i)
+                    toolbar.title = getString(R.string.templates)
                     false
                 },
                 PrimaryDrawerItem().withName(R.string.settings).withIcon(R.drawable.ic_settings).withIconTintingEnabled(true).withOnDrawerItemClickListener { view, i, iDrawerItem ->
