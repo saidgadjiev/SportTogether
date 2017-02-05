@@ -247,11 +247,6 @@ class AddEventActivity :
     override fun onButtonClicked() {
         binding.addButton.isClickable = false
 
-        if (settedDate == null) {
-            Toast.makeText(this, "Дата события не задана", Toast.LENGTH_SHORT).show()
-            return
-        }
-
         if (data.resultVisibility.get()) {
             presenter.sendResult(eventId, binding.description.text.toString())
             return
@@ -259,7 +254,7 @@ class AddEventActivity :
 
         val nameCategory: String = binding.categoryAutocomplete.text.toString()
         if (nameCategory == "") {
-            Toast.makeText(this, "Вид спорта не задан", Toast.LENGTH_SHORT).show()
+            unsuccessAddition("Вид спорта не задан")
             return
         }
 
@@ -267,12 +262,17 @@ class AddEventActivity :
         try {
             maxPeople = Integer.parseInt(binding.eventMaxPeople.text.toString())
         } catch (e: NumberFormatException) {
-            Toast.makeText(this, "Количество людей не задано", Toast.LENGTH_SHORT).show()
+            unsuccessAddition("Количество людей не задано")
             return
         }
 
         if (maxPeople < 2) {
             unsuccessAddition("Количество людей должно быть больше двух")
+            return
+        }
+
+        if (settedDate == null) {
+            unsuccessAddition("Дата события не задана")
             return
         }
 
