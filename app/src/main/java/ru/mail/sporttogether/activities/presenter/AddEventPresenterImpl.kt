@@ -106,35 +106,19 @@ class AddEventPresenterImpl(var view: AddEventView?) : AddEventPresenter {
                             event.id = data.id
                             event.user = data.user
                             view?.onEventAdded(event)
+                        } else {
+                            view?.showAddError(response.message)
                         }
                     }
 
                     override fun onError(e: Throwable) {
-                        view?.showAddError("Error!")
+                        view?.showAddError("Не удалось соединиться с сервером")
                     }
 
                 })
     }
 
-    override fun loadCategories() {
-        categoriesSubscribtion = categoriesApi.getAllCategoryes() //TODO опечатка
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : Subscriber<Response<CategoriesResponse>>() {
-                    override fun onError(e: Throwable) {
-                        view?.showAddError("Error!")
-                    }
 
-                    override fun onNext(response: Response<CategoriesResponse>) {
-                        view?.onCategoriesReady(response.data)
-                    }
-
-                    override fun onCompleted() {
-
-                    }
-
-                })
-    }
 
     override fun sendResult(id: Long, result: String) {
         eventSubscribtion?.unsubscribe()

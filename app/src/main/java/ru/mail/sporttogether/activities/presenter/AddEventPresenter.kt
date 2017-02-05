@@ -14,8 +14,6 @@ interface AddEventPresenter : IPresenter {
 
     fun searchCategory(category: String)
 
-    fun loadCategories()
-
     fun loadCategoriesBySubname(subname: String)
 
     fun sendResult(id: Long, result: String)

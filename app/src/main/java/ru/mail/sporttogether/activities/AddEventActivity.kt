@@ -1,6 +1,5 @@
 package ru.mail.sporttogether.activities
 
-import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
@@ -13,7 +12,6 @@ import android.view.View
 import android.widget.AutoCompleteTextView
 import android.widget.ProgressBar
 import android.widget.TextView
-import android.widget.Toast
 import com.jakewharton.rxbinding.widget.RxTextView
 import com.mikepenz.materialdrawer.util.KeyboardUtil
 import ru.mail.sporttogether.R
@@ -56,7 +54,6 @@ class AddEventActivity :
     private lateinit var event: Event
 
     private var addingTasksDialog: AddingTasksDialog? = null
-    private var datePickerDialog: AlertDialog? = null
     private var datepickerDialogViewBinding: DateTimePickerBinding? = null
 
     private lateinit var categoryAutocomplete: AutoCompleteTextView
@@ -130,7 +127,6 @@ class AddEventActivity :
         setupCoordinates()
 
         pickDateText = binding.pickDateText
-        initPickDate()
         binding.datePickerListener = this
 
         addingTasksDialog = AddingTasksDialog(this)
@@ -162,28 +158,15 @@ class AddEventActivity :
         data.address.set(textAddress)
     }
 
-    private fun initPickDate() {
-//        pickDateText.text = DateUtils.toLongDateString(settedDate)
-
-        val mPickDateBtn = binding.pickDateButton
-
-//        mPickDateBtn.setOnClickListener {
-//        }
-    }
-
     override fun openDatePicker() {
         val alertDialog = AlertDialog.Builder(this).create()
         datepickerDialogViewBinding = DateTimePickerBinding.inflate(LayoutInflater.from(this))
-        val datepickerDialogView = datepickerDialogViewBinding!!.root
-        val datePickerSetBtn = datepickerDialogViewBinding!!.datePickerSetBtn
-        val pickDateText = binding.pickDateText
         datepickerDialogViewBinding!!.datePicker.minDate = Date().time - DateUtils.ONE_MINUTE
         datepickerDialogViewBinding!!.datePicker.maxDate = Date().time + DateUtils.ONE_MONTH
 
-        datePickerSetBtn.setOnClickListener {
+        datepickerDialogViewBinding!!.datePickerSetBtn.setOnClickListener {
             val datepicker = datepickerDialogViewBinding!!.datePicker
             val timepicker = datepickerDialogViewBinding!!.timePicker
-            GregorianCalendar.getInstance().timeInMillis
             settedDate = GregorianCalendar(
                     datepicker.year,
                     datepicker.month,
@@ -192,18 +175,14 @@ class AddEventActivity :
                     timepicker.currentMinute)
             val settedTime = settedDate!!.timeInMillis
             if (settedTime > Date().time) {
-                pickDateText.text = DateUtils.toLongDateString(settedDate!!)
-                alertDialog.hide()
+                binding.pickDateText.text = DateUtils.toLongDateString(settedDate!!)
+                alertDialog.dismiss()
             } else {
                 showToast(getString(R.string.cant_create_event_in_past))
             }
         }
-        alertDialog.setView(datepickerDialogView)
+        alertDialog.setView(datepickerDialogViewBinding!!.root)
         alertDialog.show()
-
-    }
-
-    override fun onCategoriesReady(categories: ArrayList<Category>) {
 
     }
 
@@ -245,19 +224,12 @@ class AddEventActivity :
     }
 
     override fun onButtonClicked() {
-        if (settedDate == null) {
-            Toast.makeText(this, "Дата события не задана", Toast.LENGTH_SHORT).show()
-            return
-        }
-
-        if (data.resultVisibility.get()) {
-            presenter.sendResult(eventId, binding.description.text.toString())
-            return
-        }
+        Log.d(TAG, "add button clicked")
+        binding.addButton.isClickable = false
 
         val nameCategory: String = binding.categoryAutocomplete.text.toString()
         if (nameCategory == "") {
-            Toast.makeText(this, "Вид спорта не задан", Toast.LENGTH_SHORT).show()
+            showAddError("Вид спорта не задан")
             return
         }
 
@@ -265,12 +237,17 @@ class AddEventActivity :
         try {
             maxPeople = Integer.parseInt(binding.eventMaxPeople.text.toString())
         } catch (e: NumberFormatException) {
-            Toast.makeText(this, "Количество людей не задано", Toast.LENGTH_SHORT).show()
+            showAddError("Количество людей не задано")
             return
         }
 
         if (maxPeople < 2) {
-            Toast.makeText(this, "Минимум 2 человека в событии", Toast.LENGTH_SHORT).show()
+            showAddError("Количество людей должно быть больше двух")
+            return
+        }
+
+        if (settedDate == null) {
+            showAddError("Дата события не задана")
             return
         }
 
@@ -297,6 +274,7 @@ class AddEventActivity :
     }
 
     override fun showAddError(errorText: String) {
+        binding.addButton.isClickable = true
         showToast(errorText)
     }
 
@@ -309,13 +287,6 @@ class AddEventActivity :
 
     companion object {
         val TAG = "#MY " + AddEventActivity::class.java.simpleName
-
-        @JvmStatic
-        fun startForResultEvent(c: Context, id: Long) {
-            val intent = Intent(c, AddEventActivity::class.java)
-            intent.putExtra(KEY_ID, id)
-            c.startActivity(intent)
-        }
 
         @JvmStatic
         fun startForResult(f: PresenterFragment<*>, event: Event, code: Int) {

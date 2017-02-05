@@ -178,6 +178,7 @@
             android:layout_marginTop="8dp"
             android:gravity="center_vertical"
             android:lines="1"
+            android:ellipsize="start"
             android:text="@{data.address}"
             android:textSize="14sp"
             app:layout_constraintLeft_toLeftOf="@+id/address_header"
@@ -233,7 +234,6 @@
             android:id="@+id/add_me_now"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="16dp"
             android:checked="true"
@@ -241,7 +241,8 @@
             app:buttonTint="@color/colorAccent"
             app:layout_constraintLeft_toLeftOf="@+id/description"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/open_tasks_button" />
+            app:layout_constraintTop_toBottomOf="@+id/open_tasks_button"
+            android:layout_marginEnd="8dp" />
 
         <Button
             android:id="@+id/add_button"
@@ -259,7 +260,7 @@
             android:textColor="@color/white"
             app:layout_constraintLeft_toLeftOf="@+id/description"
             app:layout_constraintRight_toRightOf="@+id/description"
-            app:layout_constraintTop_toBottomOf="@+id/add_me_now" />
+            app:layout_constraintTop_toBottomOf="@+id/add_me_now"/>
 
     </android.support.constraint.ConstraintLayout>
 

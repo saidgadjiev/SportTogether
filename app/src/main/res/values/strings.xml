@@ -65,7 +65,7 @@
     <string name="location_disabled_message">Местоположение отключено.\nДля показа событий рядом с Вами необходимо включить доступ к местоплложению.\nОткрыть настройки?</string>
     <string name="event_name">Название события</string>
     <string name="play_in">Во что играем</string>
-    <string name="how_much_us">Сколько нас</string>
+    <string name="how_much_us">Ограничение</string>
     <string name="event_description">Описание события</string>
     <string name="save">Сохранить</string>
     <string name="address_header">место</string>
