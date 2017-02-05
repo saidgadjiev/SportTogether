@@ -59,28 +59,26 @@ class CustomFirebaseMessagingService : FirebaseMessagingService() {
                 .setContentTitle(notificationMessage.title)
                 .setContentText(notificationMessage.message)
                 .setSmallIcon(R.mipmap.ic_launcher)
-        var currentNotificationId = 0
+        var currentNotificationId = (System.currentTimeMillis() / 1000 % 10000).toInt()
 
-        currentNotificationId = (System.currentTimeMillis() / 1000 % 10000).toInt()
         when(type) {
             0 -> {
-                currentNotificationId = 0
-                Log.d(TAG, "type is 0")
+                currentNotificationId += CANCEL_KOEF * 10000
             }
             1 -> {
                 if (event != null) {
-                    currentNotificationId *= RESULT_KOEF
+                    currentNotificationId += RESULT_KOEF * 10000
                     resultNotificationLogic(currentNotificationId, notificationBuilder, event)
                 }
             }
             2 -> {
                 if (event != null) {
-                    currentNotificationId *= REMIND_KOEF
+                    currentNotificationId += REMIND_KOEF * 10000
                     remindNotificationLogic(currentNotificationId, notificationBuilder, event)
                 }
             }
         }
-
+        Log.d(TAG, "getted notification, type is $type generated notification_id: $currentNotificationId")
         val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         manager.notify(currentNotificationId, notificationBuilder.build())
     }
@@ -88,7 +86,6 @@ class CustomFirebaseMessagingService : FirebaseMessagingService() {
     fun remindNotificationLogic(notifId: Int, builder: NotificationCompat.Builder, event: String) {
         val json = gson.fromJson(event, JsonObject::class.java)
         val id = json.get("id").asInt
-        Log.d(TAG, "type is 2")
         val unjoinIntent = Intent(this, UnjoinIntentService::class.java)
         val showingIntent = Intent(this, ShowEventIntentService::class.java)
         unjoinIntent.putExtra(ID_EVENT_KEY, id)
@@ -115,8 +112,6 @@ class CustomFirebaseMessagingService : FirebaseMessagingService() {
     }
 
     fun resultNotificationLogic(notifId: Int, builder: NotificationCompat.Builder, event: String) {
-        Log.d(TAG, "type is 1")
-
         val json: JsonObject = gson.fromJson(event, JsonObject::class.java)
         val id = json.get("id").asInt
 
@@ -157,6 +152,7 @@ class CustomFirebaseMessagingService : FirebaseMessagingService() {
     companion object {
         val REMIND_KOEF = 1
         val RESULT_KOEF = 2
+        val CANCEL_KOEF = 3
         val ID_EVENT_KEY = "idEvent"
         val ID_NOTIFICATION_KEY = "idNotification"
     }
