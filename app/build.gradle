@@ -54,7 +54,7 @@ android {
         // https://developer.android.com/studio/build/multidex.html
         dev {
             multiDexEnabled true
-            minSdkVersion 17 //не трогать
+            minSdkVersion 21 //не трогать
             resValue "integer", "com_vk_sdk_AppId", "5800446"
         }
 

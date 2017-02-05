@@ -58,7 +58,7 @@ class CustomFirebaseMessagingService : FirebaseMessagingService() {
         notificationBuilder
                 .setContentTitle(notificationMessage.title)
                 .setContentText(notificationMessage.message)
-                .setSmallIcon(R.drawable.ic_racing_flag)
+                .setSmallIcon(R.mipmap.ic_launcher)
         var currentNotificationId = 0
 
         currentNotificationId = (System.currentTimeMillis() / 1000 % 10000).toInt()
