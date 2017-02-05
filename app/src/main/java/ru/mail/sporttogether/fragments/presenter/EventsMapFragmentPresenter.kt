@@ -41,5 +41,7 @@ interface EventsMapFragmentPresenter :
 
     fun getMyId(): Long
 
+    fun loadPinImage()
+
 
 }

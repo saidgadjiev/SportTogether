@@ -21,6 +21,7 @@ import android.view.*
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.Toast
+import com.bumptech.glide.Glide
 import com.google.android.gms.maps.MapView
 import kotlinx.android.synthetic.main.events_map.*
 import ru.mail.sporttogether.R
@@ -136,6 +137,13 @@ class EventsMapFragment :
                 }
             })
         }
+        presenter.loadPinImage()
+    }
+
+    override fun loadUserPinImage(url: String) {
+        Glide.with(context)
+                .load(url)
+                .into(binding.userPic)
     }
 
     fun initMarkerCoordinates() {
