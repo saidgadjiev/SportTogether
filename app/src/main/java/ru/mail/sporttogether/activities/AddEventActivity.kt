@@ -12,7 +12,6 @@ import android.view.View
 import android.widget.AutoCompleteTextView
 import android.widget.ProgressBar
 import android.widget.TextView
-import android.widget.Toast
 import com.jakewharton.rxbinding.widget.RxTextView
 import com.mikepenz.materialdrawer.util.KeyboardUtil
 import ru.mail.sporttogether.R
@@ -55,7 +54,6 @@ class AddEventActivity :
     private lateinit var event: Event
 
     private var addingTasksDialog: AddingTasksDialog? = null
-    private var datePickerDialog: AlertDialog? = null
     private var datepickerDialogViewBinding: DateTimePickerBinding? = null
 
     private lateinit var categoryAutocomplete: AutoCompleteTextView
@@ -163,16 +161,12 @@ class AddEventActivity :
     override fun openDatePicker() {
         val alertDialog = AlertDialog.Builder(this).create()
         datepickerDialogViewBinding = DateTimePickerBinding.inflate(LayoutInflater.from(this))
-        val datePickerDialogView = datepickerDialogViewBinding!!.root
-        val datePickerSetBtn = datepickerDialogViewBinding!!.datePickerSetBtn
-        val pickDateText = binding.pickDateText
         datepickerDialogViewBinding!!.datePicker.minDate = Date().time - DateUtils.ONE_MINUTE
         datepickerDialogViewBinding!!.datePicker.maxDate = Date().time + DateUtils.ONE_MONTH
 
-        datePickerSetBtn.setOnClickListener {
+        datepickerDialogViewBinding!!.datePickerSetBtn.setOnClickListener {
             val datepicker = datepickerDialogViewBinding!!.datePicker
             val timepicker = datepickerDialogViewBinding!!.timePicker
-            GregorianCalendar.getInstance().timeInMillis
             settedDate = GregorianCalendar(
                     datepicker.year,
                     datepicker.month,
@@ -181,18 +175,14 @@ class AddEventActivity :
                     timepicker.currentMinute)
             val settedTime = settedDate!!.timeInMillis
             if (settedTime > Date().time) {
-                pickDateText.text = DateUtils.toLongDateString(settedDate!!)
-                alertDialog.hide()
+                binding.pickDateText.text = DateUtils.toLongDateString(settedDate!!)
+                alertDialog.dismiss()
             } else {
                 showToast(getString(R.string.cant_create_event_in_past))
             }
         }
-        alertDialog.setView(datePickerDialogView)
+        alertDialog.setView(datepickerDialogViewBinding!!.root)
         alertDialog.show()
-
-    }
-
-    override fun onCategoriesReady(categories: ArrayList<Category>) {
 
     }
 
@@ -234,11 +224,12 @@ class AddEventActivity :
     }
 
     override fun onButtonClicked() {
+        Log.d(TAG, "add button clicked")
         binding.addButton.isClickable = false
 
         val nameCategory: String = binding.categoryAutocomplete.text.toString()
         if (nameCategory == "") {
-            unsuccessAddition("Вид спорта не задан")
+            showAddError("Вид спорта не задан")
             return
         }
 
@@ -246,17 +237,17 @@ class AddEventActivity :
         try {
             maxPeople = Integer.parseInt(binding.eventMaxPeople.text.toString())
         } catch (e: NumberFormatException) {
-            unsuccessAddition("Количество людей не задано")
+            showAddError("Количество людей не задано")
             return
         }
 
         if (maxPeople < 2) {
-            unsuccessAddition("Количество людей должно быть больше двух")
+            showAddError("Количество людей должно быть больше двух")
             return
         }
 
         if (settedDate == null) {
-            unsuccessAddition("Дата события не задана")
+            showAddError("Дата события не задана")
             return
         }
 
@@ -271,11 +262,6 @@ class AddEventActivity :
 
     }
 
-    private fun unsuccessAddition(msg: String) {
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
-        binding.addButton.isClickable = true
-    }
-
     override fun onEventAdded(event: Event) {
         showToast(R.string.event_added)
         val intent = Intent()
@@ -288,6 +274,7 @@ class AddEventActivity :
     }
 
     override fun showAddError(errorText: String) {
+        binding.addButton.isClickable = true
         showToast(errorText)
     }
 
@@ -300,13 +287,6 @@ class AddEventActivity :
 
     companion object {
         val TAG = "#MY " + AddEventActivity::class.java.simpleName
-
-//        @JvmStatic
-//        fun startForResultEvent(c: Context, id: Long) {
-//            val intent = Intent(c, AddEventActivity::class.java)
-//            intent.putExtra(KEY_ID, id)
-//            c.startActivity(intent)
-//        }
 
         @JvmStatic
         fun startForResult(f: PresenterFragment<*>, event: Event, code: Int) {
