@@ -66,6 +66,12 @@ android {
 
             resValue "integer", "com_vk_sdk_AppId", "5794277"
         }
+        //use for kitkat
+        dev18 {
+            multiDexEnabled true
+            minSdkVersion 18 //не трогать
+            resValue "integer", "com_vk_sdk_AppId", "5800446"
+        }
     }
 
 
