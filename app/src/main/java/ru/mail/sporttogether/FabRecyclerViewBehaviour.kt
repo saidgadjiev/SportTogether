@@ -1,15 +1,17 @@
-package ru.mail.sporttogether.behaviour
+package ru.mail.sporttogether
 
+import android.content.Context
 import android.support.design.widget.CoordinatorLayout
 import android.support.design.widget.FloatingActionButton
 import android.support.v7.widget.RecyclerView
+import android.util.AttributeSet
 import android.view.View
 
 
 /**
  * Created by bagrusss on 05.02.17
  */
-class FabRecyclerViewBehaviour : CoordinatorLayout.Behavior<FloatingActionButton>() {
+open class FabRecyclerViewBehaviour(context: Context, attrs: AttributeSet) : FloatingActionButton.Behavior(context, attrs) {
     override fun onStartNestedScroll(coordinatorLayout: CoordinatorLayout?, child: FloatingActionButton?, directTargetChild: View?, target: View?, nestedScrollAxes: Int): Boolean {
         return true
     }
@@ -23,7 +25,7 @@ class FabRecyclerViewBehaviour : CoordinatorLayout.Behavior<FloatingActionButton
         }
     }
 
-    override fun layoutDependsOn(parent: CoordinatorLayout?, child: FloatingActionButton?, dependency: View?): Boolean {
+    override fun layoutDependsOn(parent: CoordinatorLayout, child: FloatingActionButton, dependency: View): Boolean {
         return dependency is RecyclerView
     }
 }

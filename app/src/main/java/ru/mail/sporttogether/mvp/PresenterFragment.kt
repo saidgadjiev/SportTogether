@@ -8,9 +8,6 @@ import android.support.v4.app.Fragment
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import android.widget.Toast
-import ru.mail.sporttogether.mvp.PresenterActivity
-import ru.mail.sporttogether.mvp.IPresenter
-import ru.mail.sporttogether.mvp.IView
 
 /**
  * Created by bagrusss on 08.10.16
@@ -37,7 +34,7 @@ abstract class PresenterFragment<T : IPresenter> : Fragment(), IView {
 
     @CallSuper
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId === R.id.home) {
+        if (item.itemId == R.id.home) {
             activity.finish()
             return true
         }
