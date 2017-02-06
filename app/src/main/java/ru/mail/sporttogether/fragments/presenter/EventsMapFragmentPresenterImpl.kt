@@ -147,6 +147,12 @@ class EventsMapFragmentPresenterImpl(var view: EventsMapView?) : EventsMapFragme
         locationManager.endLocationUpdate()
     }
 
+    override fun loadPinImage() {
+        socialNetworkManager.activeUser?.let {
+            view?.loadUserPinImage(it.avatar)
+        }
+    }
+
     override fun checkLocation() {
         if (!locationManager.checkLocationEnabled(context)) {
             view?.onLocationNotChecked()

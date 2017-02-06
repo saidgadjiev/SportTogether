@@ -3,7 +3,6 @@ package ru.mail.sporttogether.fragments.view
 import com.google.android.gms.maps.GoogleMap
 import ru.mail.sporttogether.mvp.IView
 import ru.mail.sporttogether.net.models.Event
-import ru.mail.sporttogether.net.models.SearchEvent
 import ru.mail.sporttogether.net.models.Task
 import java.util.*
 
@@ -34,6 +33,8 @@ interface EventsMapView : IView, GoogleMap.OnCameraIdleListener {
     fun onLocationNotChecked()
 
     fun checkLocationPermissions(permissions: Array<String>)
-    
+
     fun showMap()
+
+    fun loadUserPinImage(url: String)
 }

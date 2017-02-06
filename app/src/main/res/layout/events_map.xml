@@ -36,19 +36,33 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
-            <ImageView
+            <FrameLayout
                 android:id="@+id/user_point"
-                android:layout_width="wrap_content"
+                android:layout_width="40dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                app:srcCompat="@drawable/ic_person_pin_circle" />
+                android:layout_gravity="center">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/pin_user" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/user_pic"
+                    android:layout_width="37dp"
+                    android:layout_height="37dp"
+                    android:layout_gravity="center_horizontal"
+                    android:padding="3dp"
+                    android:src="@color/gray" />
+            </FrameLayout>
 
         </FrameLayout>
 
         <FrameLayout
             android:id="@+id/bottom_sheet"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:background="@android:color/white"
             android:clickable="true"
             app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
