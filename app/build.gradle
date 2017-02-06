@@ -24,7 +24,7 @@ android {
     }
 
     dexOptions {
-        //incremental true
+        incremental true
         preDexLibraries true //use false if files not exists
         dexInProcess true
 //        jumboMode true
