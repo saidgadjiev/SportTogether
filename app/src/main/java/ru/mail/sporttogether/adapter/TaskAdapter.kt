@@ -95,7 +95,7 @@ class TaskAdapter(
 
             if (!iMayChecked) {
                 val taskAvatar = binding.taskAvatar
-                Glide.with(itemView.context).load(task.user?.avatar).placeholder(R.drawable.ic_people).into(taskAvatar)
+                Glide.with(itemView.context).load(task.user?.avatar).asBitmap().placeholder(R.drawable.ic_person).into(taskAvatar)
 
                 //TODO некликабельность чекбокса не всегда срабатывает, если этого не будет, чекбокс всегда будет кликаться
                 taskAvatar.setOnClickListener {
