@@ -338,6 +338,8 @@ class EventsMapFragment :
         data.name.set(event.name)
         data.date.set(DateUtils.toXLongDateString(Date(event.date)))
         data.description.set(event.result ?: event.description)
+        Glide.with(this).load(event.user.avatar).asBitmap().placeholder(R.drawable.ic_person).into(binding.include.eventCreatorAvatar)
+        data.creatorName.set(event.user.name)
 //        binding.include.descriptionText.movementMethod = ScrollingMovementMethod()
         data.isReported.set(event.isReported)
         data.isJoined.set(event.isJoined)
