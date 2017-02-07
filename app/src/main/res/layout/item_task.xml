@@ -33,7 +33,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:layout_marginLeft="16dp" />
 
         <TextView
@@ -45,7 +45,7 @@
             android:text="@{data.message}"
             android:layout_marginStart="8dp"
             app:layout_constraintLeft_toRightOf="@+id/task_avatar"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/task_avatar"
             android:layout_marginEnd="16dp"
             app:layout_constraintRight_toRightOf="parent" />
 
@@ -74,30 +74,16 @@
             app:layout_constraintTop_toBottomOf="@+id/task_message"
             app:layout_constraintLeft_toLeftOf="@+id/task_message" />
 
-        <com.mikhaellopez.circularimageview.CircularImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/task_avatar"
-            app:civ_border_color="@color/colorAccent"
-            app:civ_border_width="2dp"
             android:layout_width="48dp"
-            android:layout_height="50dp"
+            android:layout_height="51dp"
             android:contentDescription="@{data.username}"
             android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="@+id/task_checkbox"
             app:layout_constraintLeft_toLeftOf="@+id/task_checkbox"
             app:layout_constraintRight_toRightOf="@+id/task_checkbox"
             app:layout_constraintTop_toTopOf="@+id/task_checkbox"/>
-        <!---->
-        <!--<ImageView-->
-            <!--android:id="@+id/task_avatar"-->
-            <!--android:layout_width="48dp"-->
-            <!--android:layout_height="48dp"-->
-            <!--android:contentDescription="@{data.username}"-->
-            <!--android:scaleType="centerCrop"-->
-            <!--app:layout_constraintBottom_toBottomOf="@+id/task_checkbox"-->
-            <!--app:layout_constraintLeft_toLeftOf="@+id/task_checkbox"-->
-            <!--app:layout_constraintRight_toRightOf="@+id/task_checkbox"-->
-            <!--app:layout_constraintTop_toTopOf="@+id/task_checkbox" />-->
-
     </android.support.constraint.ConstraintLayout>
 
 </layout>
