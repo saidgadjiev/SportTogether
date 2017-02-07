@@ -71,6 +71,7 @@ class AddEventActivity :
                     dialogInterface.cancel()
                 })
                 .setPositiveButton("Готово", { dialogInterface, i ->
+                    addEnteredTask()
                     context.binding.addingTasksCount.text = addTaskAdapter.getTasks().size.toString()
                     dialogInterface.cancel()
                 })
@@ -81,10 +82,10 @@ class AddEventActivity :
 
         init {
             this.dialog.setView(this.binding.root)
-
             binding.addingTasksRecyclerView.adapter = addTaskAdapter
             binding.addingTasksRecyclerView.layoutManager = LinearLayoutManager(context)
             val addingTasksBtn = binding.addingTasksBtn
+
             addingTasksBtn.setOnClickListener {
                 if (addTaskAdapter.itemCount >= 5) {
                     context.showToast("максимум 5 задач у одного события")
@@ -104,6 +105,15 @@ class AddEventActivity :
 
         fun clearTasks() {
             addTaskAdapter.clearTasks()
+        }
+
+        fun addEnteredTask() {
+            val editField = binding.addingTasksEditField.text
+            val enteredTask = editField.toString()
+            if (enteredTask.isNotBlank()) {
+                addTaskAdapter.addTask(enteredTask)
+            }
+            editField.clear()
         }
     }
 

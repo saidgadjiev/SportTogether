@@ -2,7 +2,6 @@ package ru.mail.sporttogether.adapter
 
 import android.databinding.DataBindingUtil
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -43,7 +42,6 @@ class AddTaskAdapter(): RecyclerView.Adapter<AddTaskAdapter.ViewHolder>() {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
-        Log.d(TaskAdapter.TAG, "on create viewholder.")
         val inflater = LayoutInflater.from(parent?.context)
         val binding: ItemAddTaskBinding = ItemAddTaskBinding.inflate(inflater, parent, false)
         return AddTaskAdapter.ViewHolder(binding.root)
