@@ -9,6 +9,7 @@ import ru.mail.sporttogether.fragments.presenter.TemplatesPresenter
 import ru.mail.sporttogether.fragments.presenter.TemplatesPresenterImpl
 import ru.mail.sporttogether.fragments.view.TemplatesView
 import ru.mail.sporttogether.net.models.Event
+import java.util.*
 
 /**
  * Created by bagrusss on 05.02.17

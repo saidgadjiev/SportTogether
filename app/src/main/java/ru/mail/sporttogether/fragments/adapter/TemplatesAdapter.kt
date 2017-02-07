@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import ru.mail.sporttogether.R
 import ru.mail.sporttogether.fragments.adapter.holders.TemplateHolder
 import ru.mail.sporttogether.net.models.Event
+import java.util.*
 
 /**
  * Created by bagrusss on 07.02.17
