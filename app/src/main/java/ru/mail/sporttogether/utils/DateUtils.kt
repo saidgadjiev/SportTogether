@@ -24,6 +24,6 @@ object DateUtils {
         return dateFormatted
     }
 
-    fun longToDateTime(date: Long)
+    fun longToDateTime(date: Long): String
             = SimpleDateFormat("dd MMMM yyyy HH:mm", Locale.getDefault()).format(Date(date))
 }

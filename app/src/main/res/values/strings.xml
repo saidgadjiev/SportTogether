@@ -70,11 +70,12 @@
     <string name="save">Сохранить</string>
     <string name="address_header">место</string>
     <string name="need_set_date_and_time">Задайте дату и время</string>
-    <string name="empty">У Вас нет шаблонов</string>
+    <string name="no_templates">У Вас нет шаблонов</string>
     <string name="no_ended_events">Нет завершеных событий</string>
     <string name="no_my_events">Вы не участвуете ни в одном событии</string>
     <string name="no_organized_events">Вы не организовали ни одного события</string>
     <string name="add_template">Добавить шаблон</string>
+    <string name="create_event">Создать событие</string>
 
     <string-array name="list_reminder_times">
         <item>1 час</item>

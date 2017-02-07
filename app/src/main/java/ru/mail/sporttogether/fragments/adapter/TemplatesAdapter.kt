@@ -26,4 +26,9 @@ class TemplatesAdapter : RecyclerView.Adapter<TemplateHolder>() {
 
     override fun getItemCount() = items?.size ?: 0
 
+    fun swapTemplates(templates: ArrayList<Event>) {
+        items = templates
+        notifyDataSetChanged()
+    }
+
 }

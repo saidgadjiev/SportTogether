@@ -7,10 +7,7 @@ import ru.mail.sporttogether.activities.presenter.LoginActivityPresenterImpl
 import ru.mail.sporttogether.activities.presenter.SplashActivityPresenterImpl
 import ru.mail.sporttogether.activities.presenter.*
 import ru.mail.sporttogether.fragments.adapter.presenters.TwoActionsHolderPresenter
-import ru.mail.sporttogether.fragments.presenter.AbstractEventsListPresenter
-import ru.mail.sporttogether.fragments.presenter.EventsMapFragmentPresenterImpl
-import ru.mail.sporttogether.fragments.presenter.ResultDialogPresenterImpl
-import ru.mail.sporttogether.fragments.presenter.SettingsPresenterImpl
+import ru.mail.sporttogether.fragments.presenter.*
 
 /**
  * Created by bagrusss on 09.10.16
@@ -24,6 +21,7 @@ interface PresenterSubcomponent {
     fun inject(presenter: LoginActivityPresenterImpl)
     fun inject(presenter: SettingsPresenterImpl)
     fun inject(presenter: EditEventActivityPresenterImp)
+    fun inject(presenter: TemplatesPresenterImpl)
 
     fun inject(presenter: AbstractEventsListPresenter)
 
