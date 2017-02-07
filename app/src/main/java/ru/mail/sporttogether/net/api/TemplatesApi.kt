@@ -14,7 +14,7 @@ interface TemplatesApi {
     fun deleteTemplate(@Path("id") id: Long): Observable<Response<Any>>
 
     @GET("templates")
-    fun getTemplates(): Observable<Response<Any>>
+    fun getTemplates(): Observable<Response<ArrayList<Event>>>
 
     @POST("templates")
     fun createTemplate(@Body event: Event): Observable<Response<Event>>

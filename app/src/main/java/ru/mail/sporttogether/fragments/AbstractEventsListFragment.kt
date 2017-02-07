@@ -1,52 +1,33 @@
 package ru.mail.sporttogether.fragments
 
+import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
-import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
-import ru.mail.sporttogether.R
-import ru.mail.sporttogether.databinding.FragmentEventsListBinding
 import ru.mail.sporttogether.fragments.adapter.AbstractEventAdapter
 import ru.mail.sporttogether.fragments.presenter.AbstractEventsListPresenter
 import ru.mail.sporttogether.fragments.view.EventsListView
-import ru.mail.sporttogether.mvp.PresenterFragment
 import ru.mail.sporttogether.net.models.Event
 
 
 /**
  * Created by bagrusss on 18.01.17
  */
-abstract class AbstractEventsListFragment<PR : AbstractEventsListPresenter, T : AbstractEventAdapter<*>> :
-        PresenterFragment<PR>(),
+abstract class AbstractEventsListFragment<P : AbstractEventsListPresenter, A : AbstractEventAdapter<*>> :
+        AbstractListFragment<P, A>(),
         EventsListView {
 
-    private lateinit var binding: FragmentEventsListBinding
-    protected lateinit var listAdapter: T
-    private lateinit var eventsList: RecyclerView
 
-    abstract fun getPresenter(): PR
-
-    abstract fun getAdapter(): T
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-    }
+    abstract fun getEmptyDrawable(): Drawable
+    abstract fun getEmptyText(): String
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        binding = FragmentEventsListBinding.inflate(inflater, container, false)
-
-        eventsList = binding.eventsListRecyclerView
-        eventsList.layoutManager = LinearLayoutManager(context)
-        listAdapter = getAdapter()
-        eventsList.adapter = listAdapter
-
-        presenter = getPresenter()
+        val v = super.onCreateView(inflater, container, savedInstanceState)
+        data.emptyText.set(getEmptyText())
+        data.emptyDrawable.set(getEmptyDrawable())
         presenter.getEvents()
-        return binding.root
+        return v
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
@@ -54,14 +35,9 @@ abstract class AbstractEventsListFragment<PR : AbstractEventsListPresenter, T : 
         presenter.onCreate(savedInstanceState)
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu) {
-        super.onPrepareOptionsMenu(menu)
-        val item = menu.findItem(R.id.action_search)
-        item.isVisible = false
-    }
-
 
     override fun swapEvents(events: MutableList<Event>) {
+        data.isEmpty.set(events.isEmpty())
         listAdapter.swap(events)
     }
 

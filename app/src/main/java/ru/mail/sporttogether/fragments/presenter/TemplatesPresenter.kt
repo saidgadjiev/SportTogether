@@ -7,4 +7,6 @@ import ru.mail.sporttogether.mvp.IPresenter
  */
 interface TemplatesPresenter : IPresenter {
 
+    fun loadTemplates()
+
 }

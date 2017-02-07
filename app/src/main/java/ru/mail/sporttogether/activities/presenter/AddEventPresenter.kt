@@ -10,7 +10,7 @@ import ru.mail.sporttogether.net.models.Event
  */
 interface AddEventPresenter : IPresenter {
 
-    fun addEventClicked(event: Event, addMeNow: Boolean)
+    fun addEventClicked(event: Event, addMeNow: Boolean, addTemplate: Boolean = false)
 
     fun searchCategory(category: String)
 

@@ -1,6 +1,5 @@
 package ru.mail.sporttogether.mvp
 
-import android.R
 import android.os.Bundle
 import android.support.annotation.CallSuper
 import android.support.annotation.StringRes
@@ -34,7 +33,7 @@ abstract class PresenterFragment<T : IPresenter> : Fragment(), IView {
 
     @CallSuper
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.home) {
+        if (item.itemId == android.R.id.home) {
             activity.finish()
             return true
         }

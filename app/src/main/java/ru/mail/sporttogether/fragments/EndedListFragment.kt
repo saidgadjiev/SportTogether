@@ -1,5 +1,8 @@
 package ru.mail.sporttogether.fragments
 
+import android.graphics.drawable.Drawable
+import android.support.v4.content.ContextCompat
+import ru.mail.sporttogether.R
 import ru.mail.sporttogether.fragments.adapter.EndedEventsAdapter
 import ru.mail.sporttogether.fragments.presenter.EndedEventsPresenterImpl
 import ru.mail.sporttogether.fragments.view.EndedEventsListView
@@ -12,7 +15,11 @@ class EndedListFragment :
         AbstractEventsListFragment<EndedEventsPresenterImpl, EndedEventsAdapter>(),
         EndedEventsListView {
 
-    override fun getPresenter() = EndedEventsPresenterImpl(this)
+    override fun getEmptyDrawable(): Drawable = ContextCompat.getDrawable(context, R.mipmap.ic_launcher)
+
+    override fun getEmptyText(): String = getString(R.string.no_ended_events)
+
+    override fun getListPresenter() = EndedEventsPresenterImpl(this)
 
     override fun getAdapter() = EndedEventsAdapter()
 
