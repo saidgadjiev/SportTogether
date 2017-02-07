@@ -60,6 +60,7 @@
             app:layout_constraintLeft_toLeftOf="@+id/category_header"
             app:layout_constraintRight_toRightOf="@+id/category_header"
             app:layout_constraintTop_toBottomOf="@+id/category_header">
+
             <requestFocus />
         </AutoCompleteTextView>
 
@@ -69,8 +70,8 @@
             android:layout_height="0dp"
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.35766423"
-            tools:layout_editor_absoluteX="129dp"
-            tools:layout_editor_absoluteY="0dp" />
+            tools:layout_editor_absoluteX="147dp"
+            tools:layout_editor_absoluteY="81dp" />
 
         <ProgressBar
             android:id="@+id/category_autocomplete_progress_bar"
@@ -133,8 +134,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:onClick="@{() -> datePickerListener.openDatePicker()}"
             android:background="?attr/selectableItemBackground"
+            android:onClick="@{() -> datePickerListener.openDatePicker()}"
             app:layout_constraintBottom_toBottomOf="@+id/event_max_people"
             app:layout_constraintRight_toRightOf="@+id/date_header"
             app:layout_constraintTop_toTopOf="@+id/event_max_people"
@@ -176,9 +177,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:ellipsize="start"
             android:gravity="center_vertical"
             android:lines="1"
-            android:ellipsize="start"
             android:text="@{data.address}"
             android:textSize="14sp"
             app:layout_constraintLeft_toLeftOf="@+id/address_header"
@@ -230,19 +231,19 @@
             app:layout_constraintLeft_toRightOf="@+id/open_tasks_button"
             app:layout_constraintTop_toTopOf="@+id/open_tasks_button" />
 
-        <android.support.v7.widget.AppCompatCheckBox
+        <android.support.v7.widget.SwitchCompat
             android:id="@+id/add_me_now"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="8dp"
             android:layout_marginTop="16dp"
             android:checked="true"
             android:text="@string/add_to_event"
-            app:buttonTint="@color/colorAccent"
+            app:buttonTint="?colorAccent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintLeft_toLeftOf="@+id/description"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintRight_toRightOf="@+id/description"
             app:layout_constraintTop_toBottomOf="@+id/open_tasks_button"
-            android:layout_marginEnd="8dp" />
+            app:switchPadding="16dp" />
 
         <Button
             android:id="@+id/add_button"
@@ -258,9 +259,24 @@
             android:onClick="@{()->listener.onButtonClicked()}"
             android:text="@string/add_event"
             android:textColor="@color/white"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="@+id/description"
             app:layout_constraintRight_toRightOf="@+id/description"
-            app:layout_constraintTop_toBottomOf="@+id/add_me_now"/>
+            app:layout_constraintTop_toBottomOf="@+id/add_template_switch" />
+
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/add_template_switch"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:checked="true"
+            android:text="@string/add_template"
+            app:buttonTint="?colorAccent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="@+id/add_me_now"
+            app:layout_constraintRight_toRightOf="@+id/add_me_now"
+            app:layout_constraintTop_toBottomOf="@+id/add_me_now"
+            app:switchPadding="16dp" />
 
     </android.support.constraint.ConstraintLayout>
 

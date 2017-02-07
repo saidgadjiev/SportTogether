@@ -10,6 +10,7 @@ import ru.mail.sporttogether.net.CategoriesResponse
 import ru.mail.sporttogether.net.Response
 import ru.mail.sporttogether.net.api.CategoriesAPI
 import ru.mail.sporttogether.net.api.EventsAPI
+import ru.mail.sporttogether.net.api.TemplatesApi
 import ru.mail.sporttogether.net.api.YandexMapsApi
 import ru.mail.sporttogether.net.models.Event
 import ru.mail.sporttogether.net.models.EventResult
@@ -32,6 +33,7 @@ class AddEventPresenterImpl(var view: AddEventView?) : AddEventPresenter {
     @Inject lateinit var categoriesApi: CategoriesAPI
     @Inject lateinit var eventsManager: EventsManager
     @Inject lateinit var yandexApi: YandexMapsApi
+    @Inject lateinit var templatesApi: TemplatesApi
 
     private var eventSubscribtion: Subscription? = null
     private var categoriesSubscribtion: Subscription? = null
@@ -76,7 +78,7 @@ class AddEventPresenterImpl(var view: AddEventView?) : AddEventPresenter {
 
     }
 
-    override fun addEventClicked(event: Event, addMeNow: Boolean) {
+    override fun addEventClicked(event: Event, addMeNow: Boolean, addTemplate: Boolean) {
         val sb = StringBuilder(event.category.name)
         sb.append(", ")
                 .append(DateUtils.toXLongDateString(Date(event.date)))
@@ -106,6 +108,9 @@ class AddEventPresenterImpl(var view: AddEventView?) : AddEventPresenter {
                             event.id = data.id
                             event.user = data.user
                             view?.onEventAdded(event)
+                            if (addTemplate) {
+                                createTemplate(event)
+                            }
                         } else {
                             view?.showAddError(response.message)
                         }
@@ -118,6 +123,25 @@ class AddEventPresenterImpl(var view: AddEventView?) : AddEventPresenter {
                 })
     }
 
+    private fun createTemplate(event: Event) {
+        eventSubscribtion?.unsubscribe()
+        eventSubscribtion = templatesApi.createTemplate(event)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(object : Subscriber<Any>() {
+                    override fun onError(e: Throwable) {
+
+                    }
+
+                    override fun onNext(t: Any) {
+
+                    }
+
+                    override fun onCompleted() {
+                    }
+
+                })
+    }
 
 
     override fun sendResult(id: Long, result: String) {
@@ -172,9 +196,8 @@ class AddEventPresenterImpl(var view: AddEventView?) : AddEventPresenter {
                 .subscribeOn(Schedulers.io())
                 .subscribe(object : Subscriber<Response<Any>>() {
                     override fun onNext(t: Response<Any>) {
-                        if (t.code === 0) {
-                            Log.i("#MY " + javaClass.simpleName, "Вы присоеденены к событию")
-                        } else view?.showToast(t.message)
+                        if (t.code != 0)
+                            view?.showToast(t.message)
                     }
 
                     override fun onCompleted() {

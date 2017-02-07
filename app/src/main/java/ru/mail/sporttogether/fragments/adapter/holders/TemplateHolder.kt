@@ -13,6 +13,6 @@ class TemplateHolder(v: View) : RecyclerView.ViewHolder(v) {
     private val binding: ItemTwoButtonBinding = ItemTwoButtonBinding.bind(v)
 
     fun onBind(e: Event) {
-        
+
     }
 }

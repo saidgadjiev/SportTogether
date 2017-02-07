@@ -71,7 +71,7 @@ class AddEventActivity :
                     dialogInterface.cancel()
                 })
                 .setPositiveButton("Готово", { dialogInterface, i ->
-                    context.binding.addingTasksCount.text = Integer.toString(addTaskAdapter.getTasks().size)
+                    context.binding.addingTasksCount.text = addTaskAdapter.getTasks().size.toString()
                     dialogInterface.cancel()
                 })
                 .setCancelable(false)
@@ -258,7 +258,7 @@ class AddEventActivity :
         event.category.name = nameCategory
         event.isJoined = binding.addMeNow.isChecked
 
-        presenter.addEventClicked(event, binding.addMeNow.isChecked)
+        presenter.addEventClicked(event, binding.addMeNow.isChecked, binding.addTemplateSwitch.isChecked)
 
     }
 
