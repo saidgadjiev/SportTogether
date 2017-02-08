@@ -277,7 +277,7 @@ class AddEventActivity :
         event.description = binding.description.text.toString()
         event.maxPeople = maxPeople
         event.tasks = addingTasksDialog!!.addTaskAdapter.getTasks() as ArrayList<Task>
-        event.category.name = nameCategory
+        event.category.name = nameCategory.toLowerCase()
         event.isJoined = binding.addMeNow.isChecked
 
         presenter.addEventClicked(event, binding.addMeNow.isChecked, binding.addTemplateSwitch.isChecked)
