@@ -445,7 +445,7 @@ class EventsMapFragment :
         animator.start()
     }
 
-    override fun showEventsList() {
+    override fun showEventsList(events: MutableList<Event>) {
         val mapEventsLayout = binding.mapEventsListInclude.mapEventsLayout
         if (mapEventsLayout.visibility != View.VISIBLE) {
             mapEventsLayout.visibility = View.VISIBLE

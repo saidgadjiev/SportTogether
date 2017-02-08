@@ -71,6 +71,7 @@ class EventsMapFragmentPresenterImpl(var view: EventsMapView?) : EventsMapFragme
     private var locationSubscription: Subscription? = null
 
     private var eventsSubscribion: Subscription? = null
+    private var mapEventsSubscribion: Subscription? = null
     private var userPositionFound = false
 
     init {
@@ -137,6 +138,7 @@ class EventsMapFragmentPresenterImpl(var view: EventsMapView?) : EventsMapFragme
     override fun onDestroy() {
         locationSubscription?.unsubscribe()
         eventsSubscribion?.unsubscribe()
+        mapEventsSubscribion?.unsubscribe()
         view = null
         map?.let {
             with(it) {
@@ -403,8 +405,18 @@ class EventsMapFragmentPresenterImpl(var view: EventsMapView?) : EventsMapFragme
 
             Log.d(TAG, "now zoom is " + cameraPosition.zoom)
             if (cameraPosition.zoom > MAX_ZOOM_WITH_LIST) {
-                view?.showEventsList()
+                mapEventsSubscribion = eventsManager.getObservable()
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe { newState ->
+                            when (newState.type) {
+                                EventsManager.UpdateType.NEW_LIST -> {
+                                    Log.d(TAG, "new events list, show map events")
+                                    view?.showEventsList(newState.data as MutableList<Event>)
+                                }
+                            }
+                        }
             } else {
+                mapEventsSubscribion?.unsubscribe()
                 view?.hideEventsList()
             }
         }
