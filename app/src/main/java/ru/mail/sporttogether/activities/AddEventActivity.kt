@@ -36,6 +36,7 @@ import ru.mail.sporttogether.utils.DateUtils
 import rx.Subscription
 import rx.android.schedulers.AndroidSchedulers
 import java.util.*
+import java.util.regex.Pattern
 
 class AddEventActivity :
         PresenterActivity<AddEventPresenter>(),
@@ -161,6 +162,26 @@ class AddEventActivity :
         binding.datePickerListener = null
         binding.openTasksListener = null
         binding.listener = null
+        subscription?.unsubscribe()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        binding.listener = this
+        binding.openTasksListener = addingTasksDialog!!
+//        binding.tasksListener = addingTasksDialog?.binding?.listener
+    }
+
+    override fun onStop() {
+        super.onStop()
+        binding.listener = null
+        binding.openTasksListener = null
+//        binding.tasksListener = null
+    }
+
+    override fun onPause() {
+        super.onPause()
+        KeyboardUtil.hideKeyboard(this)
     }
 
     override fun updateAddress(textAddress: String) {
@@ -209,25 +230,9 @@ class AddEventActivity :
         loadingCategoriesProgressBar.visibility = View.GONE
     }
 
-    override fun onStart() {
-        super.onStart()
-        binding.listener = this
-        binding.openTasksListener = addingTasksDialog!!
-//        binding.tasksListener = addingTasksDialog?.binding?.listener
-    }
 
-    override fun onStop() {
-        super.onStop()
-        subscription?.unsubscribe()
-        binding.listener = null
-        binding.openTasksListener = null
-//        binding.tasksListener = null
-    }
 
-    override fun onPause() {
-        super.onPause()
-        KeyboardUtil.hideKeyboard(this)
-    }
+
 
     private fun setupCoordinates() {
 
@@ -240,6 +245,13 @@ class AddEventActivity :
         val nameCategory: String = binding.categoryAutocomplete.text.toString()
         if (nameCategory == "") {
             showAddError("Вид спорта не задан")
+            return
+        }
+
+        val pattern = Pattern.compile("([а-я]+[ |-])*[а-я]+", Pattern.CASE_INSENSITIVE)
+        val matcher = pattern.matcher(nameCategory)
+        if (!matcher.matches()) {
+            showAddError("Допустимы только русские буквы, разделенные пробелом или \"-\"")
             return
         }
 
