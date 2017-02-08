@@ -405,6 +405,7 @@ class EventsMapFragmentPresenterImpl(var view: EventsMapView?) : EventsMapFragme
 
             Log.d(TAG, "now zoom is " + cameraPosition.zoom)
             if (cameraPosition.zoom > MAX_ZOOM_WITH_LIST) {
+                mapEventsSubscribion?.unsubscribe()
                 mapEventsSubscribion = eventsManager.getObservable()
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe { newState ->
