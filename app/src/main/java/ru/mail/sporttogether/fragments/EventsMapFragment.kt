@@ -392,7 +392,7 @@ class EventsMapFragment :
 
     //TODO исправить !!!
     fun initTasks(tasks: ArrayList<Task>) {
-        val myId = presenter.getMyId() // TODO inject manager
+        val myId = presenter.getMyId()
         tasksAdapter = TaskAdapter(tasks, this, myId)
         binding.include.tasksListRecyclerView.adapter = tasksAdapter
         binding.include.tasksListRecyclerView.layoutManager = LinearLayoutManager(this.context)
