@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="listener"
+            type="ru.mail.sporttogether.data.binding.event.EventDetailsListener" />
+
+        <variable
+            name="addListener"
+            type="ru.mail.sporttogether.data.binding.event.ButtonListener" />
+
+        <variable
+            name="data"
+            type="ru.mail.sporttogether.data.binding.event.EventDetailsData" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/map_events_layout"
+        android:layout_gravity="start|top"
+        android:background="#66000000"
+        android:layout_marginTop="64dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_width="240dp"
+        android:layout_height="160dp">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/map_events_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </RelativeLayout>
+</layout>

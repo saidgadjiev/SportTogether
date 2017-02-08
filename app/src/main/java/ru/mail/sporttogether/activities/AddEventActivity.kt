@@ -251,7 +251,7 @@ class AddEventActivity :
         val pattern = Pattern.compile("([а-я]+[ |-])*[а-я]+", Pattern.CASE_INSENSITIVE)
         val matcher = pattern.matcher(nameCategory)
         if (!matcher.matches()) {
-            showAddError("Допустимы только русские буквы, разделенные пробелом или \"-\"")
+            showAddError("В виде спорта допустимы только русские буквы, разделенные пробелом или \"-\"")
             return
         }
 

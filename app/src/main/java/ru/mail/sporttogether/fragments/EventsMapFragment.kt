@@ -445,6 +445,16 @@ class EventsMapFragment :
         animator.start()
     }
 
+    override fun showEventsList() {
+        val mapEventsLayout = binding.mapEventsListInclude.mapEventsLayout
+        mapEventsLayout.visibility = View.VISIBLE
+    }
+
+    override fun hideEventsList() {
+        val mapEventsLayout = binding.mapEventsListInclude.mapEventsLayout
+        mapEventsLayout.visibility = View.GONE
+    }
+
     override fun onLocationNotChecked() {
         if (locationDialog == null) {
             locationDialog = AlertDialog.Builder(context)

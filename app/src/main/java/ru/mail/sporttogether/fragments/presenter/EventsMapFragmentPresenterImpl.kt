@@ -400,6 +400,12 @@ class EventsMapFragmentPresenterImpl(var view: EventsMapView?) : EventsMapFragme
                         }
 
                     })
+
+            if (MAX_ZOOM - cameraPosition.zoom < 0.2) {
+                view?.showEventsList()
+            } else {
+                view?.hideEventsList()
+            }
         }
     }
 
