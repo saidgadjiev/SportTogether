@@ -1,5 +1,6 @@
 package ru.mail.sporttogether.activities
 
+import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
@@ -63,7 +64,7 @@ class AddEventActivity :
     var subscription: Subscription? = null
 
 
-    inner class AddingTasksDialog(val context: AddEventActivity): OpenTasksListener {
+    inner class AddingTasksDialog(val context: AddEventActivity) : OpenTasksListener {
         var dialog: AlertDialog = AlertDialog.Builder(context)
                 .setNegativeButton("Очистить", { dialogInterface, i ->
                     context.binding.addingTasksCount.text = "0"
@@ -126,8 +127,14 @@ class AddEventActivity :
 
         with(intent) {
             event = getParcelableExtra(KEY_EVENT)
-            presenter.onCreate(savedInstanceState, event)
+            val isFromTemplate = getBooleanExtra(KEY_FROM_TEMPLATE, false)
+            if (isFromTemplate) {
+                val t = getParcelableExtra<Event>(KEY_EVENT)
+                fillFromTemplate(t)
+            }
         }
+        presenter.onCreate(savedInstanceState, event)
+
         eventId = intent.getLongExtra(KEY_ID, 0L)
         if (eventId != 0L) {
             data.resultVisibility.set(true)
@@ -154,6 +161,18 @@ class AddEventActivity :
                     visibleCategoryProgressBar()
                     presenter.loadCategoriesBySubname(e.text().toString())
                 }
+    }
+
+    private fun fillFromTemplate(e: Event) {
+        with(binding) {
+            description.setText(e.description)
+            categoryAutocomplete.setText(e.category.name, false)
+            pickDateText.text = DateUtils.longToDateTime(e.date)
+            eventMaxPeople.setText(e.maxPeople.toString())
+            addTemplateSwitch.isChecked = false
+            addTemplateSwitch.visibility = View.GONE
+        }
+
     }
 
     override fun onDestroy() {
@@ -297,6 +316,9 @@ class AddEventActivity :
 
     companion object {
         val TAG = "#MY " + AddEventActivity::class.java.simpleName
+        @JvmStatic private val KEY_ID = "ID"
+        @JvmStatic val KEY_EVENT = "event"
+        @JvmStatic private val KEY_FROM_TEMPLATE = "KEY_FROM_TEMPLATE"
 
         @JvmStatic
         fun startForResult(f: PresenterFragment<*>, event: Event, code: Int) {
@@ -306,7 +328,16 @@ class AddEventActivity :
             }
         }
 
-        @JvmStatic private val KEY_ID = "ID"
-        @JvmStatic val KEY_EVENT = "event"
+        @JvmStatic
+        fun start(context: Context, event: Event) {
+            with(Intent(context, AddEventActivity::class.java)) {
+                putExtra(KEY_FROM_TEMPLATE, true)
+                putExtra(KEY_EVENT, event)
+                context.startActivity(this)
+            }
+
+        }
+
+
     }
 }

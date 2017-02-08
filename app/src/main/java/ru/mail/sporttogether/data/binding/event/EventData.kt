@@ -4,8 +4,7 @@ import android.databinding.ObservableBoolean
 import android.databinding.ObservableField
 
 /**
- * Created by bagrusss on 07.10.16.
- *
+ * Created by bagrusss on 07.10.16
  */
 class EventData {
     val resultVisibility = ObservableBoolean(false)
