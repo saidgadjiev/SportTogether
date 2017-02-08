@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import ru.mail.sporttogether.data.binding.event.MapEventData
 import ru.mail.sporttogether.databinding.ItemMapEventBinding
-import ru.mail.sporttogether.databinding.ItemTaskBinding
 import ru.mail.sporttogether.net.models.Event
 import ru.mail.sporttogether.utils.DateUtils
 import java.util.*
@@ -15,9 +14,9 @@ import java.util.*
 /**
  * Created by root on 08.02.17.
  */
-class MapEventsAdapter(val events: ArrayList<Event>): RecyclerView.Adapter<MapEventsAdapter.MapEventViewHolder>() {
+class MapEventsAdapter(val events: MutableList<Event>): RecyclerView.Adapter<MapEventsAdapter.MapEventViewHolder>() {
 
-    fun swap(newEvents: ArrayList<Event>) {
+    fun swap(newEvents: MutableList<Event>) {
         events.clear()
         events.addAll(newEvents)
         notifyDataSetChanged()
@@ -33,7 +32,7 @@ class MapEventsAdapter(val events: ArrayList<Event>): RecyclerView.Adapter<MapEv
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MapEventViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding: ItemTaskBinding = ItemTaskBinding.inflate(inflater, parent, false)
+        val binding: ItemMapEventBinding = ItemMapEventBinding.inflate(inflater, parent, false)
         return MapEventViewHolder(binding.root)
     }
 
@@ -51,6 +50,6 @@ class MapEventsAdapter(val events: ArrayList<Event>): RecyclerView.Adapter<MapEv
     }
 
     companion object {
-        val TAG = "#MY " + MapEventsAdapter::class.java.simpleName.substring(0, 18)
+        val TAG = "#MY " + MapEventsAdapter::class.java.simpleName
     }
 }

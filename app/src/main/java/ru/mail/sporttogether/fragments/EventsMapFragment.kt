@@ -26,6 +26,7 @@ import kotlinx.android.synthetic.main.events_map.*
 import ru.mail.sporttogether.R
 import ru.mail.sporttogether.activities.AddEventActivity
 import ru.mail.sporttogether.activities.DrawerActivity
+import ru.mail.sporttogether.adapter.MapEventsAdapter
 import ru.mail.sporttogether.adapter.TaskAdapter
 import ru.mail.sporttogether.data.binding.event.ButtonListener
 import ru.mail.sporttogether.data.binding.event.EventDetailsData
@@ -69,6 +70,7 @@ class EventsMapFragment :
 
     private val data = EventDetailsData()
     private var tasksAdapter: TaskAdapter? = null
+    private var mapEventsAdapter: MapEventsAdapter? = null
 
     private var markerDownX = 0
     private var markerDownY = 0
@@ -447,11 +449,11 @@ class EventsMapFragment :
 
     override fun showEventsList(events: MutableList<Event>) {
         val mapEventsLayout = binding.mapEventsListInclude.mapEventsLayout
+        updateMapEventsRecyclerView(events)
         if (mapEventsLayout.visibility != View.VISIBLE) {
             mapEventsLayout.visibility = View.VISIBLE
             mapEventsLayout.animate().scaleX(1f).setDuration(300L).start()
         }
-
     }
 
     override fun hideEventsList() {
@@ -460,6 +462,19 @@ class EventsMapFragment :
             mapEventsLayout.animate().scaleX(0f).setDuration(300L).withEndAction {
                 mapEventsLayout.visibility = View.GONE
             }.start()
+        }
+    }
+
+    fun updateMapEventsRecyclerView(events: MutableList<Event>) {
+        val mapEventsRecyclerView = binding.mapEventsListInclude.mapEventsRecyclerView
+        mapEventsRecyclerView.layoutManager = LinearLayoutManager(activity)
+        if (mapEventsAdapter == null) {
+            mapEventsAdapter = MapEventsAdapter(events)
+        } else {
+            mapEventsAdapter!!.swap(events)
+        }
+        if (mapEventsRecyclerView.adapter == null) {
+            mapEventsRecyclerView.adapter = mapEventsAdapter
         }
     }
 
