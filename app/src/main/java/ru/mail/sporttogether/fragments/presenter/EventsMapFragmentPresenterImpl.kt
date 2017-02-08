@@ -401,7 +401,8 @@ class EventsMapFragmentPresenterImpl(var view: EventsMapView?) : EventsMapFragme
 
                     })
 
-            if (MAX_ZOOM - cameraPosition.zoom < 0.2) {
+            Log.d(TAG, "now zoom is " + cameraPosition.zoom)
+            if (cameraPosition.zoom > MAX_ZOOM_WITH_LIST) {
                 view?.showEventsList()
             } else {
                 view?.hideEventsList()
@@ -648,6 +649,7 @@ class EventsMapFragmentPresenterImpl(var view: EventsMapView?) : EventsMapFragme
         val TAG = "#MY " + EventsMapFragmentPresenterImpl::class.java.simpleName.substring(0, 18)
 
         @JvmStatic private val MAX_ZOOM = 17f
+        @JvmStatic private val MAX_ZOOM_WITH_LIST = 16.5f
         @JvmStatic private val MIN_ZOOM = 10f
 
     }

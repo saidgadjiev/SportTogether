@@ -448,11 +448,15 @@ class EventsMapFragment :
     override fun showEventsList() {
         val mapEventsLayout = binding.mapEventsListInclude.mapEventsLayout
         mapEventsLayout.visibility = View.VISIBLE
+        mapEventsLayout.animate().scaleX(1f).setDuration(300L).start()
+
     }
 
     override fun hideEventsList() {
         val mapEventsLayout = binding.mapEventsListInclude.mapEventsLayout
-        mapEventsLayout.visibility = View.GONE
+        mapEventsLayout.animate().scaleX(0f).setDuration(300L).withEndAction {
+            mapEventsLayout.visibility = View.GONE
+        }.start()
     }
 
     override fun onLocationNotChecked() {
