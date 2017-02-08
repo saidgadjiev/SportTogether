@@ -38,14 +38,15 @@ class MapEventsAdapter(val events: MutableList<Event>): RecyclerView.Adapter<Map
 
     inner class MapEventViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         private val binding: ItemMapEventBinding = DataBindingUtil.bind(itemView)
+        val data = MapEventData()
 
         init {
-            binding.data = MapEventData()
+            binding.data = data
         }
 
         fun onBind(event: Event) {
-            binding.mapEventCategory.text = event.category.name
-            binding.mapEventDate.text = DateUtils.toXLongDateString(Date(event.date))
+            data.category.set(event.category.name)
+            data.date.set(DateUtils.toXLongDateString(Date(event.date)))
         }
     }
 

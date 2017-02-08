@@ -21,9 +21,10 @@
 
         <TextView
             android:id="@+id/map_event_category"
-            android:text="пионербол"
-            android:textSize="12sp"
-            android:textColor="@color/white"
+            android:text="@{data.category}"
+            android:textSize="14sp"
+            android:textColor="@color/primary"
+            android:textStyle="bold"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
@@ -31,14 +32,14 @@
             app:layout_constraintLeft_toLeftOf="parent" />
         <TextView
             android:id="@+id/map_event_date"
-            android:text="17 февраля, 16:07"
+            android:text="@{data.date}"
             android:textSize="12sp"
             android:textColor="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/map_event_category"
             app:layout_constraintLeft_toLeftOf="@+id/map_event_category"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="4dp" />
     </android.support.constraint.ConstraintLayout>
 
 </layout>
