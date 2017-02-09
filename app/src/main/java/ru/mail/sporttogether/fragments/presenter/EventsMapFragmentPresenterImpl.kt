@@ -70,8 +70,8 @@ class EventsMapFragmentPresenterImpl(var view: EventsMapView?) : EventsMapFragme
     private var apiSubscribtion: Subscription? = null
     private var locationSubscription: Subscription? = null
 
-    private var eventsSubscribion: Subscription? = null
-    private var mapEventsSubscribion: Subscription? = null
+    private var eventsSubscription: Subscription? = null
+    private var mapEventsSubscription: Subscription? = null
     private var userPositionFound = false
 
     init {
@@ -83,7 +83,7 @@ class EventsMapFragmentPresenterImpl(var view: EventsMapView?) : EventsMapFragme
 
 
     override fun onCreate(args: Bundle?) {
-        eventsSubscribion = eventsManager.getObservable()
+        eventsSubscription = eventsManager.getObservable()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { newState ->
                     when (newState.type) {
@@ -137,8 +137,8 @@ class EventsMapFragmentPresenterImpl(var view: EventsMapView?) : EventsMapFragme
 
     override fun onDestroy() {
         locationSubscription?.unsubscribe()
-        eventsSubscribion?.unsubscribe()
-        mapEventsSubscribion?.unsubscribe()
+        eventsSubscription?.unsubscribe()
+        mapEventsSubscription?.unsubscribe()
         view = null
         map?.let {
             with(it) {
@@ -409,8 +409,8 @@ class EventsMapFragmentPresenterImpl(var view: EventsMapView?) : EventsMapFragme
         map?.let { map ->
             val cameraPosition = map.cameraPosition
             if (cameraPosition.zoom > MAX_ZOOM_WITH_LIST) {
-                mapEventsSubscribion?.unsubscribe()
-                mapEventsSubscribion = eventsManager.getObservable()
+                mapEventsSubscription?.unsubscribe()
+                mapEventsSubscription = eventsManager.getObservable()
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe { newState ->
                             when (newState.type) {
@@ -430,7 +430,7 @@ class EventsMapFragmentPresenterImpl(var view: EventsMapView?) : EventsMapFragme
                         }
                 view?.showEventsList()
             } else {
-                mapEventsSubscribion?.unsubscribe()
+                mapEventsSubscription?.unsubscribe()
                 view?.hideEventsList()
             }
         }

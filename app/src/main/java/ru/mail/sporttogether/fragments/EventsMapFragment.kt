@@ -545,7 +545,10 @@ class EventsMapFragment :
         }
 
         fun render(events: MutableList<Event>) {
-            if (events.isEmpty()) hide()
+            if (events.isEmpty()) {
+                hide()
+                return
+            }
 
             if (isShowed || !wasRendered) {
                 Log.d(TAG, "render events list")
@@ -560,7 +563,7 @@ class EventsMapFragment :
                     Handler().postDelayed({
                         mapEventsPb!!.visibility = View.GONE
                         mapEventsRecyclerView!!.visibility = View.VISIBLE
-                    }, 500)
+                    }, 300)
                 }
                 if (mapEventsRecyclerView!!.adapter == null) {
                     mapEventsRecyclerView!!.adapter = mapEventsAdapter
