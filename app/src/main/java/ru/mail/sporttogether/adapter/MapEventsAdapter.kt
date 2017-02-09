@@ -20,6 +20,7 @@ import java.util.*
 class MapEventsAdapter(val events: MutableList<Event>, val goToMarkerCallback: GoToMarker): RecyclerView.Adapter<MapEventsAdapter.MapEventViewHolder>() {
 
     fun swap(newEvents: MutableList<Event>) {
+        newEvents.sortBy(Event::date)
         events.clear()
         events.addAll(newEvents)
         notifyDataSetChanged()
