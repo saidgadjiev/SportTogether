@@ -545,6 +545,8 @@ class EventsMapFragment :
         }
 
         fun render(events: MutableList<Event>) {
+            if (events.isEmpty()) hide()
+
             if (isShowed || !wasRendered) {
                 Log.d(TAG, "render events list")
                 wasRendered = true
