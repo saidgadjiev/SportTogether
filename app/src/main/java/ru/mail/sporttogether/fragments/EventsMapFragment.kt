@@ -8,6 +8,7 @@ import android.content.pm.PackageManager
 import android.graphics.Point
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.provider.Settings
 import android.support.design.widget.BottomSheetBehavior
 import android.support.v4.view.MenuItemCompat
@@ -20,6 +21,7 @@ import android.util.Log
 import android.view.*
 import android.widget.FrameLayout
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.google.android.gms.maps.MapView
@@ -507,6 +509,7 @@ class EventsMapFragment :
         private var mapEventsAdapter: MapEventsAdapter? = null
         private var mapEventsLayout: ViewGroup? = null
         private var mapEventsRecyclerView: RecyclerView? = null
+        private var mapEventsPb: ProgressBar? = null
         var isShowed: Boolean = false
         var isBottomSheetOpened: Boolean = false
         var wasRendered: Boolean = false
@@ -545,20 +548,32 @@ class EventsMapFragment :
             if (isShowed || !wasRendered) {
                 Log.d(TAG, "render events list")
                 wasRendered = true
-                if (mapEventsRecyclerView == null) {
-                    mapEventsRecyclerView = binding.mapEventsListInclude.mapEventsRecyclerView
-                    mapEventsRecyclerView!!.layoutManager = LinearLayoutManager(activity)
-                }
+                initLayoutElements()
                 if (mapEventsAdapter == null) {
                     mapEventsAdapter = MapEventsAdapter(events, presenter)
                 } else {
+                    mapEventsRecyclerView!!.visibility = View.GONE
+                    mapEventsPb!!.visibility = View.VISIBLE
                     mapEventsAdapter!!.swap(events)
+                    Handler().postDelayed({
+                        mapEventsPb!!.visibility = View.GONE
+                        mapEventsRecyclerView!!.visibility = View.VISIBLE
+                    }, 500)
                 }
                 if (mapEventsRecyclerView!!.adapter == null) {
                     mapEventsRecyclerView!!.adapter = mapEventsAdapter
                 }
             }
+        }
 
+        fun initLayoutElements() {
+            if (mapEventsRecyclerView == null) {
+                mapEventsRecyclerView = binding.mapEventsListInclude.mapEventsRecyclerView
+                mapEventsRecyclerView!!.layoutManager = LinearLayoutManager(activity)
+            }
+            if (mapEventsPb == null) {
+                mapEventsPb = binding.mapEventsListInclude.mapEventsPb
+            }
         }
     }
 

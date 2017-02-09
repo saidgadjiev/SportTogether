@@ -39,5 +39,12 @@
             android:scrollbars="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
+
+        <ProgressBar
+            android:id="@+id/map_events_pb"
+            android:visibility="gone"
+            android:layout_centerInParent="true"
+            android:layout_width="36dp"
+            android:layout_height="36dp" />
     </RelativeLayout>
 </layout>
