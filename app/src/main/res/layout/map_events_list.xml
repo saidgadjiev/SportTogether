@@ -20,7 +20,7 @@
         android:visibility="gone"
         android:layout_marginLeft="16dp"
         android:layout_width="240dp"
-        android:layout_height="160dp">
+        android:layout_height="200dp">
 
         <TextView
             android:id="@+id/map_events_title"
