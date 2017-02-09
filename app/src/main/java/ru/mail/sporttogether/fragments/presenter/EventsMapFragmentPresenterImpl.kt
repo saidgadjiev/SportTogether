@@ -387,12 +387,10 @@ class EventsMapFragmentPresenterImpl(var view: EventsMapView?) : EventsMapFragme
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(object : Subscriber<Response<EventsResponse>>() {
                         override fun onError(e: Throwable) {
-                            Log.e("EventsMapPresenter", "events loaded error")
                             view?.showToast(R.string.cant_get_events)
                         }
 
                         override fun onNext(response: Response<EventsResponse>) {
-                            Log.d("EventsMapPresenter", "events loaded")
                             eventsManager.swapEvents(response.data)
                             addMarkers(response.data)
                         }
@@ -417,7 +415,16 @@ class EventsMapFragmentPresenterImpl(var view: EventsMapView?) : EventsMapFragme
                         .subscribe { newState ->
                             when (newState.type) {
                                 EventsManager.UpdateType.NEW_LIST -> {
-                                    view?.renderEventsList(newState.data as MutableList<Event>)
+                                    val events = newState.data as MutableList<Event>
+                                    val filteredEvents = events.filter { item ->
+                                        val itemLatLng = LatLng(item.lat, item.lng)
+                                        val distanceBetweenPoints = MapUtils.distanceBetweenPoints(
+                                                cameraPosition.target,
+                                                itemLatLng
+                                        )
+                                        distanceBetweenPoints < 0.165
+                                    }
+                                    view?.renderEventsList(filteredEvents.toMutableList())
                                 }
                             }
                         }

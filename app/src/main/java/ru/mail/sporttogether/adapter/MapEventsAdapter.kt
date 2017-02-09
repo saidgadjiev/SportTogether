@@ -21,6 +21,22 @@ class MapEventsAdapter(val events: MutableList<Event>, val goToMarkerCallback: G
 
     fun swap(newEvents: MutableList<Event>) {
         newEvents.sortBy(Event::date)
+//        val kreket = newEvents.find { it.category.name.contains("крек") }
+//        val tennis = newEvents.filter { it.category.name.contains("теннис") }
+//        val frisbi = newEvents.filter { it.category.name.contains("фрисби") }
+//        tennis.forEach { item ->
+//            Log.d(TAG, "distance tennis to kreket: " + MapUtils.distanceBetweenPoints(
+//                    LatLng(kreket!!.lat, kreket!!.lng),
+//                    LatLng(item!!.lat, item!!.lng)
+//            ))
+//        }
+//        frisbi.forEach { item ->
+//            Log.d(TAG, "distance frisbi to kreket : " + MapUtils.distanceBetweenPoints(
+//                    LatLng(kreket!!.lat, kreket!!.lng),
+//                    LatLng(item!!.lat, item!!.lng)
+//                )
+//            )
+//        }
         events.clear()
         events.addAll(newEvents)
         notifyDataSetChanged()
