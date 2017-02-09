@@ -522,9 +522,8 @@ class EventsMapFragment :
             if (mapEventsLayout!!.visibility != View.VISIBLE) {
                 Log.d(TAG, "show events list animation start")
                 mapEventsLayout!!.visibility = View.VISIBLE
-                mapEventsLayout!!.animate().scaleX(1f).setDuration(200L).withEndAction {
-                    isShowed = true
-                }.start()
+                mapEventsLayout!!.animate().scaleX(1f).setDuration(200L).start()
+                isShowed = true
             }
         }
 
@@ -536,8 +535,8 @@ class EventsMapFragment :
             if (mapEventsLayout!!.visibility != View.GONE) {
                 mapEventsLayout!!.animate().scaleX(0f).setDuration(200L).withEndAction {
                     mapEventsLayout!!.visibility = View.GONE
-                    isShowed = false
                 }.start()
+                isShowed = false
                 Log.d(TAG, "hide events list animation start")
             }
         }
