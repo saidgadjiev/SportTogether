@@ -422,7 +422,7 @@ class EventsMapFragmentPresenterImpl(var view: EventsMapView?) : EventsMapFragme
                                                 cameraPosition.target,
                                                 itemLatLng
                                         )
-                                        distanceBetweenPoints < 0.165
+                                        distanceBetweenPoints < 0.100
                                     }
                                     view?.renderEventsList(filteredEvents.toMutableList())
                                 }
