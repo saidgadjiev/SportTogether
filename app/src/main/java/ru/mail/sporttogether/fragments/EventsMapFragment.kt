@@ -477,6 +477,9 @@ class EventsMapFragment :
     }
 
     override fun renderEventsList(events: MutableList<Event>) {
+        if (!events.isEmpty()) {
+            showEventsList()
+        }
         mapEventsListController?.render(events)
 //        updateMapEventsRecyclerView(events)
 
@@ -546,8 +549,7 @@ class EventsMapFragment :
 
         fun render(events: MutableList<Event>) {
             if (events.isEmpty()) {
-                hide()
-                return
+
             }
 
             if (isShowed || !wasRendered) {
