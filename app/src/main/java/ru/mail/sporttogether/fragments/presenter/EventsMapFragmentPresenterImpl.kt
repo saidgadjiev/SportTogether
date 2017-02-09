@@ -428,6 +428,7 @@ class EventsMapFragmentPresenterImpl(var view: EventsMapView?) : EventsMapFragme
                                 }
                             }
                         }
+                view?.showEventsList()
             } else {
                 mapEventsSubscription?.unsubscribe()
                 view?.hideEventsList()

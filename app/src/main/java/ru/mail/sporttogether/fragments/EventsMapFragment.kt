@@ -19,10 +19,7 @@ import android.support.v7.widget.SearchView
 import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.*
-import android.widget.FrameLayout
-import android.widget.LinearLayout
-import android.widget.ProgressBar
-import android.widget.Toast
+import android.widget.*
 import com.bumptech.glide.Glide
 import com.google.android.gms.maps.MapView
 import kotlinx.android.synthetic.main.events_map.*
@@ -477,12 +474,7 @@ class EventsMapFragment :
     }
 
     override fun renderEventsList(events: MutableList<Event>) {
-        if (!events.isEmpty()) {
-            showEventsList()
-        }
         mapEventsListController?.render(events)
-//        updateMapEventsRecyclerView(events)
-
     }
 
     override fun hideEventsList() {
@@ -513,6 +505,7 @@ class EventsMapFragment :
         private var mapEventsLayout: ViewGroup? = null
         private var mapEventsRecyclerView: RecyclerView? = null
         private var mapEventsPb: ProgressBar? = null
+        private var mapEventsEmpty: TextView? = null
         var isShowed: Boolean = false
         var isBottomSheetOpened: Boolean = false
         var wasRendered: Boolean = false
@@ -548,10 +541,6 @@ class EventsMapFragment :
         }
 
         fun render(events: MutableList<Event>) {
-            if (events.isEmpty()) {
-
-            }
-
             if (isShowed || !wasRendered) {
                 Log.d(TAG, "render events list")
                 wasRendered = true
@@ -560,11 +549,17 @@ class EventsMapFragment :
                     mapEventsAdapter = MapEventsAdapter(events, presenter)
                 } else {
                     mapEventsRecyclerView!!.visibility = View.GONE
+                    mapEventsEmpty!!.visibility = View.GONE
                     mapEventsPb!!.visibility = View.VISIBLE
                     mapEventsAdapter!!.swap(events)
                     Handler().postDelayed({
                         mapEventsPb!!.visibility = View.GONE
                         mapEventsRecyclerView!!.visibility = View.VISIBLE
+                        if (events.isEmpty()) {
+                            mapEventsEmpty!!.visibility = View.VISIBLE
+                        } else {
+                            mapEventsEmpty!!.visibility = View.GONE
+                        }
                     }, 300)
                 }
                 if (mapEventsRecyclerView!!.adapter == null) {
@@ -580,6 +575,9 @@ class EventsMapFragment :
             }
             if (mapEventsPb == null) {
                 mapEventsPb = binding.mapEventsListInclude.mapEventsPb
+            }
+            if (mapEventsEmpty == null) {
+                mapEventsEmpty = binding.mapEventsListInclude.mapEventsEmpty
             }
         }
     }

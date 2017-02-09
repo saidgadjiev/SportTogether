@@ -77,6 +77,7 @@
     <string name="add_template">Добавить шаблон</string>
     <string name="create_event">Создать событие</string>
     <string name="events_around">События поблизости</string>
+    <string name="no_events_around">поблизости нет событий</string>
 
     <string-array name="list_reminder_times">
         <item>1 час</item>
