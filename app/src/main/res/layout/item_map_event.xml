@@ -45,12 +45,15 @@
             android:minEms="2"
             android:lines="1"
             android:ellipsize="end"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="@+id/map_event_date"
             app:layout_constraintLeft_toLeftOf="@+id/map_event_creator"
             app:layout_constraintTop_toBottomOf="@+id/map_event_creator"
-            android:layout_marginTop="4dp" />
+            android:layout_marginTop="4dp"
+            app:layout_constraintRight_toLeftOf="@+id/map_event_date"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintHorizontal_bias="0.0" />
 
         <TextView
             android:id="@+id/map_event_date"
@@ -71,7 +74,7 @@
             android:id="@+id/map_events_location_btn"
             app:srcCompat="@drawable/ic_location"
             style="?android:attr/borderlessButtonStyle"
-            android:layout_width="44dp"
+            android:layout_width="40dp"
             android:layout_height="0dp"
             android:layout_marginEnd="4dp"
             android:onClick="@{() -> listener.goToMarker()}"
