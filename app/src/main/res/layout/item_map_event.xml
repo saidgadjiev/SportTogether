@@ -27,9 +27,10 @@
             android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginStart="16dp"
-            app:layout_constraintLeft_toLeftOf="parent" />
+            app:layout_constraintBottom_toBottomOf="@+id/map_event_date"
+            app:layout_constraintLeft_toLeftOf="@+id/map_event_creator"
+            app:layout_constraintTop_toBottomOf="@+id/map_event_creator"
+            android:layout_marginTop="4dp" />
         <TextView
             android:id="@+id/map_event_date"
             android:text="@{data.date}"
@@ -37,9 +38,20 @@
             android:textColor="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/map_event_category"
-            app:layout_constraintLeft_toLeftOf="@+id/map_event_category"
-            android:layout_marginTop="4dp" />
+            android:layout_marginEnd="16dp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <TextView
+            android:text="@{data.creatorName}"
+            android:textSize="14sp"
+            android:textColor="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/map_event_creator"
+            android:layout_marginStart="16dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </android.support.constraint.ConstraintLayout>
 
 </layout>

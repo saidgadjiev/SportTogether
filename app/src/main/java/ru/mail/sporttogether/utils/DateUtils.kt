@@ -25,7 +25,7 @@ object DateUtils {
     }
 
     fun toDateWithoutYearString(date: Date): String {
-        val fmt = SimpleDateFormat("HH:mm, dd MMMM", Locale.getDefault())
+        val fmt = SimpleDateFormat("HH:mm, dd MMM", Locale.getDefault())
         val dateFormatted = fmt.format(date)
         return dateFormatted
     }
