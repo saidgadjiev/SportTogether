@@ -9,6 +9,10 @@
             name="data"
             type="ru.mail.sporttogether.data.binding.event.MapEventData" />
 
+        <variable
+            name="listener"
+            type="ru.mail.sporttogether.data.binding.event.ItemMapEventListener" />
+
         <import type="android.view.View" />
     </data>
 
@@ -20,38 +24,54 @@
         android:layout_height="wrap_content">
 
         <TextView
+            android:id="@+id/map_event_creator"
+            android:text="@{data.creatorName}"
+            android:textSize="14sp"
+            android:textColor="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
             android:id="@+id/map_event_category"
             android:text="@{data.category}"
             android:textSize="12sp"
             android:textColor="@color/primary"
             android:textStyle="bold"
+            android:minEms="2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="@+id/map_event_date"
             app:layout_constraintLeft_toLeftOf="@+id/map_event_creator"
             app:layout_constraintTop_toBottomOf="@+id/map_event_creator"
             android:layout_marginTop="4dp" />
+
         <TextView
             android:id="@+id/map_event_date"
             android:text="@{data.date}"
             android:textSize="12sp"
             android:textColor="@color/white"
+            android:minEms="2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintRight_toLeftOf="@+id/map_events_location_btn"
+            android:layout_marginEnd="4dp"
+            app:layout_constraintTop_toBottomOf="@+id/map_event_creator"
+            android:layout_marginTop="4dp" />
 
-        <TextView
-            android:text="@{data.creatorName}"
-            android:textSize="14sp"
-            android:textColor="@color/white"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/map_event_creator"
-            android:layout_marginStart="16dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <ImageButton
+            android:id="@+id/map_events_location_btn"
+            app:srcCompat="@drawable/ic_location"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="44dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="4dp"
+            android:onClick="@{() -> listener.goToMarker()}"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
     </android.support.constraint.ConstraintLayout>
 
 </layout>

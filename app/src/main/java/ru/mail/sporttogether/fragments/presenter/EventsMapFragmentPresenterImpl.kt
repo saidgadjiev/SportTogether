@@ -16,6 +16,7 @@ import com.google.firebase.iid.FirebaseInstanceId
 import ru.mail.sporttogether.R
 import ru.mail.sporttogether.app.App
 import ru.mail.sporttogether.auth.core.SocialNetworkManager
+import ru.mail.sporttogether.data.binding.event.GoToMarker
 import ru.mail.sporttogether.fragments.view.EventsMapView
 import ru.mail.sporttogether.managers.EventsManager
 import ru.mail.sporttogether.managers.LocationManager
@@ -651,6 +652,10 @@ class EventsMapFragmentPresenterImpl(var view: EventsMapView?) : EventsMapFragme
                         } else view?.showToast(t.message)
                     }
                 })
+    }
+
+    override fun goToMarker(event: Event) {
+        eventsManager.showEvent(event)
     }
 
     override fun onPermissionsGranted(requestCode: Int) {

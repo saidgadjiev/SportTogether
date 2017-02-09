@@ -3,6 +3,7 @@ package ru.mail.sporttogether.fragments.presenter
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import ru.mail.sporttogether.data.binding.ZoomListener
+import ru.mail.sporttogether.data.binding.event.GoToMarker
 import ru.mail.sporttogether.fragments.CheckingTasks
 import ru.mail.sporttogether.mvp.IPresenter
 import ru.mail.sporttogether.net.models.Event
@@ -17,7 +18,8 @@ interface EventsMapFragmentPresenter :
         CheckingTasks,
         GoogleMap.OnMapClickListener,
         GoogleMap.OnMarkerClickListener,
-        ZoomListener {
+        ZoomListener,
+        GoToMarker {
 
     fun checkLocation()
 

@@ -230,6 +230,7 @@ class EventsMapFragment :
         super.onDestroyView()
         mapView.onDestroy()
         tasksAdapter = null
+        mapEventsAdapter = null
     }
 
     override fun showMap() {
@@ -469,7 +470,7 @@ class EventsMapFragment :
         val mapEventsRecyclerView = binding.mapEventsListInclude.mapEventsRecyclerView
         mapEventsRecyclerView.layoutManager = LinearLayoutManager(activity)
         if (mapEventsAdapter == null) {
-            mapEventsAdapter = MapEventsAdapter(events)
+            mapEventsAdapter = MapEventsAdapter(events, presenter)
         } else {
             mapEventsAdapter!!.swap(events)
         }
