@@ -106,10 +106,20 @@ class EventsMapFragment :
 
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 needHideZoom = binding.bottomSheet.height / binding.root.height.toFloat() > 0.85
-                needHideList = isEventsListShouldBeHidden()
+                needHideList = binding.bottomSheet.height / binding.root.height.toFloat() > 0.5
                 when (newState) {
                     BottomSheetBehavior.STATE_HIDDEN -> {
                         data.fabForBottomSheet.set(false)
+                        mapEventsListController?.isBottomSheetOpened = false
+                        presenter.checkZoomForListEvents()
+                    }
+                    BottomSheetBehavior.STATE_COLLAPSED -> {
+                        mapEventsListController?.isBottomSheetOpened = false
+                        presenter.checkZoomForListEvents()
+                    }
+                    BottomSheetBehavior.STATE_EXPANDED -> {
+                        mapEventsListController?.isBottomSheetOpened = true
+                        hideEventsList()
                     }
                     else -> {
                         data.fabForBottomSheet.set(true)
@@ -138,14 +148,6 @@ class EventsMapFragment :
         setHasOptionsMenu(true)
 
         return binding.root
-    }
-
-    fun isEventsListShouldBeHidden(): Boolean {
-
-        val fl = binding.bottomSheet.height / binding.root.height.toFloat()
-        Log.d(TAG, "fl : " + fl)
-        return fl > 0.5
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -513,7 +515,7 @@ class EventsMapFragment :
         }
 
         fun show() {
-            if (isShowed) return
+            if (isShowed || isBottomSheetOpened) return
             if (mapEventsLayout == null) {
                 mapEventsLayout = binding.mapEventsListInclude.mapEventsLayout
             }
@@ -542,6 +544,7 @@ class EventsMapFragment :
 
         fun render(events: MutableList<Event>) {
             if (isShowed || !wasRendered) {
+                Log.d(TAG, "render events list")
                 wasRendered = true
                 if (mapEventsRecyclerView == null) {
                     mapEventsRecyclerView = binding.mapEventsListInclude.mapEventsRecyclerView
