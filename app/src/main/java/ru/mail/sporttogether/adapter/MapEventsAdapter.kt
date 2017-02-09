@@ -46,7 +46,7 @@ class MapEventsAdapter(val events: MutableList<Event>): RecyclerView.Adapter<Map
 
         fun onBind(event: Event) {
             data.category.set(event.category.name)
-            data.date.set(DateUtils.toXLongDateString(Date(event.date)))
+            data.date.set(DateUtils.toDateWithoutYearString(Date(event.date)))
         }
     }
 
