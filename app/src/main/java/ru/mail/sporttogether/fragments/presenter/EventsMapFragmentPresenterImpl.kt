@@ -16,7 +16,6 @@ import com.google.firebase.iid.FirebaseInstanceId
 import ru.mail.sporttogether.R
 import ru.mail.sporttogether.app.App
 import ru.mail.sporttogether.auth.core.SocialNetworkManager
-import ru.mail.sporttogether.data.binding.event.GoToMarker
 import ru.mail.sporttogether.fragments.view.EventsMapView
 import ru.mail.sporttogether.managers.EventsManager
 import ru.mail.sporttogether.managers.LocationManager
@@ -404,7 +403,13 @@ class EventsMapFragmentPresenterImpl(var view: EventsMapView?) : EventsMapFragme
 
                     })
 
-            Log.d(TAG, "now zoom is " + cameraPosition.zoom)
+            checkZoomForListEvents()
+        }
+    }
+
+    override fun checkZoomForListEvents() {
+        map?.let { map ->
+            val cameraPosition = map.cameraPosition
             if (cameraPosition.zoom > MAX_ZOOM_WITH_LIST) {
                 mapEventsSubscribion?.unsubscribe()
                 mapEventsSubscribion = eventsManager.getObservable()
@@ -412,11 +417,11 @@ class EventsMapFragmentPresenterImpl(var view: EventsMapView?) : EventsMapFragme
                         .subscribe { newState ->
                             when (newState.type) {
                                 EventsManager.UpdateType.NEW_LIST -> {
-                                    Log.d(TAG, "new events list, show map events")
-                                    view?.showEventsList(newState.data as MutableList<Event>)
+                                    view?.renderEventsList(newState.data as MutableList<Event>)
                                 }
                             }
                         }
+                view?.showEventsList()
             } else {
                 mapEventsSubscribion?.unsubscribe()
                 view?.hideEventsList()

@@ -23,6 +23,8 @@ interface EventsMapFragmentPresenter :
 
     fun checkLocation()
 
+    fun checkZoomForListEvents()
+
     fun onLocationEnabled()
 
     fun onCameraIdle(x: Int, y: Int)

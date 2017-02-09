@@ -38,7 +38,9 @@ interface EventsMapView : IView, GoogleMap.OnCameraIdleListener {
 
     fun loadUserPinImage(url: String)
 
-    fun showEventsList(events: MutableList<Event>)
+    fun showEventsList()
+
+    fun renderEventsList(events: MutableList<Event>)
 
     fun hideEventsList()
 }

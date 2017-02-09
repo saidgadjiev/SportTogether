@@ -15,7 +15,7 @@
         android:id="@+id/map_events_layout"
         android:layout_gravity="start|top"
         android:background="#88000000"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"
         android:visibility="gone"
         android:layout_marginLeft="16dp"
@@ -24,7 +24,7 @@
 
         <TextView
             android:id="@+id/map_events_title"
-            android:text="События вокруг"
+            android:text="@string/events_around"
             android:textColor="@color/white"
             android:textSize="18sp"
             android:textAlignment="center"

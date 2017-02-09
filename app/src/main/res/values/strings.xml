@@ -76,6 +76,7 @@
     <string name="no_organized_events">Вы не организовали ни одного события</string>
     <string name="add_template">Добавить шаблон</string>
     <string name="create_event">Создать событие</string>
+    <string name="events_around">События вокруг</string>
 
     <string-array name="list_reminder_times">
         <item>1 час</item>

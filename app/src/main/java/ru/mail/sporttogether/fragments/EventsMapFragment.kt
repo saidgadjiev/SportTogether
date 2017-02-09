@@ -16,6 +16,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SearchView
 import android.support.v7.widget.Toolbar
+import android.util.Log
 import android.view.*
 import android.widget.FrameLayout
 import android.widget.LinearLayout
@@ -62,6 +63,7 @@ class EventsMapFragment :
 
     private lateinit var resultsContainer: FrameLayout
     private lateinit var eventsListView: RecyclerView
+    private var mapEventsLayout: ViewGroup? = null
     private lateinit var zoomPanel: LinearLayout
     private lateinit var searchView: SearchView
 
@@ -87,7 +89,14 @@ class EventsMapFragment :
         eventDetailsBottomSheet.isHideable = true
         eventDetailsBottomSheet.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
             var needHideZoom = false
+            var needHideList = false
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
+                if (slideOffset > 0.65 && needHideList) {
+                    hideEventsList()
+                } else if (slideOffset > 0.4) {
+                    presenter.checkZoomForListEvents()
+                }
+
                 if (slideOffset > 0.9f && needHideZoom) {
                     zoomPanel.animate().scaleX(0f).scaleY(0f).setDuration(50L).start()
                 } else if (slideOffset > 0.75f) {
@@ -97,6 +106,7 @@ class EventsMapFragment :
 
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 needHideZoom = binding.bottomSheet.height / binding.root.height.toFloat() > 0.85
+                needHideList = binding.bottomSheet.height / binding.root.height.toFloat() > 0.5
                 when (newState) {
                     BottomSheetBehavior.STATE_HIDDEN -> {
                         data.fabForBottomSheet.set(false)
@@ -231,6 +241,7 @@ class EventsMapFragment :
         mapView.onDestroy()
         tasksAdapter = null
         mapEventsAdapter = null
+        mapEventsLayout = null
     }
 
     override fun showMap() {
@@ -448,20 +459,31 @@ class EventsMapFragment :
         animator.start()
     }
 
-    override fun showEventsList(events: MutableList<Event>) {
-        val mapEventsLayout = binding.mapEventsListInclude.mapEventsLayout
-        updateMapEventsRecyclerView(events)
-        if (mapEventsLayout.visibility != View.VISIBLE) {
-            mapEventsLayout.visibility = View.VISIBLE
-            mapEventsLayout.animate().scaleX(1f).setDuration(300L).start()
+    override fun showEventsList() {
+        Log.d(TAG, "show events list")
+        if (mapEventsLayout == null) {
+            mapEventsLayout = binding.mapEventsListInclude.mapEventsLayout
+        }
+        if (mapEventsLayout!!.visibility != View.VISIBLE) {
+            mapEventsLayout!!.visibility = View.VISIBLE
+            mapEventsLayout!!.animate().scaleX(1f).setDuration(200L).start()
         }
     }
 
+    override fun renderEventsList(events: MutableList<Event>) {
+        Log.d(TAG, "render events list")
+        updateMapEventsRecyclerView(events)
+
+    }
+
     override fun hideEventsList() {
-        val mapEventsLayout = binding.mapEventsListInclude.mapEventsLayout
-        if (mapEventsLayout.visibility != View.GONE) {
-            mapEventsLayout.animate().scaleX(0f).setDuration(300L).withEndAction {
-                mapEventsLayout.visibility = View.GONE
+        Log.d(TAG, "hide events list")
+        if (mapEventsLayout == null) {
+            mapEventsLayout = binding.mapEventsListInclude.mapEventsLayout
+        }
+        if (mapEventsLayout!!.visibility != View.GONE) {
+            mapEventsLayout!!.animate().scaleX(0f).setDuration(200L).withEndAction {
+                mapEventsLayout!!.visibility = View.GONE
             }.start()
         }
     }
