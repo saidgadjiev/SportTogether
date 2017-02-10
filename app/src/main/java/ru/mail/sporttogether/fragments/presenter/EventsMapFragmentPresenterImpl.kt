@@ -628,7 +628,7 @@ class EventsMapFragmentPresenterImpl(var view: EventsMapView?) : EventsMapFragme
                                 val index = tasks?.indexOf(changedTask)!!.or(0)
                                 tasks?.remove(changedTask)
                                 val activeUser = socialNetworkManager.activeUser!!.copy()
-                                val newUser = User("", activeUser.id, 0, activeUser.name, activeUser.avatar)
+                                val newUser = User("", activeUser.id, 0, activeUser.name, activeUser.avatar, activeUser.remindTime)
                                 tasks?.add(index, changedTask.copy(user = newUser))
                             }
                             render()
