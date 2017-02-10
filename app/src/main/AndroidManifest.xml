@@ -53,8 +53,8 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:host="p30281.lab1.stud.tech-mail.ru" android:scheme="http" android:pathPattern=".*" />
-                <data android:host="www.p30281.lab1.stud.tech-mail.ru" android:scheme="http" android:pathPattern=".*" />
+                <data android:host="p30281.lab1.stud.tech-mail.ru" android:scheme="http" android:pathPrefix="/app" />
+                <data android:host="www.p30281.lab1.stud.tech-mail.ru" android:scheme="http" android:pathPrefix="/app" />
             </intent-filter>
         </activity>
         <activity
