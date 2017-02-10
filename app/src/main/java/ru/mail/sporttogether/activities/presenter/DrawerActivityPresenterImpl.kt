@@ -45,6 +45,7 @@ class DrawerActivityPresenterImpl(view: DrawerView) : DrawerActivityPresenter {
             }, 1000)
         } else {
             val event = Event(id = id, lat = lat, lng = lng)
+            eventsManager.showEventWhenLoaded(id)
             Handler().postDelayed({
                 Log.d(TAG, event.toString())
                 eventsManager.showEventPosition(event)

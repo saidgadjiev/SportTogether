@@ -10,6 +10,7 @@ import java.util.*
  * Created by bagrusss on 20.10.16
  */
 class EventsManagerImpl : EventsManager {
+    private var needShowIdEvent: Long? = null
 
     private val eventsMap = LongSparseArray<Event>()
 
@@ -26,6 +27,13 @@ class EventsManagerImpl : EventsManager {
         eventsMap.clear()
         events.forEach {
             eventsMap.put(it.id, it)
+        }
+        needShowIdEvent?.let { id ->
+            val foundEvent = events.find { item -> item.id == id }
+            needShowIdEvent = null
+            foundEvent?.let { it ->
+                showEvent(it)
+            }
         }
         eventsUpdate.onNext(EventsManager.NewData(type = EventsManager.UpdateType.NEW_LIST, data = events))
     }
@@ -51,6 +59,10 @@ class EventsManagerImpl : EventsManager {
 
     override fun showEvent(event: Event) {
         eventsUpdate.onNext(EventsManager.NewData(type = EventsManager.UpdateType.NEED_SHOW, data = event))
+    }
+
+    override fun showEventWhenLoaded(idEvent: Long) {
+        needShowIdEvent = idEvent
     }
 
     override fun showEventPosition(event: Event) {

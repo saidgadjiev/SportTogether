@@ -8,7 +8,6 @@ import java.util.*
  * Created by bagrusss on 20.10.16
  */
 interface EventsManager {
-
     enum class UpdateType {
         ADD,
         UPDATE,
@@ -37,6 +36,8 @@ interface EventsManager {
     fun deleteEvent(event: Event)
 
     fun showEvent(event: Event)
+
+    fun showEventWhenLoaded(idEvent: Long)
 
     fun angryEvent(event: Event)
 
