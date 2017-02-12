@@ -62,9 +62,7 @@
                     app:titleTextColor="@color/colorSecondaryText">
 
                 </android.support.v7.widget.Toolbar>
-
             </android.support.design.widget.CollapsingToolbarLayout>
-
         </android.support.design.widget.AppBarLayout>
 
         <include

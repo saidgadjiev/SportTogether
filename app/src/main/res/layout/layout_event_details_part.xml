@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="data"
+            type="ru.mail.sporttogether.data.binding.EventDetailData" />
+
+        <variable
+            name="listener"
+            type="ru.mail.sporttogether.data.binding.EventDetailListener" />
+    </data>
+
+    <merge xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/address_text_layout"
+            style="@style/ClickableDetailItem"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view_separator">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:text="@string/address"
+                android:textColor="@color/colorSecondaryText"
+                android:textSize="13sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="24dp"
+                android:lineSpacingExtra="-3dp"
+                android:text="@{data.address}" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/location_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:tint="?colorPrimary"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/address_text_layout"
+            app:srcCompat="@drawable/ic_location" />
+
+        <LinearLayout
+            android:id="@+id/sport_layout"
+            style="@style/ClickableDetailItem"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="@+id/address_text_layout"
+            app:layout_constraintTop_toBottomOf="@+id/address_text_layout">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:text="@string/sport"
+                android:textColor="@color/colorSecondaryText"
+                android:textSize="13sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="24dp"
+                android:lineSpacingExtra="-3dp"
+                android:text="@{data.sport}" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/sport_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:tint="?colorPrimary"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/sport_layout"
+            app:srcCompat="@drawable/ic_sport" />
+
+        <LinearLayout
+            android:id="@+id/time_layout"
+            style="@style/ClickableDetailItem"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="@+id/sport_layout"
+            app:layout_constraintTop_toBottomOf="@+id/sport_layout">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:text="@string/time"
+                android:textColor="@color/colorSecondaryText"
+                android:textSize="13sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="24dp"
+                android:lineSpacingExtra="-3dp"
+                android:text="@{data.date}" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/image_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:tint="?colorPrimary"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/time_layout"
+            app:srcCompat="@drawable/ic_time" />
+
+        <LinearLayout
+            android:id="@+id/people_layout"
+            style="@style/ClickableDetailItem"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:orientation="vertical"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="@+id/time_layout"
+            app:layout_constraintTop_toBottomOf="@+id/time_layout">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:text="@string/max_people_event_hint"
+                android:textColor="@color/colorSecondaryText"
+                android:textSize="13sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="24dp"
+                android:lineSpacingExtra="-3dp"
+                android:text="@{data.people}" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/image_people"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:onClick="@{listener::onUsersClicked}"
+            android:tint="?colorPrimary"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/people_layout"
+            app:srcCompat="@drawable/ic_people" />
+
+
+        <LinearLayout
+            android:id="@+id/descriptio_layout"
+            style="@style/ClickableDetailItem"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="@+id/people_layout"
+            app:layout_constraintTop_toBottomOf="@+id/people_layout">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:text="@string/description_header"
+                android:textColor="@color/colorSecondaryText"
+                android:textSize="13sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="24dp"
+                android:lineSpacingExtra="-3dp"
+                android:text="@{data.description}" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/image_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:tint="?colorPrimary"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/descriptio_layout"
+            app:srcCompat="@drawable/ic_description" />
+
+    </merge>
+</layout>

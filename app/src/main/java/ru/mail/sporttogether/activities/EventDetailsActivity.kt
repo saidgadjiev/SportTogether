@@ -42,7 +42,6 @@ class EventDetailsActivity :
         setupToolbar(toolbar)
         collapsingToolbarLayout.setExpandedTitleColor(Color.GRAY)
 
-
         presenter = EventDetailsPresenterImpl(this)
 
         intent.getParcelableExtra<Event>(KEY_EVENT)?.let { event ->
