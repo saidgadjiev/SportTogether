@@ -46,7 +46,6 @@ class DrawerActivity : DrawerView,
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d("#MY ", "on create in drawer activity")
         isCreated = true
 
         presenter = DrawerActivityPresenterImpl(this)
@@ -61,12 +60,13 @@ class DrawerActivity : DrawerView,
             buildDrawer()
             toolbar.title = getString(R.string.events_map)
             val bundle = intent.getBundleExtra("data")
-            Log.d("#MY DrawerActivity", "bundle " + bundle)
             if (bundle != null) {
                 presenter.showEventOnMap(bundle)
             }
         }
 
+        val intent = Intent(this, EventDetailsActivity::class.java)
+        startActivity(intent)
     }
 
     override fun onDestroy() {
@@ -76,7 +76,6 @@ class DrawerActivity : DrawerView,
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        Log.d("#MY ", "on new intent in drawer activity")
         val bundle = intent?.getBundleExtra("data")
         if (bundle != null) {
             presenter.showEventOnMap(bundle)

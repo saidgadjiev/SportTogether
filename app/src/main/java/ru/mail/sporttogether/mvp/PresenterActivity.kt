@@ -73,21 +73,11 @@ abstract class PresenterActivity<T : IPresenter> : AppCompatActivity(), IView {
 
     @CallSuper
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId === R.id.home) {
-            finish()
+        if (item.itemId == R.id.home) {
+            onBackPressed()
             return true
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    fun shareToSocial(title: String, description: String) {
-        val content = ShareLinkContent.Builder()
-                .setContentUrl(Uri.parse("https://developers.facebook.com"))
-                .setContentTitle(title)
-                .setContentDescription(description)
-                .build()
-
-        ShareDialog.show(this, content)
     }
 
     fun setupToolbar(toolbar: Toolbar) {

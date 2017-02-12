@@ -18,7 +18,6 @@
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <service
             android:name=".fcm.CustomFirebaseMessagingService"
             android:exported="false">
@@ -76,7 +75,11 @@
             android:name=".activities.EditEventActivity"
             android:label="@string/edit_event"
             android:screenOrientation="portrait" />
-
+        
+        <activity
+            android:name=".activities.EventDetailsActivity"
+            android:label="@string/title_activity_event_details"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>
