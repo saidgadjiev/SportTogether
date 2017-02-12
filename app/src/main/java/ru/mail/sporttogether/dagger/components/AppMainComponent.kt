@@ -1,6 +1,7 @@
 package ru.mail.sporttogether.dagger.components
 
 import dagger.Component
+import ru.mail.sporttogether.activities.presenter.EventDetailsPresenterImpl
 import ru.mail.sporttogether.dagger.modules.AndroidModule
 import ru.mail.sporttogether.dagger.modules.ManagersModule
 import ru.mail.sporttogether.dagger.modules.RestModule

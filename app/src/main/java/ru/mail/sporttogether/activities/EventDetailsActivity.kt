@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.support.design.widget.CollapsingToolbarLayout
 import android.support.v7.widget.Toolbar
 import ru.mail.sporttogether.R
 import ru.mail.sporttogether.activities.presenter.EventDetailsPresenter
@@ -23,12 +24,14 @@ class EventDetailsActivity :
     private val data = EventDetailData()
 
     private lateinit var toolbar: Toolbar
+    private lateinit var collapsingToolbarLayout: CollapsingToolbarLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_event_details)
         binding.data = data
 
+        collapsingToolbarLayout = binding.toolbarLayout
         toolbar = binding.toolbar
         setupToolbar(toolbar)
 
@@ -42,7 +45,8 @@ class EventDetailsActivity :
             val peopleMax = event.maxPeople
             data.people.set("$peopleNow/$peopleMax")
             data.sport.set(event.category.name)
-            toolbar.title = event.name
+            collapsingToolbarLayout.title = event.name
+            presenter.loadAddress(event.lat, event.lng)
         }
     }
 
@@ -62,6 +66,10 @@ class EventDetailsActivity :
 
     override fun onUsersClicked() {
 
+    }
+
+    override fun updateAddress(address: String) {
+        data.address.set(address)
     }
 
     companion object {

@@ -22,6 +22,7 @@ interface PresenterSubcomponent {
     fun inject(presenter: SettingsPresenterImpl)
     fun inject(presenter: EditEventActivityPresenterImp)
     fun inject(presenter: TemplatesPresenterImpl)
+    fun inject(presenter: EventDetailsPresenterImpl)
 
     fun inject(presenter: AbstractEventsListPresenter)
 

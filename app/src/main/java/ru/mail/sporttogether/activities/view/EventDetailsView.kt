@@ -7,5 +7,5 @@ import ru.mail.sporttogether.mvp.IView
  * Created by bagrusss on 12.02.17
  */
 interface EventDetailsView : IView, EventDetailListener {
-
+    fun updateAddress(address: String)
 }

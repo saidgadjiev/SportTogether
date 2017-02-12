@@ -55,7 +55,7 @@ class AddEventActivity :
     private lateinit var event: Event
 
     private var addingTasksDialog: AddingTasksDialog? = null
-    private var datepickerDialogViewBinding: DateTimePickerBinding? = null
+    private lateinit var datepickerDialogViewBinding: DateTimePickerBinding
 
     private lateinit var categoryAutocomplete: AutoCompleteTextView
     private var categoriesArray: ArrayList<Category> = ArrayList()
@@ -190,12 +190,12 @@ class AddEventActivity :
     override fun openDatePicker() {
         val alertDialog = AlertDialog.Builder(this).create()
         datepickerDialogViewBinding = DateTimePickerBinding.inflate(LayoutInflater.from(this))
-        datepickerDialogViewBinding!!.datePicker.minDate = Date().time - DateUtils.ONE_MINUTE
-        datepickerDialogViewBinding!!.datePicker.maxDate = Date().time + DateUtils.ONE_MONTH
+        datepickerDialogViewBinding.datePicker.minDate = Date().time - DateUtils.ONE_MINUTE
+        datepickerDialogViewBinding.datePicker.maxDate = Date().time + DateUtils.ONE_MONTH
 
-        datepickerDialogViewBinding!!.datePickerSetBtn.setOnClickListener {
-            val datepicker = datepickerDialogViewBinding!!.datePicker
-            val timepicker = datepickerDialogViewBinding!!.timePicker
+        datepickerDialogViewBinding.datePickerSetBtn.setOnClickListener {
+            val datepicker = datepickerDialogViewBinding.datePicker
+            val timepicker = datepickerDialogViewBinding.timePicker
             settedDate = GregorianCalendar(
                     datepicker.year,
                     datepicker.month,
@@ -210,7 +210,7 @@ class AddEventActivity :
                 showToast(getString(R.string.cant_create_event_in_past))
             }
         }
-        alertDialog.setView(datepickerDialogViewBinding!!.root)
+        alertDialog.setView(datepickerDialogViewBinding.root)
         alertDialog.show()
 
     }
