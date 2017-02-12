@@ -23,7 +23,7 @@ class EventsManagerImpl : EventsManager {
 
 
     override fun swapEvents(events: MutableList<Event>) {
-        Log.d("EventsManager", "swap events")
+        Log.d(TAG, "swap events need show $needShowIdEvent")
         eventsMap.clear()
         events.forEach {
             eventsMap.put(it.id, it)
@@ -62,6 +62,7 @@ class EventsManagerImpl : EventsManager {
     }
 
     override fun showEventWhenLoaded(idEvent: Long) {
+        Log.d(TAG, "set need show event $idEvent")
         needShowIdEvent = idEvent
     }
 
@@ -82,4 +83,7 @@ class EventsManagerImpl : EventsManager {
 
     override fun getObservable() = eventsUpdate
 
+    companion object {
+        val TAG = "#MY " + EventsManagerImpl::class.java.simpleName
+    }
 }
