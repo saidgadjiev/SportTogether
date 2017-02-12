@@ -5,6 +5,7 @@ import android.support.v7.app.AlertDialog
 import android.view.View
 import ru.mail.sporttogether.R
 import ru.mail.sporttogether.activities.AddEventActivity
+import ru.mail.sporttogether.activities.EventDetailsActivity
 import ru.mail.sporttogether.data.binding.items.TwoButtonItemData
 import ru.mail.sporttogether.databinding.ItemTwoButtonBinding
 import ru.mail.sporttogether.fragments.adapter.DeleteTemplateCallback
@@ -80,7 +81,7 @@ class TemplateHolder(v: View, private val callback: DeleteTemplateCallback, priv
                 AddEventActivity.start(v.context, event)
             }
             R.id.constraint_root -> {
-
+                EventDetailsActivity.startTemplate(v.context, event)
             }
         }
     }

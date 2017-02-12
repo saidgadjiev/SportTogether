@@ -15,4 +15,5 @@ class EventDetailData {
     val description = ObservableField<String>()
     val isEnded = ObservableBoolean(false)
     val mapReady = ObservableBoolean(false)
+    val isEventDetails = ObservableBoolean(true)
 }

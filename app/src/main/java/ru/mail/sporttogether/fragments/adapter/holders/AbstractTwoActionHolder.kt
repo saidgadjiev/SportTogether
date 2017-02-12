@@ -42,7 +42,7 @@ abstract class AbstractTwoActionHolder<P : TwoActionsHolderPresenter>(v: View, p
     abstract fun getAction2Drawable(): Drawable?
 
     override fun onBodyClicked() {
-        EventDetailsActivity.start(itemView.context, event)
+        EventDetailsActivity.startEvent(itemView.context, event)
     }
 
     override fun action1Clicked() {

@@ -4,6 +4,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="data"
             type="ru.mail.sporttogether.data.binding.EventDetailData" />
@@ -28,6 +30,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
+                android:visibility="@{data.isEventDetails? View.VISIBLE : View.GONE}"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
@@ -56,18 +59,19 @@
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_marginLeft="16dp"
+                android:visibility="@{data.isEventDetails? View.VISIBLE : View.GONE}"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="0dp"
                 app:layout_constraintBottom_toBottomOf="@+id/organizer_layout"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/organizer_layout"
-                app:layout_constraintVertical_bias="0.5" />
+                app:layout_constraintTop_toTopOf="@+id/organizer_layout" />
 
             <View
                 android:id="@+id/view_separator"
                 android:layout_width="0dp"
                 android:layout_height="1dp"
                 android:layout_marginLeft="72dp"
+                android:layout_marginStart="72dp"
+                android:visibility="@{data.isEventDetails? View.VISIBLE : View.GONE}"
                 android:background="@color/colorSecondaryText"
                 app:layout_constraintLeft_toLeftOf="@+id/organizer_layout"
                 app:layout_constraintRight_toRightOf="parent"
@@ -75,6 +79,8 @@
 
             <include
                 layout="@layout/layout_event_details_part"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 app:data="@{data}"
                 app:listener="@{listener}" />
 

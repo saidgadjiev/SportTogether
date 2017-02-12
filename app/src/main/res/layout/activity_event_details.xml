@@ -63,6 +63,7 @@
 
                 </android.support.v7.widget.Toolbar>
             </android.support.design.widget.CollapsingToolbarLayout>
+
         </android.support.design.widget.AppBarLayout>
 
         <include
@@ -80,7 +81,7 @@
             android:tint="@color/white"
             app:layout_anchor="@id/app_bar"
             app:layout_anchorGravity="bottom|end"
-            app:srcCompat="@drawable/ic_map" />
+            app:srcCompat="@{data.isEventDetails? @drawable/ic_map : @drawable/ic_add}" />
 
     </android.support.design.widget.CoordinatorLayout>
 

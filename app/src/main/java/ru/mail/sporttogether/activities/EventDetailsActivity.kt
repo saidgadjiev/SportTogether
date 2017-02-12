@@ -29,6 +29,7 @@ class EventDetailsActivity :
     private lateinit var toolbar: Toolbar
     private lateinit var collapsingToolbarLayout: CollapsingToolbarLayout
     private lateinit var mapView: MapView
+    private var event: Event? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +45,8 @@ class EventDetailsActivity :
 
         presenter = EventDetailsPresenterImpl(this)
 
-        intent.getParcelableExtra<Event>(KEY_EVENT)?.let { event ->
+        event = intent.getParcelableExtra<Event>(KEY_EVENT)?.let { event ->
+            data.isEventDetails.set(intent.getBooleanExtra(KEY_IS_EVENT, true))
             data.date.set(DateUtils.longToDateTime(event.date))
             data.description.set(event.result ?: event.description)
             data.organizerName.set(event.user.name)
@@ -60,6 +62,7 @@ class EventDetailsActivity :
             Glide.with(this)
                     .load(event.user.avatar)
                     .into(binding.include.userPic)
+            event
         }
 
     }
@@ -102,7 +105,13 @@ class EventDetailsActivity :
     }
 
     override fun onFabClicked() {
-        presenter.onFabClicked()
+        if (data.isEventDetails.get())
+            presenter.onFabClicked()
+        else {
+            event?.let {
+                AddEventActivity.start(this, it)
+            }
+        }
         onBackPressed()
     }
 
@@ -120,11 +129,20 @@ class EventDetailsActivity :
 
     companion object {
         @JvmStatic private val KEY_EVENT = "event"
+        @JvmStatic private val KEY_IS_EVENT = "is_event"
 
         @JvmStatic
-        fun start(context: Context, event: Event) {
+        fun startEvent(context: Context, event: Event) {
             val intent = Intent(context, EventDetailsActivity::class.java)
             intent.putExtra(KEY_EVENT, event)
+            context.startActivity(intent)
+        }
+
+        @JvmStatic
+        fun startTemplate(context: Context, event: Event) {
+            val intent = Intent(context, EventDetailsActivity::class.java)
+            intent.putExtra(KEY_EVENT, event)
+            intent.putExtra(KEY_IS_EVENT, false)
             context.startActivity(intent)
         }
     }
