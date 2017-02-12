@@ -2,7 +2,7 @@
     <string name="app_name">Забей стрелку</string>
     <string name="add">Добавить</string>
     <string name="name_event_hint">Название события</string>
-    <string name="max_people_event_hint">Макс. участников</string>
+    <string name="max_people_event_hint">Участники</string>
     <string name="description">Описание(не обязательно)</string>
     <string name="event_added">Событие добавлено</string>
     <string name="error">Произошла ошибка</string>
