@@ -1,5 +1,6 @@
 package ru.mail.sporttogether.data.binding
 
+import android.databinding.ObservableBoolean
 import android.databinding.ObservableField
 
 /**
@@ -12,4 +13,5 @@ class EventDetailData {
     val organizerName = ObservableField<String>()
     val people = ObservableField<String>()
     val description = ObservableField<String>()
+    val isEnded = ObservableBoolean(false)
 }
