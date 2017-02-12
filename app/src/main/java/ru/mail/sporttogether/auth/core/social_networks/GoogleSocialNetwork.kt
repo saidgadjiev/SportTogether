@@ -2,12 +2,10 @@ package ru.mail.sporttogether.auth.core.social_networks
 
 import android.app.Activity
 import android.content.Intent
-import android.os.Bundle
-
 import ru.mail.sporttogether.auth.core.ISocialNetwork
+import ru.mail.sporttogether.auth.core.SocialPerson
 import ru.mail.sporttogether.auth.core.listeners.OnLoginCompleteListener
 import ru.mail.sporttogether.auth.core.listeners.OnRequestSocialPersonCompleteListener
-import ru.mail.sporttogether.auth.core.SocialPerson
 
 
 /**
@@ -52,9 +50,6 @@ class GoogleSocialNetwork(private val activity: Activity, private val appId: Str
     override val isConnected: Boolean
         get() = false
 
-    override fun sharePost(activity: Activity, title: String, description: String, uri: String) {
-
-    }
 
     override fun requestPerson(onRequestSocialPersonCompleteListener: OnRequestSocialPersonCompleteListener) {
 

@@ -95,29 +95,6 @@ class VKSocialNetwork(activity: Activity) : ISocialNetwork {
         })
     }
 
-    override fun sharePost(activity: Activity, title: String, description: String, uri: String) {
-        val builder = VKShareDialogBuilder()
-        builder.setText(description)
-
-        builder.setAttachmentLink(title, uri)
-        builder.setShareDialogListener(object : VKShareDialog.VKShareDialogListener {
-            override fun onVkShareComplete(postId: Int) {
-                Log.d("TAG", "Share complete")
-            }
-
-            override fun onVkShareCancel() {
-                Log.d("TAG", "Share complete")
-                // recycle bitmap if need
-            }
-
-            override fun onVkShareError(error: VKError) {
-                Log.d("TAG", "Share complete")
-                // recycle bitmap if need
-            }
-        })
-        builder.show(activity.fragmentManager, "VK_SHARE_DIALOG")
-    }
-
     override fun requestPerson(onRequestSocialPersonCompleteListener: OnRequestSocialPersonCompleteListener) {
         if (!isConnected) {
             onRequestSocialPersonCompleteListener.onError(SocialNetworkError("Please loggin first", -1))

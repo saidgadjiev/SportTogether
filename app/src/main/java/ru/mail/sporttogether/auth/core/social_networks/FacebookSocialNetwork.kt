@@ -28,7 +28,7 @@ import ru.mail.sporttogether.auth.core.listeners.OnRequestSocialPersonCompleteLi
 
 
 /**
- * Created by said on 12.11.16.
+ * Created by said on 12.11.16
  */
 
 class FacebookSocialNetwork(private val activity: Activity) : ISocialNetwork {
@@ -181,16 +181,6 @@ class FacebookSocialNetwork(private val activity: Activity) : ISocialNetwork {
         return socialPerson
     }
 
-    override fun sharePost(activity: Activity, title: String, description: String, uri: String) {
-        val content = ShareLinkContent.Builder()
-                .setContentDescription(description)
-                .setContentTitle(title)
-                .setContentUrl(Uri.parse("https://developers.facebook.com"))
-                .build()
-        val shareDialog = ShareDialog(activity)
-
-        shareDialog.show(content, ShareDialog.Mode.AUTOMATIC)
-    }
 
     override fun getLoadedSocialPerson(): SocialPerson? {
         return socialPerson
