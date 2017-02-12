@@ -73,6 +73,9 @@ class EventDetailsPresenterImpl(var view: EventDetailsView?) : EventDetailsPrese
         mapa.addMarker(MarkerOptions().position(latlng))
         mapa.uiSettings.setAllGesturesEnabled(false)
         mapa.uiSettings.isMapToolbarEnabled = false
+        mapa.setOnMapClickListener {
+            
+        }
         view?.onMapReady()
     }
 

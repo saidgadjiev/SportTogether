@@ -1,7 +1,6 @@
 package ru.mail.sporttogether.mvp
 
 import android.R
-import android.net.Uri
 import android.os.Bundle
 import android.support.annotation.CallSuper
 import android.support.annotation.StringRes
@@ -9,11 +8,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import android.widget.Toast
-import com.facebook.share.model.ShareLinkContent
-import com.facebook.share.widget.ShareDialog
 import ru.mail.sporttogether.app.App
-import ru.mail.sporttogether.mvp.IPresenter
-import ru.mail.sporttogether.mvp.IView
 import ru.mail.sporttogether.widgets.ProgressDialogFragment
 
 /**
@@ -40,27 +35,11 @@ abstract class PresenterActivity<T : IPresenter> : AppCompatActivity(), IView {
     }
 
     override fun showProgressDialog(@StringRes messageStringRes: Int) {
-        try {
-            supportFragmentManager?.let {
-                if (dialogSpinner == null) {
-                    dialogSpinner = ProgressDialogFragment.newInstance(messageStringRes)
-                    dialogSpinner!!.show(it, null)
-                }
-            }
-        } catch (t: Throwable) {
-
-        }
+        ProgressDialogFragment.show(supportFragmentManager, messageStringRes)
     }
 
     override fun hideProgressDialog() {
-        try {
-            dialogSpinner?.let {
-                dialogSpinner!!.dismissAllowingStateLoss()
-                dialogSpinner = null
-            }
-        } catch (t: Throwable) {
-
-        }
+        ProgressDialogFragment.hide()
     }
 
     override fun showSnackbar(message: String, duration: Int) {

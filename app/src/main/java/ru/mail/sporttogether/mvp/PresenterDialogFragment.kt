@@ -32,5 +32,5 @@ abstract class PresenterDialogFragment<PR : IDialogPresenter> : DialogFragment()
     override fun showToast(@StringRes messageRes: Int, duration: Int) {
         Toast.makeText(context, messageRes, duration).show()
     }
-    
+
 }

@@ -3,7 +3,9 @@ package ru.mail.sporttogether.widgets
 import android.app.Dialog
 import android.app.ProgressDialog
 import android.os.Bundle
+import android.support.annotation.StringRes
 import android.support.v4.app.DialogFragment
+import android.support.v4.app.FragmentManager
 import ru.mail.sporttogether.R
 
 /**
@@ -40,6 +42,34 @@ class ProgressDialogFragment : DialogFragment() {
         private val MESSAGE_KEY = "message"
         private val MESSAGE_TEXT_KEY = "message_text"
 
+        @JvmStatic
+        private var dialogSpinner: ProgressDialogFragment? = null
+
+        @JvmStatic
+        fun show(fm: FragmentManager, @StringRes msg: Int = R.string.please_wait) {
+            if (dialogSpinner == null) {
+                try {
+                    dialogSpinner = newInstance(msg)
+                    dialogSpinner!!.show(fm, null)
+                } catch (t: Throwable) {
+
+                }
+            }
+        }
+
+        @JvmStatic
+        fun hide() {
+            dialogSpinner?.let {
+                try {
+                    it.dismissAllowingStateLoss()
+                    dialogSpinner = null
+                } catch (t: Throwable) {
+
+                }
+            }
+        }
+
+        @JvmStatic
         @JvmOverloads fun newInstance(message: Int = R.string.please_wait): ProgressDialogFragment {
             val fragment = ProgressDialogFragment()
             val arguments = Bundle()
@@ -48,6 +78,7 @@ class ProgressDialogFragment : DialogFragment() {
             return fragment
         }
 
+        @JvmStatic
         fun newInstance(messageString: String): ProgressDialogFragment {
             val fragment = ProgressDialogFragment()
             val arguments = Bundle()

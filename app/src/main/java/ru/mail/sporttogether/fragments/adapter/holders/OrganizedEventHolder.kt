@@ -44,13 +44,13 @@ class OrganizedEventHolder(v: View, fm: FragmentManager?) :
         eventStarted = System.currentTimeMillis() > event.date
         super.onBind(pos, event)
         data.action1Enabled.set(event.result == null && eventStarted)
-       /* if (eventStarted) {*/
+        if (eventStarted) {
             data.action2Text.set(itemView.context.getString(R.string.share).toUpperCase())
             data.action2Drawable.set(ContextCompat.getDrawable(itemView.context, R.drawable.ic_share))
-        /*} else {
+        } else {
             data.action2Text.set(itemView.context.getString(R.string.edit).toUpperCase())
             data.action2Drawable.set(ContextCompat.getDrawable(itemView.context, R.drawable.ic_edit))
-        }*/
+        }
     }
 
     override fun getAction1Drawable(): Drawable

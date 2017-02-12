@@ -19,7 +19,7 @@ class TemplatesListFragment : AbstractListFragment<TemplatesPresenter, Templates
 
     override fun getListPresenter() = TemplatesPresenterImpl(this)
 
-    override fun getAdapter() = TemplatesAdapter()
+    override fun getAdapter() = TemplatesAdapter(childFragmentManager)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         data.emptyDrawable.set(ContextCompat.getDrawable(context, R.drawable.ic_templates))
@@ -27,7 +27,7 @@ class TemplatesListFragment : AbstractListFragment<TemplatesPresenter, Templates
         presenter.loadTemplates()
     }
 
-    override fun swapTemplates(templates: ArrayList<Event>) {
+    override fun swapTemplates(templates: LinkedList<Event>) {
         data.isEmpty.set(templates.isEmpty())
         listAdapter.swapTemplates(templates)
     }

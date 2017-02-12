@@ -8,5 +8,5 @@ import java.util.*
  * Created by bagrusss on 05.02.17
  */
 interface TemplatesView : IView {
-    fun swapTemplates(templates: ArrayList<Event>)
+    fun swapTemplates(templates: LinkedList<Event>)
 }

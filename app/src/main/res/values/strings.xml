@@ -57,7 +57,7 @@
     <string name="add_to_event">Присоединиться к событию</string>
     <string name="want_angry">Пожаловаться на событие?</string>
     <string name="cant_create_event_in_past">Событие в прошлом нельзя создать</string>
-    <string name="organized_events">Я создал</string>
+    <string name="organized_events">Я организую</string>
     <string name="resulted">Завершены</string>
 
     <string name="title_location_access">Доступ к местоположению</string>
@@ -89,4 +89,6 @@
     <string name="sport">Спорт</string>
     <string name="time">Время начала</string>
     <string name="organizer">Организатор</string>
+    <string name="delete">Удалить</string>
+    <string name="delete_template_message">Вы действительно хотите удалить шаблон?</string>
 </resources>

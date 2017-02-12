@@ -2,7 +2,6 @@ package ru.mail.sporttogether.fragments.adapter.holders
 
 import android.graphics.drawable.Drawable
 import android.support.v4.app.FragmentManager
-import android.support.v7.widget.RecyclerView
 import android.view.View
 import ru.mail.sporttogether.R
 import ru.mail.sporttogether.activities.EventDetailsActivity
@@ -17,13 +16,12 @@ import ru.mail.sporttogether.utils.ShareUtils
 /**
  * Created by bagrusss on 15.01.17
  */
-abstract class AbstractTwoActionHolder<PR : TwoActionsHolderPresenter>(v: View, protected var fm: FragmentManager?) :
-        RecyclerView.ViewHolder(v),
+abstract class AbstractTwoActionHolder<P : TwoActionsHolderPresenter>(v: View, protected var fm: FragmentManager?) :
+        AbstractPresenterHolder<P>(v),
         TwoActionsListener {
 
     protected val binding: ItemTwoActionBinding = ItemTwoActionBinding.bind(v)
     protected val data = TwoActionsItemData()
-    protected lateinit var presenter: PR
     protected lateinit var event: Event
 
     init {

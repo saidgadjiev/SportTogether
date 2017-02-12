@@ -30,8 +30,8 @@ class TemplatesPresenterImpl(val view: TemplatesView?) : TemplatesPresenter {
         subscription = templatesApi.getTemplates()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : Subscriber<Response<ArrayList<Event>>>() {
-                    override fun onNext(t: Response<ArrayList<Event>>) {
+                .subscribe(object : Subscriber<Response<LinkedList<Event>>>() {
+                    override fun onNext(t: Response<LinkedList<Event>>) {
                         if (t.code == 0 && t.data.isNotEmpty())
                             view?.swapTemplates(t.data)
                         view?.hideProgressDialog()
