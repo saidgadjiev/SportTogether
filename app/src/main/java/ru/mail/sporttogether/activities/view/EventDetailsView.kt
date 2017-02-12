@@ -8,4 +8,5 @@ import ru.mail.sporttogether.mvp.IView
  */
 interface EventDetailsView : IView, EventDetailListener {
     fun updateAddress(address: String)
+    fun onMapReady()
 }

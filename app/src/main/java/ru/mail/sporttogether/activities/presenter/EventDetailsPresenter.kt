@@ -8,7 +8,8 @@ import ru.mail.sporttogether.net.models.Event
 /**
  * Created by bagrusss on 12.02.17
  */
-interface EventDetailsPresenter : IPresenter, OnMapReadyCallback {
+interface EventDetailsPresenter : IPresenter,
+        OnMapReadyCallback {
     fun loadAddress(lat: Double, lng: Double)
     fun onCreate(e: Event, savedInstanceState: Bundle?)
 }

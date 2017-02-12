@@ -6,6 +6,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="data"
             type="ru.mail.sporttogether.data.binding.EventDetailData" />
@@ -14,6 +16,7 @@
             name="listener"
             type="ru.mail.sporttogether.data.binding.EventDetailListener" />
     </data>
+
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -40,8 +43,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:fitsSystemWindows="true"
+                    app:cameraZoom="17"
                     app:layout_collapseMode="parallax"
                     app:liteMode="true" />
+
+                <ProgressBar
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:visibility="@{!data.mapReady? View.VISIBLE : View.GONE}" />
 
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"
@@ -75,4 +85,6 @@
             app:srcCompat="@drawable/ic_map" />
 
     </android.support.design.widget.CoordinatorLayout>
+
+
 </layout>

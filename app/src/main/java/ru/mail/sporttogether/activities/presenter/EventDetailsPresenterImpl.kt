@@ -53,6 +53,7 @@ class EventDetailsPresenterImpl(var view: EventDetailsView?) : EventDetailsPrese
                     }
 
                     override fun onCompleted() {
+
                     }
 
                 })
@@ -66,10 +67,12 @@ class EventDetailsPresenterImpl(var view: EventDetailsView?) : EventDetailsPrese
         mapa.addMarker(MarkerOptions().position(latlng))
         mapa.uiSettings.setAllGesturesEnabled(false)
         mapa.uiSettings.isMapToolbarEnabled = false
+        view?.onMapReady()
     }
 
     override fun onDestroy() {
         subscription.unsubscribe()
+        map?.setOnCameraIdleListener(null)
         view = null
         super.onDestroy()
     }

@@ -114,6 +114,10 @@ class EventDetailsActivity :
         data.address.set(address)
     }
 
+    override fun onMapReady() {
+        data.mapReady.set(true)
+    }
+
     companion object {
         @JvmStatic private val KEY_EVENT = "event"
 
