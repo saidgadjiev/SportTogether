@@ -138,7 +138,7 @@ class EventsMapFragment :
 
         mapEventsListController = MapEventsListController()
 
-        mapView.onCreate(savedInstanceState)
+        mapView.onCreate(null)
         presenter = EventsMapFragmentPresenterImpl(this)
         presenter.onCreate(savedInstanceState)
         mapView.getMapAsync(presenter)

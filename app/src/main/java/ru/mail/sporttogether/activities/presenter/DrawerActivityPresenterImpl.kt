@@ -55,7 +55,7 @@ class DrawerActivityPresenterImpl(view: DrawerView) : DrawerActivityPresenter {
     }
 
     override fun checkIsUserInited(): Boolean {
-        Log.d(TAG, "checking is active user inited " + socialNetworkManager.isActiveUserInited())
+        Log.d(TAG, "checking, active user: " + socialNetworkManager.activeUser)
         return socialNetworkManager.isActiveUserInited()
     }
 
