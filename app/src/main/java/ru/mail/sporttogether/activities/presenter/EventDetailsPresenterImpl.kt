@@ -7,6 +7,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import ru.mail.sporttogether.activities.view.EventDetailsView
 import ru.mail.sporttogether.app.App
+import ru.mail.sporttogether.managers.EventsManager
 import ru.mail.sporttogether.net.api.YandexMapsApi
 import ru.mail.sporttogether.net.models.Event
 import ru.mail.sporttogether.net.models.yandex.maps.GeoObject
@@ -22,6 +23,7 @@ import javax.inject.Inject
 class EventDetailsPresenterImpl(var view: EventDetailsView?) : EventDetailsPresenter {
 
     @Inject lateinit var yandexApi: YandexMapsApi
+    @Inject lateinit var eventsManager: EventsManager
 
     private var subscription = Subscriptions.empty()
     private var map: GoogleMap? = null
@@ -34,6 +36,10 @@ class EventDetailsPresenterImpl(var view: EventDetailsView?) : EventDetailsPrese
     override fun onCreate(e: Event, savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         event = e
+    }
+
+    override fun onFabClicked() {
+        eventsManager.showEvent(event)
     }
 
     override fun loadAddress(lat: Double, lng: Double) {

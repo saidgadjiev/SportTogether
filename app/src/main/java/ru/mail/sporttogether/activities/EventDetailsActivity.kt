@@ -103,7 +103,8 @@ class EventDetailsActivity :
     }
 
     override fun onFabClicked() {
-
+        presenter.onFabClicked()
+        onBackPressed()
     }
 
     override fun onUsersClicked() {

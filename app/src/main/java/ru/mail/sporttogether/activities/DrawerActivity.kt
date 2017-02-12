@@ -176,10 +176,10 @@ class DrawerActivity : DrawerView,
     fun showMap() {
         if (lastPoss != 0) {
             drawerData.mapActive.set(true)
-            val fragment = supportFragmentManager.findFragmentById(R.id.drawer_container)
+            /*val fragment = supportFragmentManager.findFragmentById(R.id.drawer_container)
             supportFragmentManager.beginTransaction()
                     .remove(fragment)
-                    .commit()
+                    .commit()*/
             lastPoss = 0
             drawer.setSelection(mapItem)
             item?.isVisible = true

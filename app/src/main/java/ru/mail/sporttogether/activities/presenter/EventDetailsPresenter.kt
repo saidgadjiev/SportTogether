@@ -12,4 +12,5 @@ interface EventDetailsPresenter : IPresenter,
         OnMapReadyCallback {
     fun loadAddress(lat: Double, lng: Double)
     fun onCreate(e: Event, savedInstanceState: Bundle?)
+    fun onFabClicked()
 }

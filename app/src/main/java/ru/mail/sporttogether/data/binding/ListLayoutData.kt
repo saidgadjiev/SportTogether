@@ -8,7 +8,7 @@ import android.graphics.drawable.Drawable
  * Created by bagrusss on 05.02.17
  */
 class ListLayoutData {
-    val isEmpty = ObservableBoolean(true)
+    val isEmpty = ObservableBoolean(false)
     val emptyText = ObservableField<String>()
     val emptyDrawable = ObservableField<Drawable>()
 }
