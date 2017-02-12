@@ -83,7 +83,7 @@ class SplashActivityPresenterImpl(view: SplashView) : SplashActivityPresenter {
                             socialNetworkManager.activeUser = resp.data.copy(clientId = "")
                             view?.startMainActivity()
                         } else {
-                            view?.showToast("error when authorize : " + resp.message)
+                            Log.e("#MY ", "error when authorize : " + resp.message)
                         }
                     }
 

@@ -8,6 +8,7 @@ import android.content.pm.PackageManager
 import android.graphics.Point
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.provider.Settings
 import android.support.design.widget.BottomSheetBehavior
 import android.support.v4.view.MenuItemCompat
@@ -16,16 +17,16 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SearchView
 import android.support.v7.widget.Toolbar
+import android.util.Log
 import android.view.*
-import android.widget.FrameLayout
-import android.widget.LinearLayout
-import android.widget.Toast
+import android.widget.*
 import com.bumptech.glide.Glide
 import com.google.android.gms.maps.MapView
 import kotlinx.android.synthetic.main.events_map.*
 import ru.mail.sporttogether.R
 import ru.mail.sporttogether.activities.AddEventActivity
 import ru.mail.sporttogether.activities.DrawerActivity
+import ru.mail.sporttogether.adapter.MapEventsAdapter
 import ru.mail.sporttogether.adapter.TaskAdapter
 import ru.mail.sporttogether.data.binding.event.ButtonListener
 import ru.mail.sporttogether.data.binding.event.EventDetailsData
@@ -60,15 +61,17 @@ class EventsMapFragment :
     private lateinit var eventDetailsBottomSheet: BottomSheetBehavior<View>
 
     private lateinit var resultsContainer: FrameLayout
-    private lateinit var eventsListView: RecyclerView
+    private var mapEventsListController: MapEventsListController? = null
+
     private lateinit var zoomPanel: LinearLayout
     private lateinit var searchView: SearchView
 
+    private lateinit var eventsListView: RecyclerView
+
     private val adapter = EventsSearchAdapter()
-    private var dialog: AlertDialog? = null
+    private var tasksAdapter: TaskAdapter? = null
 
     private val data = EventDetailsData()
-    private var tasksAdapter: TaskAdapter? = null
 
     private var markerDownX = 0
     private var markerDownY = 0
@@ -85,7 +88,14 @@ class EventsMapFragment :
         eventDetailsBottomSheet.isHideable = true
         eventDetailsBottomSheet.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
             var needHideZoom = false
+            var needHideList = false
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
+                if (slideOffset > 0.65 && needHideList) {
+                    hideEventsList()
+                } else if (slideOffset > 0.4) {
+                    presenter.checkZoomForListEvents()
+                }
+
                 if (slideOffset > 0.9f && needHideZoom) {
                     zoomPanel.animate().scaleX(0f).scaleY(0f).setDuration(50L).start()
                 } else if (slideOffset > 0.75f) {
@@ -95,9 +105,20 @@ class EventsMapFragment :
 
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 needHideZoom = binding.bottomSheet.height / binding.root.height.toFloat() > 0.85
+                needHideList = binding.bottomSheet.height / binding.root.height.toFloat() > 0.5
                 when (newState) {
                     BottomSheetBehavior.STATE_HIDDEN -> {
                         data.fabForBottomSheet.set(false)
+                        mapEventsListController?.isBottomSheetOpened = false
+                        presenter.checkZoomForListEvents()
+                    }
+                    BottomSheetBehavior.STATE_COLLAPSED -> {
+                        mapEventsListController?.isBottomSheetOpened = false
+                        presenter.checkZoomForListEvents()
+                    }
+                    BottomSheetBehavior.STATE_EXPANDED -> {
+                        mapEventsListController?.isBottomSheetOpened = true
+                        hideEventsList()
                     }
                     else -> {
                         data.fabForBottomSheet.set(true)
@@ -107,13 +128,15 @@ class EventsMapFragment :
 
         })
 
+        eventsListView = binding.eventsListRecyclerView
+        eventsListView.layoutManager = LinearLayoutManager(context)
+        eventsListView.adapter = adapter
+
         resultsContainer = binding.eventsListSheet
         resultsContainer.pivotY = resultsContainer.height.toFloat()
         resultsContainer.animate().scaleY(0f).setDuration(0L).start()
 
-        eventsListView = binding.eventsListRecyclerView
-        eventsListView.layoutManager = LinearLayoutManager(context)
-        eventsListView.adapter = adapter
+        mapEventsListController = MapEventsListController()
 
         mapView.onCreate(savedInstanceState)
         presenter = EventsMapFragmentPresenterImpl(this)
@@ -228,6 +251,7 @@ class EventsMapFragment :
         super.onDestroyView()
         mapView.onDestroy()
         tasksAdapter = null
+        mapEventsListController = null
     }
 
     override fun showMap() {
@@ -392,7 +416,7 @@ class EventsMapFragment :
 
     //TODO исправить !!!
     fun initTasks(tasks: ArrayList<Task>) {
-        val myId = presenter.getMyId() // TODO inject manager
+        val myId = presenter.getMyId()
         tasksAdapter = TaskAdapter(tasks, this, myId)
         binding.include.tasksListRecyclerView.adapter = tasksAdapter
         binding.include.tasksListRecyclerView.layoutManager = LinearLayoutManager(this.context)
@@ -445,6 +469,18 @@ class EventsMapFragment :
         animator.start()
     }
 
+    override fun showEventsList() {
+        mapEventsListController?.show()
+    }
+
+    override fun renderEventsList(events: MutableList<Event>) {
+        mapEventsListController?.render(events)
+    }
+
+    override fun hideEventsList() {
+        mapEventsListController?.hide()
+    }
+
     override fun onLocationNotChecked() {
         if (locationDialog == null) {
             locationDialog = AlertDialog.Builder(context)
@@ -461,6 +497,88 @@ class EventsMapFragment :
                     })
                     .create()
             locationDialog!!.show()
+        }
+    }
+
+    inner class MapEventsListController {
+        private var mapEventsAdapter: MapEventsAdapter? = null
+        private var mapEventsLayout: ViewGroup? = null
+        private var mapEventsRecyclerView: RecyclerView? = null
+        private var mapEventsPb: ProgressBar? = null
+        private var mapEventsEmpty: TextView? = null
+        var isShowed: Boolean = false
+        var isBottomSheetOpened: Boolean = false
+        var wasRendered: Boolean = false
+
+        init {
+        }
+
+        fun show() {
+            if (isShowed || isBottomSheetOpened) return
+            if (mapEventsLayout == null) {
+                mapEventsLayout = binding.mapEventsListInclude.mapEventsLayout
+            }
+            if (mapEventsLayout!!.visibility != View.VISIBLE) {
+                Log.d(TAG, "show events list animation start")
+                mapEventsLayout!!.visibility = View.VISIBLE
+                mapEventsLayout!!.animate().scaleX(1f).setDuration(200L).start()
+                isShowed = true
+            }
+        }
+
+        fun hide() {
+            if (!isShowed) return
+            if (mapEventsLayout == null) {
+                mapEventsLayout = binding.mapEventsListInclude.mapEventsLayout
+            }
+            if (mapEventsLayout!!.visibility != View.GONE) {
+                mapEventsLayout!!.animate().scaleX(0f).setDuration(200L).withEndAction {
+                    mapEventsLayout!!.visibility = View.GONE
+                }.start()
+                isShowed = false
+                Log.d(TAG, "hide events list animation start")
+            }
+        }
+
+        fun render(events: MutableList<Event>) {
+            if (isShowed || !wasRendered) {
+                Log.d(TAG, "render events list")
+                wasRendered = true
+                initLayoutElements()
+                if (mapEventsAdapter == null) {
+                    mapEventsAdapter = MapEventsAdapter(events, presenter)
+                } else {
+                    mapEventsRecyclerView!!.visibility = View.GONE
+                    mapEventsEmpty!!.visibility = View.GONE
+                    mapEventsPb!!.visibility = View.VISIBLE
+                    mapEventsAdapter!!.swap(events)
+                    Handler().postDelayed({
+                        mapEventsPb!!.visibility = View.GONE
+                        mapEventsRecyclerView!!.visibility = View.VISIBLE
+                        if (events.isEmpty()) {
+                            mapEventsEmpty!!.visibility = View.VISIBLE
+                        } else {
+                            mapEventsEmpty!!.visibility = View.GONE
+                        }
+                    }, 300)
+                }
+                if (mapEventsRecyclerView!!.adapter == null) {
+                    mapEventsRecyclerView!!.adapter = mapEventsAdapter
+                }
+            }
+        }
+
+        fun initLayoutElements() {
+            if (mapEventsRecyclerView == null) {
+                mapEventsRecyclerView = binding.mapEventsListInclude.mapEventsRecyclerView
+                mapEventsRecyclerView!!.layoutManager = LinearLayoutManager(activity)
+            }
+            if (mapEventsPb == null) {
+                mapEventsPb = binding.mapEventsListInclude.mapEventsPb
+            }
+            if (mapEventsEmpty == null) {
+                mapEventsEmpty = binding.mapEventsListInclude.mapEventsEmpty
+            }
         }
     }
 

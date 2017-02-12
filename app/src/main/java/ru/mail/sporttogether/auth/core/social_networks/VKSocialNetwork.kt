@@ -16,6 +16,7 @@ import com.vk.sdk.api.*
 import com.vk.sdk.api.model.VKScopes
 import com.vk.sdk.dialogs.VKShareDialog
 import com.vk.sdk.dialogs.VKShareDialogBuilder
+import io.fabric.sdk.android.Fabric
 import org.json.JSONException
 import org.json.JSONObject
 import ru.mail.sporttogether.auth.core.ISocialNetwork
@@ -83,8 +84,9 @@ class VKSocialNetwork(activity: Activity) : ISocialNetwork {
         VKSdk.onActivityResult(requestCode, resultCode, data, object : VKCallback<VKAccessToken> {
             override fun onResult(res: VKAccessToken) {
                 onLoginCompleteListener!!.onSuccess(ID)
-                if (!BuildConfig.DEBUG)
-                    Answers.getInstance().logLogin(LoginEvent().putMethod("VK").putSuccess(true))
+                val isDebug = BuildConfig.DEBUG
+                val initialized = Fabric.isInitialized()
+                if (!isDebug && initialized) Answers.getInstance().logLogin(LoginEvent().putMethod("VK").putSuccess(true))
             }
 
             override fun onError(error: VKError) {

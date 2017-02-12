@@ -24,6 +24,12 @@ object DateUtils {
         return dateFormatted
     }
 
+    fun toDateWithoutYearString(date: Date): String {
+        val fmt = SimpleDateFormat("HH:mm, dd MMM", Locale.getDefault())
+        val dateFormatted = fmt.format(date)
+        return dateFormatted
+    }
+
     fun longToDateTime(date: Long): String
             = SimpleDateFormat("dd MMMM yyyy HH:mm", Locale.getDefault()).format(Date(date))
 }

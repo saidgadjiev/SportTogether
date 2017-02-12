@@ -33,10 +33,19 @@ class SettingsFragment: PresenterFragment<SettingsPresenter>(), AdapterView.OnIt
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         Log.d("#MY SettingsFragment", "selected $position")
-        timeInMills= (position + 1L) * 60L * 60L * 1000L
+        timeInMills= (position + 1L) * MILLS_IN_HOUR
     }
 
     override fun save() {
         presenter.saveReminderTime(timeInMills)
+    }
+
+    fun setReminderTime(hours: Int) {
+        if (hours < 1 || hours > 3) return
+        binding.settingsReminderTimeSpinner.setSelection(hours - 1)
+    }
+
+    companion object {
+        val MILLS_IN_HOUR = 60L * 60 * 1000
     }
 }

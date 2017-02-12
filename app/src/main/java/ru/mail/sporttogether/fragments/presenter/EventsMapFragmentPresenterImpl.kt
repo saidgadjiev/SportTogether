@@ -70,7 +70,8 @@ class EventsMapFragmentPresenterImpl(var view: EventsMapView?) : EventsMapFragme
     private var apiSubscribtion: Subscription? = null
     private var locationSubscription: Subscription? = null
 
-    private var eventsSubscribion: Subscription? = null
+    private var eventsSubscription: Subscription? = null
+    private var mapEventsSubscription: Subscription? = null
     private var userPositionFound = false
 
     init {
@@ -82,7 +83,7 @@ class EventsMapFragmentPresenterImpl(var view: EventsMapView?) : EventsMapFragme
 
 
     override fun onCreate(args: Bundle?) {
-        eventsSubscribion = eventsManager.getObservable()
+        eventsSubscription = eventsManager.getObservable()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { newState ->
                     when (newState.type) {
@@ -136,7 +137,8 @@ class EventsMapFragmentPresenterImpl(var view: EventsMapView?) : EventsMapFragme
 
     override fun onDestroy() {
         locationSubscription?.unsubscribe()
-        eventsSubscribion?.unsubscribe()
+        eventsSubscription?.unsubscribe()
+        mapEventsSubscription?.unsubscribe()
         view = null
         map?.let {
             with(it) {
@@ -385,12 +387,10 @@ class EventsMapFragmentPresenterImpl(var view: EventsMapView?) : EventsMapFragme
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(object : Subscriber<Response<EventsResponse>>() {
                         override fun onError(e: Throwable) {
-                            Log.e("EventsMapPresenter", "events loaded error")
                             view?.showToast(R.string.cant_get_events)
                         }
 
                         override fun onNext(response: Response<EventsResponse>) {
-                            Log.d("EventsMapPresenter", "events loaded")
                             eventsManager.swapEvents(response.data)
                             addMarkers(response.data)
                         }
@@ -400,6 +400,39 @@ class EventsMapFragmentPresenterImpl(var view: EventsMapView?) : EventsMapFragme
                         }
 
                     })
+
+            checkZoomForListEvents()
+        }
+    }
+
+    override fun checkZoomForListEvents() {
+        map?.let { map ->
+            val cameraPosition = map.cameraPosition
+            if (cameraPosition.zoom > MAX_ZOOM_WITH_LIST) {
+                mapEventsSubscription?.unsubscribe()
+                mapEventsSubscription = eventsManager.getObservable()
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe { newState ->
+                            when (newState.type) {
+                                EventsManager.UpdateType.NEW_LIST -> {
+                                    val events = newState.data as MutableList<Event>
+                                    val filteredEvents = events.filter { item ->
+                                        val itemLatLng = LatLng(item.lat, item.lng)
+                                        val distanceBetweenPoints = MapUtils.distanceBetweenPoints(
+                                                cameraPosition.target,
+                                                itemLatLng
+                                        )
+                                        distanceBetweenPoints < 0.100
+                                    }
+                                    view?.renderEventsList(filteredEvents.toMutableList())
+                                }
+                            }
+                        }
+                view?.showEventsList()
+            } else {
+                mapEventsSubscription?.unsubscribe()
+                view?.hideEventsList()
+            }
         }
     }
 
@@ -595,7 +628,7 @@ class EventsMapFragmentPresenterImpl(var view: EventsMapView?) : EventsMapFragme
                                 val index = tasks?.indexOf(changedTask)!!.or(0)
                                 tasks?.remove(changedTask)
                                 val activeUser = socialNetworkManager.activeUser!!.copy()
-                                val newUser = User("", activeUser.id, 0, activeUser.name, activeUser.avatar)
+                                val newUser = User("", activeUser.id, 0, activeUser.name, activeUser.avatar, activeUser.remindTime)
                                 tasks?.add(index, changedTask.copy(user = newUser))
                             }
                             render()
@@ -633,6 +666,10 @@ class EventsMapFragmentPresenterImpl(var view: EventsMapView?) : EventsMapFragme
                 })
     }
 
+    override fun goToMarker(event: Event) {
+        eventsManager.showEvent(event)
+    }
+
     override fun onPermissionsGranted(requestCode: Int) {
         initMap()
     }
@@ -642,6 +679,7 @@ class EventsMapFragmentPresenterImpl(var view: EventsMapView?) : EventsMapFragme
         val TAG = "#MY " + EventsMapFragmentPresenterImpl::class.java.simpleName.substring(0, 18)
 
         @JvmStatic private val MAX_ZOOM = 17f
+        @JvmStatic private val MAX_ZOOM_WITH_LIST = 16.5f
         @JvmStatic private val MIN_ZOOM = 10f
 
     }

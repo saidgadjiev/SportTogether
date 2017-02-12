@@ -12,7 +12,8 @@ data class User(
         var id: Long = 0,
         var role: Int = 0,
         var name: String = "",
-        var avatar: String = ""
+        var avatar: String = "",
+        var remindTime: Long? = 0
 ) : Parcelable {
 
     constructor(parcel: Parcel) : this() {
@@ -21,6 +22,7 @@ data class User(
         role = parcel.readInt()
         name = parcel.readString()
         avatar = parcel.readString()
+        remindTime = parcel.readLong()
     }
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
@@ -29,6 +31,7 @@ data class User(
         dest.writeInt(role)
         dest.writeString(name)
         dest.writeString(avatar)
+        dest.writeLong(remindTime ?: 0L)
     }
 
     override fun describeContents() = 0

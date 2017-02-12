@@ -13,7 +13,7 @@ import java.util.*
 /**
  * Created by root on 13.01.17.
  */
-class AddTaskAdapter(): RecyclerView.Adapter<AddTaskAdapter.ViewHolder>() {
+class AddTaskAdapter: RecyclerView.Adapter<AddTaskAdapter.ViewHolder>() {
     private val tasks: ArrayList<String> = ArrayList(8)
 
     override fun getItemCount(): Int {

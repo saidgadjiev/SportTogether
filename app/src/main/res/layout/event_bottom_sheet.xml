@@ -54,7 +54,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
                     android:text="@{data.creatorName}"
-                    android:textSize="11sp"
+                    android:textSize="12sp"
                     android:gravity="center"
                     android:maxLines="2"
                     android:ellipsize="end"

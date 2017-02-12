@@ -3,9 +3,8 @@ package ru.mail.sporttogether.data.binding.event
 import ru.mail.sporttogether.net.models.Event
 
 /**
- * Created by bagrusss on 11.11.16.
- *
+ * Created by root on 09.02.17.
  */
-interface ItemClickListener {
-    fun onEventClicked(e: Event)
+interface GoToMarker {
+    fun goToMarker(event: Event)
 }

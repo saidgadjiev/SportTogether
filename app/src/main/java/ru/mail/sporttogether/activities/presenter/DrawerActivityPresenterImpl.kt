@@ -32,11 +32,12 @@ class DrawerActivityPresenterImpl(view: DrawerView) : DrawerActivityPresenter {
 
 
     override fun showEventOnMap(bundle: Bundle) {
-        Log.d(TAG, "show event on map in drawer presenter")
         val id  = bundle.getLong("id")
         val lat = bundle.getDouble("latitude")
         val lng = bundle.getDouble("longtitude")
+        Log.d(TAG, "show event on map in drawer presenter id: $id, lat: $lat, lng: $lng")
         val eventFound = eventsManager.getEvents().find { e -> e.id == id }
+        Log.d(TAG, "founded event: " + eventFound)
         if (eventFound != null) {
             Handler().postDelayed({
                 Log.d(TAG, "show found event " + eventFound.toString())
@@ -44,6 +45,7 @@ class DrawerActivityPresenterImpl(view: DrawerView) : DrawerActivityPresenter {
             }, 1000)
         } else {
             val event = Event(id = id, lat = lat, lng = lng)
+            eventsManager.showEventWhenLoaded(id)
             Handler().postDelayed({
                 Log.d(TAG, event.toString())
                 eventsManager.showEventPosition(event)
