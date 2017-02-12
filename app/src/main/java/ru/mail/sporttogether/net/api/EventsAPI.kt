@@ -58,10 +58,10 @@ interface EventsAPI {
     fun getEventsByCategory(@Query("events:category:name") category: String): Observable<Response<EventsResponse>>
 
     @GET("event/user")
-    fun getOrganizedEvents(): Observable<Response<EventsResponse>>
+    fun getOrganizedEvents(@Query("events:sort") sort: String = "dateDesc"): Observable<Response<EventsResponse>>
 
     @GET("event/user")
-    fun getResultedEvents(@Query("events:isEnded") isEnded: Boolean = true): Observable<Response<EventsResponse>>
+    fun getResultedEvents(@Query("events:isEnded") isEnded: Boolean = true, @Query("events:sort") sort: String = "dateDesc"): Observable<Response<EventsResponse>>
 
     @PUT("event/{id}")
     fun updateEvent(@Path("id") id: Long, @Body event: Event): Observable<Response<Any>>
