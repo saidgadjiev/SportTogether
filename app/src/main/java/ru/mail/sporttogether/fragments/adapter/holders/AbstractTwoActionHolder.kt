@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import ru.mail.sporttogether.R
+import ru.mail.sporttogether.activities.EventDetailsActivity
 import ru.mail.sporttogether.data.binding.items.TwoActionsItemData
 import ru.mail.sporttogether.data.binding.items.TwoActionsListener
 import ru.mail.sporttogether.databinding.ItemTwoActionBinding
@@ -43,7 +44,7 @@ abstract class AbstractTwoActionHolder<PR : TwoActionsHolderPresenter>(v: View, 
     abstract fun getAction2Drawable(): Drawable?
 
     override fun onBodyClicked() {
-        presenter.itemClicked(event)
+        EventDetailsActivity.start(itemView.context, event)
     }
 
     override fun action1Clicked() {

@@ -64,9 +64,6 @@ class DrawerActivity : DrawerView,
                 presenter.showEventOnMap(bundle)
             }
         }
-
-        val intent = Intent(this, EventDetailsActivity::class.java)
-        startActivity(intent)
     }
 
     override fun onDestroy() {

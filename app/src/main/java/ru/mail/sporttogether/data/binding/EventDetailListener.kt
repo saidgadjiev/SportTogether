@@ -7,7 +7,7 @@ import android.view.View
  */
 interface EventDetailListener {
 
-    //nice, kotlin
+    //nice, kotlin, i love you
     private fun call(v: View, func: () -> Unit) {
         v.isEnabled = false
         func()
@@ -21,7 +21,6 @@ interface EventDetailListener {
     fun onUsersClicked(v: View) {
         call(v, { onUsersClicked() })
     }
-
 
     fun onFabClicked()
     fun onUsersClicked()

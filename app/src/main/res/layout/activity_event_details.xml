@@ -8,7 +8,7 @@
 
         <variable
             name="data"
-            type="ru.mail.sporttogether.data.binding.EventDetailsData" />
+            type="ru.mail.sporttogether.data.binding.EventDetailData" />
 
         <variable
             name="listener"

@@ -6,7 +6,7 @@
 
         <variable
             name="data"
-            type="ru.mail.sporttogether.data.binding.EventDetailsData" />
+            type="ru.mail.sporttogether.data.binding.EventDetailData" />
 
         <variable
             name="listener"
@@ -47,7 +47,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="24dp"
                     android:lineSpacingExtra="-3dp"
-                    android:text="@{data.odrginizerName}"
+                    android:text="@{data.organizerName}"
                     android:textSize="18sp" />
             </LinearLayout>
 
@@ -58,7 +58,6 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="0dp"
-                android:src="@drawable/cat"
                 app:layout_constraintBottom_toBottomOf="@+id/organizer_layout"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/organizer_layout"
