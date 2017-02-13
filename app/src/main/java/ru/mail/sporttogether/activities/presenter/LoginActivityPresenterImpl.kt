@@ -58,7 +58,6 @@ class LoginActivityPresenterImpl(view: LoginView) : LoginActivityPresenter, OnLo
 
                     override fun onNext(resp: Response<User>?) {
                         val user = resp!!.data
-                        Log.d("#MY " + javaClass.simpleName, "answer from server : " + user)
                         socialNetworkManager.setNetworkID(ID)
                         socialNetworkManager.activeUser = user
                         view?.startMainActivity()

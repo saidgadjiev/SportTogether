@@ -66,18 +66,6 @@ class LoginActivity: PresenterActivity<LoginActivityPresenter>(), LoginView {
         finish()
     }
 
-//    override fun onBackStackChanged() {
-//        homeAsUpByBackStack()
-//    }
-//
-//    private fun homeAsUpByBackStack() {
-//        val backStackEntryCount = supportFragmentManager.backStackEntryCount
-//        if (backStackEntryCount > 0) {
-//            supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-//        } else {
-//            supportActionBar!!.setDisplayHomeAsUpEnabled(false)
-//        }
-//    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

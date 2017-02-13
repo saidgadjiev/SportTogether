@@ -14,7 +14,6 @@ import java.util.*
 
 class SocialNetworkManager {
     private val socialNetworksMap = TreeMap<Int, ISocialNetwork>()
-//    private var onInitializationCompleteListener: OnInitializationCompleteListener? = null
     private var networkID: Int = -1
     var activeUser: User? = null
 

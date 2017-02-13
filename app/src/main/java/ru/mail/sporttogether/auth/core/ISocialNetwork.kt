@@ -29,8 +29,6 @@ interface ISocialNetwork {
 
     val isConnected: Boolean
 
-    fun sharePost(activity: Activity, title: String, description: String, uri: String)
-
     fun requestPerson(onRequestSocialPersonCompleteListener: OnRequestSocialPersonCompleteListener)
 
     val id: Int
