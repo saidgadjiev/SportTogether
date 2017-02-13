@@ -42,6 +42,28 @@ object DateUtils {
         return dateFormatted
     }
 
+    fun toLongDayMonthString(date: Date): String {
+        val fmt = SimpleDateFormat("dd MMMM", Locale.getDefault())
+        val dateFormatted = fmt.format(date)
+        return dateFormatted
+    }
+
     fun longToDateTime(date: Long): String
             = SimpleDateFormat("dd MMMM yyyy HH:mm", Locale.getDefault()).format(Date(date))
+
+    fun startOfDay(cal: Calendar): Calendar {
+        cal.set(Calendar.HOUR_OF_DAY, cal.getMinimum(Calendar.HOUR_OF_DAY))
+        cal.set(Calendar.MINUTE, cal.getMinimum(Calendar.MINUTE))
+        cal.set(Calendar.SECOND, cal.getMinimum(Calendar.SECOND))
+        cal.set(Calendar.MILLISECOND, cal.getMinimum(Calendar.MILLISECOND))
+        return cal
+    }
+
+    fun endOfDay(cal: Calendar): Calendar {
+        cal.set(Calendar.HOUR_OF_DAY, cal.getMaximum(Calendar.HOUR_OF_DAY))
+        cal.set(Calendar.MINUTE, cal.getMaximum(Calendar.MINUTE))
+        cal.set(Calendar.SECOND, cal.getMaximum(Calendar.SECOND))
+        cal.set(Calendar.MILLISECOND, cal.getMaximum(Calendar.MILLISECOND))
+        return cal
+    }
 }

@@ -1,13 +1,15 @@
 package ru.mail.sporttogether.fragments.adapter.holders
 
 import android.app.Activity
-import android.util.Log
 import android.view.View
 import com.borax12.materialdaterangepicker.date.DatePickerDialog
 import ru.mail.sporttogether.data.binding.event.SearchSetDateData
 import ru.mail.sporttogether.databinding.ItemEventSearchSetDateBinding
+import ru.mail.sporttogether.net.models.DateInterval
 import ru.mail.sporttogether.net.models.Event
 import ru.mail.sporttogether.utils.DateUtils
+import rx.Observable
+import rx.subjects.PublishSubject
 import java.util.*
 
 /**
@@ -16,6 +18,7 @@ import java.util.*
 class SetDateHolder(val v: View) : AbstractSearchItemHolder(v), DatePickerDialog.OnDateSetListener {
     val binding: ItemEventSearchSetDateBinding = ItemEventSearchSetDateBinding.bind(v)
     val data : SearchSetDateData = SearchSetDateData()
+    val intervalObservable: PublishSubject<DateInterval> = PublishSubject.create()
 
     init {
         binding.listener = this
@@ -36,6 +39,11 @@ class SetDateHolder(val v: View) : AbstractSearchItemHolder(v), DatePickerDialog
 
         data.interval.set(sb.toString())
         data.isDateSetted.set(true)
+        intervalObservable.onNext(DateInterval(startDate.time, endDate.time))
+    }
+
+    fun getIntervalObservable(): Observable<DateInterval> {
+        return intervalObservable
     }
 
     override fun onItemClicker() {
@@ -63,10 +71,8 @@ class SetDateHolder(val v: View) : AbstractSearchItemHolder(v), DatePickerDialog
         endDate.set(Calendar.YEAR, yearEnd)
         endDate.set(Calendar.MONTH, monthOfYearEnd)
         endDate.set(Calendar.DAY_OF_MONTH, dayOfMonthEnd)
-        Log.d(TAG, "start date " + DateUtils.toXLongDateString(startDate.time))
-        Log.d(TAG, "end date " + DateUtils.toXLongDateString(endDate.time))
 
-        render(startDate, endDate)
+        render(DateUtils.startOfDay(startDate), DateUtils.endOfDay(endDate))
     }
 
     companion object {
