@@ -24,7 +24,7 @@ interface EventsAPI {
     fun getAllEvents(): Observable<Response<EventsResponse>>
 
     @GET("event/joined")
-    fun getMyEvents(): Observable<Response<EventsResponse>>
+    fun getMyEvents(@Query("events:sort") sort: String = "date"): Observable<Response<EventsResponse>>
 
     @POST("event/{id}/report")
     fun report(@Path("id") id: Long): Observable<Response<Any>>

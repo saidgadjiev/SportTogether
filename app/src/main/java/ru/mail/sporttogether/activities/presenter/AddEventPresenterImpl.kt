@@ -81,7 +81,7 @@ class AddEventPresenterImpl(var view: AddEventView?) : AddEventPresenter {
     override fun addEventClicked(event: Event, addMeNow: Boolean, addTemplate: Boolean) {
         val sb = StringBuilder(event.category.name)
         sb.append(", ")
-                .append(DateUtils.toLongDayMonthString(Date(event.date)))
+                .append(DateUtils.toDateWithoutYearString(Date(event.date)))
         val nameEvent = sb.toString()
         Log.d("#MY ", "generated name : " + nameEvent)
         event.name = nameEvent

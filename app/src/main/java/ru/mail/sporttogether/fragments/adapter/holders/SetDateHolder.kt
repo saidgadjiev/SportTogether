@@ -19,6 +19,8 @@ class SetDateHolder(val v: View) : AbstractSearchItemHolder(v), DatePickerDialog
     val binding: ItemEventSearchSetDateBinding = ItemEventSearchSetDateBinding.bind(v)
     val data : SearchSetDateData = SearchSetDateData()
     val intervalObservable: PublishSubject<DateInterval> = PublishSubject.create()
+    var startDate: Calendar? = null
+    var endDate: Calendar? = null
 
     init {
         binding.listener = this
@@ -48,12 +50,25 @@ class SetDateHolder(val v: View) : AbstractSearchItemHolder(v), DatePickerDialog
 
     override fun onItemClicker() {
         val now = Calendar.getInstance()
-        val dpd = DatePickerDialog.newInstance(
-                this,
-                now.get(Calendar.YEAR),
-                now.get(Calendar.MONTH),
-                now.get(Calendar.DAY_OF_MONTH)
-        )
+        var dpd: DatePickerDialog? = null
+        if (startDate != null && endDate != null) {
+            dpd = DatePickerDialog.newInstance(
+                    this,
+                    startDate!!.get(Calendar.YEAR),
+                    startDate!!.get(Calendar.MONTH),
+                    startDate!!.get(Calendar.DAY_OF_MONTH),
+                    endDate!!.get(Calendar.YEAR),
+                    endDate!!.get(Calendar.MONTH),
+                    endDate!!.get(Calendar.DAY_OF_MONTH)
+            )
+        } else {
+            dpd = DatePickerDialog.newInstance(
+                    this,
+                    now.get(Calendar.YEAR),
+                    now.get(Calendar.MONTH),
+                    now.get(Calendar.DAY_OF_MONTH)
+            )
+        }
         dpd.minDate = now
         dpd.maxDate = DateUtils.nextMonthCalendar()
         dpd.setStartTitle("От")
@@ -72,6 +87,8 @@ class SetDateHolder(val v: View) : AbstractSearchItemHolder(v), DatePickerDialog
         endDate.set(Calendar.MONTH, monthOfYearEnd)
         endDate.set(Calendar.DAY_OF_MONTH, dayOfMonthEnd)
 
+        this.startDate = startDate
+        this.endDate = endDate
         render(DateUtils.startOfDay(startDate), DateUtils.endOfDay(endDate))
     }
 
