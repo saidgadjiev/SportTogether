@@ -5,15 +5,8 @@ import android.view.View
 /**
  * Created by bagrusss on 12.02.17
  */
-interface EventDetailListener {
-
-    //nice, kotlin, i love you
-    private fun call(v: View, func: () -> Unit) {
-        v.isEnabled = false
-        func()
-        v.isEnabled = true
-    }
-
+interface EventDetailListener : BaseClickListener {
+    
     fun onFabClicked(v: View) {
         call(v, { onFabClicked() })
     }

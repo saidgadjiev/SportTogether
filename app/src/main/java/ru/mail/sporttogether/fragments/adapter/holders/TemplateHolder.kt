@@ -32,7 +32,7 @@ class TemplateHolder(v: View, private val callback: DeleteTemplateCallback, priv
     init {
         binding.data = data
         binding.listener = this
-        data.button2Text.set(itemView.context.getString(R.string.create_event))
+        data.button2Text.set(itemView.context.getString(R.string.create))
         data.button1Text.set(itemView.context.getString(R.string.delete))
         presenter = TemplatesHolderPresenterImpl(this)
     }
@@ -40,7 +40,16 @@ class TemplateHolder(v: View, private val callback: DeleteTemplateCallback, priv
     fun onBind(e: Event, position: Int) {
         data.nameText.set(e.name)
         data.dateText.set(DateUtils.longToDateTime(e.date))
-        data.description.set(e.description)
+
+        val descriptionText = e.description.let {
+            if (it.isBlank()) {
+                itemView.context.getString(R.string.no_description)
+            } else {
+                it
+            }
+        }
+
+        data.description.set(descriptionText)
         event = e
         pos = position
     }

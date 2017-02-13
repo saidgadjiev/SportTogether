@@ -63,7 +63,7 @@
     <string name="title_location_access">Доступ к местоположению</string>
     <string name="cannot_find_you">Без доступа к местоположению мы не можем показать ближайшие события</string>
     <string name="location_disabled_message">Местоположение отключено.\nДля показа событий рядом с Вами необходимо включить доступ к местоплложению.\nОткрыть настройки?</string>
-    <string name="event_name">Название события</string>
+    <string name="event_name">Название события*</string>
     <string name="play_in">Во что играем</string>
     <string name="how_much_us">Ограничение</string>
     <string name="event_description">Описание события</string>
@@ -88,9 +88,11 @@
 
     <string name="action_settings">Settings</string>
     <string name="address">Место</string>
-    <string name="sport">Спорт</string>
+    <string name="sport">Спорт*</string>
     <string name="time">Время начала</string>
     <string name="organizer">Организатор</string>
     <string name="delete">Удалить</string>
     <string name="delete_template_message">Вы действительно хотите удалить шаблон?</string>
+    <string name="no_description">Нет описания</string>
+    <string name="create">Создать</string>
 </resources>

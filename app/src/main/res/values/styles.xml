@@ -68,7 +68,11 @@
 
     </style>
 
-    <style name="ClickableDetailItem">
+    <style name="ClickableDetailItem" parent="ClickableView">
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="ClickableView">
         <item name="android:paddingBottom">16dp</item>
         <item name="android:paddingTop">16dp</item>
         <item name="android:paddingLeft">72dp</item>

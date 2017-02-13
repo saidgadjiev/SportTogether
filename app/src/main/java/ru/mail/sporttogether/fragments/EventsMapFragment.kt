@@ -21,7 +21,6 @@ import android.util.Log
 import android.view.*
 import android.widget.*
 import com.bumptech.glide.Glide
-import com.google.android.gms.maps.MapView
 import kotlinx.android.synthetic.main.events_map.*
 import ru.mail.sporttogether.R
 import ru.mail.sporttogether.activities.AddEventActivity
@@ -37,7 +36,6 @@ import ru.mail.sporttogether.fragments.presenter.EventsMapFragmentPresenter
 import ru.mail.sporttogether.fragments.presenter.EventsMapFragmentPresenterImpl
 import ru.mail.sporttogether.fragments.view.EventsMapView
 import ru.mail.sporttogether.mvp.PresenterActivity
-import ru.mail.sporttogether.mvp.PresenterFragment
 import ru.mail.sporttogether.net.models.Event
 import ru.mail.sporttogether.net.models.Task
 import ru.mail.sporttogether.utils.DateUtils
@@ -50,13 +48,12 @@ import java.util.*
  * Created by bagrusss on 08.10.16
  */
 class EventsMapFragment :
-        PresenterFragment<EventsMapFragmentPresenter>(),
+        AbstractMapFragment<EventsMapFragmentPresenter>(),
         EventsMapView,
         EventDetailsListener,
         ButtonListener,
         CheckingTasks {
 
-    private lateinit var mapView: MapView
     private lateinit var binding: EventsMapBinding
     private lateinit var eventDetailsBottomSheet: BottomSheetBehavior<View>
 
@@ -212,44 +209,22 @@ class EventsMapFragment :
 
     override fun onStart() {
         super.onStart()
-        mapView.onStart()
         binding.listener = this
         binding.addListener = this
         binding.zoomListener = presenter
+        presenter.checkLocation()
+
     }
 
     override fun onStop() {
         super.onStop()
-        mapView.onStop()
         binding.listener = null
         binding.addListener = null
         binding.zoomListener = null
     }
 
-    override fun onResume() {
-        super.onResume()
-        mapView.onResume()
-        presenter.checkLocation()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        mapView.onPause()
-    }
-
-    override fun onLowMemory() {
-        super.onLowMemory()
-        mapView.onLowMemory()
-    }
-
-    override fun onSaveInstanceState(outState: Bundle?) {
-        super.onSaveInstanceState(outState)
-        mapView.onSaveInstanceState(outState)
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
-        mapView.onDestroy()
         tasksAdapter = null
         mapEventsListController = null
     }
@@ -587,6 +562,6 @@ class EventsMapFragment :
         @JvmStatic val REQUEST_LOCATION_CODE = 1093
         @JvmStatic val REQUEST_PERMISSIONS_CODE = 1094
 
-        val TAG = "#MY " + EventsMapFragment::class.java.simpleName
+        val TAG = "EventsMapFragment"
     }
 }
