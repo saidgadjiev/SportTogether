@@ -7,6 +7,12 @@
         <variable
             name="listener"
             type="ru.mail.sporttogether.data.binding.event.SearchItemClickListener" />
+
+        <variable
+            name="data"
+            type="ru.mail.sporttogether.data.binding.event.SearchSetDateData" />
+
+        <import type="android.view.View" />
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -34,13 +40,30 @@
         <TextView
             android:id="@+id/item_set_date_set_text"
             android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:text="Выберите нужный интервал"
             android:textSize="16sp"
             android:textColor="@color/app_secondary_text"
             android:textStyle="bold"
-            android:layout_height="wrap_content"
+            android:visibility="@{data.isDateSetted? View.GONE : View.VISIBLE}"
             app:layout_constraintLeft_toRightOf="@+id/item_set_date_icon"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/item_set_date_icon"
+            app:layout_constraintTop_toTopOf="@+id/item_set_date_icon" />
+
+        <TextView
+            android:id="@+id/item_set_date_interval_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{data.interval}"
+            android:textSize="16sp"
+            android:textColor="@color/md_black_1000"
+            android:textStyle="bold"
+            android:visibility="@{data.isDateSetted? View.VISIBLE : View.GONE}"
+            app:layout_constraintLeft_toRightOf="@+id/item_set_date_icon"
+            android:layout_marginStart="24dp"
             android:layout_marginEnd="16dp"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintBottom_toBottomOf="@+id/item_set_date_icon"

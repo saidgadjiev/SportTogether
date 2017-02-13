@@ -36,6 +36,12 @@ object DateUtils {
         return dateFormatted
     }
 
+    fun toDayMonthString(date: Date): String {
+        val fmt = SimpleDateFormat("dd MMM", Locale.getDefault())
+        val dateFormatted = fmt.format(date)
+        return dateFormatted
+    }
+
     fun longToDateTime(date: Long): String
             = SimpleDateFormat("dd MMMM yyyy HH:mm", Locale.getDefault()).format(Date(date))
 }
