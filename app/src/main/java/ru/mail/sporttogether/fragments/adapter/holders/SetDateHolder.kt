@@ -24,7 +24,6 @@ class SetDateHolder(val v: View) : AbstractSearchItemHolder(v), DatePickerDialog
     }
 
     override fun onItemClicker() {
-        Log.d(TAG, "clicked")
         val now = Calendar.getInstance()
         val dpd = DatePickerDialog.newInstance(
                 this,
@@ -40,7 +39,6 @@ class SetDateHolder(val v: View) : AbstractSearchItemHolder(v), DatePickerDialog
     }
 
     override fun onDateSet(view: DatePickerDialog?, year: Int, monthOfYear: Int, dayOfMonth: Int, yearEnd: Int, monthOfYearEnd: Int, dayOfMonthEnd: Int) {
-        Log.d(TAG, "date setted")
         val startDate = Calendar.getInstance()
         startDate.set(Calendar.YEAR, year)
         startDate.set(Calendar.MONTH, monthOfYear)
