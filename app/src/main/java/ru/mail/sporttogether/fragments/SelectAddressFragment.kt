@@ -44,8 +44,7 @@ class SelectAddressFragment :
         val act = activity
         if (act is NewAddActivity) {
             toolbar = binding.include.toolbar
-            act.setSupportActionBar(toolbar)
-            act.supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            setupToolbar(toolbar)
             toolbar.title = getString(R.string.address)
             toolbarData.buttonText.set(getString(R.string.next))
         }
@@ -115,7 +114,6 @@ class SelectAddressFragment :
         val view = binding.pinUser
         view.getLocationOnScreen(array)
 
-        //костыль, но ширирна определяется правильно
         val display = (context.getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay
         val size = Point()
         display.getSize(size)
@@ -127,7 +125,6 @@ class SelectAddressFragment :
 
     override fun onCameraIdle() {
         presenter.onCameraIdle(markerDownX, markerDownY)
-        data.address.set("")
         data.isAddressLoading.set(true)
         toolbarData.buttonIsVisible.set(false)
     }

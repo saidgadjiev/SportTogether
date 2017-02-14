@@ -14,8 +14,6 @@ import ru.mail.sporttogether.net.models.yandex.maps.GeoObject
  */
 class SelectAddressFragmentPresenterImpl(var view: SelectAddressView?) : SelectAddressFragmentPresenter() {
 
-    private lateinit var currentEvent: Event
-
     init {
         App.injector.usePresenterComponent().inject(this)
     }
@@ -40,7 +38,7 @@ class SelectAddressFragmentPresenterImpl(var view: SelectAddressView?) : SelectA
 
     override fun updateLocation(lat: Double, lng: Double) {
         if (eventsManager.getCreatingEvent() == null) {
-            currentEvent = Event()
+            val currentEvent = Event()
             currentEvent.lng = lng
             currentEvent.lat = lat
             eventsManager.setCreatingEvent(currentEvent)
@@ -75,19 +73,24 @@ class SelectAddressFragmentPresenterImpl(var view: SelectAddressView?) : SelectA
     }
 
     override fun saveAddress(address: String) {
-        currentEvent.address = address
-        view?.onAddressSaved()
+        eventsManager.getCreatingEvent()?.let {
+            it.address = address
+            view?.onAddressSaved()
+        }
+
     }
 
     override fun onAddressError(e: Throwable) {
-
+        view?.updateAddress("")
     }
 
     override fun onAddressLoaded(geoObjects: ArrayList<GeoObject>) {
-        currentEvent.lng = lastPos.longitude
-        currentEvent.lat = lastPos.latitude
-        if (geoObjects.isNotEmpty())
-            view?.updateAddress(geoObjects[0].textAddress)
+        eventsManager.getCreatingEvent()?.let {
+            it.lng = lastPos.longitude
+            it.lat = lastPos.latitude
+            if (geoObjects.isNotEmpty())
+                view?.updateAddress(geoObjects[0].textAddress)
+        }
     }
 
 }

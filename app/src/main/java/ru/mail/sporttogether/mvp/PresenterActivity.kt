@@ -19,12 +19,6 @@ abstract class PresenterActivity<T : IPresenter> : AppCompatActivity(), IView {
     protected val injector = App.injector.useViewComponent()
     private var dialogSpinner: ProgressDialogFragment? = null
 
-    @CallSuper
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-    }
-
     override fun showToast(message: String, duration: Int) {
         Toast.makeText(this, message, duration).show()
     }

@@ -4,6 +4,7 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import ru.mail.sporttogether.app.App
 import ru.mail.sporttogether.fragments.view.FillEventView
 import ru.mail.sporttogether.net.models.yandex.maps.GeoObject
 
@@ -11,6 +12,10 @@ import ru.mail.sporttogether.net.models.yandex.maps.GeoObject
  * Created by bagrusss on 14.02.17
  */
 class FillEventPresenterImpl(var view: FillEventView?) : FillEventPresenter() {
+
+    init {
+        App.injector.usePresenterComponent().inject(this)
+    }
 
 
     override fun onDestroy() {

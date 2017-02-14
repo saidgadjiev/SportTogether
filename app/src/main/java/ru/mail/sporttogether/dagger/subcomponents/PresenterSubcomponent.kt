@@ -26,6 +26,7 @@ interface PresenterSubcomponent {
     fun inject(presenter: EventDetailsPresenterImpl)
 
     fun inject(presenter: SelectAddressFragmentPresenterImpl)
+    fun inject(presenter: FillEventPresenterImpl)
 
     fun inject(presenter: AbstractEventsListPresenter)
 
