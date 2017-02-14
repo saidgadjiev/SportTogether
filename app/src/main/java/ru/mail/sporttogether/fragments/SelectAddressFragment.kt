@@ -1,10 +1,11 @@
 package ru.mail.sporttogether.fragments
 
+import android.content.Context
+import android.graphics.Point
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import ru.mail.sporttogether.R
 import ru.mail.sporttogether.activities.NewAddActivity
 import ru.mail.sporttogether.data.binding.SelectAddressData
@@ -29,22 +30,28 @@ class SelectAddressFragment :
     private var lng = 0.0
     private var lat = 0.0
 
+    private var markerDownX = 0
+    private var markerDownY = 0
+
     private lateinit var toolbar: Toolbar
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+
         binding = FragmentSelectPlaceBinding.inflate(inflater, container, false)
         binding.data = data
         binding.toolbarData = toolbarData
 
         val act = activity
         if (act is NewAddActivity) {
-            presenter = SelectAddressFragmentPresenterImpl(this)
             toolbar = binding.include.toolbar
-            setupToolbar(toolbar)
+            act.setSupportActionBar(toolbar)
+            act.supportActionBar?.setDisplayHomeAsUpEnabled(true)
             toolbar.title = getString(R.string.address)
+            toolbarData.buttonText.set(getString(R.string.next))
         }
 
-        toolbarData.buttonText.set(getString(R.string.next))
+        presenter = SelectAddressFragmentPresenterImpl(this)
+
 
         mapView = binding.mapView
         mapView.onCreate(savedInstanceState)
@@ -61,19 +68,56 @@ class SelectAddressFragment :
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val viewTreeObserver = binding.pinUser.viewTreeObserver
+        if (viewTreeObserver.isAlive) {
+            viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+                override fun onGlobalLayout() {
+                    view.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                    initMarkerCoordinates()
+                }
+            })
+        }
+    }
+
     override fun onStart() {
         super.onStart()
         binding.toolbarListener = this
+        binding.zoomListener = presenter
     }
 
     override fun onStop() {
         super.onStop()
         binding.toolbarListener = null
+        binding.zoomListener = null
+    }
+
+    fun initMarkerCoordinates() {
+        val array: IntArray = IntArray(2)
+        val view = binding.pinUser
+        view.getLocationOnScreen(array)
+
+        //костыль, но ширирна определяется правильно
+        val display = (context.getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay
+        val size = Point()
+        display.getSize(size)
+        markerDownX = size.x / 2
+
+        val toolbarHeight = (activity as AppCompatActivity).supportActionBar?.height ?: 0
+        markerDownY = array[1] + view.height - statusBarHeight - toolbarHeight
+    }
+
+    override fun onCameraIdle() {
+        presenter.onCameraIdle(markerDownX, markerDownY)
+        data.address.set("")
+        data.isAddressLoading.set(true)
+        toolbarData.buttonIsVisible.set(false)
     }
 
     override fun updateAddress(address: String) {
         data.address.set(address)
         data.isAddressLoading.set(false)
+        toolbarData.buttonIsVisible.set(true)
     }
 
     override fun onNextClicked() {

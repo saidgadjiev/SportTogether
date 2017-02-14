@@ -16,7 +16,6 @@ abstract class EventsMapFragmentPresenter :
         CheckingTasks,
         GoogleMap.OnMapClickListener,
         GoogleMap.OnMarkerClickListener,
-        ZoomListener,
         GoToMarker {
 
     abstract fun checkLocation()
@@ -24,8 +23,6 @@ abstract class EventsMapFragmentPresenter :
     abstract fun checkZoomForListEvents()
 
     abstract fun onLocationEnabled()
-
-    abstract fun onCameraIdle(x: Int, y: Int)
 
     abstract fun loadEvents()
 

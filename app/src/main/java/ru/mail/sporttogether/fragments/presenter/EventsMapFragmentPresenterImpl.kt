@@ -37,6 +37,7 @@ import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import java.util.*
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 
 
 /**
@@ -44,8 +45,8 @@ import javax.inject.Inject
  */
 class EventsMapFragmentPresenterImpl(var view: EventsMapView?) : EventsMapFragmentPresenter() {
 
+
     private var lastMarker: Marker? = null
-    private lateinit var lastPos: LatLng
     private lateinit var userLocation: LatLng
 
     private val options = MarkerOptions()
@@ -56,10 +57,7 @@ class EventsMapFragmentPresenterImpl(var view: EventsMapView?) : EventsMapFragme
     private val markerIdEventMap = HashMap<String, Event>()
 
     @Inject lateinit var api: EventsAPI
-    @Inject lateinit var eventsManager: EventsManager
     @Inject lateinit var locationManager: LocationManager
-    @Inject lateinit var socialNetworkManager: SocialNetworkManager
-    @Inject lateinit var yandexApi: YandexMapsApi
     @Inject lateinit var serviceApi: ServiceApi
     @Inject lateinit var context: Context
 
@@ -73,9 +71,7 @@ class EventsMapFragmentPresenterImpl(var view: EventsMapView?) : EventsMapFragme
     private var userPositionFound = false
 
     init {
-        App.injector
-                .usePresenterComponent()
-                .inject(this)
+        App.injector.usePresenterComponent().inject(this)
         userId = socialNetworkManager.activeUser!!.id
     }
 
@@ -221,41 +217,21 @@ class EventsMapFragmentPresenterImpl(var view: EventsMapView?) : EventsMapFragme
         view?.hideInfo()
     }
 
-    override fun zoomInClicked() {
-        map?.animateCamera(CameraUpdateFactory.zoomIn())
-    }
-
-    override fun zoomOutClicked() {
-        map?.animateCamera(CameraUpdateFactory.zoomOut())
-    }
-
     override fun loadEvents() {
 
     }
 
-    private fun loadAddressFromYandex(lat: Double, lng: Double) {
-        yandexApi.getAddressByCoordinates(longlat = "" + lng + "," + lat)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(object : Subscriber<ArrayList<GeoObject>>() {
-                    override fun onNext(t: ArrayList<GeoObject>) {
-                        if (t.isNotEmpty()) {
-                            view?.updateAddress(t[0].textAddress)
-                        }
-                        unsubscribe()
-                    }
-
-                    override fun onError(e: Throwable) {
-                        Log.e("yandex", e.message, e)
-                        unsubscribe()
-                    }
-
-                    override fun onCompleted() {
-
-                    }
-
-                })
+    override fun onAddressError(e: Throwable) {
+        Log.e("yandex", e.message, e)
     }
+
+    override fun onAddressLoaded(geoObjects: ArrayList<GeoObject>) {
+        if (geoObjects.isNotEmpty()) {
+            view?.updateAddress(geoObjects[0].textAddress)
+        }
+    }
+
+
 
     override fun fabClicked(isBottomSheet: Boolean) {
         if (!isBottomSheet) {
@@ -555,7 +531,7 @@ class EventsMapFragmentPresenterImpl(var view: EventsMapView?) : EventsMapFragme
                 .subscribeOn(Schedulers.io())
                 .subscribe(object : Subscriber<Response<Any>>() {
                     override fun onNext(t: Response<Any>) {
-                        if (t.code === 0) {
+                        if (t.code == 0) {
                             lastEvent.nowPeople += 1
                             lastEvent.isJoined = true
                             view?.showToast(android.R.string.ok)
@@ -580,7 +556,7 @@ class EventsMapFragmentPresenterImpl(var view: EventsMapView?) : EventsMapFragme
                 .subscribeOn(Schedulers.io())
                 .subscribe(object : Subscriber<Response<Any>>() {
                     override fun onNext(t: Response<Any>) {
-                        if (t.code === 0) {
+                        if (t.code == 0) {
                             lastEvent.nowPeople -= 1
                             lastEvent.isJoined = false
                             //после отсоединения от события обнуляем все задачи, отмеченные нами
@@ -618,7 +594,7 @@ class EventsMapFragmentPresenterImpl(var view: EventsMapView?) : EventsMapFragme
                     }
 
                     override fun onNext(t: Response<Any>) {
-                        if (t.code === 0) {
+                        if (t.code == 0) {
                             view?.showToast("Вы приняли на себя задачу : " + task.message)
                             val tasks = lastEventTasks
                             val changedTask = tasks?.find { it.id == task.id }
@@ -676,9 +652,7 @@ class EventsMapFragmentPresenterImpl(var view: EventsMapView?) : EventsMapFragme
 
         val TAG = "#MY " + EventsMapFragmentPresenterImpl::class.java.simpleName.substring(0, 18)
 
-        @JvmStatic private val MAX_ZOOM = 17f
         @JvmStatic private val MAX_ZOOM_WITH_LIST = 16.5f
-        @JvmStatic private val MIN_ZOOM = 10f
 
     }
 

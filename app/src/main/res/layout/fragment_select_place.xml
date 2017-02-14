@@ -7,6 +7,10 @@
         <import type="android.view.View" />
 
         <variable
+            name="zoomListener"
+            type="ru.mail.sporttogether.data.binding.ZoomListener" />
+
+        <variable
             name="data"
             type="ru.mail.sporttogether.data.binding.SelectAddressData" />
 
@@ -54,6 +58,7 @@
                     android:layout_gravity="center">
 
                     <ImageView
+                        android:id="@+id/pin_user"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:src="@drawable/pin_user" /> 
@@ -74,6 +79,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="0dp"
+                android:lines="2"
                 android:text="@={data.address}"
                 android:textSize="17sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -102,6 +108,48 @@
                     android:layout_height="match_parent"
                     android:visibility="@{data.isAddressLoading? View.VISIBLE : View.GONE}" />
             </FrameLayout>
+
+            <LinearLayout
+                android:id="@+id/zoom_panel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|center_horizontal"
+                android:layout_margin="8dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toTopOf="@id/address_view"
+                app:layout_constraintRight_toRightOf="parent">
+
+                <TextView
+                    android:id="@+id/zoom_up"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:background="@drawable/circle_white"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:onClick="@{() -> zoomListener.zoomInClicked()}"
+                    android:text="+"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                <TextView
+                    android:id="@+id/zoom_down"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:background="@drawable/circle_white"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:onClick="@{() -> zoomListener.zoomOutClicked()}"
+                    android:text="-"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textSize="20sp" />
+            </LinearLayout>
         </android.support.constraint.ConstraintLayout>
     </LinearLayout>
 </layout>
