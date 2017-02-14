@@ -88,6 +88,7 @@
 
     <string name="action_settings">Settings</string>
     <string name="address">Место</string>
+    <string name="next">ДАЛЕЕ</string>
     <string name="sport">Спорт*</string>
     <string name="time">Время начала</string>
     <string name="organizer">Организатор</string>

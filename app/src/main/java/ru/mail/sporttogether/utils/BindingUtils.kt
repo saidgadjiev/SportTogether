@@ -5,6 +5,8 @@ import android.databinding.BindingMethod
 import android.databinding.BindingMethods
 import android.view.View
 import android.view.ViewGroup.MarginLayoutParams
+import android.widget.ImageView
+import com.bumptech.glide.Glide
 
 
 /**
@@ -28,5 +30,23 @@ object BindingUtils {
         layoutParams.setMargins(layoutParams.leftMargin, Math.round(value),
                 layoutParams.rightMargin, layoutParams.bottomMargin)
         view.layoutParams = layoutParams
+    }
+
+    @JvmStatic
+    @BindingAdapter("app:srcCompat")
+    fun setCompatImage(iv: ImageView, url: String?) {
+        if (!url.isNullOrEmpty())
+            Glide.with(iv.context)
+                    .load(url)
+                    .into(iv)
+    }
+
+    @JvmStatic
+    @BindingAdapter("android:src")
+    fun setImage(iv: ImageView, url: String?) {
+        if (!url.isNullOrEmpty())
+            Glide.with(iv.context)
+                    .load(url)
+                    .into(iv)
     }
 }

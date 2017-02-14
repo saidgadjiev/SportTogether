@@ -10,9 +10,12 @@ import java.util.*
  * Created by bagrusss on 20.10.16
  */
 class EventsManagerImpl : EventsManager {
+
     private var needShowIdEvent: Long? = null
 
     private val eventsMap = LongSparseArray<Event>()
+
+    private var creatingEvent: Event? = null
 
     private val eventsUpdate: PublishSubject<EventsManager.NewData<*>> = PublishSubject.create()
 
@@ -82,6 +85,12 @@ class EventsManagerImpl : EventsManager {
     }
 
     override fun getObservable() = eventsUpdate
+
+    override fun getCreatingEvent() = creatingEvent
+
+    override fun setCreatingEvent(e: Event) {
+        creatingEvent = e
+    }
 
     companion object {
         val TAG = "#MY " + EventsManagerImpl::class.java.simpleName

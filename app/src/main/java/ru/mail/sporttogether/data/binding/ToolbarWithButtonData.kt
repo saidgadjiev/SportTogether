@@ -7,6 +7,6 @@ import android.databinding.ObservableField
  * Created by bagrusss on 12.02.17
  */
 class ToolbarWithButtonData {
-    val text = ObservableField<String>()
-    val isVisible = ObservableBoolean(true)
+    val buttonText = ObservableField<String>()
+    val buttonIsVisible = ObservableBoolean(true)
 }

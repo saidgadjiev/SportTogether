@@ -4,6 +4,12 @@
 
     <data>
 
+        <import type="android.view.View" />
+
+        <variable
+            name="data"
+            type="ru.mail.sporttogether.data.binding.SelectAddressData" />
+
         <variable
             name="toolbarListener"
             type="ru.mail.sporttogether.data.binding.ToolbarWithButtonListener" />
@@ -19,12 +25,12 @@
         android:orientation="vertical">
 
         <include
+            android:id="@+id/include"
             layout="@layout/toolbar_with_button"
             app:toolbarData="@{toolbarData}"
             app:toolbarListener="@{toolbarListener}" />
 
-        <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -58,7 +64,7 @@
                         android:layout_height="37dp"
                         android:layout_gravity="center_horizontal"
                         android:padding="3dp"
-                        android:src="@color/gray" />
+                        android:src="@{data.userImage}" />
                 </FrameLayout>
             </FrameLayout>
 
@@ -68,7 +74,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="0dp"
-                android:text="TextView"
+                android:text="@={data.address}"
                 android:textSize="17sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -88,11 +94,13 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:visibility="@{!data.isAddressLoading? View.VISIBLE : View.GONE}"
                     app:srcCompat="@drawable/ic_location" />
 
                 <ProgressBar
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:visibility="@{data.isAddressLoading? View.VISIBLE : View.GONE}" />
             </FrameLayout>
         </android.support.constraint.ConstraintLayout>
     </LinearLayout>

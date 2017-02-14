@@ -47,5 +47,9 @@ interface EventsManager {
 
     fun getObservable(): PublishSubject<NewData<*>>
 
+    fun getCreatingEvent(): Event?
+
+    fun setCreatingEvent(e: Event)
+
 
 }

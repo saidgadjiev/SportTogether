@@ -1,6 +1,5 @@
 package ru.mail.sporttogether.mvp
 
-import android.R
 import android.os.Bundle
 import android.support.annotation.CallSuper
 import android.support.annotation.StringRes
@@ -52,7 +51,7 @@ abstract class PresenterActivity<T : IPresenter> : AppCompatActivity(), IView {
 
     @CallSuper
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.home) {
+        if (item.itemId == android.R.id.home) {
             onBackPressed()
             return true
         }

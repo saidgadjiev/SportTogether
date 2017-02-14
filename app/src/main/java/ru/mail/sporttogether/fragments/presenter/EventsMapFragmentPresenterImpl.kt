@@ -42,9 +42,7 @@ import javax.inject.Inject
 /**
  * Created by bagrusss on 01.10.16
  */
-class EventsMapFragmentPresenterImpl(var view: EventsMapView?) : EventsMapFragmentPresenter {
-
-    private var map: GoogleMap? = null
+class EventsMapFragmentPresenterImpl(var view: EventsMapView?) : EventsMapFragmentPresenter() {
 
     private var lastMarker: Marker? = null
     private lateinit var lastPos: LatLng
@@ -201,7 +199,7 @@ class EventsMapFragmentPresenterImpl(var view: EventsMapView?) : EventsMapFragme
     }
 
     override fun onMapReady(map: GoogleMap) {
-        this.map = map
+        super.onMapReady(map)
         map.isBuildingsEnabled = true
         map.setOnMapClickListener(this)
         map.setOnMarkerClickListener(this)

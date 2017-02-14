@@ -25,6 +25,7 @@ import kotlinx.android.synthetic.main.events_map.*
 import ru.mail.sporttogether.R
 import ru.mail.sporttogether.activities.AddEventActivity
 import ru.mail.sporttogether.activities.DrawerActivity
+import ru.mail.sporttogether.activities.NewAddActivity
 import ru.mail.sporttogether.adapter.MapEventsAdapter
 import ru.mail.sporttogether.adapter.TaskAdapter
 import ru.mail.sporttogether.data.binding.event.ButtonListener
@@ -304,7 +305,8 @@ class EventsMapFragment :
 
     override fun startAddEventActivity(lng: Double, lat: Double) {
         val event = Event(lat = lat, lng = lng)
-        AddEventActivity.startForResult(this, event, REQUEST_CODE)
+        //AddEventActivity.startForResult(this, event, REQUEST_CODE)
+        NewAddActivity.startForResult(this, lat, lng, REQUEST_CODE)
     }
 
     override fun finishView() {

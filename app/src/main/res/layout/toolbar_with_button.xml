@@ -33,9 +33,9 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="right|center_vertical"
                 android:onClick="@{toolbarListener::onNextClicked}"
-                android:text="@{toolbarData.text}"
+                android:text="@{toolbarData.buttonText}"
                 android:textColor="@color/white"
-                android:visibility="@{toolbarData.isVisible? View.VISIBLE : View.INVISIBLE}"
+                android:visibility="@{toolbarData.buttonIsVisible? View.VISIBLE : View.INVISIBLE}"
                 tools:text="NEXT" />
 
         </android.support.v7.widget.Toolbar>
