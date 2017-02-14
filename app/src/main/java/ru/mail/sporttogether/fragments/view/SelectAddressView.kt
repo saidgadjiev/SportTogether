@@ -9,5 +9,6 @@ import ru.mail.sporttogether.mvp.IView
 interface SelectAddressView : IView, GoogleMap.OnCameraIdleListener {
 
     fun updateAddress(address: String)
+    fun onAddressSaved()
 
 }

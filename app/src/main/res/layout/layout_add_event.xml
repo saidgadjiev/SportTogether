@@ -10,7 +10,7 @@
 
         <variable
             name="data"
-            type="ru.mail.sporttogether.data.binding.AddEventData" />
+            type="ru.mail.sporttogether.data.binding.FillEventData" />
     </data>
 
     <android.support.v4.widget.NestedScrollView

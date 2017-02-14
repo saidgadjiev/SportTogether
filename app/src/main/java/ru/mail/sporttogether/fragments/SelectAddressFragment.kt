@@ -92,10 +92,17 @@ class SelectAddressFragment :
         binding.zoomListener = null
     }
 
+    override fun onAddressSaved() {
+        val act = activity
+        if (isAdded && act is NewAddActivity) {
+            act.nextStep()
+        }
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
             val act = activity
-            if (isAdded && act is AppCompatActivity) {
+            if (isAdded && act is NewAddActivity) {
                 act.onBackPressed()
                 return true
             }
@@ -132,7 +139,7 @@ class SelectAddressFragment :
     }
 
     override fun onNextClicked() {
-
+        presenter.saveAddress(data.address.get())
     }
 
     companion object {

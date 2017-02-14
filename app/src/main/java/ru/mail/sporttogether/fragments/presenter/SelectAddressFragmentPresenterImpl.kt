@@ -74,6 +74,11 @@ class SelectAddressFragmentPresenterImpl(var view: SelectAddressView?) : SelectA
         }
     }
 
+    override fun saveAddress(address: String) {
+        currentEvent.address = address
+        view?.onAddressSaved()
+    }
+
     override fun onAddressError(e: Throwable) {
 
     }

@@ -6,7 +6,7 @@ import android.databinding.ObservableField
 /**
  * Created by bagrusss on 14.02.17
  */
-class AddEventData {
+class FillEventData {
     val name = ObservableField<String>()
     val address = ObservableField<String>()
     val date = ObservableField<String>()

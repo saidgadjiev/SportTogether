@@ -10,5 +10,6 @@ abstract class SelectAddressFragmentPresenter : MapPresenter() {
 
     abstract fun getUserImgUrl(): String
     abstract fun updateLocation(lat: Double, lng: Double)
+    abstract fun saveAddress(address: String)
 
 }

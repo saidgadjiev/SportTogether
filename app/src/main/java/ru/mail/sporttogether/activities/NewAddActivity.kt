@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import ru.mail.sporttogether.R
 import ru.mail.sporttogether.databinding.ActivityNewAddBinding
+import ru.mail.sporttogether.fragments.FillEventFragment
 import ru.mail.sporttogether.fragments.SelectAddressFragment
 
 class NewAddActivity :
@@ -40,12 +41,25 @@ class NewAddActivity :
             STEP_ADDRESS -> {
                 ft.replace(R.id.container, SelectAddressFragment.newInstance(lat, lng))
             }
-            else -> {
+            STEP_FILL_INFO -> {
+                ft.replace(R.id.container, FillEventFragment()).addToBackStack(null)
+            }
+            STEP_TASKS -> {
 
             }
 
         }
         ft.commit()
+    }
+
+    override fun onBackPressed() {
+        --step
+        super.onBackPressed()
+    }
+
+    fun nextStep() {
+        ++step
+        selectFragment(step)
     }
 
     companion object {
