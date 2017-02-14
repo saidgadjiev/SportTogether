@@ -22,4 +22,6 @@ interface AddEventPresenter : IPresenter {
         super.onCreate(args)
     }
 
+    fun updateAddress()
+
 }

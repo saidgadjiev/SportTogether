@@ -1,5 +1,6 @@
 package ru.mail.sporttogether.activities
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
@@ -162,6 +163,17 @@ class AddEventActivity :
                     visibleCategoryProgressBar()
                     presenter.loadCategoriesBySubname(e.text().toString())
                 }
+    }
+
+    override fun onAddressClicked() {
+        NewAddActivity.startForSelectAddress(this, REQUEST_CODE)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK){
+            presenter.updateAddress()
+        }
     }
 
     private fun fillFromTemplate(e: Event) {
@@ -331,6 +343,7 @@ class AddEventActivity :
         @JvmStatic private val KEY_ID = "ID"
         @JvmStatic val KEY_EVENT = "event"
         @JvmStatic private val KEY_FROM_TEMPLATE = "KEY_FROM_TEMPLATE"
+        @JvmStatic private val REQUEST_CODE = 8065
 
         @JvmStatic
         fun startForResult(f: PresenterFragment<*>, event: Event, code: Int) {

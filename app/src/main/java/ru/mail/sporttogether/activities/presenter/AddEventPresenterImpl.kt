@@ -68,6 +68,12 @@ class AddEventPresenterImpl(var view: AddEventView?) : AddEventPresenter {
 
     }
 
+    override fun updateAddress() {
+        eventsManager.getCreatingEvent()?.let {
+            view?.updateAddress(it.address)
+        }
+    }
+
     override fun onDestroy() {
         view = null
         eventSubscribtion?.unsubscribe()

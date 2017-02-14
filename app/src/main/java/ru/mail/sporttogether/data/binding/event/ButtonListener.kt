@@ -6,4 +6,6 @@ package ru.mail.sporttogether.data.binding.event
  */
 interface ButtonListener {
     fun onButtonClicked()
+
+    fun onAddressClicked(){}
 }

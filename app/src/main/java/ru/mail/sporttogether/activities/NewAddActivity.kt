@@ -1,5 +1,6 @@
 package ru.mail.sporttogether.activities
 
+import android.app.Activity
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
@@ -58,6 +59,11 @@ class NewAddActivity :
     }
 
     fun nextStep() {
+        if (!isFullCreate){
+            setResult(Activity.RESULT_OK)
+            finish()
+            return
+        }
         ++step
         selectFragment(step)
     }
@@ -80,6 +86,13 @@ class NewAddActivity :
                 fragment.startActivityForResult(this, reqCode)
             }
 
+        }
+
+        @JvmStatic
+        fun startForSelectAddress(activity:Activity, reqCode: Int){
+            val intent = Intent(activity, NewAddActivity::class.java)
+            intent.putExtra(KEY_FULL, false)
+            activity.startActivityForResult(intent, reqCode)
         }
     }
 }
