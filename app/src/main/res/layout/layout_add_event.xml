@@ -22,8 +22,7 @@
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:orientation="vertical">
+            android:layout_marginTop="16dp">
 
             <LinearLayout
                 android:id="@+id/layout_address"
@@ -65,9 +64,10 @@
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/textInputLayout"
-                style="@style/ClickableView"
+                style="@style/NestedViewStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:theme="@style/TextInputLayoutTheme"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/layout_address">
@@ -96,9 +96,10 @@
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/sportTextInput"
-                style="@style/ClickableView"
+                style="@style/NestedViewStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:theme="@style/TextInputLayoutTheme"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
@@ -162,9 +163,10 @@
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/peopleTextInput"
-                style="@style/ClickableView"
+                style="@style/NestedViewStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:theme="@style/TextInputLayoutTheme"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/layout_date">
@@ -192,9 +194,10 @@
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/descriptionTextInput"
-                style="@style/ClickableView"
+                style="@style/NestedViewStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:theme="@style/TextInputLayoutTheme"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
@@ -204,7 +207,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/description"
-                    android:inputType="number"
+                    android:inputType="textMultiLine"
                     android:maxLines="4"
                     android:text="@={data.description}" />
             </android.support.design.widget.TextInputLayout>
@@ -222,9 +225,9 @@
 
             <android.support.v7.widget.SwitchCompat
                 android:id="@+id/add_event_switch"
-                style="@style/ClickableView"
+                style="@style/NestedViewStyle"
                 android:layout_width="0dp"
-                android:layout_height="48dp"
+                android:layout_height="wrap_content"
                 android:checked="@={data.needAddTemplate}"
                 android:text="@string/add_template"
                 app:buttonTint="?colorPrimary"
@@ -234,12 +237,14 @@
 
             <android.support.v7.widget.SwitchCompat
                 android:id="@+id/add_me_now"
-                style="@style/ClickableView"
+                style="@style/NestedViewStyle"
                 android:layout_width="0dp"
-                android:layout_height="48dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
                 android:checked="@={data.joinToEvent}"
                 android:text="@string/add_to_event"
                 app:buttonTint="?colorPrimary"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/add_event_switch"
