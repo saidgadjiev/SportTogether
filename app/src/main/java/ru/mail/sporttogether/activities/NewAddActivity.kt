@@ -59,7 +59,7 @@ class NewAddActivity :
     }
 
     fun nextStep() {
-        if (!isFullCreate){
+        if (!isFullCreate) {
             setResult(Activity.RESULT_OK)
             finish()
             return
@@ -76,6 +76,7 @@ class NewAddActivity :
         @JvmStatic private val KEY_LAT = "KEY_LAT"
         @JvmStatic private val KEY_LNG = "KEY_LNG"
         @JvmStatic private val KEY_FULL = "KEY_FULL"
+        @JvmStatic private val KEY_EVENT = "KEY_EVENT"
 
         @JvmStatic
         fun startForResult(fragment: Fragment, lat: Double, lng: Double, reqCode: Int, isFullCreate: Boolean = true) {
@@ -89,9 +90,11 @@ class NewAddActivity :
         }
 
         @JvmStatic
-        fun startForSelectAddress(activity:Activity, reqCode: Int){
+        fun startForSelectAddress(activity: Activity, lat: Double, lng: Double, reqCode: Int) {
             val intent = Intent(activity, NewAddActivity::class.java)
             intent.putExtra(KEY_FULL, false)
+            intent.putExtra(KEY_LAT, lat)
+            intent.putExtra(KEY_LNG, lng)
             activity.startActivityForResult(intent, reqCode)
         }
     }

@@ -40,6 +40,7 @@ import rx.android.schedulers.AndroidSchedulers
 import java.util.*
 import java.util.regex.Pattern
 
+@Deprecated("shit code")
 class AddEventActivity :
         PresenterActivity<AddEventPresenter>(),
         AddEventView,
@@ -166,12 +167,12 @@ class AddEventActivity :
     }
 
     override fun onAddressClicked() {
-        NewAddActivity.startForSelectAddress(this, REQUEST_CODE)
+        NewAddActivity.startForSelectAddress(this, event.lat, event.lng, REQUEST_CODE)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK){
+        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             presenter.updateAddress()
         }
     }
@@ -260,9 +261,6 @@ class AddEventActivity :
     override fun invisibleCategoryProgressBar() {
         loadingCategoriesProgressBar.visibility = View.GONE
     }
-
-
-
 
 
     private fun setupCoordinates() {

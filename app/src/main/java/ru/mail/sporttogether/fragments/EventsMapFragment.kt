@@ -297,7 +297,8 @@ class EventsMapFragment :
 
     override fun startAddEventActivity(lng: Double, lat: Double) {
         val event = Event(lat = lat, lng = lng)
-        NewAddActivity.startForResult(this, lat, lng, REQUEST_CODE)
+        //NewAddActivity.startForResult(this, lat, lng, REQUEST_CODE)
+        AddEventActivity.startForResult(this, event, REQUEST_CODE)
     }
 
     override fun finishView() {
