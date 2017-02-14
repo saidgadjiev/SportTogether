@@ -73,7 +73,6 @@ class EventsMapFragment :
 
     private var markerDownX = 0
     private var markerDownY = 0
-    private var tabHeight = 0
     private var locationDialog: Dialog? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -148,7 +147,7 @@ class EventsMapFragment :
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val viewTreeObserver = binding.userPoint.viewTreeObserver
+        val viewTreeObserver = binding.mapview.viewTreeObserver
         if (viewTreeObserver.isAlive) {
             viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
                 override fun onGlobalLayout() {
@@ -157,18 +156,11 @@ class EventsMapFragment :
                 }
             })
         }
-        presenter.loadPinImage()
-    }
-
-    override fun loadUserPinImage(url: String) {
-        Glide.with(context)
-                .load(url)
-                .into(binding.userPic)
     }
 
     fun initMarkerCoordinates() {
         val array: IntArray = IntArray(2)
-        val view = binding.userPoint
+        val view = binding.mapview
         view.getLocationOnScreen(array)
 
         //костыль, но ширирна определяется правильно
@@ -178,7 +170,7 @@ class EventsMapFragment :
         markerDownX = size.x / 2
 
         val toolbarHeight = (activity as PresenterActivity<*>).supportActionBar?.height ?: 0
-        markerDownY = array[1] + view.height - statusBarHeight - toolbarHeight - tabHeight
+        markerDownY = array[1] + view.height / 2 - statusBarHeight - toolbarHeight
     }
 
     override fun shareResults(event: Event) {
@@ -305,7 +297,6 @@ class EventsMapFragment :
 
     override fun startAddEventActivity(lng: Double, lat: Double) {
         val event = Event(lat = lat, lng = lng)
-        //AddEventActivity.startForResult(this, event, REQUEST_CODE)
         NewAddActivity.startForResult(this, lat, lng, REQUEST_CODE)
     }
 

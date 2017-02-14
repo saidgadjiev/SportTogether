@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -28,37 +27,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <FrameLayout
+        <com.google.android.gms.maps.MapView
+            android:id="@+id/mapview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <com.google.android.gms.maps.MapView
-                android:id="@+id/mapview"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-            <FrameLayout
-                android:id="@+id/user_point"
-                android:layout_width="40dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:src="@drawable/pin_user" />
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/user_pic"
-                    android:layout_width="37dp"
-                    android:layout_height="37dp"
-                    android:layout_gravity="center_horizontal"
-                    android:padding="3dp"
-                    android:src="@color/gray" />
-            </FrameLayout>
-
-        </FrameLayout>
+            android:layout_height="match_parent" />
 
         <FrameLayout
             android:id="@+id/bottom_sheet"
@@ -131,7 +103,7 @@
 
         <include
             android:id="@+id/map_events_list_include"
-            layout="@layout/map_events_list"/>
+            layout="@layout/map_events_list" />
 
         <FrameLayout
             android:id="@+id/events_list_sheet"

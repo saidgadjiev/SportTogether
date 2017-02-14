@@ -92,6 +92,17 @@ class SelectAddressFragment :
         binding.zoomListener = null
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            val act = activity
+            if (isAdded && act is AppCompatActivity) {
+                act.onBackPressed()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
     fun initMarkerCoordinates() {
         val array: IntArray = IntArray(2)
         val view = binding.pinUser

@@ -15,7 +15,6 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.iid.FirebaseInstanceId
 import ru.mail.sporttogether.R
 import ru.mail.sporttogether.app.App
-import ru.mail.sporttogether.auth.core.SocialNetworkManager
 import ru.mail.sporttogether.fragments.view.EventsMapView
 import ru.mail.sporttogether.managers.EventsManager
 import ru.mail.sporttogether.managers.LocationManager
@@ -23,7 +22,6 @@ import ru.mail.sporttogether.net.EventsResponse
 import ru.mail.sporttogether.net.Response
 import ru.mail.sporttogether.net.api.EventsAPI
 import ru.mail.sporttogether.net.api.ServiceApi
-import ru.mail.sporttogether.net.api.YandexMapsApi
 import ru.mail.sporttogether.net.models.Event
 import ru.mail.sporttogether.net.models.IpResponse
 import ru.mail.sporttogether.net.models.Task
@@ -37,7 +35,6 @@ import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import java.util.*
 import javax.inject.Inject
-import kotlin.collections.ArrayList
 
 
 /**
@@ -143,12 +140,6 @@ class EventsMapFragmentPresenterImpl(var view: EventsMapView?) : EventsMapFragme
         locationManager.endLocationUpdate()
     }
 
-    override fun loadPinImage() {
-        socialNetworkManager.activeUser?.let {
-            view?.loadUserPinImage(it.avatar)
-        }
-    }
-
     override fun checkLocation() {
         if (!locationManager.checkLocationEnabled(context)) {
             view?.onLocationNotChecked()
@@ -230,7 +221,6 @@ class EventsMapFragmentPresenterImpl(var view: EventsMapView?) : EventsMapFragme
             view?.updateAddress(geoObjects[0].textAddress)
         }
     }
-
 
 
     override fun fabClicked(isBottomSheet: Boolean) {
@@ -350,7 +340,7 @@ class EventsMapFragmentPresenterImpl(var view: EventsMapView?) : EventsMapFragme
                 map.animateCamera(CameraUpdateFactory.zoomTo(MIN_ZOOM))
                 return
             }
-            lastPos = map.projection.fromScreenLocation(Point(x, y))
+            lastPos = map.cameraPosition.target
             apiSubscribtion?.unsubscribe()
             apiSubscribtion = calculateScale(lastPos, x)
                     .subscribeOn(Schedulers.computation())

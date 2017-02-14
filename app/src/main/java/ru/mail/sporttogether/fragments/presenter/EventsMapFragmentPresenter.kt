@@ -1,7 +1,6 @@
 package ru.mail.sporttogether.fragments.presenter
 
 import com.google.android.gms.maps.GoogleMap
-import ru.mail.sporttogether.data.binding.ZoomListener
 import ru.mail.sporttogether.data.binding.event.GoToMarker
 import ru.mail.sporttogether.fragments.CheckingTasks
 import ru.mail.sporttogether.mvp.MapPresenter
@@ -39,8 +38,5 @@ abstract class EventsMapFragmentPresenter :
     abstract fun doAngry()
 
     abstract fun getMyId(): Long
-
-    abstract fun loadPinImage()
-
 
 }
