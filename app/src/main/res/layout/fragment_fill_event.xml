@@ -61,7 +61,7 @@
                     android:layout_height="?attr/actionBarSize"
                     app:layout_collapseMode="pin"
                     app:popupTheme="@style/AppTheme.PopupOverlay"
-                    app:titleTextColor="@color/colorSecondaryText">
+                    app:titleTextColor="@color/black_universal">
 
                     <Button
                         style="?android:attr/borderlessButtonStyle"

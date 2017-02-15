@@ -39,6 +39,7 @@ import rx.android.schedulers.AndroidSchedulers
 import java.util.*
 import java.util.regex.Pattern
 
+@Deprecated("shitcode")
 class AddEventActivity :
         PresenterActivity<AddEventPresenter>(),
         AddEventView,
@@ -248,10 +249,6 @@ class AddEventActivity :
     override fun invisibleCategoryProgressBar() {
         loadingCategoriesProgressBar.visibility = View.GONE
     }
-
-
-
-
 
     private fun setupCoordinates() {
 

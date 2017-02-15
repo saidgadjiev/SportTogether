@@ -63,16 +63,16 @@
                 app:srcCompat="@drawable/ic_location" />
 
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/textInputLayout"
+                android:id="@+id/nameInputLayout"
                 style="@style/NestedViewStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:theme="@style/TextInputLayoutTheme"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/layout_address">
 
                 <EditText
+                    android:id="@+id/edit_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -91,7 +91,7 @@
                 android:layout_marginTop="16dp"
                 android:tint="?colorPrimary"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/textInputLayout"
+                app:layout_constraintTop_toTopOf="@+id/nameInputLayout"
                 app:srcCompat="@drawable/ic_map" />
 
             <android.support.design.widget.TextInputLayout
@@ -99,12 +99,12 @@
                 style="@style/NestedViewStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:theme="@style/TextInputLayoutTheme"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
+                app:layout_constraintTop_toBottomOf="@+id/nameInputLayout">
 
                 <AutoCompleteTextView
+                    android:id="@+id/edit_sport"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/sport"
@@ -166,12 +166,12 @@
                 style="@style/NestedViewStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:theme="@style/TextInputLayoutTheme"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/layout_date">
 
-                <EditText
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/edit_people"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/max_people_event_hint"
@@ -197,13 +197,13 @@
                 style="@style/NestedViewStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:theme="@style/TextInputLayoutTheme"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/peopleTextInput">
 
-                <EditText
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/edit_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/description"

@@ -57,11 +57,11 @@ abstract class MapPresenter :
                 })
     }
 
-    abstract fun onAddressError(e: Throwable)
+    open fun onAddressError(e: Throwable) {}
 
-    abstract fun onAddressLoaded(geoObjects: ArrayList<GeoObject>)
+    open fun onAddressLoaded(geoObjects: ArrayList<GeoObject>) {}
 
-    abstract fun onCameraIdle(x: Int, y: Int)
+    open fun onCameraIdle(x: Int, y: Int) {}
 
     override fun zoomInClicked() {
         map?.animateCamera(CameraUpdateFactory.zoomIn())

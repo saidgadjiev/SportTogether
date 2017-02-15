@@ -34,17 +34,25 @@ class FillEventPresenterImpl(var view: FillEventView?) : FillEventPresenter() {
         }
     }
 
-    override fun onAddressError(e: Throwable) {
-
+    override fun fillEvent(name: String,
+                           sport: String,
+                           maxPeople: Int,
+                           description: String,
+                           time: Long,
+                           joinToEvent: Boolean,
+                           needAddTemplate: Boolean) {
+        val event = eventsManager.getCreatingEvent()
+        event?.let {
+            it.name = name
+            it.category.name = sport
+            it.maxPeople = maxPeople
+            it.description = description
+            it.date = time
+            it.isJoined = joinToEvent
+            it.isEnded = needAddTemplate //нужно для создания события на 3 этапе
+        }
     }
 
-    override fun onAddressLoaded(geoObjects: ArrayList<GeoObject>) {
-
-    }
-
-    override fun onCameraIdle(x: Int, y: Int) {
-
-    }
 
 
 }
