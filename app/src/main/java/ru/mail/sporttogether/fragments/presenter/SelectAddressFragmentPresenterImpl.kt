@@ -38,12 +38,13 @@ class SelectAddressFragmentPresenterImpl(var view: SelectAddressView?) : SelectA
     }
 
     override fun updateLocation(lat: Double, lng: Double) {
-        if (eventsManager.getCreatingEvent() == null) {
-            val currentEvent = Event()
-            currentEvent.lng = lng
-            currentEvent.lat = lat
+        var currentEvent = eventsManager.getCreatingEvent()
+        if (currentEvent == null) {
+            currentEvent = Event()
             eventsManager.setCreatingEvent(currentEvent)
         }
+        currentEvent.lng = lng
+        currentEvent.lat = lat
     }
 
     override fun onMapReady(mapa: GoogleMap) {

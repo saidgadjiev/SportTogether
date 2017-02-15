@@ -2,7 +2,6 @@ package ru.mail.sporttogether.fragments.presenter
 
 import android.Manifest
 import android.content.Context
-import android.graphics.Point
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
@@ -225,8 +224,9 @@ class EventsMapFragmentPresenterImpl(var view: EventsMapView?) : EventsMapFragme
 
     override fun fabClicked(isBottomSheet: Boolean) {
         if (!isBottomSheet) {
-            lastPos.let {
-                view?.startAddEventActivity(it.longitude, it.latitude)
+            map?.let { map ->
+                val currentPos = map.cameraPosition.target
+                view?.startAddEventActivity(currentPos.longitude, currentPos.latitude)
             }
         } else {
             view?.shareResults(lastEvent)
@@ -440,7 +440,6 @@ class EventsMapFragmentPresenterImpl(var view: EventsMapView?) : EventsMapFragme
                 markerIdEventMap.put(marker.id, event)
             }
             options.icon(null)
-            Log.v("EventsMapPresenter", "add events")
         }
     }
 
