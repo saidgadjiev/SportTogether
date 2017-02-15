@@ -44,7 +44,8 @@
                 android:layout_height="match_parent"
                 android:fitsSystemWindows="true"
                 app:contentScrim="?attr/colorPrimary"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed">
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:titleEnabled="false">
 
                 <com.google.android.gms.maps.MapView
                     android:id="@+id/map_view"
@@ -60,8 +61,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     app:layout_collapseMode="pin"
-                    app:popupTheme="@style/AppTheme.PopupOverlay"
-                    app:titleTextColor="@color/black_universal">
+                    app:popupTheme="@style/AppTheme.PopupOverlay">
 
                     <Button
                         style="?android:attr/borderlessButtonStyle"

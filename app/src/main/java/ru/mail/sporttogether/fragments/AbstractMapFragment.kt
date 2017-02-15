@@ -2,7 +2,6 @@ package ru.mail.sporttogether.fragments
 
 import android.os.Bundle
 import com.google.android.gms.maps.MapView
-import ru.mail.sporttogether.mvp.IPresenter
 import ru.mail.sporttogether.mvp.MapPresenter
 import ru.mail.sporttogether.mvp.PresenterFragment
 
@@ -25,11 +24,11 @@ abstract class AbstractMapFragment<T : MapPresenter> :
 
     override fun onStart() {
         super.onStart()
-        mapView.onStart()
+        //mapView.onStart()
     }
 
     override fun onStop() {
-        mapView.onStop()
+        //mapView.onStop()
         super.onStop()
     }
 

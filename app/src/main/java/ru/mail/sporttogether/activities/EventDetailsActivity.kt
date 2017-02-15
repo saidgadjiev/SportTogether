@@ -6,7 +6,9 @@ import android.databinding.DataBindingUtil
 import android.graphics.Color
 import android.os.Bundle
 import android.support.design.widget.CollapsingToolbarLayout
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.Toolbar
+import android.view.View
 import com.bumptech.glide.Glide
 import com.google.android.gms.maps.MapView
 import ru.mail.sporttogether.R
@@ -32,6 +34,7 @@ class EventDetailsActivity :
     private var event: Event? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_event_details)
         binding.data = data
@@ -41,7 +44,8 @@ class EventDetailsActivity :
         mapView = binding.mapView
 
         setupToolbar(toolbar)
-        collapsingToolbarLayout.setExpandedTitleColor(Color.GRAY)
+        collapsingToolbarLayout.setExpandedTitleColor(ContextCompat.getColor(this, R.color.black_universal))
+
 
         presenter = EventDetailsPresenterImpl(this)
 
@@ -69,13 +73,13 @@ class EventDetailsActivity :
 
     override fun onStart() {
         super.onStart()
-        mapView.onStart()
+        //mapView.onStart()
         binding.listener = this
     }
 
     override fun onStop() {
         super.onStop()
-        mapView.onStop()
+        //mapView.onStop()
         binding.listener = null
     }
 

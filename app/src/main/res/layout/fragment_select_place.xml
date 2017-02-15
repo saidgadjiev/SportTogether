@@ -28,6 +28,13 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <View
+            android:id="@+id/statusbar_top_padding"
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            android:fitsSystemWindows="true"
+            android:background="?colorPrimary" />
+
         <include
             android:id="@+id/include"
             layout="@layout/toolbar_with_button"
@@ -77,8 +84,9 @@
                 android:id="@+id/address_view"
                 style="@style/ClickableView"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="80dp"
                 android:layout_marginBottom="0dp"
+                android:gravity="center_vertical"
                 android:maxLines="2"
                 android:text="@={data.address}"
                 android:textSize="17sp"

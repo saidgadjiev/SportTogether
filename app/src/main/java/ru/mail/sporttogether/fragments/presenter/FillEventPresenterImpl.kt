@@ -6,7 +6,6 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import ru.mail.sporttogether.app.App
 import ru.mail.sporttogether.fragments.view.FillEventView
-import ru.mail.sporttogether.net.models.yandex.maps.GeoObject
 
 /**
  * Created by bagrusss on 14.02.17
@@ -25,6 +24,11 @@ class FillEventPresenterImpl(var view: FillEventView?) : FillEventPresenter() {
 
     override fun onMapReady(mapa: GoogleMap) {
         super.onMapReady(mapa)
+        mapa.uiSettings.setAllGesturesEnabled(false)
+        mapa.uiSettings.isMapToolbarEnabled = false
+        mapa.setOnMapClickListener {
+
+        }
         val event = eventsManager.getCreatingEvent()
         event?.let {
             val latlng = LatLng(it.lat, it.lng)
@@ -52,7 +56,6 @@ class FillEventPresenterImpl(var view: FillEventView?) : FillEventPresenter() {
             it.isEnded = needAddTemplate //нужно для создания события на 3 этапе
         }
     }
-
 
 
 }

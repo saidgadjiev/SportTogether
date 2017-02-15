@@ -27,7 +27,7 @@
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/adding_tasks_recycler_view"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"

@@ -8,6 +8,7 @@ import ru.mail.sporttogether.app.App
 import ru.mail.sporttogether.fragments.view.SelectAddressView
 import ru.mail.sporttogether.net.models.Event
 import ru.mail.sporttogether.net.models.yandex.maps.GeoObject
+import java.util.*
 
 /**
  * Created by bagrusss on 12.02.17

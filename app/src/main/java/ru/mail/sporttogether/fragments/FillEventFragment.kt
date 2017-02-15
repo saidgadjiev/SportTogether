@@ -2,6 +2,7 @@ package ru.mail.sporttogether.fragments
 
 import android.os.Bundle
 import android.support.design.widget.TextInputLayout
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
 import android.view.View
@@ -30,6 +31,8 @@ class FillEventFragment : AbstractMapFragment<FillEventPresenter>(), FillEventVi
 
     private lateinit var toolbar: Toolbar
     private lateinit var nameInputLayout: TextInputLayout
+    private lateinit var sportInputLayout: TextInputLayout
+    private lateinit var peopleInputLayout: TextInputLayout
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentFillEventBinding.inflate(inflater, container, false)
@@ -42,6 +45,7 @@ class FillEventFragment : AbstractMapFragment<FillEventPresenter>(), FillEventVi
         toolbarData.buttonText.set(getString(R.string.next))
         toolbar.title = getString(R.string.add_event)
 
+
         presenter = FillEventPresenterImpl(this)
 
         mapView = binding.mapView
@@ -50,6 +54,8 @@ class FillEventFragment : AbstractMapFragment<FillEventPresenter>(), FillEventVi
 
 
         nameInputLayout = binding.include.nameInputLayout
+        sportInputLayout = binding.include.sportTextInput
+        peopleInputLayout = binding.include.peopleTextInput
         return binding.root
     }
 
@@ -68,12 +74,34 @@ class FillEventFragment : AbstractMapFragment<FillEventPresenter>(), FillEventVi
     }
 
     private fun validate(): Boolean {
-        val matcher = namePattern.matcher(data.name.get())
-        if (!matcher.matches()) {
-            nameInputLayout.error = "В названии допустимы только русские буквы, пробелы и \'-\'"
-            return false
+        var res = true
+        /*val name = data.name.get()
+        if (name.isNullOrEmpty()) {
+            nameInputLayout.error = "Поле обязательно для заполнения"
+            res = false
+        } else {
+            val matcher = namePattern.matcher(name)
+            if (!matcher.matches()) {
+                nameInputLayout.error = "Допустимы русские буквы, пробелы и дефис"
+                res = false
+            }
         }
-        return true
+
+        val sport = data.sport.get()
+        if (sport.isNullOrEmpty()) {
+            sportInputLayout.error = "Поле обязательно для заполнения"
+            res = false
+        }
+
+        val people = data.maxPeople.get()
+
+        if (people.isNullOrEmpty()) {
+            sportInputLayout.error = "Поле обязательно для заполнения"
+            res = false
+        }*/
+
+
+        return res
     }
 
     override fun onNextClicked() {

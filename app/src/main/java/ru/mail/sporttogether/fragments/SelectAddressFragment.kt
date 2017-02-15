@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.*
+import android.widget.LinearLayout
 import ru.mail.sporttogether.R
 import ru.mail.sporttogether.activities.NewAddActivity
 import ru.mail.sporttogether.data.binding.SelectAddressData
@@ -47,6 +48,7 @@ class SelectAddressFragment :
             setupToolbar(toolbar)
             toolbar.title = getString(R.string.address)
             toolbarData.buttonText.set(getString(R.string.next))
+            binding.statusbarTopPadding.layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, statusBarHeight)
         }
 
         presenter = SelectAddressFragmentPresenterImpl(this)
