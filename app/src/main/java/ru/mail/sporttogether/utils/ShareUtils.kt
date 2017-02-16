@@ -19,6 +19,7 @@ object ShareUtils {
                                        .append('\n')
                                        .append(event.result ?: event.description)
                                        .append('\n')
+                                       .append('\n')
                                        .append(buildLink(event))
                                        .toString()
 

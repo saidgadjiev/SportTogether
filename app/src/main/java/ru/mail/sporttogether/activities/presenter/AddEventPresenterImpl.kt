@@ -15,6 +15,7 @@ import ru.mail.sporttogether.net.api.YandexMapsApi
 import ru.mail.sporttogether.net.models.Event
 import ru.mail.sporttogether.net.models.EventResult
 import ru.mail.sporttogether.net.models.yandex.maps.GeoObject
+import ru.mail.sporttogether.utils.DateUtils
 import rx.Subscriber
 import rx.Subscription
 import rx.android.schedulers.AndroidSchedulers
@@ -80,7 +81,7 @@ class AddEventPresenterImpl(var view: AddEventView?) : AddEventPresenter {
     override fun addEventClicked(event: Event, addMeNow: Boolean, addTemplate: Boolean) {
         val sb = StringBuilder(event.category.name)
         sb.append(", ")
-                .append(event.address)
+                .append(DateUtils.toDateWithoutYearString(Date(event.date)))
         val nameEvent = sb.toString()
         event.name = nameEvent
 
