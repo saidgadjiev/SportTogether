@@ -3,7 +3,6 @@ package ru.mail.sporttogether.activities
 import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
-import android.graphics.Color
 import android.os.Bundle
 import android.support.design.widget.CollapsingToolbarLayout
 import android.support.v4.content.ContextCompat
@@ -94,8 +93,12 @@ class EventDetailsActivity :
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
+        try {
+            mapView.onSaveInstanceState(outState)
+        } catch (ignore: Throwable) {
+
+        }
         super.onSaveInstanceState(outState)
-        mapView.onSaveInstanceState(outState)
     }
 
     override fun onLowMemory() {
