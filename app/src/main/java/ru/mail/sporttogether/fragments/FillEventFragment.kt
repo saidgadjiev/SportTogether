@@ -3,12 +3,13 @@ package ru.mail.sporttogether.fragments
 import android.os.Bundle
 import android.support.design.widget.TextInputLayout
 import android.support.v7.widget.Toolbar
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AutoCompleteTextView
 import com.jakewharton.rxbinding.widget.RxTextView
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
+import com.wdullaer.materialdatetimepicker.time.TimePickerDialog
 import ru.mail.sporttogether.R
 import ru.mail.sporttogether.activities.NewAddActivity
 import ru.mail.sporttogether.adapter.CategoriesAdapter
@@ -50,6 +51,10 @@ class FillEventFragment : AbstractMapFragment<FillEventPresenter>(), FillEventVi
     private lateinit var categoriesAdapter: CategoriesAdapter
     private var categoriesArray: ArrayList<Category> = ArrayList(5)
 
+    private var year = 0
+    private var month = 0
+    private var day = 0
+    private var lastTime = 0L
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentFillEventBinding.inflate(inflater, container, false)
@@ -96,16 +101,69 @@ class FillEventFragment : AbstractMapFragment<FillEventPresenter>(), FillEventVi
     override fun onStart() {
         super.onStart()
         binding.toolbarListener = this
+        binding.listener = this
     }
 
     override fun onStop() {
         binding.toolbarListener = null
+        binding.listener = null
         super.onStop()
     }
 
     override fun updateAddress(address: String) {
         data.address.set(address)
     }
+
+    override fun onDateViewClicked() {
+        showDateDialog()
+    }
+
+    private fun showDateDialog() {
+        val calendar = Calendar.getInstance()
+        val dateDialog = DatePickerDialog.newInstance(this,
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH))
+        dateDialog.minDate = calendar
+        dateDialog.setVersion(DatePickerDialog.Version.VERSION_2)
+        val endCalendar = calendar.clone() as Calendar
+        endCalendar.add(Calendar.MONTH, 1)
+        dateDialog.maxDate = endCalendar
+        dateDialog.show(activity.fragmentManager, "dateDialog")
+    }
+
+
+    override fun onDateSet(view: DatePickerDialog, year: Int, monthOfYear: Int, dayOfMonth: Int) {
+        this.year = year
+        month = monthOfYear
+        day = dayOfMonth
+        showTimeDialog()
+    }
+
+    fun showTimeDialog() {
+        val calendar = Calendar.getInstance()
+        val timePickerDialog = TimePickerDialog.newInstance(this,
+                calendar.get(Calendar.HOUR),
+                calendar.get(Calendar.MINUTE),
+                true)
+        timePickerDialog.setMinTime(calendar.get(Calendar.HOUR),
+                calendar.get(Calendar.MINUTE) + 1,
+                calendar.get(Calendar.SECOND))
+        timePickerDialog.show(activity.fragmentManager, "timeDialog")
+    }
+
+    override fun onTimeSet(view: TimePickerDialog, hourOfDay: Int, minute: Int, second: Int) {
+        val calendar = Calendar.getInstance()
+        calendar.set(Calendar.YEAR, year)
+        calendar.set(Calendar.MONTH, month)
+        calendar.set(Calendar.DAY_OF_MONTH, day)
+        calendar.set(Calendar.HOUR, hourOfDay)
+        calendar.set(Calendar.MINUTE, minute)
+        calendar.set(Calendar.SECOND, 0)
+        time = calendar.timeInMillis
+        data.date.set(DateUtils.longToDateTime(time))
+    }
+
 
     override fun nextStep() {
         val act = activity
