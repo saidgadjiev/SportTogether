@@ -4,6 +4,9 @@ import android.content.Context
 import android.content.DialogInterface
 import android.support.v7.app.AlertDialog
 import ru.mail.sporttogether.R
+import android.util.TypedValue
+
+
 
 /**
  * Created by bagrusss on 23.01.17
@@ -37,5 +40,10 @@ object DialogUtils {
             }
         }
         angryDialog!!.show()
+    }
+
+    fun dpToPx(context: Context, dp: Float): Int {
+        val r = context.resources
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.displayMetrics).toInt()
     }
 }

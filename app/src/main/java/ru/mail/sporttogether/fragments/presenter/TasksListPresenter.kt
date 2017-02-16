@@ -7,4 +7,8 @@ import ru.mail.sporttogether.mvp.IPresenter
  */
 interface TasksListPresenter : IPresenter {
 
+    fun addTask(task: String)
+    fun createEvent()
+    fun removeTask(pos: Int)
+
 }

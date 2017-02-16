@@ -11,4 +11,5 @@ class ListLayoutData {
     val isEmpty = ObservableBoolean(false)
     val emptyText = ObservableField<String>()
     val emptyDrawable = ObservableField<Drawable>()
+    val isFabVisible = ObservableBoolean(false)
 }

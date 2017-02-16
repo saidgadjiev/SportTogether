@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="toolbarListener"
+            type="ru.mail.sporttogether.data.binding.ToolbarWithButtonListener" />
+
+        <variable
+            name="toolbarData"
+            type="ru.mail.sporttogether.data.binding.ToolbarWithButtonData" />
+
+        <variable
+            name="data"
+            type="ru.mail.sporttogether.data.binding.ListLayoutData" />
+
+        <variable
+            name="fabListener"
+            type="android.view.View.OnClickListener" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <View
+            android:id="@+id/statusbar_colored_stub"
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            android:background="?colorPrimary" />
+
+        <include
+            android:id="@+id/include_toolbar"
+            layout="@layout/toolbar_with_button"
+            app:toolbarData="@{toolbarData}"
+            app:toolbarListener="@{toolbarListener}" />
+
+        <include
+            android:id="@+id/include_list"
+            layout="@layout/layout_list"
+            app:data="@{data}"
+            app:listener="@{fabListener}" />
+    </LinearLayout>
+</layout>

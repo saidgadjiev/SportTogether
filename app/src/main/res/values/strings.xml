@@ -96,4 +96,7 @@
     <string name="delete_template_message">Вы действительно хотите удалить шаблон?</string>
     <string name="no_description">Нет описания</string>
     <string name="create">Создать</string>
+    <string name="add_task">Добавление задачи</string>
+    <string name="add_tasks">Добавление задач</string>
+    <string name="no_tasks">Добавьте задачи к событию</string>
 </resources>

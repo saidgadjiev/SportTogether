@@ -16,7 +16,7 @@ import ru.mail.sporttogether.mvp.PresenterFragment
  */
 abstract class AbstractListFragment<P : IPresenter, A : RecyclerView.Adapter<*>> : PresenterFragment<P>() {
     private lateinit var binding: LayoutListBinding
-    private lateinit var eventsList: RecyclerView
+    protected lateinit var recyclerView: RecyclerView
 
     protected val data = ListLayoutData()
 
@@ -30,10 +30,10 @@ abstract class AbstractListFragment<P : IPresenter, A : RecyclerView.Adapter<*>>
         binding = LayoutListBinding.inflate(inflater, container, false)
         binding.data = data
 
-        eventsList = binding.recyclerView
-        eventsList.layoutManager = LinearLayoutManager(context)
+        recyclerView = binding.recyclerView
+        recyclerView.layoutManager = LinearLayoutManager(context)
         listAdapter = getAdapter()
-        eventsList.adapter = listAdapter
+        recyclerView.adapter = listAdapter
 
         presenter = getListPresenter()
         return binding.root
