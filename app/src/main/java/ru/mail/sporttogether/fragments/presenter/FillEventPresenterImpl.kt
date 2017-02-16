@@ -72,6 +72,7 @@ class FillEventPresenterImpl(var view: FillEventView?) : FillEventPresenter() {
                            sport: String,
                            maxPeople: Int,
                            description: String,
+                           addressText:String,
                            time: Long,
                            joinToEvent: Boolean,
                            needAddTemplate: Boolean) {
@@ -82,7 +83,7 @@ class FillEventPresenterImpl(var view: FillEventView?) : FillEventPresenter() {
             it.maxPeople = maxPeople
             it.description = description
             it.date = time
-            it.isJoined = joinToEvent
+            eventsManager.setNeedJoin(joinToEvent)
             it.id = if (needAddTemplate) -1 else -2 //нужно для создания события на 3 этапе
         }
         view?.nextStep()

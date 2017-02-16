@@ -95,10 +95,6 @@ class EventsMapFragmentPresenterImpl(var view: EventsMapView?) : EventsMapFragme
                             val event = newState.data as Event
                             map?.animateCamera(CameraUpdateFactory.newLatLng(LatLng(event.lat, event.lng)))
                             view?.showMap()
-//                            lastEvent = event
-//                            val isCancelable = (userId == event.user.id) and !event.isEnded
-//                            view?.showInfo(lastEvent, isCancelable, null)
-//                            loadAddressFromYandex(event.lat, event.lng)
                         }
                     }
                 }

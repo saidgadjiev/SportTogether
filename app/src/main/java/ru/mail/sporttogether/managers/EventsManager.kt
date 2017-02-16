@@ -25,6 +25,10 @@ interface EventsManager {
     )
 
 
+    fun isNeedJoin(): Boolean
+    fun setNeedJoin(newVal: Boolean)
+
+
     fun addEvent(e: Event)
 
     fun updateEvent(event: Event)

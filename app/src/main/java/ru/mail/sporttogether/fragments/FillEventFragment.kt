@@ -235,6 +235,7 @@ class FillEventFragment : AbstractMapFragment<FillEventPresenter>(), FillEventVi
                     data.sport.get(),
                     data.maxPeople.get().toInt(),
                     data.description.get(),
+                    data.address.get(),
                     time,
                     data.joinToEvent.get(),
                     data.needAddTemplate.get())

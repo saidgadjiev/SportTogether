@@ -71,11 +71,12 @@ class TasksListPresenterImpl(var view: TasksListView?) : TasksListPresenter {
                             eventsManager.addEvent(response.data)
                             val newEvent = response.data
                             eventsManager.setCreatingEvent(newEvent)
-                            if (event.isJoined) {
+                            if (eventsManager.isNeedJoin()) {
                                 ++newEvent.nowPeople
                                 join(newEvent.id)
-                                newEvent.isJoined = false
+                                newEvent.isJoined = true
                             }
+                            newEvent.address = event.address
                             eventsManager.showEvent(newEvent)
                             view?.finish()
                         } else {

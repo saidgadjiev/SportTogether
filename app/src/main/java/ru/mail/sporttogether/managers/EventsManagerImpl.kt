@@ -11,6 +11,14 @@ import java.util.*
  */
 class EventsManagerImpl : EventsManager {
 
+    private var needJoin = false
+
+    override fun isNeedJoin() = needJoin
+
+    override fun setNeedJoin(newVal: Boolean) {
+        needJoin = newVal
+    }
+
     private var needShowIdEvent: Long? = null
 
     private val eventsMap = LongSparseArray<Event>()

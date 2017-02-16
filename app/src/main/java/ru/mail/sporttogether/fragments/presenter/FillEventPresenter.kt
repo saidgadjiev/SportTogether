@@ -11,6 +11,7 @@ abstract class FillEventPresenter : MapPresenter() {
                             sport: String,
                             maxPeople: Int,
                             description: String,
+                            addressText:String,
                             time: Long,
                             joinToEvent: Boolean,
                             needAddTemplate: Boolean)
