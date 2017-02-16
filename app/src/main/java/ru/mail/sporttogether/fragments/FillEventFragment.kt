@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AutoCompleteTextView
+import android.widget.EditText
 import com.jakewharton.rxbinding.widget.RxTextView
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog
@@ -21,6 +22,7 @@ import ru.mail.sporttogether.fragments.presenter.FillEventPresenterImpl
 import ru.mail.sporttogether.fragments.view.FillEventView
 import ru.mail.sporttogether.net.CategoriesResponse
 import ru.mail.sporttogether.net.models.Category
+import ru.mail.sporttogether.utils.AddEventTextWatcher
 import ru.mail.sporttogether.utils.DateUtils
 import rx.android.schedulers.AndroidSchedulers
 import rx.subscriptions.Subscriptions
@@ -44,7 +46,10 @@ class FillEventFragment : AbstractMapFragment<FillEventPresenter>(), FillEventVi
     private lateinit var nameInputLayout: TextInputLayout
     private lateinit var sportInputLayout: TextInputLayout
     private lateinit var peopleInputLayout: TextInputLayout
+
     private lateinit var sportAutoComplete: AutoCompleteTextView
+    private lateinit var nameEdit: EditText
+    private lateinit var peopleEdit: EditText
 
     private var sportSubscription = Subscriptions.empty()
 
@@ -54,7 +59,6 @@ class FillEventFragment : AbstractMapFragment<FillEventPresenter>(), FillEventVi
     private var year = 0
     private var month = 0
     private var day = 0
-    private var lastTime = 0L
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentFillEventBinding.inflate(inflater, container, false)
@@ -78,7 +82,14 @@ class FillEventFragment : AbstractMapFragment<FillEventPresenter>(), FillEventVi
         nameInputLayout = binding.include.nameInputLayout
         sportInputLayout = binding.include.sportTextInput
         peopleInputLayout = binding.include.peopleTextInput
+
         sportAutoComplete = binding.include.editSport
+        nameEdit = binding.include.editName
+        peopleEdit = binding.include.editPeople
+
+        nameEdit.addTextChangedListener(AddEventTextWatcher(nameInputLayout))
+        sportAutoComplete.addTextChangedListener(AddEventTextWatcher(sportInputLayout))
+        peopleEdit.addTextChangedListener(AddEventTextWatcher(peopleInputLayout))
 
         sportSubscription = RxTextView.textChangeEvents(sportAutoComplete)
                 .filter { e -> e.count() == 3 }
@@ -96,6 +107,9 @@ class FillEventFragment : AbstractMapFragment<FillEventPresenter>(), FillEventVi
         sportAutoComplete.setAdapter(categoriesAdapter)
 
         data.date.set(DateUtils.longToDateTime(System.currentTimeMillis()))
+        val calendar = Calendar.getInstance()
+        calendar.add(Calendar.HOUR, 2)
+        data.date.set(DateUtils.longToDateTime(calendar.timeInMillis))
     }
 
     override fun onStart() {
@@ -209,7 +223,6 @@ class FillEventFragment : AbstractMapFragment<FillEventPresenter>(), FillEventVi
             peopleInputLayout.error = "Поле обязательно для заполнения"
             res = false
         }
-
 
         return res
     }
