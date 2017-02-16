@@ -3,6 +3,7 @@ package ru.mail.sporttogether.fragments
 import android.os.Bundle
 import android.support.design.widget.TextInputLayout
 import android.support.v7.widget.Toolbar
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -133,17 +134,21 @@ class FillEventFragment : AbstractMapFragment<FillEventPresenter>(), FillEventVi
         showDateDialog()
     }
 
+    private var currentDate = 0L
+    private lateinit var lastCalendar: Calendar
+
     private fun showDateDialog() {
         val calendar = Calendar.getInstance()
         val dateDialog = DatePickerDialog.newInstance(this,
                 calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH),
                 calendar.get(Calendar.DAY_OF_MONTH))
+        currentDate = calendar.timeInMillis
         dateDialog.minDate = calendar
         dateDialog.setVersion(DatePickerDialog.Version.VERSION_2)
-        val endCalendar = calendar.clone() as Calendar
-        endCalendar.add(Calendar.MONTH, 1)
-        dateDialog.maxDate = endCalendar
+        lastCalendar = calendar.clone() as Calendar
+        lastCalendar.add(Calendar.MONTH, 1)
+        dateDialog.maxDate = lastCalendar
         dateDialog.show(activity.fragmentManager, "dateDialog")
     }
 
@@ -152,30 +157,41 @@ class FillEventFragment : AbstractMapFragment<FillEventPresenter>(), FillEventVi
         this.year = year
         month = monthOfYear
         day = dayOfMonth
+        lastCalendar.set(Calendar.YEAR, year)
+        lastCalendar.set(Calendar.MONTH, monthOfYear)
+        lastCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
         showTimeDialog()
     }
 
     fun showTimeDialog() {
         val calendar = Calendar.getInstance()
         val timePickerDialog = TimePickerDialog.newInstance(this,
-                calendar.get(Calendar.HOUR),
+                calendar.get(Calendar.HOUR_OF_DAY),
                 calendar.get(Calendar.MINUTE),
                 true)
-        timePickerDialog.setMinTime(calendar.get(Calendar.HOUR),
-                calendar.get(Calendar.MINUTE) + 1,
-                calendar.get(Calendar.SECOND))
+        val selectedDate = lastCalendar.timeInMillis
+        if (currentDate > selectedDate) {
+            timePickerDialog.setMinTime(calendar.get(Calendar.HOUR_OF_DAY),
+                    calendar.get(Calendar.MINUTE) + 1,
+                    calendar.get(Calendar.SECOND))
+        }
         timePickerDialog.show(activity.fragmentManager, "timeDialog")
     }
 
     override fun onTimeSet(view: TimePickerDialog, hourOfDay: Int, minute: Int, second: Int) {
         val calendar = Calendar.getInstance()
+        Log.w("timeDialog", "date before set $year $month $day $hourOfDay $minute $second")
+
         calendar.set(Calendar.YEAR, year)
         calendar.set(Calendar.MONTH, month)
         calendar.set(Calendar.DAY_OF_MONTH, day)
-        calendar.set(Calendar.HOUR, hourOfDay)
+        calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
         calendar.set(Calendar.MINUTE, minute)
-        calendar.set(Calendar.SECOND, 0)
+
         time = calendar.timeInMillis
+        Log.w("timeDialog", DateUtils.longToDateTime(time))
+        Log.w("timeDialog", "date after set $year $month $day $hourOfDay $minute $second")
+
         data.date.set(DateUtils.longToDateTime(time))
     }
 

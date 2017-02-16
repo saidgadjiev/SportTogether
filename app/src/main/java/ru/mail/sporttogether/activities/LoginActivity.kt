@@ -39,6 +39,7 @@ class LoginActivity: PresenterActivity<LoginActivityPresenter>(), LoginView {
         google.setOnClickListener(loginClick)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(false)
+        supportActionBar?.title = "Авторизация"
 
         presenter = LoginActivityPresenterImpl(this)
         presenter.onCreate(savedInstanceState)
