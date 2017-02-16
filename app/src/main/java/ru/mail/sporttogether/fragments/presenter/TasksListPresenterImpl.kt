@@ -74,6 +74,7 @@ class TasksListPresenterImpl(var view: TasksListView?) : TasksListPresenter {
                             if (event.isJoined) {
                                 ++newEvent.nowPeople
                                 join(newEvent.id)
+                                newEvent.isJoined = false
                             }
                             eventsManager.showEvent(newEvent)
                             view?.finish()
