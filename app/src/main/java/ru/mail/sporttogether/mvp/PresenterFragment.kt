@@ -23,11 +23,16 @@ abstract class PresenterFragment<T : IPresenter> : Fragment(), IView {
         Toast.makeText(activity, messageRes, duration).show()
     }
 
-    fun setupToolbar(toolbar: Toolbar) {
+    fun setupToolbar(toolbar: Toolbar, title: String? = null) {
         val act = activity
         if (act is PresenterActivity<*>) {
             act.setSupportActionBar(toolbar)
-            act.supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            act.supportActionBar?.let { toolbar ->
+                toolbar.setDisplayHomeAsUpEnabled(true)
+                title?.let {
+                    toolbar.title = title
+                }
+            }
         }
     }
 

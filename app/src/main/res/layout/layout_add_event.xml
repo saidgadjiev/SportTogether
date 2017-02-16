@@ -78,6 +78,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:hint="@string/event_name"
+                    android:inputType="textCapSentences"
                     android:maxLength="30"
                     android:maxLines="1"
                     android:text="@={data.name}" />
@@ -110,6 +111,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/sport"
+                    android:text="@={data.sport}"
                     android:maxLength="20"
                     android:maxLines="1" />
             </android.support.design.widget.TextInputLayout>
@@ -210,7 +212,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/description"
-                    android:inputType="textMultiLine"
+                    android:inputType="textMultiLine|textCapSentences"
                     android:maxLines="4"
                     android:text="@={data.description}" />
             </android.support.design.widget.TextInputLayout>

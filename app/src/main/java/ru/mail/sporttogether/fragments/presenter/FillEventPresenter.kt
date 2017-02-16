@@ -15,4 +15,6 @@ abstract class FillEventPresenter : MapPresenter() {
                             joinToEvent: Boolean,
                             needAddTemplate: Boolean)
 
+    abstract fun loadCategoriesBySubname(subname: String)
+
 }

@@ -42,11 +42,11 @@ class SelectAddressFragment :
         binding.data = data
         binding.toolbarData = toolbarData
 
+
         val act = activity
         if (act is NewAddActivity) {
             toolbar = binding.include.toolbar
-            setupToolbar(toolbar)
-            toolbar.title = getString(R.string.address)
+            setupToolbar(toolbar, getString(R.string.address))
             toolbarData.buttonText.set(getString(R.string.next))
             binding.statusbarTopPadding.layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, statusBarHeight)
         }

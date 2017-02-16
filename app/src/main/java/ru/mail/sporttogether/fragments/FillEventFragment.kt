@@ -2,18 +2,27 @@ package ru.mail.sporttogether.fragments
 
 import android.os.Bundle
 import android.support.design.widget.TextInputLayout
-import android.support.v4.content.ContextCompat
 import android.support.v7.widget.Toolbar
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AutoCompleteTextView
+import com.jakewharton.rxbinding.widget.RxTextView
 import ru.mail.sporttogether.R
+import ru.mail.sporttogether.activities.NewAddActivity
+import ru.mail.sporttogether.adapter.CategoriesAdapter
 import ru.mail.sporttogether.data.binding.FillEventData
 import ru.mail.sporttogether.data.binding.ToolbarWithButtonData
 import ru.mail.sporttogether.databinding.FragmentFillEventBinding
 import ru.mail.sporttogether.fragments.presenter.FillEventPresenter
 import ru.mail.sporttogether.fragments.presenter.FillEventPresenterImpl
 import ru.mail.sporttogether.fragments.view.FillEventView
+import ru.mail.sporttogether.net.CategoriesResponse
+import ru.mail.sporttogether.net.models.Category
+import rx.android.schedulers.AndroidSchedulers
+import rx.subscriptions.Subscriptions
+import java.util.*
 import java.util.regex.Pattern
 
 /**
@@ -33,6 +42,13 @@ class FillEventFragment : AbstractMapFragment<FillEventPresenter>(), FillEventVi
     private lateinit var nameInputLayout: TextInputLayout
     private lateinit var sportInputLayout: TextInputLayout
     private lateinit var peopleInputLayout: TextInputLayout
+    private lateinit var sportAutoComplete: AutoCompleteTextView
+
+    private var sportSubscription = Subscriptions.empty()
+
+    private lateinit var categoriesAdapter: CategoriesAdapter
+    private var categoriesArray: ArrayList<Category> = ArrayList(5)
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentFillEventBinding.inflate(inflater, container, false)
@@ -56,7 +72,23 @@ class FillEventFragment : AbstractMapFragment<FillEventPresenter>(), FillEventVi
         nameInputLayout = binding.include.nameInputLayout
         sportInputLayout = binding.include.sportTextInput
         peopleInputLayout = binding.include.peopleTextInput
+        sportAutoComplete = binding.include.editSport
+
+        sportSubscription = RxTextView.textChangeEvents(sportAutoComplete)
+                .filter { e -> e.count() == 3 }
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { e ->
+                    presenter.loadCategoriesBySubname(data.sport.get())
+                }
+
+
         return binding.root
+    }
+
+    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+        categoriesAdapter = CategoriesAdapter(context, android.R.layout.select_dialog_item, categoriesArray)
+        sportAutoComplete.setAdapter(categoriesAdapter)
+
     }
 
     override fun onStart() {
@@ -73,9 +105,22 @@ class FillEventFragment : AbstractMapFragment<FillEventPresenter>(), FillEventVi
         data.address.set(address)
     }
 
+    override fun nextStep() {
+        val act = activity
+        if (isAdded && act is NewAddActivity) {
+            act.nextStep()
+        }
+    }
+
+    override fun onCategoriesLoaded(data: CategoriesResponse) {
+        categoriesAdapter.clear()
+        categoriesAdapter.addAll(data)
+    }
+
+
     private fun validate(): Boolean {
         var res = true
-        /*val name = data.name.get()
+        val name = data.name.get()
         if (name.isNullOrEmpty()) {
             nameInputLayout.error = "Поле обязательно для заполнения"
             res = false
@@ -91,14 +136,19 @@ class FillEventFragment : AbstractMapFragment<FillEventPresenter>(), FillEventVi
         if (sport.isNullOrEmpty()) {
             sportInputLayout.error = "Поле обязательно для заполнения"
             res = false
+        } else {
+            val matcher = namePattern.matcher(sport)
+            if (!matcher.matches()) {
+                sportInputLayout.error = "Допустимы русские буквы, пробелы и дефис"
+                res = false
+            }
         }
 
         val people = data.maxPeople.get()
-
         if (people.isNullOrEmpty()) {
-            sportInputLayout.error = "Поле обязательно для заполнения"
+            peopleInputLayout.error = "Поле обязательно для заполнения"
             res = false
-        }*/
+        }
 
 
         return res

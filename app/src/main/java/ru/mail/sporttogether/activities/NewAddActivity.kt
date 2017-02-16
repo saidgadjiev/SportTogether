@@ -9,6 +9,7 @@ import ru.mail.sporttogether.R
 import ru.mail.sporttogether.databinding.ActivityNewAddBinding
 import ru.mail.sporttogether.fragments.FillEventFragment
 import ru.mail.sporttogether.fragments.SelectAddressFragment
+import ru.mail.sporttogether.fragments.TasksListFragment
 import ru.mail.sporttogether.fragments.adapter.views.NewAddEventView
 import ru.mail.sporttogether.fragments.presenter.NewAddActivityPresenter
 import ru.mail.sporttogether.fragments.presenter.NewAddActivityPresenterImpl
@@ -52,7 +53,7 @@ class NewAddActivity :
                 ft.replace(R.id.container, FillEventFragment()).addToBackStack(null)
             }
             STEP_TASKS -> {
-
+                ft.replace(R.id.container, TasksListFragment()).addToBackStack(null)
             }
 
         }

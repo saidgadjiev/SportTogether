@@ -28,11 +28,11 @@ abstract class AbstractMapFragment<T : MapPresenter> : PresenterFragment<T>() {
 
     override fun onStart() {
         super.onStart()
-        //mapView.onStart()
+        mapView.onStart()
     }
 
     override fun onStop() {
-        //mapView.onStop()
+        mapView.onStop()
         super.onStop()
     }
 

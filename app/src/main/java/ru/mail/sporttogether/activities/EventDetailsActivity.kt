@@ -73,13 +73,13 @@ class EventDetailsActivity :
 
     override fun onStart() {
         super.onStart()
-        //mapView.onStart()
+        mapView.onStart()
         binding.listener = this
     }
 
     override fun onStop() {
         super.onStop()
-        //mapView.onStop()
+        mapView.onStop()
         binding.listener = null
     }
 
