@@ -10,9 +10,9 @@ import ru.mail.sporttogether.net.CategoriesResponse
 import ru.mail.sporttogether.net.Response
 import ru.mail.sporttogether.net.api.CategoriesAPI
 import rx.Subscriber
-import rx.Subscription
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
+import rx.subscriptions.Subscriptions
 import javax.inject.Inject
 
 /**
@@ -23,18 +23,13 @@ class FillEventPresenterImpl(var view: FillEventView?) : FillEventPresenter() {
     @Inject lateinit var categoriesApi: CategoriesAPI
 
 
-    private var categoriesSubscribtion: Subscription? = null
+    private var categoriesSubscribtion = Subscriptions.empty()
 
 
     init {
         App.injector.usePresenterComponent().inject(this)
     }
 
-
-    override fun onDestroy() {
-        view = null
-        super.onDestroy()
-    }
 
     override fun onMapReady(mapa: GoogleMap) {
         super.onMapReady(mapa)
@@ -53,7 +48,8 @@ class FillEventPresenterImpl(var view: FillEventView?) : FillEventPresenter() {
     }
 
     override fun loadCategoriesBySubname(subname: String) {
-        categoriesSubscribtion = categoriesApi.getCategoriesBySubname(subname) //TODO опечатка
+        categoriesSubscribtion.unsubscribe()
+        categoriesSubscribtion = categoriesApi.getCategoriesBySubname(subname)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : Subscriber<Response<CategoriesResponse>>() {
@@ -90,6 +86,12 @@ class FillEventPresenterImpl(var view: FillEventView?) : FillEventPresenter() {
             it.isEnded = needAddTemplate //нужно для создания события на 3 этапе
         }
         view?.nextStep()
+    }
+
+    override fun onDestroy() {
+        view = null
+        categoriesSubscribtion.unsubscribe()
+        super.onDestroy()
     }
 
 

@@ -20,6 +20,7 @@ import ru.mail.sporttogether.fragments.presenter.FillEventPresenterImpl
 import ru.mail.sporttogether.fragments.view.FillEventView
 import ru.mail.sporttogether.net.CategoriesResponse
 import ru.mail.sporttogether.net.models.Category
+import ru.mail.sporttogether.utils.DateUtils
 import rx.android.schedulers.AndroidSchedulers
 import rx.subscriptions.Subscriptions
 import java.util.*
@@ -89,6 +90,7 @@ class FillEventFragment : AbstractMapFragment<FillEventPresenter>(), FillEventVi
         categoriesAdapter = CategoriesAdapter(context, android.R.layout.select_dialog_item, categoriesArray)
         sportAutoComplete.setAdapter(categoriesAdapter)
 
+        data.date.set(DateUtils.longToDateTime(System.currentTimeMillis()))
     }
 
     override fun onStart() {
