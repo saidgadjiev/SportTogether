@@ -37,6 +37,7 @@ class EventsTabFragment : Fragment() {
 
         tabsAdapter = TabsAdapter(fragmentManager)
         viewPager.adapter = tabsAdapter
+        viewPager.offscreenPageLimit = 2
 
 
         val myDrawable = ContextCompat.getDrawable(context, R.drawable.ic_my_location)
