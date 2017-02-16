@@ -1,14 +1,9 @@
 package ru.mail.sporttogether.dagger.subcomponents
 
 import dagger.Subcomponent
-import ru.mail.sporttogether.activities.presenter.AddEventPresenterImpl
-import ru.mail.sporttogether.activities.presenter.DrawerActivityPresenterImpl
-import ru.mail.sporttogether.activities.presenter.LoginActivityPresenterImpl
-import ru.mail.sporttogether.activities.presenter.SplashActivityPresenterImpl
 import ru.mail.sporttogether.activities.presenter.*
 import ru.mail.sporttogether.fragments.adapter.presenters.TwoActionsHolderPresenter
 import ru.mail.sporttogether.fragments.presenter.*
-import ru.mail.sporttogether.fragments.presenter.SelectAddressFragmentPresenterImpl
 
 /**
  * Created by bagrusss on 09.10.16
@@ -26,6 +21,8 @@ interface PresenterSubcomponent {
     fun inject(presenter: EventDetailsPresenterImpl)
 
     fun inject(presenter: SelectAddressFragmentPresenterImpl)
+    fun inject(presenter: FillEventPresenterImpl)
+    fun inject(presenter: TasksListPresenterImpl)
 
     fun inject(presenter: AbstractEventsListPresenter)
 

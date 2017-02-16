@@ -16,9 +16,9 @@ interface EventsMapView : IView, GoogleMap.OnCameraIdleListener {
 
     fun hideInfo()
 
-    fun showInfo(event: Event, isCancelable: Boolean, tasks: ArrayList<Task>?)
+    fun showInfo(event: Event, isCancelable: Boolean, tasks: MutableList<Task>?)
 
-    fun render(event: Event, isCancelable: Boolean, tasks: ArrayList<Task>?)
+    fun render(event: Event, isCancelable: Boolean, tasks: MutableList<Task>?)
 
     fun setBottomSheetCollapsed()
 

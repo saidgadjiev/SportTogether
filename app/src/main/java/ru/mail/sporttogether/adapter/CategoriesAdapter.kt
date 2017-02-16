@@ -9,7 +9,7 @@ import ru.mail.sporttogether.net.models.Category
 import java.util.*
 
 /**
- * Created by Ivan on 31.10.2016.
+ * Created by Ivan on 31.10.2016
  */
 class CategoriesAdapter(mContext: Context?, resource: Int, private var fullList: ArrayList<Category>) :
         ArrayAdapter<Category>(mContext, resource, fullList),
@@ -81,7 +81,7 @@ class CategoriesAdapter(mContext: Context?, resource: Int, private var fullList:
 
                 filterResults.values = newValues
                 filterResults.count = newValues.size
-                newValues.forEach { el -> Log.d("#MY " + javaClass.simpleName, "filtered : " + el.name)}
+                //newValues.forEach { el -> Log.d("#MY " + javaClass.simpleName, "filtered : " + el.name)}
             }
 
             return filterResults

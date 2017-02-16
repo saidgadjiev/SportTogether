@@ -89,7 +89,6 @@ class AddEventPresenterImpl(var view: AddEventView?) : AddEventPresenter {
         sb.append(", ")
                 .append(DateUtils.toDateWithoutYearString(Date(event.date)))
         val nameEvent = sb.toString()
-        Log.d("#MY ", "generated name : " + nameEvent)
         event.name = nameEvent
 
         eventSubscribtion = eventsApi.createEvent(event)

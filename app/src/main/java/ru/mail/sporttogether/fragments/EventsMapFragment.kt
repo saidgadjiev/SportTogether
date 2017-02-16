@@ -179,7 +179,7 @@ class EventsMapFragment :
         }
     }
 
-    override fun showInfo(event: Event, isCancelable: Boolean, tasks: ArrayList<Task>?) {
+    override fun showInfo(event: Event, isCancelable: Boolean, tasks: MutableList<Task>?) {
         render(event, isCancelable, tasks)
         eventDetailsBottomSheet.peekHeight = binding.include.cardviewHeader.height + binding.include.frameLayout.height
         eventDetailsBottomSheet.state = BottomSheetBehavior.STATE_COLLAPSED
@@ -296,9 +296,8 @@ class EventsMapFragment :
     }
 
     override fun startAddEventActivity(lng: Double, lat: Double) {
-        val event = Event(lat = lat, lng = lng)
-        //NewAddActivity.startForResult(this, lat, lng, REQUEST_CODE)
-        AddEventActivity.startForResult(this, event, REQUEST_CODE)
+        //val event = Event(lat = lat, lng = lng)
+        NewAddActivity.startForResult(this, lat, lng, REQUEST_CODE)
     }
 
     override fun finishView() {
@@ -313,7 +312,7 @@ class EventsMapFragment :
         presenter.fabClicked(data.fabForBottomSheet.get())
     }
 
-    override fun render(event: Event, isCancelable: Boolean, tasks: ArrayList<Task>?) {
+    override fun render(event: Event, isCancelable: Boolean, tasks: MutableList<Task>?) {
         renderBaseInfo(event)
         renderResult(event)
         data.showCancelButton.set(isCancelable)
@@ -350,7 +349,7 @@ class EventsMapFragment :
         }
     }
 
-    private fun renderTasks(event: Event, tasks: ArrayList<Task>?) {
+    private fun renderTasks(event: Event, tasks: MutableList<Task>?) {
         if (tasks != null) {
             data.tasksInfo.set(Event.tasksInfo(tasks))
             val withTasks = tasks.size > 0

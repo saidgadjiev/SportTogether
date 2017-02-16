@@ -32,7 +32,7 @@ data class Task(
 
 
     override fun toString(): String {
-        return message + " " + id
+        return "$message $id"
     }
 
     companion object {

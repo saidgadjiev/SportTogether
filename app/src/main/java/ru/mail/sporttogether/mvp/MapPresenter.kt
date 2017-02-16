@@ -13,6 +13,7 @@ import ru.mail.sporttogether.net.models.yandex.maps.GeoObject
 import rx.Subscriber
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
+import java.util.*
 import javax.inject.Inject
 
 /**
@@ -57,11 +58,11 @@ abstract class MapPresenter :
                 })
     }
 
-    abstract fun onAddressError(e: Throwable)
+    open fun onAddressError(e: Throwable) {}
 
-    abstract fun onAddressLoaded(geoObjects: ArrayList<GeoObject>)
+    open fun onAddressLoaded(geoObjects: ArrayList<GeoObject>) {}
 
-    abstract fun onCameraIdle(x: Int, y: Int)
+    open fun onCameraIdle(x: Int, y: Int) {}
 
     override fun zoomInClicked() {
         map?.animateCamera(CameraUpdateFactory.zoomIn())

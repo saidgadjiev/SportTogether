@@ -7,6 +7,14 @@ import ru.mail.sporttogether.mvp.MapPresenter
  */
 abstract class FillEventPresenter : MapPresenter() {
 
-    fun fillEvent() {}
+    abstract fun  fillEvent(name: String,
+                            sport: String,
+                            maxPeople: Int,
+                            description: String,
+                            time: Long,
+                            joinToEvent: Boolean,
+                            needAddTemplate: Boolean)
+
+    abstract fun loadCategoriesBySubname(subname: String)
 
 }

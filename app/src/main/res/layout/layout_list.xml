@@ -9,6 +9,10 @@
         <variable
             name="data"
             type="ru.mail.sporttogether.data.binding.ListLayoutData" />
+
+        <variable
+            name="listener"
+            type="android.view.View.OnClickListener" />
     </data>
 
     <android.support.design.widget.CoordinatorLayout
@@ -61,11 +65,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|right"
             android:layout_margin="16dp"
+            android:onClick="@{listener::onClick}"
             android:src="@drawable/ic_add"
             android:tint="@color/white"
-            android:visibility="gone"
-            app:layout_anchorGravity="bottom|right|end"
-            app:layout_behavior="ru.mail.sporttogether.FabRecyclerViewBehaviour" />
+            android:visibility="@{data.isFabVisible? View.VISIBLE : View.GONE}"
+            app:layout_anchorGravity="bottom|right|end" />
 
     </android.support.design.widget.CoordinatorLayout>
 </layout>

@@ -24,4 +24,8 @@
     <color name="app_secondary_light">#828282</color>
     <color name="background_color">#e6e6e6</color>
     <color name="light_gray">#9E9E9E</color>
+    <color name="black_universal">#333333</color>
+
+    <color name="black_status_bar">#3D333333</color>
+
 </resources>

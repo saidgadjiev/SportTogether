@@ -263,10 +263,6 @@ class AddEventActivity :
     }
 
 
-    private fun setupCoordinates() {
-
-    }
-
     override fun onButtonClicked() {
         Log.d(TAG, "add button clicked")
         binding.addButton.isClickable = false
@@ -337,7 +333,7 @@ class AddEventActivity :
     }
 
     companion object {
-        val TAG = "#MY " + AddEventActivity::class.java.simpleName
+        val TAG = "AddEventActivity"
         @JvmStatic private val KEY_ID = "ID"
         @JvmStatic val KEY_EVENT = "event"
         @JvmStatic private val KEY_FROM_TEMPLATE = "KEY_FROM_TEMPLATE"

@@ -5,14 +5,20 @@ import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v7.app.AppCompatActivity
+import android.view.View
 import ru.mail.sporttogether.R
 import ru.mail.sporttogether.databinding.ActivityNewAddBinding
 import ru.mail.sporttogether.fragments.FillEventFragment
 import ru.mail.sporttogether.fragments.SelectAddressFragment
+import ru.mail.sporttogether.fragments.TasksListFragment
+import ru.mail.sporttogether.fragments.adapter.views.NewAddEventView
+import ru.mail.sporttogether.fragments.presenter.NewAddActivityPresenter
+import ru.mail.sporttogether.fragments.presenter.NewAddActivityPresenterImpl
+import ru.mail.sporttogether.mvp.PresenterActivity
 
 class NewAddActivity :
-        AppCompatActivity() {
+        PresenterActivity<NewAddActivityPresenter>(),
+        NewAddEventView {
 
     private lateinit var binding: ActivityNewAddBinding
     private var step = STEP_ADDRESS
@@ -22,6 +28,7 @@ class NewAddActivity :
     private var isFullCreate = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_new_add)
 
@@ -33,6 +40,7 @@ class NewAddActivity :
 
         selectFragment(step)
 
+        presenter = NewAddActivityPresenterImpl(this)
     }
 
     fun selectFragment(step: Int) {
@@ -46,7 +54,7 @@ class NewAddActivity :
                 ft.replace(R.id.container, FillEventFragment()).addToBackStack(null)
             }
             STEP_TASKS -> {
-
+                ft.replace(R.id.container, TasksListFragment()).addToBackStack(null)
             }
 
         }

@@ -1,7 +1,5 @@
-apply plugin: 'kotlin'
-
 buildscript {
-    ext.kotlin_version = '1.1-M04'
+    ext.kotlin_version  = '1.0.5-2'
     ext.support_version = '25.1.1'
     ext.appVersion = "1.0"
     ext.play_services_version = '10.0.1'
@@ -32,10 +30,6 @@ allprojects {
 
 repositories {
     mavenCentral()
-}
-
-dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 }
 
 /*task clean(type: Delete) {
