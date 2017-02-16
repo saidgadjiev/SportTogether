@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import com.crashlytics.android.answers.Answers
 import com.crashlytics.android.answers.LoginEvent
@@ -14,8 +15,6 @@ import com.vk.sdk.VKCallback
 import com.vk.sdk.VKSdk
 import com.vk.sdk.api.*
 import com.vk.sdk.api.model.VKScopes
-import com.vk.sdk.dialogs.VKShareDialog
-import com.vk.sdk.dialogs.VKShareDialogBuilder
 import io.fabric.sdk.android.Fabric
 import org.json.JSONException
 import org.json.JSONObject
@@ -71,7 +70,7 @@ class VKSocialNetwork(activity: Activity) : ISocialNetwork {
         Log.d(TAG, "VK sdk logout")
     }
 
-    override fun login(activity: Activity, onLoginCompleteListener: OnLoginCompleteListener) {
+    override fun login(activity: AppCompatActivity, onLoginCompleteListener: OnLoginCompleteListener) {
         this.onLoginCompleteListener = onLoginCompleteListener
         VKSdk.login(activity, *scopes)
     }
@@ -168,7 +167,7 @@ class VKSocialNetwork(activity: Activity) : ISocialNetwork {
     }
 
     companion object {
-        private val TAG = VKSocialNetwork::class.java.canonicalName
+        private val TAG = "VKSocialNetwork"
         val ID = 2
     }
 }

@@ -3,6 +3,7 @@ package ru.mail.sporttogether.auth.core
 import android.content.Intent
 import android.util.Log
 import ru.mail.sporttogether.auth.core.social_networks.FacebookSocialNetwork
+import ru.mail.sporttogether.auth.core.social_networks.GoogleSocialNetwork
 import ru.mail.sporttogether.auth.core.social_networks.VKSocialNetwork
 import ru.mail.sporttogether.net.models.User
 import java.util.*
@@ -17,11 +18,14 @@ class SocialNetworkManager {
     private var networkID: Int = -1
     var activeUser: User? = null
 
-    val facebookSocialNetwork: FacebookSocialNetwork
+    val facebookSocialNetwork: ISocialNetwork
         get() = socialNetworksMap[FacebookSocialNetwork.ID] as FacebookSocialNetwork
 
-    val vkSocialNetwork: VKSocialNetwork
+    val vkSocialNetwork: ISocialNetwork
         get() = socialNetworksMap[VKSocialNetwork.ID] as VKSocialNetwork
+
+    val google: ISocialNetwork
+        get() = socialNetworksMap[GoogleSocialNetwork.ID] as GoogleSocialNetwork
 
     val initializedSocialNetworks: List<ISocialNetwork>
         get() = socialNetworksMap.values.toList()
@@ -54,14 +58,11 @@ class SocialNetworkManager {
         return networkID
     }
 
-    private object Holder { val INSTANCE = SocialNetworkManager() }
-
     companion object {
         private val TAG = "SocialNetworkManager"
         val SOCIALMANAGER_TAG = "SocialNetworkManager"
         private val PARAM_FACEBOOK = "SocialNetworkManager.PARAM_FACEBOOK"
         val SHARED_PREFERCE_TAG = "SocialNetworkManager"
         val ACCESS_TOKEN = "AccessToken"
-        val instance: SocialNetworkManager by lazy { Holder.INSTANCE }
     }
 }

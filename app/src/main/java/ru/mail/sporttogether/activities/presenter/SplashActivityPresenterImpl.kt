@@ -11,6 +11,7 @@ import ru.mail.sporttogether.auth.core.SocialNetworkError
 import ru.mail.sporttogether.auth.core.SocialNetworkManager
 import ru.mail.sporttogether.auth.core.SocialPerson
 import ru.mail.sporttogether.auth.core.social_networks.FacebookSocialNetwork
+import ru.mail.sporttogether.auth.core.social_networks.GoogleSocialNetwork
 import ru.mail.sporttogether.auth.core.social_networks.VKSocialNetwork
 import ru.mail.sporttogether.managers.HeaderManagerImpl
 import ru.mail.sporttogether.net.Response
@@ -42,11 +43,12 @@ class SplashActivityPresenterImpl(view: SplashView) : SplashActivityPresenter {
     override fun onCreate(args: Bundle?) {
         val networkFacebook = FacebookSocialNetwork(view as SplashActivity)
         val networkVK = VKSocialNetwork(view as SplashActivity)
+        val google = GoogleSocialNetwork()
 
         socialNetworkManager.addSocialNetwork(networkFacebook)
         socialNetworkManager.addSocialNetwork(networkVK)
-//        socialNetworkManager.setOnInitializationCompleteListener(this)
-//        socialNetworkManager.checkIsLogged(view!!.getActivity(), this)
+        socialNetworkManager.addSocialNetwork(google)
+
         Handler().postDelayed({
             tryLogin()
         }, 1500)
@@ -64,7 +66,6 @@ class SplashActivityPresenterImpl(view: SplashView) : SplashActivityPresenter {
     }
 
     override fun onComplete(person: SocialPerson, ID: Int) {
-        Log.d("#MY " + javaClass.simpleName, "in on complete : " + person)
 
         headerManager.clientId = person.id
         headerManager.token = socialNetworkManager.getSocialNetwork(ID)!!.token

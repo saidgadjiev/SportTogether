@@ -84,6 +84,7 @@ class LoginActivityPresenterImpl(view: LoginView) : LoginActivityPresenter, OnLo
         when (view?.id) {
             R.id.facebook -> socialNetworkManager.facebookSocialNetwork.login(this.view as LoginActivity, this)
             R.id.vk -> socialNetworkManager.vkSocialNetwork.login(this.view as LoginActivity, this)
+            R.id.google -> socialNetworkManager.google.login(this.view as LoginActivity, this)
         }
     }
 

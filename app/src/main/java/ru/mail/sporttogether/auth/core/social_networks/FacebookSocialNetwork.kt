@@ -7,6 +7,7 @@ import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
+import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import com.crashlytics.android.answers.Answers
 import com.crashlytics.android.answers.LoginEvent
@@ -95,13 +96,10 @@ class FacebookSocialNetwork(private val activity: Activity) : ISocialNetwork {
         }
     }
 
-    override fun login(activity: Activity, onLoginCompleteListener: OnLoginCompleteListener) {
-        Log.d("#MY " + javaClass.simpleName, "Facebook start logging")
-        Log.d("#MY " + javaClass.simpleName, "on login complete listener : " + onLoginCompleteListener.javaClass.simpleName)
+    override fun login(activity: AppCompatActivity, onLoginCompleteListener: OnLoginCompleteListener) {
         this.onLoginCompleteListener = onLoginCompleteListener
         LoginManager.getInstance().registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
             override fun onSuccess(result: LoginResult) {
-                Log.d("#MY " + javaClass.simpleName, "Facebook success logging")
                 sharedPreferences
                         .edit()
                         .putString(ACCESS_TOKEN, result.accessToken.token)

@@ -3,13 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <RelativeLayout
-        tools:context=".activities.drawer.DrawerActivity"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:context=".activities.drawer.DrawerActivity">
+
         <LinearLayout
-            android:layout_centerInParent="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
             android:orientation="vertical">
 
 
@@ -31,6 +32,17 @@
                 android:layout_margin="8dp"
                 android:background="@color/vk"
                 android:text="Войти через Вконтакте"
+                android:textColor="@color/vk_white"
+                android:visibility="visible" />
+
+            <Button
+                android:id="@+id/google"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="8dp"
+                android:background="#dd4b39"
+                android:text="Войти через Google"
                 android:textColor="@color/vk_white"
                 android:visibility="visible" />
         </LinearLayout>

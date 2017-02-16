@@ -38,13 +38,11 @@ class SplashActivity :
         presenter.onCreate(savedInstanceState)
         bundle = intent.getBundleExtra("data")
         parseUriData(intent?.data)
-        Log.d("#MY SplashActivity", "on create bundle " + bundle)
     }
 
     override fun startMainActivity() {
         finish()
         val intent = Intent(this, DrawerActivity::class.java)
-        Log.d("#MY SplashActivity", "bundle " + bundle)
         if (bundle != null) {
             intent.putExtra("data", bundle)
             bundle = null
@@ -70,7 +68,7 @@ class SplashActivity :
     private fun parseUriData(uriData: Uri?) {
         if (uriData == null) return
         val queryParameterNames = uriData.queryParameterNames
-        Log.d(TAG, "parameter names : " + queryParameterNames)
+
         if (queryParameterNames.containsAll(ShareUtils.PARAMS)) {
             bundle = Bundle(3)
             val strLat = uriData.getQueryParameter(ShareUtils.PARAM_LAT)
@@ -94,7 +92,7 @@ class SplashActivity :
     }
 
     companion object {
-        val TAG = "#MY " + SplashActivity::class.java.simpleName
+        val TAG = "#SplashActivity"
 
         fun startActivity(context: Context) {
             val intent = Intent(context, SplashActivity::class.java)

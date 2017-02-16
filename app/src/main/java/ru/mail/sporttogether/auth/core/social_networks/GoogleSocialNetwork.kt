@@ -2,6 +2,12 @@ package ru.mail.sporttogether.auth.core.social_networks
 
 import android.app.Activity
 import android.content.Intent
+import android.support.v4.app.ActivityCompat.startActivityForResult
+import android.support.v7.app.AppCompatActivity
+import com.google.android.gms.auth.api.Auth
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.api.GoogleApiClient
 import ru.mail.sporttogether.auth.core.ISocialNetwork
 import ru.mail.sporttogether.auth.core.SocialPerson
 import ru.mail.sporttogether.auth.core.listeners.OnLoginCompleteListener
@@ -12,7 +18,8 @@ import ru.mail.sporttogether.auth.core.listeners.OnRequestSocialPersonCompleteLi
  * Created by said on 17.11.16
  */
 
-class GoogleSocialNetwork(private val activity: Activity, private val appId: String) : ISocialNetwork {
+class GoogleSocialNetwork : ISocialNetwork, GoogleApiClient.OnConnectionFailedListener {
+
     override val id: Int
         get() = 10
 
@@ -24,7 +31,7 @@ class GoogleSocialNetwork(private val activity: Activity, private val appId: Str
     }
 
     override fun getLoadedSocialPerson(): SocialPerson? {
-        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return null
     }
 
     override fun setOnLoginCompleteListener(onLoginCompleteListener: OnLoginCompleteListener) {
@@ -35,7 +42,20 @@ class GoogleSocialNetwork(private val activity: Activity, private val appId: Str
 
     }
 
-    override fun login(activity: Activity, onLoginCompleteListener: OnLoginCompleteListener) {
+    override fun login(activity: AppCompatActivity, onLoginCompleteListener: OnLoginCompleteListener) {
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build()
+        val mGoogleApiClient = GoogleApiClient.Builder(activity)
+                .enableAutoManage(activity, this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build()
+
+        val signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient)
+        activity.startActivityForResult(signInIntent, RC_SIGN_IN)
+    }
+
+    override fun onConnectionFailed(p0: ConnectionResult) {
 
     }
 
@@ -53,5 +73,10 @@ class GoogleSocialNetwork(private val activity: Activity, private val appId: Str
 
     override fun requestPerson(onRequestSocialPersonCompleteListener: OnRequestSocialPersonCompleteListener) {
 
+    }
+
+    companion object {
+        @JvmStatic val RC_SIGN_IN = 1824
+        @JvmStatic val ID = 3
     }
 }

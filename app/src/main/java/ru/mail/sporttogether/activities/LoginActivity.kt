@@ -22,6 +22,7 @@ class LoginActivity: PresenterActivity<LoginActivityPresenter>(), LoginView {
     private lateinit var binding: ActivityLoginBinding
     private lateinit var vk: Button
     private lateinit var facebook: Button
+    private lateinit var google: Button
     @Inject lateinit var headerManager: HeaderManagerImpl
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,8 +32,11 @@ class LoginActivity: PresenterActivity<LoginActivityPresenter>(), LoginView {
 
         vk = binding.vk
         facebook = binding.facebook
+        google = binding.google
+
         vk.setOnClickListener(loginClick)
         facebook.setOnClickListener(loginClick)
+        google.setOnClickListener(loginClick)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(false)
 

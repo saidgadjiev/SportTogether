@@ -120,6 +120,7 @@ dependencies {
     compile "com.google.android.gms:play-services-location:$play_services_version"
     compile "com.google.firebase:firebase-core:$play_services_version"
     compile "com.google.firebase:firebase-messaging:$play_services_version"
+    compile "com.google.android.gms:play-services-auth:$play_services_version"
 
     compile("com.google.android.gms:play-services-maps:$play_services_version") {
         exclude group: 'com.android.support', module: 'support-v4'
