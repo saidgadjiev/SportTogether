@@ -83,7 +83,7 @@ class FillEventPresenterImpl(var view: FillEventView?) : FillEventPresenter() {
             it.description = description
             it.date = time
             it.isJoined = joinToEvent
-            it.isEnded = needAddTemplate //нужно для создания события на 3 этапе
+            it.id = if (needAddTemplate) -1 else -2 //нужно для создания события на 3 этапе
         }
         view?.nextStep()
     }

@@ -4,7 +4,6 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import ru.mail.sporttogether.utils.createParcel
-import java.util.*
 
 /**
  * Created by bagrusss on 29.09.16
@@ -13,7 +12,7 @@ data class Event(var name: String = "",
                  var address: String = "",
                  var category: Category = Category(),
                  var user: User = User(),
-                 var tasks: ArrayList<Task>? = null,
+                 var tasks: MutableList<Task>? = null,
                  @SerializedName("latitude") var lat: Double = 0.0,
                  @SerializedName("longtitude") var lng: Double = 0.0,
                  var id: Long = -1,
@@ -88,7 +87,7 @@ data class Event(var name: String = "",
     companion object {
 
         @JvmStatic
-        fun tasksInfo(tasks: ArrayList<Task>?): String {
+        fun tasksInfo(tasks: MutableList<Task>?): String {
             if (tasks != null) {
                 val allTasks: Int = tasks.orEmpty().size
                 val acceptedTasks: Int = tasks.filter { it.user != null }.count().or(0)
@@ -97,7 +96,7 @@ data class Event(var name: String = "",
         }
 
         @JvmField
-        val CREATOR: Parcelable.Creator<Event> = createParcel(::Event)
+        val CREATOR = createParcel(::Event)
 
     }
 

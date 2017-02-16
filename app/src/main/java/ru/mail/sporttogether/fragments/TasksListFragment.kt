@@ -27,6 +27,8 @@ class TasksListFragment : AbstractListFragment<TasksListPresenter, TasksAdapter>
     private val toolbarData = ToolbarWithButtonData()
 
     private var dialog: AlertDialog? = null
+    private var isFirstDialogShow = true
+    private lateinit var editText: EditText
 
     override fun getListPresenter() = TasksListPresenterImpl(this)
 
@@ -92,12 +94,15 @@ class TasksListFragment : AbstractListFragment<TasksListPresenter, TasksAdapter>
         presenter.createEvent()
     }
 
-    private var isFirstDialogShow = true
-    private lateinit var editText: EditText
+    override fun finish() {
+        hideProgressDialog()
+        activity?.finish()
+    }
 
     private fun showAddTaskDialog() {
         if (dialog == null) {
             editText = EditText(context)
+            editText.maxLines = 1
             dialog = AlertDialog.Builder(context)
                     .setTitle(R.string.add_task)
                     .setView(editText)

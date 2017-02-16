@@ -109,6 +109,7 @@ class FillEventFragment : AbstractMapFragment<FillEventPresenter>(), FillEventVi
         data.date.set(DateUtils.longToDateTime(System.currentTimeMillis()))
         val calendar = Calendar.getInstance()
         calendar.add(Calendar.HOUR, 2)
+        time = calendar.timeInMillis
         data.date.set(DateUtils.longToDateTime(calendar.timeInMillis))
     }
 

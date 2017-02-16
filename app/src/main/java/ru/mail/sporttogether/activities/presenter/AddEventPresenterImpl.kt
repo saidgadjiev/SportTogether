@@ -82,7 +82,6 @@ class AddEventPresenterImpl(var view: AddEventView?) : AddEventPresenter {
         sb.append(", ")
                 .append(event.address)
         val nameEvent = sb.toString()
-        Log.d("#MY ", "generated name : " + nameEvent)
         event.name = nameEvent
 
         eventSubscribtion = eventsApi.createEvent(event)
