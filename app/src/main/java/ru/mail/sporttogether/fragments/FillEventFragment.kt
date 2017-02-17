@@ -250,7 +250,7 @@ class FillEventFragment : AbstractMapFragment<FillEventPresenter>(), FillEventVi
                     data.name.get(),
                     data.sport.get(),
                     data.maxPeople.get().toInt(),
-                    data.description.get(),
+                    data.description.get() ?: "Описание отсутствует",
                     data.address.get(),
                     time,
                     data.joinToEvent.get(),
