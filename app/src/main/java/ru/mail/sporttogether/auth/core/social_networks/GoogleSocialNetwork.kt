@@ -2,6 +2,7 @@ package ru.mail.sporttogether.auth.core.social_networks
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
@@ -16,6 +17,7 @@ import com.google.android.gms.common.api.GoogleApiClient
 import ru.mail.sporttogether.BuildConfig
 import ru.mail.sporttogether.auth.core.ISocialNetwork
 import ru.mail.sporttogether.auth.core.SocialNetworkError
+import ru.mail.sporttogether.auth.core.SocialNetworkManager
 import ru.mail.sporttogether.auth.core.SocialPerson
 import ru.mail.sporttogether.auth.core.listeners.OnLoginCompleteListener
 import ru.mail.sporttogether.auth.core.listeners.OnRequestSocialPersonCompleteListener
@@ -23,11 +25,13 @@ import ru.mail.sporttogether.auth.core.listeners.OnRequestSocialPersonCompleteLi
 
 /**
  * Created by said on 17.11.16
+ * это дичайший говнокод, но нет времени рефачить((
  */
 
 class GoogleSocialNetwork(val context: Context) : ISocialNetwork, GoogleApiClient.OnConnectionFailedListener {
 
     private var onLoginCompleteListener: OnLoginCompleteListener? = null
+    private var sharedPreferences: SharedPreferences
 
 
     private val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -44,10 +48,15 @@ class GoogleSocialNetwork(val context: Context) : ISocialNetwork, GoogleApiClien
         get() = ID
 
     override val token: String
-        get() = acct?.idToken ?: acct?.email ?: ""
+        get() = sharedPreferences.getString(KEY_TOKEN, "")
 
     private var acct: GoogleSignInAccount? = null
 
+
+    init {
+        this.sharedPreferences = context.getSharedPreferences(SocialNetworkManager.SHARED_PREFERCE_TAG, Context.MODE_PRIVATE)
+
+    }
 
     override fun tryAutoLogin(onLoginCompleteListener: OnLoginCompleteListener) =
             if (isConnected) {
@@ -97,36 +106,50 @@ class GoogleSocialNetwork(val context: Context) : ISocialNetwork, GoogleApiClien
         Log.d(TAG, "handleSignInResult:" + result.isSuccess)
         if (result.isSuccess) {
             acct = result.signInAccount
+            putToSharedPreferences(acct)
             onLoginCompleteListener!!.onSuccess(ID)
-            if (!BuildConfig.DEBUG) Answers.getInstance().logLogin(LoginEvent().putMethod("VK").putSuccess(true))
+            if (!BuildConfig.DEBUG) Answers.getInstance().logLogin(LoginEvent().putMethod("Google").putSuccess(true))
         } else {
             onLoginCompleteListener!!.onError(SocialNetworkError(result.status.statusMessage, result.status.statusCode))
         }
     }
 
-    override val isConnected: Boolean
-        get() {
-            val opr = Auth.GoogleSignInApi.silentSignIn(googleApiClient)
-            return opr.isDone
+    private fun putToSharedPreferences(account: GoogleSignInAccount?) {
+        account?.let {
+            sharedPreferences.edit()
+                    .putString(KEY_ID, "g|" + it.id)
+                    .putString(KEY_PHOTO, it.photoUrl.toString())
+                    .putString(KEY_NAME, it.displayName)
+                    .putString(KEY_TOKEN, it.email)
+                    .commit()
         }
+    }
+
+    override val isConnected: Boolean
+        get() = !sharedPreferences.getString(KEY_ID, "").isNullOrEmpty()
 
 
     override fun requestPerson(onRequestSocialPersonCompleteListener: OnRequestSocialPersonCompleteListener) {
-        acct?.let {
-            val person = SocialPerson()
-            person.id = "g|" + it.id
-            person.avatarURL = it.photoUrl.toString()
-            person.name = it.displayName ?: ""
-            person.email = it.email
+        val person = SocialPerson()
+        person.id = sharedPreferences.getString(KEY_ID, "")
+        if (!person.id.isNullOrEmpty()) {
+            person.avatarURL = sharedPreferences.getString(KEY_PHOTO, "")
+            person.name = sharedPreferences.getString(KEY_NAME, "")
+            person.email = sharedPreferences.getString(KEY_TOKEN, "")
             onRequestSocialPersonCompleteListener.onComplete(person, ID)
             return
         }
-        onRequestSocialPersonCompleteListener.onError(SocialNetworkError("Not exists", 122))
+        onRequestSocialPersonCompleteListener.onError(SocialNetworkError("Not exists", -1))
     }
 
     companion object {
         @JvmStatic private val RC_SIGN_IN = 1824
         @JvmStatic val ID = 3
-        @JvmStatic val TAG = "GoogleSocialNetwork"
+        @JvmStatic private val TAG = "GoogleSocialNetwork"
+
+        @JvmStatic private val KEY_ID = "KEY_ID"
+        @JvmStatic private val KEY_PHOTO = "KEY_PHOTO"
+        @JvmStatic private val KEY_NAME = "KEY_NAME"
+        @JvmStatic private val KEY_TOKEN = "KEY_TOKEN"
     }
 }

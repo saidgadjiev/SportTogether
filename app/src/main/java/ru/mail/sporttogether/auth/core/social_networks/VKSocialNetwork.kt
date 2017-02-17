@@ -147,6 +147,7 @@ class VKSocialNetwork(activity: Activity) : ISocialNetwork {
         get() = sharedPreferences.getString(ACCESS_TOKEN, "")
 
 
+
     override fun tryAutoLogin(onLoginCompleteListener: OnLoginCompleteListener): Boolean {
         if (isConnected) {
             onLoginCompleteListener.onSuccess(ID)
