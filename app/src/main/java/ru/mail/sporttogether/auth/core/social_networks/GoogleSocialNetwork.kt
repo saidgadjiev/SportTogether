@@ -69,7 +69,7 @@ class GoogleSocialNetwork(val context: Context) : ISocialNetwork, GoogleApiClien
         googleApiClient.registerConnectionCallbacks(object : GoogleApiClient.ConnectionCallbacks {
             override fun onConnected(p0: Bundle?) {
                 Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback { status ->
-
+                    sharedPreferences.edit().putString(KEY_TOKEN, null).commit()
                 }
             }
 
