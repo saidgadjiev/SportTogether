@@ -7,12 +7,10 @@ import ru.mail.sporttogether.auth.core.listeners.OnRequestSocialPersonCompleteLi
 
 
 /**
- * Created by said on 12.11.16.
+ * Created by said on 12.11.16
  */
 
 interface ISocialNetwork {
-
-    fun setOnLoginCompleteListener(onLoginCompleteListener: OnLoginCompleteListener)
 
     fun tryAutoLogin(onLoginCompleteListener: OnLoginCompleteListener): Boolean
 

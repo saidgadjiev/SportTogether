@@ -4,20 +4,23 @@ import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
+import com.google.android.gms.auth.api.Auth
+import com.google.android.gms.auth.api.signin.GoogleSignInResult
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.api.GoogleApiClient
 import ru.mail.sporttogether.R
-import ru.mail.sporttogether.databinding.ActivityLoginBinding
-import ru.mail.sporttogether.managers.HeaderManagerImpl
 import ru.mail.sporttogether.activities.presenter.LoginActivityPresenter
 import ru.mail.sporttogether.activities.presenter.LoginActivityPresenterImpl
 import ru.mail.sporttogether.activities.view.LoginView
+import ru.mail.sporttogether.databinding.ActivityLoginBinding
+import ru.mail.sporttogether.managers.HeaderManagerImpl
 import ru.mail.sporttogether.mvp.PresenterActivity
 import javax.inject.Inject
 
-
-
-class LoginActivity: PresenterActivity<LoginActivityPresenter>(), LoginView {
+class LoginActivity : PresenterActivity<LoginActivityPresenter>(), LoginView, GoogleApiClient.OnConnectionFailedListener {
 
     private lateinit var binding: ActivityLoginBinding
     private lateinit var vk: Button
@@ -50,6 +53,10 @@ class LoginActivity: PresenterActivity<LoginActivityPresenter>(), LoginView {
         }
     }
 
+    override fun onConnectionFailed(p0: ConnectionResult) {
+
+    }
+
     override fun onResume() {
         super.onResume()
 
@@ -67,7 +74,7 @@ class LoginActivity: PresenterActivity<LoginActivityPresenter>(), LoginView {
     }
 
     override fun startMainActivity() {
-        startActivity(Intent(this,  DrawerActivity::class.java))
+        startActivity(Intent(this, DrawerActivity::class.java))
         finish()
     }
 
@@ -78,8 +85,12 @@ class LoginActivity: PresenterActivity<LoginActivityPresenter>(), LoginView {
         presenter.onActivityResult(requestCode, resultCode, data)
     }
 
+
     companion object {
         val WITH_LOGOUT = "with_logout"
+        @JvmStatic val TAG = "LoginActivity"
+        @JvmStatic val RC_SIGN_IN = 1024
+
 
         fun startActivity(context: Context) {
             startActivity(context, false)

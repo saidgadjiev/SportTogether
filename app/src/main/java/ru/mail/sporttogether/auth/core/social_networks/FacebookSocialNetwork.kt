@@ -70,10 +70,6 @@ class FacebookSocialNetwork(private val activity: Activity) : ISocialNetwork {
         Log.d("#MY " + javaClass.simpleName, "current token after sdk init : " + currentToken1)
     }
 
-    override fun setOnLoginCompleteListener(onLoginCompleteListener: OnLoginCompleteListener) {
-
-    }
-
     override fun onDestroy() {
 
     }
@@ -149,7 +145,6 @@ class FacebookSocialNetwork(private val activity: Activity) : ISocialNetwork {
                                     .create()
                                     .show()
                             return@newMeRequest
-                            //onRequestSocialPersonCompleteListener.onError(SocialNetworkError(e.message!!, -1))
                         }
 
                         onRequestSocialPersonCompleteListener.onComplete(socialPerson!!, ID)

@@ -57,10 +57,6 @@ class VKSocialNetwork(activity: Activity) : ISocialNetwork {
     }
 
 
-    override fun setOnLoginCompleteListener(onLoginCompleteListener: OnLoginCompleteListener) {
-        this.onLoginCompleteListener = onLoginCompleteListener
-    }
-
     override fun logout() {
         VKSdk.logout()
         sharedPreferences

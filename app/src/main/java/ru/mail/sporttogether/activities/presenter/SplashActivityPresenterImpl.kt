@@ -43,7 +43,7 @@ class SplashActivityPresenterImpl(view: SplashView) : SplashActivityPresenter {
     override fun onCreate(args: Bundle?) {
         val networkFacebook = FacebookSocialNetwork(view as SplashActivity)
         val networkVK = VKSocialNetwork(view as SplashActivity)
-        val google = GoogleSocialNetwork()
+        val google = GoogleSocialNetwork(view as SplashActivity)
 
         socialNetworkManager.addSocialNetwork(networkFacebook)
         socialNetworkManager.addSocialNetwork(networkVK)
