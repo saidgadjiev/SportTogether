@@ -116,6 +116,7 @@ class FillEventFragment : AbstractMapFragment<FillEventPresenter>(), FillEventVi
                 data.maxPeople.set(event.maxPeople.toString())
                 data.name.set(event.name)
                 binding.include.addEventSwitch.isEnabled = false
+                binding.include.addEventSwitch.visibility = View.GONE
             }
         }
 
