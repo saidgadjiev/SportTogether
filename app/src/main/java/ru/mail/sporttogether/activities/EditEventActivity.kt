@@ -61,6 +61,10 @@ class EditEventActivity :
     }
 
     override fun saveEventClicked() {
+        event.name = data.name.get() ?: ""
+        val people = data.peopleCoint.get()
+        event.maxPeople = if (people.isNullOrEmpty()) 2 else people.toInt()
+        event.description = data.description.get() ?: "Опиание отсутствует"
         presenter.updateEvent(event)
     }
 
