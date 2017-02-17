@@ -56,8 +56,8 @@ class LoginActivityPresenterImpl(view: LoginView) : LoginActivityPresenter, OnLo
 
                     }
 
-                    override fun onNext(resp: Response<User>?) {
-                        val user = resp!!.data
+                    override fun onNext(resp: Response<User>) {
+                        val user = resp.data
                         socialNetworkManager.setNetworkID(ID)
                         socialNetworkManager.activeUser = user
                         view?.startMainActivity()
@@ -80,8 +80,8 @@ class LoginActivityPresenterImpl(view: LoginView) : LoginActivityPresenter, OnLo
     override fun onError(socialNetworkError: SocialNetworkError) {
     }
 
-    override fun loginClick(view: View?) {
-        when (view?.id) {
+    override fun loginClick(view: View) {
+        when (view.id) {
             R.id.facebook -> socialNetworkManager.facebookSocialNetwork.login(this.view as LoginActivity, this)
             R.id.vk -> socialNetworkManager.vkSocialNetwork.login(this.view as LoginActivity, this)
             R.id.google -> socialNetworkManager.google.login(this.view as LoginActivity, this)

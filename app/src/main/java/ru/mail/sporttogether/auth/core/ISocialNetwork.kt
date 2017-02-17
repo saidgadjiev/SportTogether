@@ -9,7 +9,6 @@ import ru.mail.sporttogether.auth.core.listeners.OnRequestSocialPersonCompleteLi
 /**
  * Created by said on 12.11.16
  */
-
 interface ISocialNetwork {
 
     fun tryAutoLogin(onLoginCompleteListener: OnLoginCompleteListener): Boolean
@@ -29,5 +28,4 @@ interface ISocialNetwork {
     val id: Int
 
     val token: String
-    fun getLoadedSocialPerson(): SocialPerson?
 }

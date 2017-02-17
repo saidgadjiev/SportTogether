@@ -8,16 +8,15 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import com.crashlytics.android.answers.Answers
 import com.crashlytics.android.answers.LoginEvent
-import com.facebook.BuildConfig
 import com.vk.sdk.VKAccessToken
 import com.vk.sdk.VKAccessTokenTracker
 import com.vk.sdk.VKCallback
 import com.vk.sdk.VKSdk
 import com.vk.sdk.api.*
 import com.vk.sdk.api.model.VKScopes
-import io.fabric.sdk.android.Fabric
 import org.json.JSONException
 import org.json.JSONObject
+import ru.mail.sporttogether.BuildConfig
 import ru.mail.sporttogether.auth.core.ISocialNetwork
 import ru.mail.sporttogether.auth.core.SocialNetworkError
 import ru.mail.sporttogether.auth.core.SocialNetworkManager
@@ -79,9 +78,7 @@ class VKSocialNetwork(activity: Activity) : ISocialNetwork {
         VKSdk.onActivityResult(requestCode, resultCode, data, object : VKCallback<VKAccessToken> {
             override fun onResult(res: VKAccessToken) {
                 onLoginCompleteListener!!.onSuccess(ID)
-                val isDebug = BuildConfig.DEBUG
-                val initialized = Fabric.isInitialized()
-                if (!isDebug && initialized) Answers.getInstance().logLogin(LoginEvent().putMethod("VK").putSuccess(true))
+                if (!BuildConfig.DEBUG) Answers.getInstance().logLogin(LoginEvent().putMethod("VK").putSuccess(true))
             }
 
             override fun onError(error: VKError) {
@@ -93,6 +90,7 @@ class VKSocialNetwork(activity: Activity) : ISocialNetwork {
     override fun requestPerson(onRequestSocialPersonCompleteListener: OnRequestSocialPersonCompleteListener) {
         if (!isConnected) {
             onRequestSocialPersonCompleteListener.onError(SocialNetworkError("Please loggin first", -1))
+            return
         }
 
         val request = VKApi.users().get(VKParameters.from(VKApiConst.FIELDS, "id,first_name,last_name,photo_100"))
@@ -148,9 +146,6 @@ class VKSocialNetwork(activity: Activity) : ISocialNetwork {
     override val token: String
         get() = sharedPreferences.getString(ACCESS_TOKEN, "")
 
-    override fun getLoadedSocialPerson(): SocialPerson? {
-        return socialPerson
-    }
 
     override fun tryAutoLogin(onLoginCompleteListener: OnLoginCompleteListener): Boolean {
         if (isConnected) {

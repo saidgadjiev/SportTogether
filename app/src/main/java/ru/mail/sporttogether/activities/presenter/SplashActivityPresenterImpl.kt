@@ -43,7 +43,7 @@ class SplashActivityPresenterImpl(view: SplashView) : SplashActivityPresenter {
     override fun onCreate(args: Bundle?) {
         val networkFacebook = FacebookSocialNetwork(view as SplashActivity)
         val networkVK = VKSocialNetwork(view as SplashActivity)
-        val google = GoogleSocialNetwork(view as SplashActivity)
+        val google = GoogleSocialNetwork(App.context)
 
         socialNetworkManager.addSocialNetwork(networkFacebook)
         socialNetworkManager.addSocialNetwork(networkVK)
@@ -56,8 +56,11 @@ class SplashActivityPresenterImpl(view: SplashView) : SplashActivityPresenter {
 
     private fun tryLogin() {
         socialNetworkManager.initializedSocialNetworks
-                .filter { it.tryAutoLogin(this) }
-                .forEach { return }
+                .forEach {
+                    if (it.tryAutoLogin(this))
+                        return
+                }
+
         onError(SocialNetworkError("Not logged in", -1))
     }
 

@@ -175,10 +175,6 @@ class FacebookSocialNetwork(private val activity: Activity) : ISocialNetwork {
     }
 
 
-    override fun getLoadedSocialPerson(): SocialPerson? {
-        return socialPerson
-    }
-
     override fun tryAutoLogin(onLoginCompleteListener: OnLoginCompleteListener): Boolean {
         if (isConnected) {
             onLoginCompleteListener.onSuccess(FacebookSocialNetwork.ID)
