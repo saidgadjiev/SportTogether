@@ -16,6 +16,7 @@ import ru.mail.sporttogether.databinding.FragmentSelectPlaceBinding
 import ru.mail.sporttogether.fragments.presenter.SelectAddressFragmentPresenter
 import ru.mail.sporttogether.fragments.presenter.SelectAddressFragmentPresenterImpl
 import ru.mail.sporttogether.fragments.view.SelectAddressView
+import ru.mail.sporttogether.net.models.Event
 
 /**
  * Created by bagrusss on 12.02.17
@@ -58,8 +59,14 @@ class SelectAddressFragment :
         mapView.onCreate(savedInstanceState)
         data.userImage.set(presenter.getUserImgUrl())
         arguments?.let {
-            lat = it.getDouble(KEY_LAT)
-            lng = it.getDouble(KEY_LNG)
+            val event = it.getParcelable<Event>(KEY_EVENT)
+            if (event == null) {
+                lat = it.getDouble(KEY_LAT)
+                lng = it.getDouble(KEY_LNG)
+            } else {
+                lat = event.lat
+                lng = event.lng
+            }
             presenter.updateLocation(lat, lng)
         }
 
@@ -146,12 +153,24 @@ class SelectAddressFragment :
         @JvmStatic private val KEY_LAT = "KEY_LAT"
         @JvmStatic private val KEY_LNG = "KEY_LNG"
 
+        @JvmStatic private val KEY_EVENT = "KEY_EVENT"
+
+
         @JvmStatic
         fun newInstance(lat: Double, lng: Double): SelectAddressFragment {
             val fragment = SelectAddressFragment()
             val args = Bundle()
             args.putDouble(KEY_LAT, lat)
             args.putDouble(KEY_LNG, lng)
+            fragment.arguments = args
+            return fragment
+        }
+
+        @JvmStatic
+        fun newInstance(event: Event?): SelectAddressFragment {
+            val fragment = SelectAddressFragment()
+            val args = Bundle()
+            args.putParcelable(KEY_EVENT, event)
             fragment.arguments = args
             return fragment
         }

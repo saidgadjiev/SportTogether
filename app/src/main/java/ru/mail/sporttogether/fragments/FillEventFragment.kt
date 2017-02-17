@@ -23,6 +23,7 @@ import ru.mail.sporttogether.fragments.presenter.FillEventPresenterImpl
 import ru.mail.sporttogether.fragments.view.FillEventView
 import ru.mail.sporttogether.net.CategoriesResponse
 import ru.mail.sporttogether.net.models.Category
+import ru.mail.sporttogether.net.models.Event
 import ru.mail.sporttogether.utils.AddEventTextWatcher
 import ru.mail.sporttogether.utils.DateUtils
 import rx.android.schedulers.AndroidSchedulers
@@ -103,11 +104,21 @@ class FillEventFragment : AbstractMapFragment<FillEventPresenter>(), FillEventVi
         return binding.root
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         categoriesAdapter = CategoriesAdapter(context, android.R.layout.select_dialog_item, categoriesArray)
         sportAutoComplete.setAdapter(categoriesAdapter)
 
-        data.date.set(DateUtils.longToDateTime(System.currentTimeMillis()))
+        arguments?.let {
+            val event = it.getParcelable<Event>(KEY_EVENT)
+            event?.let { event ->
+                data.sport.set(event.category.name)
+                data.description.set(event.description)
+                data.maxPeople.set(event.maxPeople.toString())
+                data.name.set(event.name)
+                binding.include.addEventSwitch.isEnabled = false
+            }
+        }
+
         val calendar = Calendar.getInstance()
         calendar.add(Calendar.HOUR, 2)
         time = calendar.timeInMillis
@@ -255,6 +266,20 @@ class FillEventFragment : AbstractMapFragment<FillEventPresenter>(), FillEventVi
                     time,
                     data.joinToEvent.get(),
                     data.needAddTemplate.get())
+        }
+    }
+
+    companion object {
+
+        @JvmStatic private val KEY_EVENT = "KEY_EVENT"
+
+        @JvmStatic
+        fun newInstance(event: Event?): FillEventFragment {
+            val fragment = FillEventFragment()
+            val args = Bundle()
+            args.putParcelable(KEY_EVENT, event)
+            fragment.arguments = args
+            return fragment
         }
     }
 

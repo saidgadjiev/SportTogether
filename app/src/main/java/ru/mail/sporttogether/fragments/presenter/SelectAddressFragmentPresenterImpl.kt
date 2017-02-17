@@ -52,6 +52,7 @@ class SelectAddressFragmentPresenterImpl(var view: SelectAddressView?) : SelectA
         eventsManager.getCreatingEvent()?.let {
             mapa.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(it.lat, it.lng), 17f))
             mapa.setOnCameraIdleListener(view)
+            mapa.isMyLocationEnabled = true
         }
     }
 
